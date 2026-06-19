@@ -15,43 +15,49 @@
     </nav>
 
     <div class="container">
-        <div class="container">
 
-    <h2>Welcome, Pet Parents!</h2>
+        <h2>Welcome, Pet Parents!</h2>
 
-    <p>
-        A thoughtful place to keep your pets' memories,
-        health records, vaccinations and milestones.
-    </p>
+        <p>
+            A thoughtful place to keep your pets' memories,
+            health records, vaccinations and milestones.
+        </p>
 
-    <a href="/add-pet">
-        <button>Add Pet</button>
-    </a>
-    <div class="pet-card">
+        <a href="/add-pet">
+            <button>Add Pet</button>
+        </a>
 
-        <h3>🐶 Luffy ♂️</h3>
+        <br><br>
 
-        <p><strong>Breed:</strong> Bhotia</p>
+        {% if pets %}
 
-        <p><strong>Age:</strong> 5 Months</p>
+            {% for pet in pets %}
+            <div class="pet-card">
 
-        <p><strong>Weight:</strong> 11 kg</p>
+                <h3>{{ pet.name }}</h3>
 
-        <p><strong>Vaccination:</strong> Up To Date</p>
+                <p><strong>Breed:</strong> {{ pet.breed }}</p>
 
-        <div class="pet-card">
+                <p><strong>Gender:</strong> {{ pet.gender }}</p>
 
-    <h3>🐶 Laila ♀️</h3>
+                <p><strong>Age:</strong> {{ pet.age }}</p>
 
-    <p><strong>Breed:</strong> Bhotia</p>
+                <p><strong>Weight:</strong> {{ pet.weight }}</p>
 
-    <p><strong>Age:</strong> 5 Months</p>
+                <p><strong>Vaccination:</strong> {{ pet.vaccination_status }}</p>
 
-    <p><strong>Weight:</strong> 11 kg</p>
+            </div>
+            <br>
+            {% endfor %}
 
-    <p><strong>Vaccination:</strong> Up To Date</p>
+        {% else %}
 
-</div>
+            <p>No pets added yet.</p>
+
+        {% endif %}
+
+    </div>
 
 </body>
+
 </html>
