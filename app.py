@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="app/templates", static_folder="app/static")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pawfolio.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -42,8 +42,16 @@ def add_pet():
 
     return render_template("add_pet.html")
 
+@app.route("/delete/<int:id>")
+def delete_pet(id):
+    pet = Pet.query.get_or_404(id)
+    db.session.delete(pet)
+    db.session.commit()
+    return redirect(url_for("home"))
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
     app.run(debug=True)
+
