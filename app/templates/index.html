@@ -32,24 +32,24 @@
         {% if pets %}
 
             {% for pet in pets %}
+
             <div class="pet-card">
 
                 {% if pet.photo %}
-    <img
-        src="{{ url_for('static', filename='uploads/' + pet.photo) }}"
-        alt="{{ pet.name }}"
-        width="200"
-        style="border-radius:10px; margin-bottom:15px;">
-{% else %}
-    <p>📷 No Photo</p>
-{% endif %}
-
-               <h3>
-        <a href="{{ url_for('pet_profile', id=pet.id) }}">
-           {{ pet.name }}
+                <a href="{{ url_for('pet_profile', id=pet.id) }}">
+                    <img src="{{ url_for('static', filename='uploads/' + pet.photo) }}"
+                         alt="{{ pet.name }}"
+                         width="200">
                 </a>
-                </h3>
+                {% else %}
+                <p>📷 No Photo Available</p>
+                {% endif %}
 
+                <h3>
+                    <a href="{{ url_for('pet_profile', id=pet.id) }}">
+                        {{ pet.name }}
+                    </a>
+                </h3>
 
                 <p><strong>Breed:</strong> {{ pet.breed }}</p>
 
@@ -57,21 +57,30 @@
 
                 <p><strong>Age:</strong> {{ pet.age }}</p>
 
-                <p><strong>Weight:</strong> {{ pet.weight if pet.weight else "Not recorded"}}</p>
+                <p><strong>Weight:</strong>
+                    {{ pet.weight if pet.weight else "Not recorded" }}
+                </p>
 
-                <p><strong>Vaccination:</strong> {{ pet.vaccination_status }}</p>
+                <p><strong>Vaccination:</strong>
+                    {{ pet.vaccination_status }}
+                </p>
+
+                <a href="{{ url_for('pet_profile', id=pet.id) }}">
+                    <button>View Profile</button>
+                </a>
 
                 <a href="/edit/{{ pet.id }}">
-                <button>edit</button>
+                    <button>Edit</button>
                 </a>
 
                 <a href="/delete/{{ pet.id }}">
-                <button>delete</button>
+                    <button>Delete</button>
                 </a>
 
-
             </div>
+
             <br>
+
             {% endfor %}
 
         {% else %}
