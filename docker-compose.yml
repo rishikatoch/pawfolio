@@ -1,0 +1,8 @@
+services:
+  pawfolio:
+    build: .
+    container_name: pawfolio-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+  
