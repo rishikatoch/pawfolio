@@ -2,6 +2,12 @@
 <html lang="en">
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,7 +27,7 @@
         <div class="container">
 
             <a class="navbar-brand fw-bold fs-3" href="{{ url_for('home') }}">
-                🐾 Pawfolio
+                <i class="bi bi-heart-fill"></i> Pawfolio
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -52,12 +58,17 @@
                         </a>
                     </li>
 
+                    <li class="nav-item me-2">
+                        <button class="btn btn-outline-light" id="themeToggle">
+                            🌙
+                        </button>
+                    </li>
+
                     <li class="nav-item ms-2">
                         <a class="btn btn-warning" href="{{ url_for('add_pet') }}">
                             ➕ Add Pet
                         </a>
                     </li>
-
                 </ul>
 
             </div>
@@ -73,7 +84,8 @@
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
 </body>
 
 </html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

@@ -3,17 +3,25 @@ services:
     build: .
     container_name: pawfolio-app
     restart: unless-stopped
+
     ports:
       - "5000:5000"
-  
+
+    volumes:
+      - .:/app
+
+    environment:
+      FLASK_ENV: development
+
   postgres:
     image: postgres:16
     container_name: pawfolio-db
     restart: unless-stopped
+
     environment:
       POSTGRES_USER: pawfolio
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pawfolio
+
     ports:
       - "5432:5432"
-      
