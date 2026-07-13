@@ -1,0 +1,6 @@
+   Navbar
+========================== */
+
+.navbar {
+    background: var(--navbar) !important;
+}

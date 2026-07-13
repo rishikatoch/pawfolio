@@ -1,0 +1,151 @@
+  Dark Theme==========================*/ body.dark-mode {
+
+      --bg-color: #0f172a;
+
+      --surface: #1e293b;
+
+      --surface-2: #273549;
+
+      --text: #f8fafc;
+
+      --text-light: #cbd5e1;
+
+      --navbar: #020617;
+
+      background:
+          linear-gradient(135deg,
+              #0f172a 0%,
+              #172554 100%);
+  }
+
+  body.dark-mode .hero {
+
+      background: rgba(30, 41, 59, .75);
+
+      color: var(--text);
+  }
+
+  body.dark-mode .card {
+
+      background: var(--surface);
+
+      color: var(--text);
+  }
+
+  body.dark-mode .card-footer {
+
+      background: var(--surface);
+  }
+
+  body.dark-mode .text-muted {
+
+      color: var(--text-light) !important;
+  }
+
+  body.dark-mode strong {
+
+      color: white;
+  }
+
+  /* ---------- Pet Profile ---------- */
+
+  .pet-hero {
+
+      position: relative;
+
+      height: 520px;
+
+      overflow: hidden;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+  }
+
+  .pet-hero-bg {
+
+      position: absolute;
+
+      inset: 0;
+
+      background-size: cover;
+
+      background-position: center;
+
+      filter: blur(10px) brightness(.35);
+
+      transform: scale(1.15);
+
+  }
+
+  .pet-overlay {
+
+      position: absolute;
+
+      inset: 0;
+
+      background: rgba(15, 23, 42, .45);
+
+  }
+
+  .pet-content {
+
+      position: relative;
+
+      z-index: 2;
+
+      text-align: center;
+
+      color: white;
+
+  }
+
+  .profile-photo {
+
+      width: 220px;
+
+      height: 220px;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+
+      border: 6px solid white;
+
+      margin-bottom: 20px;
+
+      box-shadow: 0 20px 45px rgba(0, 0, 0, .35);
+
+  }
+
+  .pet-content h1 {
+
+      font-size: 3rem;
+
+      font-weight: 800;
+
+  }
+
+  .pet-content p {
+
+      font-size: 1.2rem;
+
+      color: #e5e7eb;
+
+  }
+
+  body {
+      background:
+          linear-gradient(135deg,
+              #eef5ff 0%,
+              #f8fbff 45%,
+              #ffffff 100%);
+
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      transition: all var(--transition);
+  }
