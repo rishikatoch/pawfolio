@@ -42,7 +42,7 @@
 
                 <p><strong>Age:</strong> {{ pet.age }}</p>
 
-                <p><strong>Weight:</strong> {{ pet.weight }}</p>
+                <p><strong>Weight:</strong> {{ pet.weight if pet.weight else "Not recorded"}}</p>
 
                 <p><strong>Vaccination:</strong> {{ pet.vaccination_status }}</p>
 
