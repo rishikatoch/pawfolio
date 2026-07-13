@@ -8,5 +8,5 @@ class Pet(db.Model):
     age = db.Column(db.String(50))
     weight = db.Column(db.Float)
     vaccination_status = db.Column(db.String(200))
-
+    photo = db.Column(db.String(255))
     

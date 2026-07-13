@@ -34,7 +34,12 @@
             {% for pet in pets %}
             <div class="pet-card">
 
-                <h3>{{ pet.name }}</h3>
+               <h3>
+        <a href="{{ url_for('pet_profile', id=pet.id) }}">
+           {{ pet.name }}
+                </a>
+                </h3>
+
 
                 <p><strong>Breed:</strong> {{ pet.breed }}</p>
 
@@ -46,9 +51,14 @@
 
                 <p><strong>Vaccination:</strong> {{ pet.vaccination_status }}</p>
 
-                <a href="/delete/{{ pet.id }}">
-                <button>Delete</button>
+                <a href="/edit/{{ pet.id }}">
+                <button>edit</button>
                 </a>
+
+                <a href="/delete/{{ pet.id }}">
+                <button>delete</button>
+                </a>
+
 
             </div>
             <br>

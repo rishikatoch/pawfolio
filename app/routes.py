@@ -8,6 +8,12 @@ def home():
     print("PETS:", pets)
     return render_template("index.html", pets=pets)
 
+@app.route("/pet/<int:id>")
+def pet_profile(id):
+    pet = Pet.query.get_or_404(id)
+    return render_template("pet_profile.html", pet=pet)
+
+
 @app.route("/add-pet", methods=["GET", "POST"])
 def add_pet():
     if request.method == "POST":
@@ -68,3 +74,28 @@ def delete_pet(id):
     db.session.delete(pet)
     db.session.commit()
     return redirect(url_for("home"))
+
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit_pet(id):
+    pet = Pet.query.get_or_404(id)
+
+    if request.method == "POST":
+        pet.name = request.form.get("pet_name")
+        pet.breed = request.form.get("pet_breed")
+        pet.gender = request.form.get("pet_gender")
+        pet.age = request.form.get("pet_age")
+
+        weight = request.form.get("pet_weight")
+
+        if weight:
+            pet.weight = float(weight)
+        else:
+            pet.weight = None
+
+        pet.vaccination_status = request.form.get("pet_vaccination_status")
+
+        db.session.commit()
+
+        return redirect(url_for("home"))
+
+    return render_template("edit_pet.html", pet=pet)
