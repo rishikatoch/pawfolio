@@ -18,6 +18,17 @@
 
         <h2>{{ pet.name }}</h2>
 
+        {% if pet.photo %}
+    <img
+        src="{{ url_for('static', filename='uploads/' + pet.photo) }}"
+        alt="{{ pet.name }}"
+        width="300"
+        style="border-radius:12px; margin-bottom:20px;">
+{% else %}
+    <p>📷 No Photo Available</p>
+{% endif %}
+
+
         <hr>
 
         <p><strong>Breed:</strong> {{ pet.breed }}</p>

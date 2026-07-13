@@ -25,7 +25,7 @@
         </div>
         {% endif %}
 
-        <form method="POST">
+       <form method="POST" enctype="multipart/form-data">
 
             <label>Pet Name:</label><br>
             <input type="text"
@@ -64,6 +64,18 @@
                    name="pet_vaccination_status"
                    placeholder="Example: Vaccinated"
                    required><br><br>
+
+                   <label>Pet Photo:</label><br>
+
+                <input
+                type="file"
+                name="pet_photo"
+                accept=".jpg,.jpeg,.png"
+                >
+
+
+            <br><br>
+
 
             <button type="submit">Save Pet</button>
 

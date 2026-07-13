@@ -1,6 +1,9 @@
+from flask import render_template, request, redirect, url_for
 from app import app, db
 from app.models import Pet
-from flask import Flask, render_template, request, redirect, url_for
+
+from werkzeug.utils import secure_filename
+import os
 
 @app.route("/")
 def home():
@@ -24,6 +27,7 @@ def add_pet():
         age = request.form.get("pet_age", "").strip()
         vaccination_status = request.form.get("pet_vaccination_status", "").strip()
         weight = request.form.get("pet_weight", "").strip()
+        photo = request.files.get("pet_photo")
 
         if not name:
             return render_template("add_pet.html", error="Pet name is required.")
@@ -51,13 +55,25 @@ def add_pet():
                     error="Weight must be a valid number."
                 )
 
+        filename = None
+
+        if photo and photo.filename:
+            filename = secure_filename(photo.filename)
+            photo.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename
+                )
+            )
+
         pet = Pet(
             name=name,
             breed=breed,
             gender=gender,
             age=age,
             weight=weight,
-            vaccination_status=vaccination_status
+            vaccination_status=vaccination_status,
+            photo=filename
         )
 
         db.session.add(pet)
