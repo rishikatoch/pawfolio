@@ -6,3 +6,14 @@ services:
     ports:
       - "5000:5000"
   
+  postgres:
+    image: postgres:16
+    container_name: pawfolio-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pawfolio
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pawfolio
+    ports:
+      - "5432:5432"
+      
