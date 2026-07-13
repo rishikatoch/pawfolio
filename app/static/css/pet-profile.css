@@ -1,93 +1,296 @@
-Add Pet Page==========================*/ .glass-form {
+/* ==========================================
+   Pawfolio Pet Profile
+   ========================================== */
 
-    background: rgba(255, 255, 255, .08);
+/* ---------- Hero ---------- */
 
-    backdrop-filter: blur(20px);
+.pet-hero {
 
-    border-radius: 30px;
+    position: relative;
 
-    padding: 45px;
+    min-height: 520px;
 
-    box-shadow: 0 20px 50px rgba(0, 0, 0, .2);
-
-}
-
-.upload-card {
-
-    background: rgba(255, 255, 255, .06);
-
-    border: 2px dashed rgba(255, 255, 255, .25);
-
-    border-radius: 25px;
-
-    padding: 35px;
-
-    text-align: center;
-
-    min-height: 420px;
+    overflow: hidden;
 
     display: flex;
 
-    flex-direction: column;
+    align-items: center;
 
     justify-content: center;
 
-    transition: .3s;
+    border-radius: 0 0 35px 35px;
+
+    box-shadow: var(--shadow-lg);
+
+    isolation: isolate;
 
 }
 
-.upload-card:hover {
+/* ---------- Background ---------- */
 
-    transform: translateY(-5px);
+.pet-hero-bg {
 
-    border-color: #4dabff;
+    position: absolute;
+
+    inset: 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    transform: scale(1.15);
+
+    filter: blur(10px) brightness(.40);
+
+    z-index: -3;
 
 }
 
-.upload-icon {
+/* ---------- Overlay ---------- */
 
-    font-size: 70px;
+.pet-overlay {
 
-    margin-bottom: 20px;
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(rgba(15, 23, 42, .45),
+            rgba(15, 23, 42, .75));
+
+    z-index: -2;
 
 }
 
-.preview-image {
+/* ---------- Content ---------- */
 
-    width: 100%;
+.pet-content {
 
-    height: 340px;
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+    color: white;
+
+    padding: 70px 30px;
+
+}
+
+/* ---------- Profile Photo ---------- */
+
+.profile-photo {
+
+    width: 220px;
+
+    height: 220px;
 
     object-fit: cover;
 
+    border-radius: 50%;
+
+    border: 6px solid white;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+
+    transition: all .4s ease;
+
+}
+
+.profile-photo:hover {
+
+    transform: scale(1.05);
+
+}
+
+/* ---------- Name ---------- */
+
+.pet-content h1 {
+
+    margin-top: 25px;
+
+    font-size: 3rem;
+
+    font-weight: 800;
+
+}
+
+/* ---------- Subtitle ---------- */
+
+.pet-content p {
+
+    font-size: 1.1rem;
+
+    color: #dbeafe;
+
+    margin-bottom: 30px;
+
+}
+
+/* ---------- Quick Stats ---------- */
+
+.profile-stats {
+
+    margin-top: -70px;
+
+    position: relative;
+
+    z-index: 10;
+
+}
+
+.stat-card {
+
+    background: var(--surface);
+
     border-radius: 20px;
 
-}
+    padding: 30px;
 
-.form-control,
-.form-select {
+    text-align: center;
 
-    padding: 14px;
+    box-shadow: var(--shadow);
 
-    border-radius: 15px;
-
-}
-
-.form-control:focus,
-.form-select:focus {
-
-    box-shadow: 0 0 18px rgba(13, 110, 253, .3);
-
-    border-color: #4dabff;
+    transition: all .3s ease;
 
 }
 
-.btn-lg {
+.stat-card:hover {
 
-    padding: 12px 28px;
+    transform: translateY(-8px);
 
-    border-radius: 15px;
+    box-shadow: var(--shadow-lg);
+
+}
+
+.stat-card h2 {
+
+    color: var(--primary);
+
+    font-size: 2rem;
+
+    margin-bottom: 12px;
+
+}
+
+.stat-card h5 {
 
     font-weight: 700;
+
+    color: var(--heading);
+
+}
+
+.stat-card p {
+
+    color: var(--text-light);
+
+    margin: 0;
+
+}
+
+/* ---------- Information Cards ---------- */
+
+.info-card {
+
+    background: var(--surface);
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    margin-top: 30px;
+
+    box-shadow: var(--shadow);
+
+}
+
+.info-card h3 {
+
+    font-size: 1.5rem;
+
+    margin-bottom: 25px;
+
+    font-weight: 700;
+
+}
+
+.info-card p {
+
+    font-size: 1rem;
+
+    margin-bottom: 15px;
+
+}
+
+/* ---------- Action Buttons ---------- */
+
+.profile-actions {
+
+    margin-top: 35px;
+
+}
+
+.profile-actions .btn {
+
+    min-width: 170px;
+
+    margin: 8px;
+
+    border-radius: 15px;
+
+    font-weight: 600;
+
+}
+
+/* ---------- Placeholder Cards ---------- */
+
+.coming-soon {
+
+    border: 2px dashed var(--border);
+
+    border-radius: 20px;
+
+    padding: 45px;
+
+    text-align: center;
+
+    color: var(--text-light);
+
+    background: var(--surface-alt);
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px) {
+
+    .profile-photo {
+
+        width: 170px;
+
+        height: 170px;
+
+    }
+
+    .pet-content h1 {
+
+        font-size: 2.2rem;
+
+    }
+
+    .profile-stats {
+
+        margin-top: -30px;
+
+    }
+
+    .stat-card {
+
+        margin-bottom: 20px;
+
+    }
 
 }

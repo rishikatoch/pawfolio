@@ -1,151 +1,208 @@
-  Dark Theme==========================*/ body.dark-mode {
+/* ==========================================
+   Pawfolio Dark Mode
+   ========================================== */
 
-      --bg-color: #0f172a;
+body.dark-mode {
 
-      --surface: #1e293b;
+    /* Background */
 
-      --surface-2: #273549;
+    --bg-color: #0f172a;
 
-      --text: #f8fafc;
+    --surface: #1e293b;
 
-      --text-light: #cbd5e1;
+    --surface-alt: #273549;
 
-      --navbar: #020617;
+    /* Typography */
 
-      background:
-          linear-gradient(135deg,
-              #0f172a 0%,
-              #172554 100%);
-  }
+    --text: #f8fafc;
 
-  body.dark-mode .hero {
+    --text-light: #cbd5e1;
 
-      background: rgba(30, 41, 59, .75);
+    --heading: #ffffff;
 
-      color: var(--text);
-  }
+    /* Navbar */
 
-  body.dark-mode .card {
+    --navbar: #020617;
 
-      background: var(--surface);
+    /* Border */
 
-      color: var(--text);
-  }
+    --border: #334155;
 
-  body.dark-mode .card-footer {
+    background: linear-gradient(135deg,
+            #0f172a 0%,
+            #172554 100%);
 
-      background: var(--surface);
-  }
+    color: var(--text);
 
-  body.dark-mode .text-muted {
+}
 
-      color: var(--text-light) !important;
-  }
+/* ---------- Navbar ---------- */
 
-  body.dark-mode strong {
+body.dark-mode .navbar {
 
-      color: white;
-  }
+    background: var(--navbar) !important;
 
-  /* ---------- Pet Profile ---------- */
+}
 
-  .pet-hero {
+/* ---------- Cards ---------- */
 
-      position: relative;
+body.dark-mode .card,
+body.dark-mode .stat-card,
+body.dark-mode .info-card,
+body.dark-mode .glass-form {
 
-      height: 520px;
+    background: var(--surface);
 
-      overflow: hidden;
+    color: var(--text);
 
-      display: flex;
+    border: 1px solid rgba(255, 255, 255, .05);
 
-      align-items: center;
+}
 
-      justify-content: center;
+/* ---------- Card Footer ---------- */
 
-  }
+body.dark-mode .card-footer {
 
-  .pet-hero-bg {
+    background: var(--surface);
 
-      position: absolute;
+}
 
-      inset: 0;
+/* ---------- Upload Card ---------- */
 
-      background-size: cover;
+body.dark-mode .upload-card {
 
-      background-position: center;
+    background: #243447;
 
-      filter: blur(10px) brightness(.35);
+    border-color: #475569;
 
-      transform: scale(1.15);
+}
 
-  }
+body.dark-mode .upload-card:hover {
 
-  .pet-overlay {
+    border-color: var(--primary);
 
-      position: absolute;
+}
 
-      inset: 0;
+/* ---------- Inputs ---------- */
 
-      background: rgba(15, 23, 42, .45);
+body.dark-mode .form-control,
+body.dark-mode .form-select {
 
-  }
+    background: #334155;
 
-  .pet-content {
+    color: white;
 
-      position: relative;
+    border: 1px solid #475569;
 
-      z-index: 2;
+}
 
-      text-align: center;
+body.dark-mode .form-control::placeholder {
 
-      color: white;
+    color: #94a3b8;
 
-  }
+}
 
-  .profile-photo {
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
 
-      width: 220px;
+    background: #334155;
 
-      height: 220px;
+    color: white;
 
-      object-fit: cover;
+    border-color: var(--primary);
 
-      border-radius: 50%;
+}
 
-      border: 6px solid white;
+/* ---------- Labels ---------- */
 
-      margin-bottom: 20px;
+body.dark-mode label {
 
-      box-shadow: 0 20px 45px rgba(0, 0, 0, .35);
+    color: white;
 
-  }
+}
 
-  .pet-content h1 {
+/* ---------- Text ---------- */
 
-      font-size: 3rem;
+body.dark-mode .text-muted {
 
-      font-weight: 800;
+    color: var(--text-light) !important;
 
-  }
+}
 
-  .pet-content p {
+body.dark-mode strong {
 
-      font-size: 1.2rem;
+    color: white;
 
-      color: #e5e7eb;
+}
 
-  }
+/* ---------- Hero ---------- */
 
-  body {
-      background:
-          linear-gradient(135deg,
-              #eef5ff 0%,
-              #f8fbff 45%,
-              #ffffff 100%);
+body.dark-mode .hero {
 
-      color: var(--text);
-      font-family: "Poppins", sans-serif;
-      min-height: 100vh;
-      transition: all var(--transition);
-  }
+    background: linear-gradient(135deg,
+            #1e3a8a,
+            #172554);
+
+}
+
+body.dark-mode .pet-hero {
+
+    background: #1e293b;
+
+}
+
+/* ---------- Coming Soon Cards ---------- */
+
+body.dark-mode .coming-soon {
+
+    background: #243447;
+
+    border-color: #475569;
+
+    color: var(--text-light);
+
+}
+
+/* ---------- Buttons ---------- */
+
+body.dark-mode .btn-outline-secondary {
+
+    color: white;
+
+    border-color: #64748b;
+
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+
+    background: #475569;
+
+}
+
+/* ---------- Scrollbar ---------- */
+
+body.dark-mode::-webkit-scrollbar {
+
+    width: 10px;
+
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+
+    background: #0f172a;
+
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+
+    background: #475569;
+
+    border-radius: 20px;
+
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+
+    background: #64748b;
+
+}

@@ -4,211 +4,33 @@
 
 <div class="container py-5">
 
-    <section class="hero mb-5">
+    <!-- Hero -->
 
-        {% if pets and pets[0].photo %}
-        <p style="background:red;color:white;padding:10px;">
-Photo filename: {{ pets[0].photo }}
-</p>
+    {% include "components/hero.html" %}
 
-        <div class="hero-bg"
-            style="background-image:url('{{ url_for('static', filename='uploads/' + pets[0].photo) }}');">
-        </div>
+    <!-- Dashboard -->
 
-        {% endif %}
+    {% include "components/dashboard.html" %}
 
-        <div class="hero-overlay"></div>
+    <!-- Pets Section -->
 
-        <div class="hero-content text-center">
+    {% if pets %}
 
-            <h1 class="display-4 fw-bold">
-                🐾 Welcome to Pawfolio
-            </h1>
+    <div id="mypets">
 
-            <p class="lead">
-                Keep your pets healthy with vaccination tracking,
-                health records, reminders and milestone management.
-            </p>
+        <div class="row g-4">
 
-            <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg mt-2">
-                ➕ Add Your Pet
-            </a>
-
-        </div>
-
-    </section>
-    <div class="row text-center mt-5 mb-5">
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h2>🐾</h2>
-                    <h3>{{ pets|length }}</h3>
-                    <p class="text-muted mb-0">Total Pets</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h2>💉</h2>
-                    <h3>Coming Soon</h3>
-                    <p class="text-muted mb-0">Vaccinations</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h2>📅</h2>
-                    <h3>Coming Soon</h3>
-                    <p class="text-muted mb-0">Reminders</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h2>📧</h2>
-                    <h3>Soon</h3>
-                    <p class="text-muted mb-0">Email Alerts</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-{% if pets %}
-
-<div class="row g-4">
-
-    {% for pet in pets %}
-
-    <div class="col-lg-4 col-md-6">
-
-        <div class="card h-100 shadow-sm border-0 rounded-4">
-
-            {% if pet.photo %}
-
-            <a href="{{ url_for('pet_profile', id=pet.id) }}">
-                <img src="{{ url_for('static', filename='uploads/' + pet.photo) }}" class="card-img-top"
-                    alt="{{ pet.name }}" style="height:300px; object-fit:cover;">
-            </a>
-
-            {% else %}
-
-            <div class="text-center p-5 bg-light">
-                <h1>🐶</h1>
-                <p>No Photo Available</p>
-            </div>
-
-            {% endif %}
-
-            <div class="card-body">
-
-                <h2 class="fw-bold mb-2">
-                    {{ pet.name }}
-                    </h2>
-
-                    <span class="badge rounded-pill bg-primary px-3 py-2 mb-3">
-                        {{ pet.breed }}
-                    </span>
-
-                    <p class="mb-3">
-                        <strong>Gender:</strong>
-                        {{ pet.gender }}
-                    </p>
-
-                    <p class="mb-3">
-                        <strong>Age:</strong>
-                        {{ pet.age }}
-                    </p>
-                    <p class="mb-3">
-                        <strong>Weight:</strong>
-
-                        {% if pet.weight %}
-                        {{ pet.weight }} kg
-                        {% else %}
-                        Not Recorded
-                        {% endif %}
-                    </p>
-
-                    <p class="mb-3">
-                        <strong>Vaccination:</strong>
-
-                        {% if pet.vaccination_status == "Vaccinated" %}
-
-                        <span class="badge bg-success">
-                            {{ pet.vaccination_status }}
-                        </span>
-
-                        {% else %}
-
-                        <span class="badge bg-warning text-dark">
-                            {{ pet.vaccination_status }}
-                        </span>
-
-                        {% endif %}
-
-                    </p>
-
-            </div>
-
-            <div class="card-footer bg-white border-top-0 pb-4">
-
-                <div class="d-grid gap-2">
-
-                    <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary flex-fill">
-                        👁 View Profile
-                    </a>
-
-                    <div class="d-flex gap-2">
-
-                        <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning flex-fill">
-                            ✏ Edit
-                        </a>
-
-                        <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger flex-fill">
-                            🗑 Delete
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
+            {% include "components/pet_card.html" %}
 
         </div>
 
     </div>
 
-    {% endfor %}
+    {% else %}
 
-</div>
+    {% include "components/empty_state.html" %}
 
-{% else %}
-
-<div class="text-center py-5">
-
-    <h1 class="display-5">
-        🐾 No Pets Yet
-    </h1>
-
-    <p class="text-muted">
-        Build your digital pet record by adding your first companion.
-    </p>
-
-    <a href="{{ url_for('add_pet') }}" class="btn btn-primary">
-        Add Pet
-    </a>
-
-</div>
-
-{% endif %}
+    {% endif %}
 
 </div>
 

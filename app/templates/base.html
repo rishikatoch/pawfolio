@@ -2,32 +2,48 @@
 <html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pawfolio</title>
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
 
-    <title>Pawfolio</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Your custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar navbar-expand-lg sticky-top">
 
         <div class="container">
 
-            <a class="navbar-brand fw-bold fs-3" href="{{ url_for('home') }}">
-                <i class="bi bi-heart-fill"></i> 🐾 Pawfolio
+            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+
+                🐾 Pawfolio
+
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -36,39 +52,40 @@
 
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav">
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('home') }}">
-                            🏠 Home
-                        </a>
-                    </li>
+                <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            📊 Dashboard
-                        </a>
-                    </li>
 
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">
-                            🐶 My Pets
+
+                            🏠 Home
+
                         </a>
+
                     </li>
 
-                    <li class="nav-item me-2">
-                        <button class="btn btn-outline-light" id="themeToggle">
-                            🌙
-                        </button>
-                    </li>
+                    <li class="nav-item">
 
-                    <li class="nav-item ms-2">
-                        <a class="btn btn-warning" href="{{ url_for('add_pet') }}">
+                        <a class="nav-link" href="{{ url_for('add_pet') }}">
+
                             ➕ Add Pet
+
                         </a>
+
                     </li>
+
+                    <li class="nav-item ms-lg-3">
+
+                        <button id="theme-toggle" class="btn btn-warning">
+
+                            🌙 Dark Mode
+
+                        </button>
+
+                    </li>
+
                 </ul>
 
             </div>
@@ -77,15 +94,86 @@
 
     </nav>
 
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <!-- ================= MAIN ================= -->
 
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="py-5 mt-5">
+
+        <div class="container">
+
+            <hr>
+
+            <div class="text-center text-muted">
+
+                <h5>
+
+                    🐾 Pawfolio
+
+                </h5>
+
+                <p>
+
+                    Made with ❤️ using Flask • Bootstrap • Docker
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- Bootstrap -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dark Mode -->
+
+    <script>
+
+        const toggle = document.getElementById("theme-toggle");
+
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "dark") {
+
+            body.classList.add("dark-mode");
+
+            toggle.innerHTML = "☀️ Light";
+
+        }
+
+        toggle.addEventListener("click", () => {
+
+            body.classList.toggle("dark-mode");
+
+            if (body.classList.contains("dark-mode")) {
+
+                localStorage.setItem("theme", "dark");
+
+                toggle.innerHTML = "☀️ Light";
+
+            } else {
+
+                localStorage.setItem("theme", "light");
+
+                toggle.innerHTML = "🌙 Dark Mode";
+
+            }
+
+        });
+
+    </script>
+
 </body>
 
 </html>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

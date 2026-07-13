@@ -1,0 +1,50 @@
+<section class="hero mb-5">
+
+    {% if pets and pets[0].photo %}
+
+    <div class="hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pets[0].photo) }}');">
+    </div>
+
+    {% endif %}
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <span class="badge bg-light text-dark px-3 py-2 mb-4">
+            🐾 Smart Pet Health Manager
+        </span>
+
+        <h1 class="display-3 fw-bold mb-4">
+
+            Every Pet Deserves
+            Better Care
+
+        </h1>
+
+        <p class="lead mb-4">
+
+            Vaccinations • Health Records • Growth Tracking •
+            Reminders • Medical History
+
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+            <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg">
+
+                ➕ Add Pet
+
+            </a>
+
+            <a href="#mypets" class="btn btn-outline-light btn-lg">
+
+                🐶 My Pets
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

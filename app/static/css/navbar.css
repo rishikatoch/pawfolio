@@ -1,6 +1,88 @@
-   Navbar
-========================== */
+/* ==========================================
+   Pawfolio Navbar
+   ========================================== */
 
 .navbar {
     background: var(--navbar) !important;
+    box-shadow: var(--shadow-sm);
+    padding: 0.9rem 0;
+    transition: all var(--transition);
+}
+
+.navbar-brand {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.03);
+}
+
+.navbar-brand i {
+    color: var(--warning);
+    font-size: 1.5rem;
+}
+
+.navbar-nav {
+    align-items: center;
+    gap: .35rem;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, .85) !important;
+    font-weight: 500;
+    padding: .6rem 1rem;
+    border-radius: 10px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, .08);
+}
+
+.navbar-nav .nav-link.active {
+    color: white !important;
+    background: rgba(37, 99, 235, .25);
+}
+
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 15%;
+    bottom: 6px;
+    width: 0;
+    height: 2px;
+    background: var(--primary-light);
+    transition: .3s;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 70%;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar .btn-warning {
+    border-radius: 12px;
+    padding: .6rem 1.2rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.navbar .btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }

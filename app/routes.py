@@ -8,7 +8,6 @@ import os
 @app.route("/")
 def home():
     pets = Pet.query.all()
-    print("PETS:", pets)
     return render_template("index.html", pets=pets)
 
 @app.route("/pet/<int:id>")
@@ -99,22 +98,45 @@ def edit_pet(id):
     pet = Pet.query.get_or_404(id)
 
     if request.method == "POST":
-        pet.name = request.form.get("pet_name")
-        pet.breed = request.form.get("pet_breed")
-        pet.gender = request.form.get("pet_gender")
-        pet.age = request.form.get("pet_age")
 
-        weight = request.form.get("pet_weight")
+        pet.name = request.form.get("name")
+        pet.breed = request.form.get("breed")
+        pet.gender = request.form.get("gender")
+        pet.age = request.form.get("age")
+
+        weight = request.form.get("weight")
 
         if weight:
             pet.weight = float(weight)
         else:
             pet.weight = None
 
-        pet.vaccination_status = request.form.get("pet_vaccination_status")
+        pet.vaccination_status = request.form.get("vaccination_status")
+
+        # ----------------------------
+        # Update Photo (optional)
+        # ----------------------------
+
+        photo = request.files.get("photo")
+
+        if photo and photo.filename != "":
+
+            filename = secure_filename(photo.filename)
+
+            photo.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename
+                )
+            )
+
+            pet.photo = filename
 
         db.session.commit()
 
-        return redirect(url_for("home"))
+        return redirect(url_for("pet_profile", id=pet.id))
 
-    return render_template("edit_pet.html", pet=pet)
+    return render_template(
+        "edit_pet.html",
+        pet=pet
+    )

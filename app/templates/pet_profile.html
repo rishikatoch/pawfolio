@@ -2,11 +2,15 @@
 
 {% block content %}
 
+<!-- ================= Hero ================= -->
+
 <section class="pet-hero">
 
     {% if pet.photo %}
-    <div class="pet-hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' + pet.photo) }}');">
+
+    <div class="pet-hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pet.photo) }}');">
     </div>
+
     {% endif %}
 
     <div class="pet-overlay"></div>
@@ -14,25 +18,41 @@
     <div class="pet-content">
 
         {% if pet.photo %}
-        <img src="{{ url_for('static', filename='uploads/' + pet.photo) }}" class="profile-photo" alt="{{ pet.name }}">
+
+        <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" class="profile-photo" alt="{{ pet.name }}">
+
+        {% else %}
+
+        <img src="{{ url_for('static', filename='images/default-pet.png') }}" class="profile-photo">
+
         {% endif %}
 
         <h1>{{ pet.name }}</h1>
 
         <p>
-            {{ pet.breed }} • {{ pet.gender }}
+
+            {{ pet.breed }}
+
+            •
+
+            {{ pet.gender }}
+
         </p>
 
         {% if pet.vaccination_status=="Vaccinated" %}
 
-        <span class="badge bg-success">
-            🟢 Vaccinated
+        <span class="badge bg-success px-3 py-2">
+
+            🟢 Healthy
+
         </span>
 
         {% else %}
 
-        <span class="badge bg-warning text-dark">
+        <span class="badge bg-warning text-dark px-3 py-2">
+
             🟡 {{ pet.vaccination_status }}
+
         </span>
 
         {% endif %}
@@ -41,94 +61,217 @@
 
 </section>
 
+<!-- ================= Stats ================= -->
 
-<div class="container py-5">
+<div class="container profile-stats">
 
     <div class="row g-4">
 
-        <div class="col-lg-5">
+        <div class="col-lg-3 col-md-6">
 
-            <div class="card h-100">
+            <div class="stat-card">
 
-                <div class="card-body">
+                <h2>⚖️</h2>
 
-                    <h3>🐶 Pet Information</h3>
+                <h5>
 
-                    <hr>
+                    {% if pet.weight %}
 
-                    <p><strong>Breed:</strong> {{ pet.breed }}</p>
+                    {{ pet.weight }} kg
 
-                    <p><strong>Gender:</strong> {{ pet.gender }}</p>
+                    {% else %}
 
-                    <p><strong>Age:</strong> {{ pet.age }}</p>
+                    --
 
-                    <p><strong>Weight:</strong>
+                    {% endif %}
 
-                        {% if pet.weight %}
-                        {{ pet.weight }} kg
-                        {% else %}
-                        Not Recorded
-                        {% endif %}
+                </h5>
 
-                    </p>
-
-                    <p><strong>Vaccination:</strong>
-
-                        {{ pet.vaccination_status }}
-
-                    </p>
-
-                </div>
+                <p>Weight</p>
 
             </div>
 
         </div>
 
-        <div class="col-lg-7">
+        <div class="col-lg-3 col-md-6">
 
-            <div class="card mb-4">
+            <div class="stat-card">
 
-                <div class="card-body">
+                <h2>🎂</h2>
 
-                    <h3>💉 Vaccination History</h3>
+                <h5>{{ pet.age }}</h5>
 
-                    <p class="text-muted">
+                <p>Age</p>
 
-                        Coming Soon
+            </div>
 
-                    </p>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+
+                <h2>💉</h2>
+
+                <h5>
+
+                    {{ pet.vaccination_status }}
+
+                </h5>
+
+                <p>Vaccination</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+
+                <h2>❤️</h2>
+
+                <h5>
+
+                    Good
+
+                </h5>
+
+                <p>Health</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= Content ================= -->
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <h3>
+
+                    🐶 Pet Details
+
+                </h3>
+
+                <hr>
+
+                <p>
+
+                    <strong>Breed</strong>
+
+                    <br>
+
+                    {{ pet.breed }}
+
+                </p>
+
+                <p>
+
+                    <strong>Gender</strong>
+
+                    <br>
+
+                    {{ pet.gender }}
+
+                </p>
+
+                <p>
+
+                    <strong>Age</strong>
+
+                    <br>
+
+                    {{ pet.age }}
+
+                </p>
+
+                <p>
+
+                    <strong>Weight</strong>
+
+                    <br>
+
+                    {% if pet.weight %}
+
+                    {{ pet.weight }} kg
+
+                    {% else %}
+
+                    Not Recorded
+
+                    {% endif %}
+
+                </p>
+
+                <p>
+
+                    <strong>Vaccination</strong>
+
+                    <br>
+
+                    {{ pet.vaccination_status }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="info-card">
+
+                <h3>
+
+                    💉 Vaccination Timeline
+
+                </h3>
+
+                <div class="coming-soon">
+
+                    Coming Soon
 
                 </div>
 
             </div>
 
-            <div class="card mb-4">
+            <div class="info-card">
 
-                <div class="card-body">
+                <h3>
 
-                    <h3>🩺 Health Records</h3>
+                    🩺 Health Records
 
-                    <p class="text-muted">
+                </h3>
 
-                        Coming Soon
+                <div class="coming-soon">
 
-                    </p>
+                    Coming Soon
 
                 </div>
 
             </div>
 
-            <div class="card">
+            <div class="info-card">
 
-                <div class="card-body">
+                <h3>
 
-                    <h3>📅 Timeline</h3>
+                    📷 Gallery
 
-                    <p class="text-muted">
+                </h3>
 
-                        Coming Soon
+                <div class="coming-soon">
 
-                    </p>
+                    Coming Soon
 
                 </div>
 
@@ -138,15 +281,15 @@
 
     </div>
 
-    <div class="text-center mt-5">
+    <div class="profile-actions text-center">
 
-        <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning btn-lg me-2">
+        <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning btn-lg">
 
-            ✏ Edit Pet
+            ✏ Edit Profile
 
         </a>
 
-        <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger btn-lg me-2">
+        <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger btn-lg">
 
             🗑 Delete
 

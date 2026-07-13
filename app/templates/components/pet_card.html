@@ -1,0 +1,202 @@
+{% for pet in pets %}
+
+<div class="col-xl-4 col-lg-6 col-md-6">
+
+    <div class="card h-100 pet-card">
+
+        <!-- Status Bar -->
+
+        {% if pet.vaccination_status == "Vaccinated" %}
+
+        <div class="status-bar bg-success"></div>
+
+        {% elif pet.vaccination_status == "Due Soon" %}
+
+        <div class="status-bar bg-warning"></div>
+
+        {% else %}
+
+        <div class="status-bar bg-danger"></div>
+
+        {% endif %}
+
+        <!-- Image -->
+
+        {% if pet.photo %}
+
+        <a href="{{ url_for('pet_profile', id=pet.id) }}">
+
+            <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" class="card-img-top"
+                alt="{{ pet.name }}">
+
+        </a>
+
+        {% else %}
+
+        <div class="text-center py-5 bg-light">
+
+            <h1 class="display-2">
+
+                🐶
+
+            </h1>
+
+            <p class="text-muted">
+
+                No Photo Available
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+        <!-- Body -->
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+
+                        {{ pet.name }}
+
+                    </h3>
+
+                    <span class="badge bg-primary">
+
+                        {{ pet.breed }}
+
+                    </span>
+
+                </div>
+
+                {% if pet.vaccination_status == "Vaccinated" %}
+
+                <span class="badge bg-success">
+
+                    🟢 Healthy
+
+                </span>
+
+                {% elif pet.vaccination_status == "Due Soon" %}
+
+                <span class="badge bg-warning text-dark">
+
+                    🟡 Due Soon
+
+                </span>
+
+                {% else %}
+
+                <span class="badge bg-danger">
+
+                    🔴 Attention
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <div class="row text-center mt-4">
+
+                <div class="col-4">
+
+                    <h5>
+
+                        🐾
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        {{ pet.gender }}
+
+                    </small>
+
+                </div>
+
+                <div class="col-4">
+
+                    <h5>
+
+                        🎂
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        {{ pet.age }}
+
+                    </small>
+
+                </div>
+
+                <div class="col-4">
+
+                    <h5>
+
+                        ⚖️
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        {% if pet.weight %}
+
+                        {{ pet.weight }} kg
+
+                        {% else %}
+
+                        --
+
+                        {% endif %}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+
+        <div class="card-footer">
+
+            <div class="d-grid gap-2">
+
+                <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary">
+
+                    👁 View Profile
+
+                </a>
+
+                <div class="d-flex gap-2">
+
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning flex-fill">
+
+                        ✏ Edit
+
+                    </a>
+
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger flex-fill">
+
+                        🗑 Delete
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
