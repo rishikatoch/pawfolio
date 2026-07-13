@@ -55,6 +55,9 @@ def add_pet():
                     error="Weight must be a valid number."
                 )
 
+            print("UPLOAD_FOLDER =", app.config["UPLOAD_FOLDER"])
+            print("photo =", photo)
+
         filename = None
 
         if photo and photo.filename:
