@@ -21,6 +21,10 @@ from werkzeug.utils import secure_filename
 
 import os
 
+# ==========================
+# Register
+# ==========================
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -48,14 +52,21 @@ def register():
         user.set_password(form.password.data)
 
         db.session.add(user)
-
         db.session.commit()
 
         flash("Account created successfully. Please login.", "success")
 
         return redirect(url_for("login"))
 
-    return render_template("register.html", form=form)
+    return render_template(
+        "register.html",
+        form=form,
+    )
+
+
+# ==========================
+# Login
+# ==========================
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -80,7 +91,15 @@ def login():
 
         flash("Invalid email or password.", "danger")
 
-    return render_template("login.html", form=form)
+    return render_template(
+        "login.html",
+        form=form,
+    )
+
+
+# ==========================
+# Logout
+# ==========================
 
 
 @app.route("/logout")
@@ -94,16 +113,23 @@ def logout():
     return redirect(url_for("login"))
 
 
+# ==========================
+# Home
+# ==========================
+
+
 @app.route("/")
 @login_required
 def home():
 
-    pets = Pet.query.all()
+    pets = Pet.query.filter_by(user_id=current_user.id).all()
 
-    total_pets = Pet.query.count()
-    total_vaccinations = Vaccination.query.count()
+    total_pets = Pet.query.filter_by(user_id=current_user.id).count()
 
-    # We'll calculate this properly later
+    total_vaccinations = (
+        Vaccination.query.join(Pet).filter(Pet.user_id == current_user.id).count()
+    )
+
     due_soon = 0
 
     return render_template(
@@ -115,18 +141,32 @@ def home():
     )
 
 
+# ==========================
+# Pet Profile
+# ==========================
+
+
 @app.route("/pet/<int:id>")
 @login_required
 def pet_profile(id):
 
-    pet = Pet.query.get_or_404(id)
+    pet = Pet.query.filter_by(id=id, user_id=current_user.id).first_or_404()
 
-    return render_template("pet_profile.html", pet=pet)
+    return render_template(
+        "pet_profile.html",
+        pet=pet,
+    )
+
+
+# ==========================
+# Add Pet
+# ==========================
 
 
 @app.route("/add-pet", methods=["GET", "POST"])
 @login_required
 def add_pet():
+
     if request.method == "POST":
 
         name = request.form.get("name", "").strip()
@@ -181,33 +221,48 @@ def add_pet():
             weight=weight,
             vaccination_status=vaccination_status,
             photo=filename,
+            user_id=current_user.id,
         )
 
         db.session.add(pet)
         db.session.commit()
+
+        flash("Pet added successfully!", "success")
 
         return redirect(url_for("home"))
 
     return render_template("add_pet.html")
 
 
+# ==========================
+# Delete Pet
+# ==========================
+
+
 @app.route("/delete/<int:id>")
 @login_required
 def delete_pet(id):
 
-    pet = Pet.query.get_or_404(id)
+    pet = Pet.query.filter_by(id=id, user_id=current_user.id).first_or_404()
 
     db.session.delete(pet)
     db.session.commit()
 
+    flash("Pet deleted successfully.", "success")
+
     return redirect(url_for("home"))
+
+
+# ==========================
+# Edit Pet
+# ==========================
 
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
 def edit_pet(id):
 
-    pet = Pet.query.get_or_404(id)
+    pet = Pet.query.filter_by(id=id, user_id=current_user.id).first_or_404()
 
     if request.method == "POST":
 
@@ -237,16 +292,26 @@ def edit_pet(id):
 
         db.session.commit()
 
+        flash("Pet updated successfully!", "success")
+
         return redirect(url_for("pet_profile", id=pet.id))
 
-    return render_template("edit_pet.html", pet=pet)
+    return render_template(
+        "edit_pet.html",
+        pet=pet,
+    )
+
+
+# ==========================
+# Add Vaccination
+# ==========================
 
 
 @app.route("/pet/<int:pet_id>/vaccination/add", methods=["GET", "POST"])
 @login_required
 def add_vaccination(pet_id):
 
-    pet = Pet.query.get_or_404(pet_id)
+    pet = Pet.query.filter_by(id=pet_id, user_id=current_user.id).first_or_404()
 
     if request.method == "POST":
 
@@ -262,30 +327,55 @@ def add_vaccination(pet_id):
         db.session.add(vaccination)
         db.session.commit()
 
+        flash("Vaccination added successfully!", "success")
+
         return redirect(url_for("pet_profile", id=pet.id))
 
-    return render_template("add_vaccination.html", pet=pet)
+    return render_template(
+        "add_vaccination.html",
+        pet=pet,
+    )
+
+
+# ==========================
+# Delete Vaccination
+# ==========================
 
 
 @app.route("/vaccination/<int:id>/delete")
 @login_required
 def delete_vaccination(id):
 
-    vaccination = Vaccination.query.get_or_404(id)
+    vaccination = (
+        Vaccination.query.join(Pet)
+        .filter(Vaccination.id == id, Pet.user_id == current_user.id)
+        .first_or_404()
+    )
 
     pet_id = vaccination.pet_id
 
     db.session.delete(vaccination)
     db.session.commit()
 
+    flash("Vaccination deleted successfully!", "success")
+
     return redirect(url_for("pet_profile", id=pet_id))
+
+
+# ==========================
+# Edit Vaccination
+# ==========================
 
 
 @app.route("/vaccination/<int:id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_vaccination(id):
 
-    vaccination = Vaccination.query.get_or_404(id)
+    vaccination = (
+        Vaccination.query.join(Pet)
+        .filter(Vaccination.id == id, Pet.user_id == current_user.id)
+        .first_or_404()
+    )
 
     if request.method == "POST":
 
@@ -301,6 +391,11 @@ def edit_vaccination(id):
 
         db.session.commit()
 
+        flash("Vaccination updated successfully!", "success")
+
         return redirect(url_for("pet_profile", id=vaccination.pet_id))
 
-    return render_template("edit_vaccination.html", vaccination=vaccination)
+    return render_template(
+        "edit_vaccination.html",
+        vaccination=vaccination,
+    )

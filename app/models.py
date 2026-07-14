@@ -16,6 +16,10 @@ class User(UserMixin, db.Model):
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
+    pets = db.relationship(
+        "Pet", backref="owner", lazy=True, cascade="all, delete-orphan"
+    )
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -41,6 +45,8 @@ class Pet(db.Model):
     vaccination_status = db.Column(db.String(200))
 
     photo = db.Column(db.String(255))
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
 
     vaccinations = db.relationship(
         "Vaccination", backref="pet", lazy=True, cascade="all, delete-orphan"
