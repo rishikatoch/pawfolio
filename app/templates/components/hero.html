@@ -1,4 +1,4 @@
-<section class="hero mb-5">
+<section class="hero">
 
     {% if pets and pets[0].photo %}
 
@@ -9,39 +9,93 @@
 
     <div class="hero-overlay"></div>
 
-    <div class="hero-content">
+    <div class="hero-content container">
 
-        <span class="badge bg-light text-dark px-3 py-2 mb-4">
-            🐾 Smart Pet Health Manager
+        <div class="hero-logo mb-4">
+
+            <!-- Temporary Logo -->
+            <div class="logo-circle">
+
+                ❤️🐾
+
+            </div>
+
+        </div>
+
+        <span class="hero-tag">
+
+            Every Paw Has A Story
+
         </span>
 
-        <h1 class="display-3 fw-bold mb-4">
+        <h1>
 
-            Every Pet Deserves
-            Better Care
+            Your Pet's
+            <span>Digital Health Companion</span>
 
         </h1>
 
-        <p class="lead mb-4">
+        <p>
 
-            Vaccinations • Health Records • Growth Tracking •
-            Reminders • Medical History
+            Keep vaccinations, health records, milestones,
+            medications and precious memories together in one
+            beautiful place.
 
         </p>
 
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <div class="hero-buttons">
 
-            <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg">
+            <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
 
-                ➕ Add Pet
+                <i class="bi bi-plus-circle-fill"></i>
+
+                Add My Pet
+
+            </a>
+
+            <a href="#mypets" class="btn btn-light btn-lg">
+
+                <i class="bi bi-heart-fill"></i>
+
+                Meet My Pets
 
             </a>
 
-            <a href="#mypets" class="btn btn-outline-light btn-lg">
+        </div>
 
-                🐶 My Pets
+        <div class="hero-features">
 
-            </a>
+            <div>
+
+                <i class="bi bi-shield-check"></i>
+
+                Safe Records
+
+            </div>
+
+            <div>
+
+                <i class="bi bi-heart-pulse"></i>
+
+                Health Tracking
+
+            </div>
+
+            <div>
+
+                <i class="bi bi-calendar-check"></i>
+
+                Smart Reminders
+
+            </div>
+
+            <div>
+
+                <i class="bi bi-camera"></i>
+
+                Memory Timeline
+
+            </div>
 
         </div>
 

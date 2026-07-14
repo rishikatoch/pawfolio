@@ -1,60 +1,122 @@
 /* ==========================================
-   Pawfolio Design System
-   ========================================== */
+   Pawfolio Design System v3
+   Warm • Friendly • Modern
+========================================== */
 
 :root {
 
-    /* Primary Colors */
+    /* ==========================
+       Brand Colors
+    ========================== */
 
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-light: #60a5fa;
+    --primary: #ff914d;
+    --primary-dark: #ff7a24;
+    --primary-light: #ffb37a;
 
-    /* Status Colors */
+    --secondary: #5bbef7;
+    --secondary-light: #dff5ff;
 
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --info: #0ea5e9;
+    /* ==========================
+       Status Colors
+    ========================== */
 
-    /* Background */
+    --success: #5ccb7d;
+    --success-light: #e8faef;
 
-    --bg-color: #f8fafc;
+    --warning: #ffd166;
+    --warning-light: #fff7dd;
+
+    --danger: #ff6b6b;
+    --danger-light: #ffe8e8;
+
+    --info: #74c0fc;
+    --info-light: #e8f7ff;
+
+    /* ==========================
+       Backgrounds
+    ========================== */
+
+    --bg-color: #fff8f2;
+
     --surface: #ffffff;
-    --surface-alt: #f1f5f9;
 
-    /* Typography */
+    --surface-alt: #fff3e6;
 
-    --text: #1e293b;
-    --text-light: #64748b;
-    --heading: #0f172a;
+    --card: #ffffff;
 
-    /* Navbar */
+    /* ==========================
+       Typography
+    ========================== */
 
-    --navbar: #0f172a;
+    --heading: #3b2f2f;
 
-    /* Borders */
+    --text: #544646;
 
-    --border: #e2e8f0;
+    --text-light: #8b7b7b;
 
-    /* Radius */
+    /* ==========================
+       Navbar
+    ========================== */
 
-    --radius-sm: 10px;
-    --radius: 18px;
-    --radius-lg: 28px;
+    --navbar: rgba(255, 255, 255, .75);
 
-    /* Shadows */
+    /* ==========================
+       Borders
+    ========================== */
 
-    --shadow-sm: 0 4px 12px rgba(15, 23, 42, .06);
+    --border: #f2e4d7;
+
+    /* ==========================
+       Radius
+    ========================== */
+
+    --radius-sm: 12px;
+
+    --radius: 22px;
+
+    --radius-lg: 34px;
+
+    --radius-xl: 50px;
+
+    /* ==========================
+       Shadows
+    ========================== */
+
+    --shadow-sm:
+        0 6px 18px rgba(0, 0, 0, .06);
 
     --shadow:
-        0 12px 35px rgba(15, 23, 42, .08);
+        0 12px 30px rgba(0, 0, 0, .08);
 
     --shadow-lg:
-        0 22px 60px rgba(15, 23, 42, .12);
+        0 20px 50px rgba(0, 0, 0, .12);
 
-    /* Animation */
+    /* ==========================
+       Gradients
+    ========================== */
 
-    --transition: .30s ease;
+    --gradient-primary:
+        linear-gradient(135deg,
+            #ff914d,
+            #ffb347);
+
+    --gradient-hero:
+        linear-gradient(135deg,
+            #ff914d 0%,
+            #ffd166 35%,
+            #74c0fc 70%,
+            #5ccb7d 100%);
+
+    --gradient-card:
+        linear-gradient(135deg,
+            #ffffff,
+            #fff8f2);
+
+    /* ==========================
+       Animation
+    ========================== */
+
+    --transition:
+        .30s ease-in-out;
 
 }

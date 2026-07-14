@@ -1,14 +1,28 @@
 from flask import render_template, request, redirect, url_for
 from app import app, db
-from app.models import Pet
+from app.models import Pet, Vaccination
 
 from werkzeug.utils import secure_filename
 import os
 
 @app.route("/")
 def home():
+
     pets = Pet.query.all()
-    return render_template("index.html", pets=pets)
+
+    total_pets = Pet.query.count()
+
+    total_vaccinations = Vaccination.query.count()
+
+    due_soon = 0
+
+    return render_template(
+        "index.html",
+        pets=pets,
+        total_pets=total_pets,
+        total_vaccinations=total_vaccinations,
+        due_soon=due_soon
+    )
 
 @app.route("/pet/<int:id>")
 def pet_profile(id):
@@ -139,4 +153,83 @@ def edit_pet(id):
     return render_template(
         "edit_pet.html",
         pet=pet
+    )
+@app.route("/pet/<int:pet_id>/vaccination/add", methods=["GET", "POST"])
+def add_vaccination(pet_id):
+
+    pet = Pet.query.get_or_404(pet_id)
+
+    if request.method == "POST":
+
+        vaccination = Vaccination(
+
+            pet_id=pet.id,
+
+            vaccine_name=request.form.get("vaccine_name"),
+
+            date_given=request.form.get("date_given"),
+
+            next_due=request.form.get("next_due"),
+
+            veterinarian=request.form.get("veterinarian"),
+
+            notes=request.form.get("notes")
+
+        )
+
+        db.session.add(vaccination)
+        db.session.commit()
+
+        return redirect(url_for("pet_profile", id=pet.id))
+
+    return render_template(
+        "add_vaccination.html",
+        pet=pet
+    )
+
+
+@app.route("/vaccination/<int:id>/delete")
+def delete_vaccination(id):
+
+    vaccination = Vaccination.query.get_or_404(id)
+
+    pet_id = vaccination.pet_id
+
+    db.session.delete(vaccination)
+    db.session.commit()
+
+    return redirect(
+        url_for("pet_profile", id=pet_id)
+    )
+
+
+@app.route("/vaccination/<int:id>/edit", methods=["GET", "POST"])
+def edit_vaccination(id):
+
+    vaccination = Vaccination.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        vaccination.vaccine_name = request.form.get("vaccine_name")
+
+        vaccination.date_given = request.form.get("date_given")
+
+        vaccination.next_due = request.form.get("next_due")
+
+        vaccination.veterinarian = request.form.get("veterinarian")
+
+        vaccination.notes = request.form.get("notes")
+
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "pet_profile",
+                id=vaccination.pet_id
+            )
+        )
+
+    return render_template(
+        "edit_vaccination.html",
+        vaccination=vaccination
     )
