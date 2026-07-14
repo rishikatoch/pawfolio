@@ -76,37 +76,78 @@
 
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
 
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
 
-                    <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">
+                        <i class="bi bi-house-door-fill"></i>
+                        Home
+                    </a>
 
-                        <a class="nav-link" href="{{ url_for('home') }}">
+                </li>
 
-                            <i class="bi bi-house-door-fill"></i>
+                {% if current_user.is_authenticated %}
 
-                            Home
+                <li class="nav-item">
 
-                        </a>
+                    <a class="nav-link" href="{{ url_for('add_pet') }}">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        Add Pet
+                    </a>
 
-                    </li>
+                </li>
 
-                    <li class="nav-item">
+                <li class="nav-item">
 
-                        <a class="nav-link" href="{{ url_for('add_pet') }}">
+                    <span class="nav-link">
 
-                            <i class="bi bi-plus-circle-fill"></i>
+                        👋 {{ current_user.username }}
 
-                            Add Pet
+                    </span>
 
-                        </a>
+                </li>
 
-                    </li>
+                <li class="nav-item">
 
-                </ul>
+                    <a class="btn btn-danger ms-lg-2" href="{{ url_for('logout') }}">
 
-            </div>
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+                {% else %}
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="{{ url_for('login') }}">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Login
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="btn btn-primary ms-lg-2" href="{{ url_for('register') }}">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+        </div>
 
         </div>
 

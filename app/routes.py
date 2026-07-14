@@ -1,12 +1,101 @@
-from flask import render_template, request, redirect, url_for
+from flask import (
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+)
+
+from flask_login import (
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
+
 from app import app, db
-from app.models import Pet, Vaccination
+from app.models import User, Pet, Vaccination
+from app.forms import RegisterForm, LoginForm
 
 from werkzeug.utils import secure_filename
+
 import os
 
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+
+        existing_user = User.query.filter_by(email=form.email.data).first()
+
+        if existing_user:
+
+            flash("Email already registered.", "danger")
+
+            return redirect(url_for("register"))
+
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+        )
+
+        user.set_password(form.password.data)
+
+        db.session.add(user)
+
+        db.session.commit()
+
+        flash("Account created successfully. Please login.", "success")
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html", form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user and user.check_password(form.password.data):
+
+            login_user(user)
+
+            flash("Welcome back!", "success")
+
+            return redirect(url_for("home"))
+
+        flash("Invalid email or password.", "danger")
+
+    return render_template("login.html", form=form)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+
+    logout_user()
+
+    flash("Logged out successfully.", "info")
+
+    return redirect(url_for("login"))
+
+
 @app.route("/")
+@login_required
 def home():
 
     pets = Pet.query.all()
@@ -27,6 +116,7 @@ def home():
 
 
 @app.route("/pet/<int:id>")
+@login_required
 def pet_profile(id):
 
     pet = Pet.query.get_or_404(id)
@@ -35,8 +125,8 @@ def pet_profile(id):
 
 
 @app.route("/add-pet", methods=["GET", "POST"])
+@login_required
 def add_pet():
-
     if request.method == "POST":
 
         name = request.form.get("name", "").strip()
@@ -102,6 +192,7 @@ def add_pet():
 
 
 @app.route("/delete/<int:id>")
+@login_required
 def delete_pet(id):
 
     pet = Pet.query.get_or_404(id)
@@ -113,6 +204,7 @@ def delete_pet(id):
 
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
+@login_required
 def edit_pet(id):
 
     pet = Pet.query.get_or_404(id)
@@ -151,6 +243,7 @@ def edit_pet(id):
 
 
 @app.route("/pet/<int:pet_id>/vaccination/add", methods=["GET", "POST"])
+@login_required
 def add_vaccination(pet_id):
 
     pet = Pet.query.get_or_404(pet_id)
@@ -175,6 +268,7 @@ def add_vaccination(pet_id):
 
 
 @app.route("/vaccination/<int:id>/delete")
+@login_required
 def delete_vaccination(id):
 
     vaccination = Vaccination.query.get_or_404(id)
@@ -188,6 +282,7 @@ def delete_vaccination(id):
 
 
 @app.route("/vaccination/<int:id>/edit", methods=["GET", "POST"])
+@login_required
 def edit_vaccination(id):
 
     vaccination = Vaccination.query.get_or_404(id)
