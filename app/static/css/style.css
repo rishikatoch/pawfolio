@@ -1,0 +1,52 @@
+@import url("variables.css");
+@import url("navbar.css");
+@import url("hero.css");
+@import url("cards.css");
+@import url("forms.css");
+@import url("pet-profile.css");
+@import url("dark-mode.css");
+@import url("animations.css");
+
+/* ==========================================
+   Global Styles
+   ========================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    background:
+        linear-gradient(135deg,
+            #eef5ff 0%,
+            #f8fbff 45%,
+            #ffffff 100%);
+
+    color: var(--text);
+
+    font-family: "Poppins", sans-serif;
+
+    min-height: 100vh;
+
+    transition:
+        background .3s ease,
+        color .3s ease;
+
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.container {
+    animation: fadeIn .5s ease;
+}

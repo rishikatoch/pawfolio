@@ -1,0 +1,208 @@
+/* ==========================================
+   Pawfolio Dark Mode
+   ========================================== */
+
+body.dark-mode {
+
+    /* Background */
+
+    --bg-color: #0f172a;
+
+    --surface: #1e293b;
+
+    --surface-alt: #273549;
+
+    /* Typography */
+
+    --text: #f8fafc;
+
+    --text-light: #cbd5e1;
+
+    --heading: #ffffff;
+
+    /* Navbar */
+
+    --navbar: #020617;
+
+    /* Border */
+
+    --border: #334155;
+
+    background: linear-gradient(135deg,
+            #0f172a 0%,
+            #172554 100%);
+
+    color: var(--text);
+
+}
+
+/* ---------- Navbar ---------- */
+
+body.dark-mode .navbar {
+
+    background: var(--navbar) !important;
+
+}
+
+/* ---------- Cards ---------- */
+
+body.dark-mode .card,
+body.dark-mode .stat-card,
+body.dark-mode .info-card,
+body.dark-mode .glass-form {
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid rgba(255, 255, 255, .05);
+
+}
+
+/* ---------- Card Footer ---------- */
+
+body.dark-mode .card-footer {
+
+    background: var(--surface);
+
+}
+
+/* ---------- Upload Card ---------- */
+
+body.dark-mode .upload-card {
+
+    background: #243447;
+
+    border-color: #475569;
+
+}
+
+body.dark-mode .upload-card:hover {
+
+    border-color: var(--primary);
+
+}
+
+/* ---------- Inputs ---------- */
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+
+    background: #334155;
+
+    color: white;
+
+    border: 1px solid #475569;
+
+}
+
+body.dark-mode .form-control::placeholder {
+
+    color: #94a3b8;
+
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+
+    background: #334155;
+
+    color: white;
+
+    border-color: var(--primary);
+
+}
+
+/* ---------- Labels ---------- */
+
+body.dark-mode label {
+
+    color: white;
+
+}
+
+/* ---------- Text ---------- */
+
+body.dark-mode .text-muted {
+
+    color: var(--text-light) !important;
+
+}
+
+body.dark-mode strong {
+
+    color: white;
+
+}
+
+/* ---------- Hero ---------- */
+
+body.dark-mode .hero {
+
+    background: linear-gradient(135deg,
+            #1e3a8a,
+            #172554);
+
+}
+
+body.dark-mode .pet-hero {
+
+    background: #1e293b;
+
+}
+
+/* ---------- Coming Soon Cards ---------- */
+
+body.dark-mode .coming-soon {
+
+    background: #243447;
+
+    border-color: #475569;
+
+    color: var(--text-light);
+
+}
+
+/* ---------- Buttons ---------- */
+
+body.dark-mode .btn-outline-secondary {
+
+    color: white;
+
+    border-color: #64748b;
+
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+
+    background: #475569;
+
+}
+
+/* ---------- Scrollbar ---------- */
+
+body.dark-mode::-webkit-scrollbar {
+
+    width: 10px;
+
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+
+    background: #0f172a;
+
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+
+    background: #475569;
+
+    border-radius: 20px;
+
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+
+    background: #64748b;
+
+}

@@ -1,0 +1,698 @@
+/* ==========================================================
+   Pawfolio Premium Pet Profile v4
+========================================================== */
+
+/* ==========================================
+   Hero
+========================================== */
+
+.pet-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 540px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 0 0 45px 45px;
+
+    isolation: isolate;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, .18);
+
+}
+
+.pet-hero-bg {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    transform: scale(1.18);
+
+    filter: blur(12px) brightness(.40);
+
+    animation:
+        heroMove 18s ease-in-out infinite alternate;
+
+}
+
+@keyframes heroMove {
+
+    from {
+
+        transform: scale(1.10);
+
+    }
+
+    to {
+
+        transform: scale(1.20);
+
+    }
+
+}
+
+.pet-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(rgba(18, 34, 68, .45),
+            rgba(18, 34, 68, .78));
+
+}
+
+.pet-content {
+
+    position: relative;
+
+    z-index: 5;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 70px 30px;
+
+}
+
+/* ==========================================
+   Profile Photo
+========================================== */
+
+.profile-photo {
+
+    width: 220px;
+
+    height: 220px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 7px solid rgba(255, 255, 255, .95);
+
+    box-shadow:
+
+        0 25px 60px rgba(0, 0, 0, .30);
+
+    transition: .4s;
+
+}
+
+.profile-photo:hover {
+
+    transform: scale(1.06);
+
+}
+
+/* ==========================================
+   Heading
+========================================== */
+
+.pet-content h1 {
+
+    margin-top: 24px;
+
+    font-size: 3.4rem;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+}
+
+.pet-content p {
+
+    color: #DCEBFF;
+
+    font-size: 1.15rem;
+
+    margin: 18px 0 28px;
+
+}
+
+.pet-content .badge {
+
+    font-size: .95rem;
+
+    padding: 12px 22px;
+
+}
+
+/* ==========================================
+   Floating Stats
+========================================== */
+
+.profile-stats {
+
+    margin-top: -80px;
+
+    position: relative;
+
+    z-index: 10;
+
+}
+
+.stat-card {
+
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, .08);
+
+    transition: .35s;
+
+}
+
+.stat-card:hover {
+
+    transform: translateY(-8px);
+
+}
+
+.stat-card h2 {
+
+    font-size: 2.3rem;
+
+    color: #3B82F6;
+
+    margin-bottom: 14px;
+
+}
+
+.stat-card h5 {
+
+    font-size: 1.3rem;
+
+    font-weight: 800;
+
+    color: #1E293B;
+
+}
+
+.stat-card p {
+
+    color: #64748B;
+
+    margin: 0;
+
+}
+
+/* ==========================================================
+   Information Cards
+========================================================== */
+
+.info-card {
+
+    background: white;
+
+    border-radius: 28px;
+
+    padding: 34px;
+
+    margin-bottom: 30px;
+
+    box-shadow:
+
+        0 18px 50px rgba(15, 23, 42, .08);
+
+    transition: .35s;
+
+}
+
+.info-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow:
+
+        0 28px 60px rgba(15, 23, 42, .12);
+
+}
+
+.info-card h3 {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 1.6rem;
+
+    font-weight: 800;
+
+    color: #1E293B;
+
+    margin-bottom: 24px;
+
+}
+
+.info-card hr {
+
+    margin: 18px 0 24px;
+
+    opacity: .08;
+
+}
+
+.info-card p {
+
+    margin-bottom: 18px;
+
+    color: #475569;
+
+    line-height: 1.8;
+
+}
+
+.info-card strong {
+
+    color: #0F172A;
+
+    font-weight: 700;
+
+}
+
+/* ==========================================
+   Vaccination Timeline
+========================================== */
+
+.vaccine-card {
+
+    position: relative;
+
+    background: #F8FBFF;
+
+    border: 1px solid #E6F0FF;
+
+    border-left: 6px solid #3B82F6;
+
+    border-radius: 22px;
+
+    padding: 24px;
+
+    margin-bottom: 22px;
+
+    transition: .35s;
+
+}
+
+.vaccine-card:hover {
+
+    transform: translateY(-4px);
+
+    background: white;
+
+    box-shadow:
+
+        0 18px 40px rgba(59, 130, 246, .12);
+
+}
+
+.vaccine-card h5 {
+
+    font-size: 1.2rem;
+
+    font-weight: 800;
+
+    margin-bottom: 18px;
+
+    color: #1E293B;
+
+}
+
+.vaccine-card p {
+
+    margin-bottom: 10px;
+
+    color: #475569;
+
+}
+
+.vaccine-card strong {
+
+    color: #0F172A;
+
+}
+
+.vaccine-actions {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 18px;
+
+}
+
+.vaccine-actions .btn {
+
+    border-radius: 14px;
+
+    font-size: .9rem;
+
+    font-weight: 700;
+
+}
+
+/* ==========================================
+   Empty Timeline
+========================================== */
+
+.coming-soon {
+
+    background: #F8FAFC;
+
+    border: 2px dashed #CBD5E1;
+
+    border-radius: 24px;
+
+    padding: 55px 30px;
+
+    text-align: center;
+
+    color: #64748B;
+
+}
+
+.coming-soon h4 {
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+
+}
+
+.coming-soon p {
+
+    margin: 0;
+
+}
+
+/* ==========================================
+   Health Cards
+========================================== */
+
+.health-summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin-top: 18px;
+
+}
+
+.health-box {
+
+    background: #F8FBFF;
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border: 1px solid #E8F0FF;
+
+}
+
+.health-box h4 {
+
+    font-size: 1.8rem;
+
+    margin-bottom: 8px;
+
+}
+
+.health-box p {
+
+    margin: 0;
+
+    font-weight: 600;
+
+    color: #475569;
+
+}
+
+/* ==========================================================
+   Profile Action Buttons
+========================================================== */
+
+.profile-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    margin-top: 45px;
+
+}
+
+.profile-actions .btn {
+
+    min-width: 190px;
+
+    padding: 16px 22px;
+
+    border-radius: 18px;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    transition: .30s;
+
+}
+
+.profile-actions .btn:hover {
+
+    transform: translateY(-4px);
+
+}
+
+/* ==========================================
+   Pet Details List
+========================================== */
+
+.pet-detail {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid #EEF2F7;
+
+}
+
+.pet-detail:last-child {
+
+    border-bottom: none;
+
+}
+
+.pet-detail-title {
+
+    font-weight: 700;
+
+    color: #334155;
+
+}
+
+.pet-detail-value {
+
+    color: #64748B;
+
+    font-weight: 600;
+
+}
+
+/* ==========================================
+   Beautiful Scrollbar
+========================================== */
+
+.info-card::-webkit-scrollbar {
+
+    width: 8px;
+
+}
+
+.info-card::-webkit-scrollbar-thumb {
+
+    background: #CBD5E1;
+
+    border-radius: 999px;
+
+}
+
+.info-card::-webkit-scrollbar-thumb:hover {
+
+    background: #94A3B8;
+
+}
+
+/* ==========================================
+   Hover Effects
+========================================== */
+
+.profile-photo:hover {
+
+    transform: scale(1.06) rotate(1deg);
+
+}
+
+.stat-card:hover h2 {
+
+    transform: scale(1.08);
+
+}
+
+.vaccine-card:hover {
+
+    border-left-color: #22C55E;
+
+}
+
+.info-card:hover h3 {
+
+    color: #2563EB;
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:992px) {
+
+    .health-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+@media(max-width:768px) {
+
+    .pet-hero {
+
+        min-height: auto;
+
+        padding: 70px 20px;
+
+        border-radius: 0 0 30px 30px;
+
+    }
+
+    .profile-photo {
+
+        width: 170px;
+
+        height: 170px;
+
+    }
+
+    .pet-content h1 {
+
+        font-size: 2.5rem;
+
+    }
+
+    .profile-stats {
+
+        margin-top: -40px;
+
+    }
+
+    .profile-actions {
+
+        flex-direction: column;
+
+    }
+
+    .profile-actions .btn {
+
+        width: 100%;
+
+    }
+
+}
+
+@media(max-width:576px) {
+
+    .pet-content {
+
+        padding: 40px 20px;
+
+    }
+
+    .pet-content h1 {
+
+        font-size: 2rem;
+
+    }
+
+    .stat-card {
+
+        padding: 24px;
+
+    }
+
+    .info-card {
+
+        padding: 24px;
+
+    }
+
+    .vaccine-actions {
+
+        flex-direction: column;
+
+    }
+
+    .vaccine-actions .btn {
+
+        width: 100%;
+
+    }
+
+}
+
+/* ==========================================================
+   End of Pawfolio Premium Profile
+========================================================== */

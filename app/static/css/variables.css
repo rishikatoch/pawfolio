@@ -1,0 +1,122 @@
+/* ==========================================
+   Pawfolio Design System v3
+   Warm • Friendly • Modern
+========================================== */
+
+:root {
+
+    /* ==========================
+       Brand Colors
+    ========================== */
+
+    --primary: #ff914d;
+    --primary-dark: #ff7a24;
+    --primary-light: #ffb37a;
+
+    --secondary: #5bbef7;
+    --secondary-light: #dff5ff;
+
+    /* ==========================
+       Status Colors
+    ========================== */
+
+    --success: #5ccb7d;
+    --success-light: #e8faef;
+
+    --warning: #ffd166;
+    --warning-light: #fff7dd;
+
+    --danger: #ff6b6b;
+    --danger-light: #ffe8e8;
+
+    --info: #74c0fc;
+    --info-light: #e8f7ff;
+
+    /* ==========================
+       Backgrounds
+    ========================== */
+
+    --bg-color: #fff8f2;
+
+    --surface: #ffffff;
+
+    --surface-alt: #fff3e6;
+
+    --card: #ffffff;
+
+    /* ==========================
+       Typography
+    ========================== */
+
+    --heading: #3b2f2f;
+
+    --text: #544646;
+
+    --text-light: #8b7b7b;
+
+    /* ==========================
+       Navbar
+    ========================== */
+
+    --navbar: rgba(255, 255, 255, .75);
+
+    /* ==========================
+       Borders
+    ========================== */
+
+    --border: #f2e4d7;
+
+    /* ==========================
+       Radius
+    ========================== */
+
+    --radius-sm: 12px;
+
+    --radius: 22px;
+
+    --radius-lg: 34px;
+
+    --radius-xl: 50px;
+
+    /* ==========================
+       Shadows
+    ========================== */
+
+    --shadow-sm:
+        0 6px 18px rgba(0, 0, 0, .06);
+
+    --shadow:
+        0 12px 30px rgba(0, 0, 0, .08);
+
+    --shadow-lg:
+        0 20px 50px rgba(0, 0, 0, .12);
+
+    /* ==========================
+       Gradients
+    ========================== */
+
+    --gradient-primary:
+        linear-gradient(135deg,
+            #ff914d,
+            #ffb347);
+
+    --gradient-hero:
+        linear-gradient(135deg,
+            #ff914d 0%,
+            #ffd166 35%,
+            #74c0fc 70%,
+            #5ccb7d 100%);
+
+    --gradient-card:
+        linear-gradient(135deg,
+            #ffffff,
+            #fff8f2);
+
+    /* ==========================
+       Animation
+    ========================== */
+
+    --transition:
+        .30s ease-in-out;
+
+}

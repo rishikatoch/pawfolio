@@ -1,0 +1,175 @@
+{% for pet in pets %}
+
+<div class="col-xl-4 col-lg-6 col-md-6">
+
+    <div class="pet-card">
+
+        <a href="{{ url_for('pet_profile', id=pet.id) }}" class="pet-card-link">
+
+            <!-- ================= IMAGE ================= -->
+
+            <div class="pet-image">
+
+                {% if pet.photo %}
+
+                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}">
+
+                {% else %}
+
+                <div class="no-photo">
+
+                    <i class="bi bi-heart-fill heart-placeholder"></i>
+
+                    <i class="bi bi-paw-fill paw-placeholder"></i>
+
+                    <h5>
+
+                        No Photo Yet
+
+                    </h5>
+
+                    <p>
+
+                        Upload your pet's first memory.
+
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+                {% if pet.vaccination_status=="Vaccinated" %}
+
+                <span class="status-badge healthy">
+
+                    🟢 Healthy
+
+                </span>
+
+                {% elif pet.vaccination_status=="Due Soon" %}
+
+                <span class="status-badge due">
+
+                    🟡 Due Soon
+
+                </span>
+
+                {% else %}
+
+                <span class="status-badge overdue">
+
+                    🔴 Attention
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ================= CONTENT ================= -->
+
+            <div class="pet-content">
+
+                <h3>
+
+                    {{ pet.name }}
+
+                </h3>
+
+                <div class="breed-chip">
+
+                    {{ pet.breed }}
+
+                </div>
+
+                <div class="pet-info">
+
+                    <div class="info-chip">
+
+                        <i class="bi bi-gender-ambiguous"></i>
+
+                        <span>
+
+                            {{ pet.gender }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-chip">
+
+                        <i class="bi bi-cake2-fill"></i>
+
+                        <span>
+
+                            {{ pet.age }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-chip">
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        <span>
+
+                            {% if pet.weight %}
+
+                            {{ pet.weight }} kg
+
+                            {% else %}
+
+                            --
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+
+        <!-- ================= BUTTONS ================= -->
+
+        <div class="pet-actions">
+
+            <div class="row g-2">
+
+                <div class="col-6">
+
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning w-100">
+
+                        <i class="bi bi-pencil-fill"></i>
+
+                        Edit
+
+                    </a>
+
+                </div>
+
+                <div class="col-6">
+
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger w-100">
+
+                        <i class="bi bi-trash-fill"></i>
+
+                        Delete
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}

@@ -1,0 +1,156 @@
+<section class="hero">
+
+    {% if pets and pets[0].photo %}
+
+    <div class="hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pets[0].photo) }}');">
+    </div>
+
+    {% endif %}
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-glow"></div>
+
+    <div class="hero-content container">
+
+        <div class="hero-logo">
+
+            <div class="logo-circle">
+
+                <i class="bi bi-heart-fill heart-icon"></i>
+
+                <i class="bi bi-paw-fill paw-icon"></i>
+
+            </div>
+
+        </div>
+
+        <span class="hero-tag">
+
+            🐾 Every Paw Has A Story
+
+        </span>
+
+        <h1>
+
+            Give Your Best Friend The
+
+            <span>
+
+                Care They Deserve
+
+            </span>
+
+        </h1>
+
+        <p>
+
+            Pawfolio keeps vaccinations, medications, health records,
+            growth history and precious memories together in one
+            beautiful digital home for your pets.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg">
+
+                <i class="bi bi-plus-circle-fill"></i>
+
+                Add My Pet
+
+            </a>
+
+            {% if pets %}
+
+            <a href="#mypets" class="btn btn-outline-light btn-lg">
+
+                <i class="bi bi-heart-fill"></i>
+
+                View My Pets
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+        <div class="hero-features">
+
+            <div class="hero-feature">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+                <h5>
+
+                    Health Tracking
+
+                </h5>
+
+                <p>
+
+                    Store complete medical history.
+
+                </p>
+
+            </div>
+
+            <div class="hero-feature">
+
+                <i class="bi bi-shield-check"></i>
+
+                <h5>
+
+                    Vaccinations
+
+                </h5>
+
+                <p>
+
+                    Never miss another vaccine.
+
+                </p>
+
+            </div>
+
+            <div class="hero-feature">
+
+                <i class="bi bi-calendar-check-fill"></i>
+
+                <h5>
+
+                    Smart Reminders
+
+                </h5>
+
+                <p>
+
+                    Upcoming doses and alerts.
+
+                </p>
+
+            </div>
+
+            <div class="hero-feature">
+
+                <i class="bi bi-camera-fill"></i>
+
+                <h5>
+
+                    Memories
+
+                </h5>
+
+                <p>
+
+                    Build a lifetime photo journal.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

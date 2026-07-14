@@ -1,91 +1,148 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Pet - Pawfolio</title>
+{% extends "base.html" %}
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% block content %}
 
-<body>
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
 
-    <div class="container">
+<div class="container py-5">
 
-        <h1>Add a New Pet</h1>
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">
+            🐾 Add a New Pet
+        </h1>
 
-        {% if error %}
-        <div style="background:#fdecea;
-                    color:#b71c1c;
-                    border:1px solid #f5c6cb;
-                    padding:12px;
-                    border-radius:8px;
-                    margin-bottom:20px;
-                    font-weight:bold;">
-            {{ error }}
-        </div>
-        {% endif %}
+        <p class="lead text-muted">
+            Create your pet's digital profile and health record.
+        </p>
+    </div>
 
-       <form method="POST" enctype="multipart/form-data">
+    <div class="glass-form">
 
-            <label>Pet Name:</label><br>
-            <input type="text"
-                   name="pet_name"
-                   placeholder="Example: Luffy"
-                   required><br><br>
+        <form method="POST" enctype="multipart/form-data">
 
-            <label>Breed:</label><br>
-            <input type="text"
-                   name="pet_breed"
-                   placeholder="Example: Bhotia"
-                   required><br><br>
+            <div class="row">
 
-            <label>Gender:</label><br>
-            <select name="pet_gender" required>
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select><br><br>
+                <div class="col-md-5">
 
-            <label>Age:</label><br>
-            <input type="text"
-                   name="pet_age"
-                   placeholder="Example: 5.5 Months"
-                   required><br><br>
+                    <div class="upload-card">
 
-            <label>Weight (kg):</label><br>
-            <input type="number"
-                   step="0.1"
-                   min="0"
-                   name="pet_weight"
-                   placeholder="Example: 17.9"><br><br>
+                        <img id="preview" src="" class="preview-image d-none">
 
-            <label>Vaccination Status:</label><br>
-            <input type="text"
-                   name="pet_vaccination_status"
-                   placeholder="Example: Vaccinated"
-                   required><br><br>
+                        <div id="placeholder">
 
-                   <label>Pet Photo:</label><br>
+                            <div class="upload-icon">
+                                <i class="bi bi-cloud-arrow-up-fill upload-icon"></i>
+                            </div>
 
-                <input
-                type="file"
-                name="pet_photo"
-                accept=".jpg,.jpeg,.png"
-                >
+                            <h5>Upload Pet Photo</h5>
 
+                            <p class="text-muted">
+                                JPG, PNG or JPEG
+                            </p>
 
-            <br><br>
+                        </div>
 
+                        <input type="file" name="photo" id="photo" class="form-control mt-3"
+                            onchange="previewImage(event)">
 
-            <button type="submit">Save Pet</button>
+                    </div>
 
-            <a href="{{ url_for('home') }}">
-                <button type="button">Cancel</button>
-            </a>
+                </div>
+
+                <div class="col-md-7">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-heart-fill"></i> Pet Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-award"></i> Breed</label>
+                            <input type="text" name="breed" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-gender-ambiguous"></i> Gender</label>
+
+                            <select name="gender" class="form-select">
+
+                                <option>Male</option>
+                                <option>Female</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-calendar-heart"></i> Age</label>
+                            <input type="text" name="age" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-speedometer2"></i> Weight (kg)</label>
+                            <input type="number" step="0.1" name="weight" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><i class="bi bi-shield-check"></i> Vaccination Status</label>
+                            <input type="text" name="vaccination_status" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5">
+
+                        <button class="btn btn-primary btn-lg">
+                            💾 Save Pet
+                        </button>
+
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-lg ms-2">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </form>
 
     </div>
 
-</body>
-</html>
+</div>
+
+<script>
+
+    function previewImage(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+
+            document.getElementById("preview").src = reader.result;
+
+            document.getElementById("preview").classList.remove("d-none");
+
+            document.getElementById("placeholder").style.display = "none";
+
+        }
+
+        reader.readAsDataURL(file);
+
+    }
+
+</script>
+
+{% endblock %}

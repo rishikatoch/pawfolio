@@ -1,70 +1,293 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>{{ pet.name }} - Pawfolio</title>
+{% block content %}
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-</head>
+<!-- ================= Hero ================= -->
 
-<body>
+<section class="pet-hero">
 
-    <nav>
-        <h1>🐾 Pawfolio</h1>
-    </nav>
+    {% if pet.photo %}
+    <div class="pet-hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pet.photo) }}');">
+    </div>
+    {% endif %}
 
-    <div class="container">
+    <div class="pet-overlay"></div>
 
-        <h2>{{ pet.name }}</h2>
+    <div class="pet-content">
 
         {% if pet.photo %}
-    <img
-        src="{{ url_for('static', filename='uploads/' + pet.photo) }}"
-        alt="{{ pet.name }}"
-        width="300"
-        style="border-radius:12px; margin-bottom:20px;">
-{% else %}
-    <p>📷 No Photo Available</p>
-{% endif %}
+        <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" class="profile-photo" alt="{{ pet.name }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/default-pet.png') }}" class="profile-photo">
+        {% endif %}
 
+        <h1>{{ pet.name }}</h1>
 
-        <hr>
+        <p>{{ pet.breed }} • {{ pet.gender }}</p>
 
-        <p><strong>Breed:</strong> {{ pet.breed }}</p>
+        {% if pet.vaccination_status=="Vaccinated" %}
+        <span class="badge bg-success px-3 py-2">
+            🟢 Healthy
+        </span>
+        {% else %}
+        <span class="badge bg-warning text-dark px-3 py-2">
+            🟡 {{ pet.vaccination_status }}
+        </span>
+        {% endif %}
 
-        <p><strong>Gender:</strong> {{ pet.gender }}</p>
+    </div>
 
-        <p><strong>Age:</strong> {{ pet.age }}</p>
+</section>
 
-        <p><strong>Weight:</strong>
-            {% if pet.weight %}
-                {{ pet.weight }} kg
-            {% else %}
-                Not recorded
-            {% endif %}
-        </p>
+<!-- ================= Stats ================= -->
 
-        <p><strong>Vaccination Status:</strong>
-            {{ pet.vaccination_status }}
-        </p>
+<div class="container profile-stats">
 
-        <br>
+    <div class="row g-4">
 
-        <a href="{{ url_for('edit_pet', id=pet.id) }}">
-            <button>Edit Pet</button>
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+                <h2>⚖️</h2>
+
+                <h5>
+                    {% if pet.weight %}
+                    {{ pet.weight }} kg
+                    {% else %}
+                    --
+                    {% endif %}
+                </h5>
+
+                <p>Weight</p>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+                <h2>🎂</h2>
+                <h5>{{ pet.age }}</h5>
+                <p>Age</p>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+                <h2>💉</h2>
+                <h5>{{ pet.vaccination_status }}</h5>
+                <p>Vaccination</p>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-card">
+                <h2>❤️</h2>
+                <h5>Good</h5>
+                <p>Health</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= Content ================= -->
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <!-- Pet Details -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <h3>🐶 Pet Details</h3>
+
+                <hr>
+
+                <p><strong>Breed</strong><br>{{ pet.breed }}</p>
+
+                <p><strong>Gender</strong><br>{{ pet.gender }}</p>
+
+                <p><strong>Age</strong><br>{{ pet.age }}</p>
+
+                <p>
+                    <strong>Weight</strong><br>
+
+                    {% if pet.weight %}
+                    {{ pet.weight }} kg
+                    {% else %}
+                    Not Recorded
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>Vaccination</strong><br>
+                    {{ pet.vaccination_status }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Right Side -->
+
+        <div class="col-lg-8">
+
+            <div class="info-card">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <h3 class="mb-0">
+                        💉 Vaccination Timeline
+                    </h3>
+
+                    <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success">
+
+                        ➕ Add Vaccination
+
+                    </a>
+
+                </div>
+
+                {% if pet.vaccinations %}
+
+                {% for vaccination in pet.vaccinations %}
+
+                <div class="card mb-3">
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+
+                            💉 {{ vaccination.vaccine_name }}
+
+                        </h5>
+
+                        <p>
+
+                            <strong>Date Given:</strong>
+
+                            {{ vaccination.date_given }}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Next Due:</strong>
+
+                            {{ vaccination.next_due }}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Veterinarian:</strong>
+
+                            {{ vaccination.veterinarian }}
+
+                        </p>
+
+                        <p>
+
+                            {{ vaccination.notes }}
+
+                        </p>
+
+                        <a href="{{ url_for('edit_vaccination', id=vaccination.id) }}" class="btn btn-warning btn-sm">
+
+                            ✏ Edit
+
+                        </a>
+
+                        <a href="{{ url_for('delete_vaccination', id=vaccination.id) }}" class="btn btn-danger btn-sm">
+
+                            🗑 Delete
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+                {% else %}
+
+                <div class="coming-soon">
+
+                    No vaccinations recorded yet.
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>🩺 Health Records</h3>
+
+                <div class="coming-soon">
+
+                    Coming Soon
+
+                </div>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>📷 Gallery</h3>
+
+                <div class="coming-soon">
+
+                    Coming Soon
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="profile-actions text-center mt-5">
+
+        <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success btn-lg">
+
+            💉 Add Vaccination
+
         </a>
 
-        <a href="{{ url_for('delete_pet', id=pet.id) }}">
-            <button>Delete Pet</button>
+        <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning btn-lg">
+
+            ✏️ Edit Profile
+
         </a>
 
-        <a href="{{ url_for('home') }}">
-            <button>Back to Home</button>
+        <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger btn-lg">
+
+            🗑 Delete
+
+        </a>
+
+        <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">
+
+            🏠 Home
+
         </a>
 
     </div>
 
-</body>
+</div>
 
-</html>
+{% endblock %}

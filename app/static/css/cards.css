@@ -1,0 +1,556 @@
+{% for pet in pets %}
+
+<div class="col-xl-4 col-lg-6">
+
+    <div class="pet-card">
+
+        <a href="{{ url_for('pet_profile', id=pet.id) }}"
+           class="pet-card-link">
+
+            <!-- ================= IMAGE ================= -->
+
+            <div class="pet-image">
+
+                {% if pet.photo %}
+
+                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}"
+                     alt="{{ pet.name }}">
+
+                {% else %}
+
+                <div class="no-photo">
+
+                    <i class="bi bi-heart-fill heart-placeholder"></i>
+
+                    <i class="bi bi-paw-fill paw-placeholder"></i>
+
+                </div>
+
+                {% endif %}
+
+                {% if pet.vaccination_status=="Vaccinated" %}
+
+                <span class="status-badge healthy">
+
+                    Healthy
+
+                </span>
+
+                {% elif pet.vaccination_status=="Due Soon" %}
+
+                <span class="status-badge due">
+
+                    Due Soon
+
+                </span>
+
+                {% else %}
+
+                <span class="status-badge overdue">
+
+                    Attention
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ================= BODY ================= -->
+
+            <div class="pet-body">
+
+                <h3>
+
+                    {{ pet.name }}
+
+                </h3>
+
+                <span class="breed-chip">
+
+                    {{ pet.breed }}
+
+                </span>
+
+                <div class="pet-meta">
+
+                    <div>
+
+                        <i class="bi bi-gender-ambiguous"></i>
+
+                        {{ pet.gender }}
+
+                    </div>
+
+                    <div>
+
+                        <i class="bi bi-cake2-fill"></i>
+
+                        {{ pet.age }}
+
+                    </div>
+
+                    <div>
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        {% if pet.weight %}
+
+                        {{ pet.weight }} kg
+
+                        {% else %}
+
+                        --
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+
+        <div class="pet-footer">
+
+            <div class="row g-2">
+
+                <div class="col-6">
+
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}"
+                       class="btn btn-warning w-100">
+
+                        Edit
+
+                    </a>
+
+                </div>
+
+                <div class="col-6">
+
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}"
+                       class="btn btn-danger w-100">
+
+                        Delete
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+/* ==========================================
+   Pawfolio Cards (Final)
+========================================== */
+
+/* ==========================
+   Card
+========================== */
+
+.pet-card{
+
+    background:#1b2333;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.35s;
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:100%;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+}
+
+.pet-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
+
+}
+
+/* ==========================
+   Entire Card Clickable
+========================== */
+
+.pet-card-link{
+
+    text-decoration:none;
+
+    color:inherit;
+
+    display:block;
+
+}
+
+/* ==========================
+   Image
+========================== */
+
+.pet-image{
+
+    position:relative;
+
+    height:280px;
+
+    overflow:hidden;
+
+    background:#111827;
+
+}
+
+.pet-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.4s;
+
+    display:block;
+
+}
+
+.pet-card:hover .pet-image img{
+
+    transform:scale(1.08);
+
+}
+
+/* ==========================
+   Status Badge
+========================== */
+
+.status-badge{
+
+    position:absolute;
+
+    top:16px;
+
+    right:16px;
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    font-size:.82rem;
+
+    font-weight:700;
+
+    color:white;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.healthy{
+
+    background:#28a745;
+
+}
+
+.due{
+
+    background:#f0ad4e;
+
+    color:#111;
+
+}
+
+.overdue{
+
+    background:#dc3545;
+
+}
+
+/* ==========================
+   No Photo
+========================== */
+
+.no-photo{
+
+    height:280px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#0f172a;
+
+    color:#94a3b8;
+
+}
+
+.no-photo i{
+
+    font-size:3rem;
+
+}
+
+.heart-placeholder{
+
+    color:#ff6b81;
+
+}
+
+.paw-placeholder{
+
+    color:white;
+
+    margin-top:-28px;
+
+    font-size:1.4rem !important;
+
+}
+
+/* ==========================
+   Body
+========================== */
+
+.pet-body{
+
+    padding:24px;
+
+}
+
+.pet-body h3{
+
+    color:white;
+
+    font-size:1.7rem;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+.breed-chip{
+
+    display:inline-block;
+
+    background:#ff914d;
+
+    color:white;
+
+    border-radius:30px;
+
+    padding:6px 16px;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    margin-bottom:22px;
+
+}
+
+/* ==========================
+   Meta
+========================== */
+
+.pet-meta{
+
+    display:grid;
+
+    gap:12px;
+
+}
+
+.pet-meta div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:#d4d8df;
+
+    font-size:.95rem;
+
+}
+
+.pet-meta i{
+
+    color:#ff914d;
+
+    width:20px;
+
+}
+
+/* ==========================
+   Footer
+========================== */
+
+.pet-footer{
+
+    margin-top:auto;
+
+    padding:24px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.pet-footer .btn{
+
+    border-radius:14px;
+
+    padding:12px;
+
+    font-weight:600;
+
+}
+
+.btn-warning{
+
+    background:#f8b400;
+
+    border:none;
+
+}
+
+.btn-danger{
+
+    border:none;
+
+}
+
+/* ==========================
+   Dashboard Cards
+========================== */
+
+.dashboard-card{
+
+    border-radius:24px;
+
+    padding:30px;
+
+    border:none;
+
+    color:white;
+
+}
+
+.dashboard-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:auto auto 18px;
+
+    font-size:2rem;
+
+    background:rgba(255,255,255,.15);
+
+}
+
+.dashboard-blue{
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+}
+
+.dashboard-green{
+
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+
+}
+
+.dashboard-orange{
+
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+
+}
+
+.dashboard-pink{
+
+    background:linear-gradient(135deg,#db2777,#ec4899);
+
+}
+
+/* ==========================
+   Empty State
+========================== */
+
+.empty-state{
+
+    padding:80px 30px;
+
+    text-align:center;
+
+}
+
+.empty-state h1{
+
+    font-size:4rem;
+
+}
+
+.empty-state p{
+
+    color:#94a3b8;
+
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media(max-width:768px){
+
+    .pet-image{
+
+        height:240px;
+
+    }
+
+    .no-photo{
+
+        height:240px;
+
+    }
+
+    .pet-body{
+
+        padding:20px;
+
+    }
+
+}

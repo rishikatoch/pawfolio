@@ -4,145 +4,65 @@
 
 <div class="container py-5">
 
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold">
-            🐾 Welcome to Pawfolio
-        </h1>
+    <!-- ===========================
+            HERO SECTION
+    ============================ -->
 
-        <p class="lead text-muted">
-            Keep your pets healthy with vaccination tracking,
-            health records, reminders and milestone management.
-        </p>
+    {% include "components/hero.html" %}
 
-        <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg mt-2">
-            ➕ Add Your Pet
-        </a>
-    </div>
+    <!-- ===========================
+            DASHBOARD
+    ============================ -->
+
+    {% include "components/dashboard.html" %}
+
+    <!-- ===========================
+            PETS
+    ============================ -->
 
     {% if pets %}
 
-    <div class="row g-4">
+    <section id="mypets" class="mt-5">
 
-        {% for pet in pets %}
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
 
-        <div class="col-lg-4 col-md-6">
+            <div>
 
-            <div class="card h-100">
+                <h2 class="fw-bold display-6 mb-1">
 
-                {% if pet.photo %}
+                    🐶 My Pets
 
-                <a href="{{ url_for('pet_profile', id=pet.id) }}">
-                    <img src="{{ url_for('static', filename='uploads/' + pet.photo) }}" class="card-img-top"
-                        alt="{{ pet.name }}">
-                </a>
+                </h2>
 
-                {% else %}
+                <p class="text-secondary mb-0">
 
-                <div class="text-center p-5 bg-light">
-                    <h1>🐶</h1>
-                    <p>No Photo Available</p>
-                </div>
+                    Every pet deserves a healthy and happy life.
 
-                {% endif %}
-
-                <div class="card-body">
-
-                    <h3 class="fw-bold">
-                        {{ pet.name }}
-                    </h3>
-
-                    <span class="badge bg-primary mb-3">
-                        {{ pet.breed }}
-                    </span>
-
-                    <p class="mb-2">
-                        <strong>Gender:</strong>
-                        {{ pet.gender }}
-                    </p>
-
-                    <p class="mb-2">
-                        <strong>Age:</strong>
-                        {{ pet.age }}
-                    </p>
-
-                    <p class="mb-2">
-                        <strong>Weight:</strong>
-
-                        {% if pet.weight %}
-                        {{ pet.weight }} kg
-                        {% else %}
-                        Not Recorded
-                        {% endif %}
-                    </p>
-
-                    <p class="mb-3">
-                        <strong>Vaccination:</strong>
-
-                        {% if pet.vaccination_status == "Vaccinated" %}
-
-                        <span class="badge bg-success">
-                            {{ pet.vaccination_status }}
-                        </span>
-
-                        {% else %}
-
-                        <span class="badge bg-warning text-dark">
-                            {{ pet.vaccination_status }}
-                        </span>
-
-                        {% endif %}
-
-                    </p>
-
-                </div>
-
-                <div class="card-footer bg-white border-0">
-
-                    <div class="d-grid gap-2">
-
-                        <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-success">
-                            👁 View Profile
-                        </a>
-
-                        <div class="d-flex gap-2">
-
-                            <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning flex-fill">
-                                ✏ Edit
-                            </a>
-
-                            <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger flex-fill">
-                                🗑 Delete
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                </p>
 
             </div>
 
+            <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
+
+                <i class="bi bi-plus-circle-fill"></i>
+
+                Add New Pet
+
+            </a>
+
         </div>
 
-        {% endfor %}
+        <div class="row g-4">
 
-    </div>
+            {% include "components/pet_card.html" %}
+
+        </div>
+
+    </section>
 
     {% else %}
 
-    <div class="text-center py-5">
-
-        <h2>No pets added yet 🐾</h2>
-
-        <p class="text-muted">
-            Start by adding your first pet.
-        </p>
-
-        <a href="{{ url_for('add_pet') }}" class="btn btn-primary">
-            Add Pet
-        </a>
-
-    </div>
+    {% include "components/empty_state.html" %}
 
     {% endif %}
 
