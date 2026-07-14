@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Google Font -->
+    <!-- Google Fonts -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -26,23 +26,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
+    <!-- Main CSS -->
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
-<body>
+<body class="dark-mode">
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- ===========================
+             NAVBAR
+    ============================ -->
 
     <nav class="navbar navbar-expand-lg sticky-top">
 
         <div class="container">
 
-            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
 
-                🐾 Pawfolio
+                <div class="logo">
+
+                    <i class="bi bi-heart-fill heart-icon"></i>
+
+                    <i class="bi bi-paw-fill paw-icon"></i>
+
+                </div>
+
+                <div class="brand-text">
+
+                    <span class="brand-title">
+
+                        Pawfolio
+
+                    </span>
+
+                    <small>
+
+                        Your Pet's Digital Companion
+
+                    </small>
+
+                </div>
 
             </a>
 
@@ -60,7 +84,9 @@
 
                         <a class="nav-link" href="{{ url_for('home') }}">
 
-                            🏠 Home
+                            <i class="bi bi-house-door-fill"></i>
+
+                            Home
 
                         </a>
 
@@ -70,19 +96,11 @@
 
                         <a class="nav-link" href="{{ url_for('add_pet') }}">
 
-                            ➕ Add Pet
+                            <i class="bi bi-plus-circle-fill"></i>
+
+                            Add Pet
 
                         </a>
-
-                    </li>
-
-                    <li class="nav-item ms-lg-3">
-
-                        <button id="theme-toggle" class="btn btn-warning">
-
-                            🌙 Dark Mode
-
-                        </button>
 
                     </li>
 
@@ -94,7 +112,9 @@
 
     </nav>
 
-    <!-- ================= MAIN ================= -->
+    <!-- ===========================
+             MAIN CONTENT
+    ============================ -->
 
     <main>
 
@@ -104,27 +124,37 @@
 
     </main>
 
-    <!-- ================= FOOTER ================= -->
+    <!-- ===========================
+             FOOTER
+    ============================ -->
 
-    <footer class="py-5 mt-5">
+    <footer class="footer">
 
-        <div class="container">
+        <div class="container text-center">
 
-            <hr>
+            <div class="footer-logo">
 
-            <div class="text-center text-muted">
+                <i class="bi bi-heart-fill heart-icon"></i>
 
-                <h5>
+                <i class="bi bi-paw-fill paw-icon"></i>
 
-                    🐾 Pawfolio
+            </div>
 
-                </h5>
+            <h4>
 
-                <p>
+                Pawfolio
 
-                    Made with ❤️ using Flask • Bootstrap • Docker
+            </h4>
 
-                </p>
+            <p>
+
+                Your Pet's Digital Companion
+
+            </p>
+
+            <div class="footer-love">
+
+                ❤️ Made with Love
 
             </div>
 
@@ -132,47 +162,9 @@
 
     </footer>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Dark Mode -->
-
-    <script>
-
-        const toggle = document.getElementById("theme-toggle");
-
-        const body = document.body;
-
-        if (localStorage.getItem("theme") === "dark") {
-
-            body.classList.add("dark-mode");
-
-            toggle.innerHTML = "☀️ Light";
-
-        }
-
-        toggle.addEventListener("click", () => {
-
-            body.classList.toggle("dark-mode");
-
-            if (body.classList.contains("dark-mode")) {
-
-                localStorage.setItem("theme", "dark");
-
-                toggle.innerHTML = "☀️ Light";
-
-            } else {
-
-                localStorage.setItem("theme", "light");
-
-                toggle.innerHTML = "🌙 Dark Mode";
-
-            }
-
-        });
-
-    </script>
 
 </body>
 

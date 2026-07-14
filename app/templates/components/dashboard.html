@@ -1,8 +1,8 @@
 <div class="row g-4 mb-5">
 
-    <!-- Total Pets -->
+    <!-- ================= Total Pets ================= -->
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xl-3 col-lg-6 col-md-6">
 
         <div class="card dashboard-card dashboard-blue">
 
@@ -12,13 +12,21 @@
 
             </div>
 
-            <h2>{{ total_pets }}</h2>
+            <span class="dashboard-label">
 
-            <h5>Total Pets</h5>
+                Total Pets
+
+            </span>
+
+            <h2>
+
+                {{ total_pets }}
+
+            </h2>
 
             <p>
 
-                Manage all your furry family members.
+                Your furry family members are safely managed in one place.
 
             </p>
 
@@ -26,9 +34,9 @@
 
     </div>
 
-    <!-- Vaccinations -->
+    <!-- ================= Vaccinations ================= -->
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xl-3 col-lg-6 col-md-6">
 
         <div class="card dashboard-card dashboard-green">
 
@@ -38,13 +46,21 @@
 
             </div>
 
-            <h2>{{ total_vaccinations }}</h2>
+            <span class="dashboard-label">
 
-            <h5>Vaccinations</h5>
+                Vaccinations
+
+            </span>
+
+            <h2>
+
+                {{ total_vaccinations }}
+
+            </h2>
 
             <p>
 
-                Health records safely stored.
+                Every vaccination is securely recorded for easy access.
 
             </p>
 
@@ -52,9 +68,9 @@
 
     </div>
 
-    <!-- Due Soon -->
+    <!-- ================= Upcoming ================= -->
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xl-3 col-lg-6 col-md-6">
 
         <div class="card dashboard-card dashboard-orange">
 
@@ -64,13 +80,21 @@
 
             </div>
 
-            <h2>{{ due_soon }}</h2>
+            <span class="dashboard-label">
 
-            <h5>Upcoming</h5>
+                Due Soon
+
+            </span>
+
+            <h2>
+
+                {{ due_soon }}
+
+            </h2>
 
             <p>
 
-                Vaccinations due soon.
+                Stay ahead of upcoming vaccinations and reminders.
 
             </p>
 
@@ -78,9 +102,9 @@
 
     </div>
 
-    <!-- Health -->
+    <!-- ================= Health ================= -->
 
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xl-3 col-lg-6 col-md-6">
 
         <div class="card dashboard-card dashboard-pink">
 
@@ -90,13 +114,21 @@
 
             </div>
 
-            <h2>Excellent</h2>
+            <span class="dashboard-label">
 
-            <h5>Health Status</h5>
+                Health Status
+
+            </span>
+
+            <h2>
+
+                Excellent
+
+            </h2>
 
             <p>
 
-                Keep every pet healthy and happy.
+                Keep every companion healthy, happy and protected.
 
             </p>
 
@@ -106,25 +138,34 @@
 
 </div>
 
-<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+<!-- ================= My Pets Header ================= -->
+
+<div class="pets-header mb-4">
 
     <div>
 
-        <h2 class="fw-bold mb-1">
+        <span class="section-tag">
 
-            🐶 My Pets
+            🐾 Your Family
+
+        </span>
+
+        <h2>
+
+            Meet Your Pets
 
         </h2>
 
-        <p class="text-muted mb-0">
+        <p>
 
-            Every Paw Has A Story ❤️
+            Every pet has its own journey. Track their health, vaccinations,
+            growth and unforgettable memories from one beautiful place.
 
         </p>
 
     </div>
 
-    <a href="{{ url_for('add_pet') }}" class="btn btn-primary">
+    <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
 
         <i class="bi bi-plus-circle-fill"></i>
 

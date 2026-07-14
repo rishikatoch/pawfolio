@@ -9,14 +9,17 @@
 
     <div class="hero-overlay"></div>
 
+    <div class="hero-glow"></div>
+
     <div class="hero-content container">
 
-        <div class="hero-logo mb-4">
+        <div class="hero-logo">
 
-            <!-- Temporary Logo -->
             <div class="logo-circle">
 
-                ❤️🐾
+                <i class="bi bi-heart-fill heart-icon"></i>
+
+                <i class="bi bi-paw-fill paw-icon"></i>
 
             </div>
 
@@ -24,28 +27,33 @@
 
         <span class="hero-tag">
 
-            Every Paw Has A Story
+            🐾 Every Paw Has A Story
 
         </span>
 
         <h1>
 
-            Your Pet's
-            <span>Digital Health Companion</span>
+            Give Your Best Friend The
+
+            <span>
+
+                Care They Deserve
+
+            </span>
 
         </h1>
 
         <p>
 
-            Keep vaccinations, health records, milestones,
-            medications and precious memories together in one
-            beautiful place.
+            Pawfolio keeps vaccinations, medications, health records,
+            growth history and precious memories together in one
+            beautiful digital home for your pets.
 
         </p>
 
         <div class="hero-buttons">
 
-            <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
+            <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg">
 
                 <i class="bi bi-plus-circle-fill"></i>
 
@@ -53,47 +61,91 @@
 
             </a>
 
-            <a href="#mypets" class="btn btn-light btn-lg">
+            {% if pets %}
+
+            <a href="#mypets" class="btn btn-outline-light btn-lg">
 
                 <i class="bi bi-heart-fill"></i>
 
-                Meet My Pets
+                View My Pets
 
             </a>
+
+            {% endif %}
 
         </div>
 
         <div class="hero-features">
 
-            <div>
+            <div class="hero-feature">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+                <h5>
+
+                    Health Tracking
+
+                </h5>
+
+                <p>
+
+                    Store complete medical history.
+
+                </p>
+
+            </div>
+
+            <div class="hero-feature">
 
                 <i class="bi bi-shield-check"></i>
 
-                Safe Records
+                <h5>
+
+                    Vaccinations
+
+                </h5>
+
+                <p>
+
+                    Never miss another vaccine.
+
+                </p>
 
             </div>
 
-            <div>
+            <div class="hero-feature">
 
-                <i class="bi bi-heart-pulse"></i>
+                <i class="bi bi-calendar-check-fill"></i>
 
-                Health Tracking
+                <h5>
+
+                    Smart Reminders
+
+                </h5>
+
+                <p>
+
+                    Upcoming doses and alerts.
+
+                </p>
 
             </div>
 
-            <div>
+            <div class="hero-feature">
 
-                <i class="bi bi-calendar-check"></i>
+                <i class="bi bi-camera-fill"></i>
 
-                Smart Reminders
+                <h5>
 
-            </div>
+                    Memories
 
-            <div>
+                </h5>
 
-                <i class="bi bi-camera"></i>
+                <p>
 
-                Memory Timeline
+                    Build a lifetime photo journal.
+
+                </p>
 
             </div>
 

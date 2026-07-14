@@ -1,6 +1,6 @@
-/* ==========================================
-   Pawfolio Hero v3
-========================================== */
+/* ==========================================================
+   Pawfolio Premium Hero v4
+========================================================== */
 
 .hero {
 
@@ -8,7 +8,7 @@
 
     overflow: hidden;
 
-    min-height: 620px;
+    min-height: 560px;
 
     display: flex;
 
@@ -16,19 +16,27 @@
 
     justify-content: center;
 
-    border-radius: 40px;
+    border-radius: 38px;
 
     isolation: isolate;
 
-    background: var(--gradient-hero);
+    margin-bottom: 90px;
 
-    box-shadow: var(--shadow-lg);
+    background:
+        linear-gradient(135deg,
+            #5fa8ff 0%,
+            #79b8ff 35%,
+            #8ec5ff 65%,
+            #c6e3ff 100%);
+
+    box-shadow:
+        0 25px 70px rgba(34, 94, 168, .18);
 
 }
 
-/* ==========================
+/* ===============================
    Background Image
-========================== */
+================================ */
 
 .hero-bg {
 
@@ -44,17 +52,36 @@
 
     transform: scale(1.15);
 
-    filter: blur(8px) brightness(.55);
+    filter: blur(12px) brightness(.45);
 
     opacity: .45;
 
     z-index: 0;
 
+    animation:
+        heroZoom 18s ease-in-out infinite alternate;
+
 }
 
-/* ==========================
+@keyframes heroZoom {
+
+    from {
+
+        transform: scale(1.10);
+
+    }
+
+    to {
+
+        transform: scale(1.22);
+
+    }
+
+}
+
+/* ===============================
    Overlay
-========================== */
+================================ */
 
 .hero-overlay {
 
@@ -62,17 +89,19 @@
 
     inset: 0;
 
-    background: linear-gradient(rgba(255, 145, 77, .18),
+    background:
 
-            rgba(255, 255, 255, .12));
+        linear-gradient(rgba(12, 34, 78, .40),
+
+            rgba(12, 34, 78, .58));
 
     z-index: 1;
 
 }
 
-/* ==========================
-   Floating Shapes
-========================== */
+/* ===============================
+   Decorative Circles
+================================ */
 
 .hero::before {
 
@@ -80,19 +109,23 @@
 
     position: absolute;
 
-    width: 280px;
+    width: 420px;
 
-    height: 280px;
+    height: 420px;
 
-    background: rgba(255, 255, 255, .18);
+    right: -140px;
+
+    top: -140px;
 
     border-radius: 50%;
 
-    top: -90px;
+    background:
 
-    right: -60px;
+        rgba(255, 255, 255, .14);
 
-    filter: blur(8px);
+    filter: blur(5px);
+
+    animation: floatOne 8s ease-in-out infinite;
 
 }
 
@@ -102,145 +135,171 @@
 
     position: absolute;
 
-    width: 220px;
+    width: 260px;
 
-    height: 220px;
+    height: 260px;
 
-    background: rgba(255, 255, 255, .12);
-
-    border-radius: 50%;
+    left: -80px;
 
     bottom: -70px;
 
-    left: -70px;
+    border-radius: 50%;
 
-    filter: blur(8px);
+    background:
+
+        rgba(255, 255, 255, .10);
+
+    filter: blur(4px);
+
+    animation: floatTwo 10s ease-in-out infinite;
 
 }
 
-/* ==========================
-   Content
-========================== */
+@keyframes floatOne {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-18px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+@keyframes floatTwo {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(14px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   Hero Content
+========================================================== */
 
 .hero-content {
 
     position: relative;
 
-    z-index: 5;
+    z-index: 10;
+
+    max-width: 920px;
 
     text-align: center;
 
     color: white;
 
-    max-width: 900px;
-
-    padding: 80px 40px;
+    padding: 70px;
 
 }
 
-/* ==========================
-   Logo
-========================== */
-
-.logo-circle {
-
-    width: 120px;
-
-    height: 120px;
-
-    margin: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: rgba(255, 255, 255, .18);
-
-    backdrop-filter: blur(15px);
-
-    border: 2px solid rgba(255, 255, 255, .25);
-
-    font-size: 2.7rem;
-
-    box-shadow: var(--shadow);
-
-    margin-bottom: 25px;
-
-}
-
-/* ==========================
-   Small Tag
-========================== */
+/* ==========================================
+   Small Badge
+========================================== */
 
 .hero-tag {
 
-    display: inline-block;
+    display: inline-flex;
 
-    background: rgba(255, 255, 255, .20);
+    align-items: center;
 
-    backdrop-filter: blur(10px);
+    gap: 10px;
 
-    padding: 10px 22px;
+    padding: 12px 24px;
 
     border-radius: 999px;
 
+    background: rgba(255, 255, 255, .16);
+
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, .25);
+
+    font-size: .95rem;
+
     font-weight: 600;
 
-    letter-spacing: .5px;
+    margin-bottom: 28px;
 
-    margin-bottom: 25px;
+    box-shadow:
+
+        0 10px 30px rgba(0, 0, 0, .08);
 
 }
 
-/* ==========================
+/* ==========================================
    Heading
-========================== */
+========================================== */
 
 .hero-content h1 {
 
-    font-size: 4.3rem;
+    font-size: 4.4rem;
 
     font-weight: 800;
 
-    line-height: 1.15;
+    line-height: 1.08;
 
-    margin-bottom: 20px;
+    margin-bottom: 26px;
+
+    letter-spacing: -1px;
 
 }
 
 .hero-content h1 span {
 
-    color: #fff7d6;
+    color: #FFE082;
 
 }
 
-/* ==========================
-   Paragraph
-========================== */
+/* ==========================================
+   Description
+========================================== */
 
 .hero-content p {
 
-    font-size: 1.25rem;
-
-    line-height: 1.8;
-
-    color: rgba(255, 255, 255, .95);
-
-    max-width: 720px;
+    max-width: 760px;
 
     margin: auto;
 
-    margin-bottom: 40px;
+    margin-bottom: 45px;
+
+    font-size: 1.25rem;
+
+    line-height: 1.9;
+
+    color: rgba(255, 255, 255, .95);
 
 }
 
-/* ==========================
+/* ==========================================
    Buttons
-========================== */
+========================================== */
 
 .hero-buttons {
 
@@ -248,43 +307,77 @@
 
     justify-content: center;
 
-    gap: 20px;
+    gap: 18px;
 
     flex-wrap: wrap;
 
-    margin-bottom: 50px;
+    margin-bottom: 55px;
 
 }
 
 .hero-buttons .btn {
 
-    padding: 15px 28px;
+    border-radius: 999px;
+
+    padding: 16px 34px;
 
     font-size: 1.05rem;
 
-    border-radius: 999px;
+    font-weight: 700;
+
+    transition: .35s;
 
 }
 
-.hero-buttons .btn-light {
+.hero-buttons .btn-warning {
 
-    background: white;
-
-    color: var(--primary);
+    background: #FFD54F;
 
     border: none;
 
+    color: #27303F;
+
+    box-shadow:
+
+        0 15px 35px rgba(255, 213, 79, .40);
+
 }
 
-.hero-buttons .btn-light:hover {
+.hero-buttons .btn-warning:hover {
 
-    background: #fff5ea;
+    transform: translateY(-5px);
+
+    box-shadow:
+
+        0 20px 45px rgba(255, 213, 79, .55);
 
 }
 
-/* ==========================
-   Features
-========================== */
+.hero-buttons .btn-outline-light {
+
+    border: 2px solid rgba(255, 255, 255, .75);
+
+    color: white;
+
+    background: rgba(255, 255, 255, .08);
+
+    backdrop-filter: blur(10px);
+
+}
+
+.hero-buttons .btn-outline-light:hover {
+
+    background: white;
+
+    color: #2563EB;
+
+    transform: translateY(-5px);
+
+}
+
+/* ==========================================
+   Feature Grid
+========================================== */
 
 .hero-features {
 
@@ -292,49 +385,187 @@
 
     grid-template-columns: repeat(4, 1fr);
 
-    gap: 20px;
-
-    margin-top: 30px;
+    gap: 18px;
 
 }
 
-.hero-features div {
+.hero-feature {
 
-    background: rgba(255, 255, 255, .16);
+    background: rgba(255, 255, 255, .15);
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(18px);
 
-    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, .22);
 
-    padding: 18px;
+    border-radius: 22px;
 
-    font-weight: 600;
+    padding: 22px;
 
     transition: .35s;
 
 }
 
-.hero-features div:hover {
+.hero-feature:hover {
 
-    transform: translateY(-6px);
+    transform: translateY(-10px);
 
     background: rgba(255, 255, 255, .22);
 
 }
 
-.hero-features i {
+.hero-feature i {
 
     display: block;
 
-    font-size: 1.7rem;
+    font-size: 2rem;
 
-    margin-bottom: 10px;
+    margin-bottom: 14px;
 
 }
 
-/* ==========================
-   Mobile
-========================== */
+.hero-feature h5 {
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+}
+
+.hero-feature p {
+
+    margin: 0;
+
+    font-size: .92rem;
+
+    line-height: 1.5;
+
+}
+
+/* ==========================================================
+   Floating Glow
+========================================================== */
+
+.hero-glow {
+
+    position: absolute;
+
+    width: 550px;
+
+    height: 550px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .12);
+
+    filter: blur(120px);
+
+    left: 50%;
+
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 0;
+
+}
+
+/* ==========================================================
+   Hover Animation
+========================================================== */
+
+.hero:hover .hero-bg {
+
+    transform: scale(1.28);
+
+    transition: 12s;
+
+}
+
+.hero:hover::before {
+
+    transform: translateY(-20px);
+
+}
+
+.hero:hover::after {
+
+    transform: translateY(20px);
+
+}
+
+/* ==========================================================
+   Entrance Animation
+========================================================== */
+
+.hero-content>* {
+
+    animation: heroFade .8s ease forwards;
+
+}
+
+.hero-content>*:nth-child(2) {
+
+    animation-delay: .15s;
+
+}
+
+.hero-content>*:nth-child(3) {
+
+    animation-delay: .30s;
+
+}
+
+.hero-content>*:nth-child(4) {
+
+    animation-delay: .45s;
+
+}
+
+.hero-content>*:nth-child(5) {
+
+    animation-delay: .60s;
+
+}
+
+@keyframes heroFade {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media(max-width:1200px) {
+
+    .hero-content {
+
+        padding: 60px 40px;
+
+    }
+
+    .hero-content h1 {
+
+        font-size: 3.6rem;
+
+    }
+
+}
 
 @media(max-width:992px) {
 
@@ -342,19 +573,21 @@
 
         min-height: auto;
 
-        padding: 70px 20px;
+        padding: 80px 20px;
+
+        border-radius: 28px;
 
     }
 
     .hero-content {
 
-        padding: 30px 10px;
+        padding: 30px 15px;
 
     }
 
     .hero-content h1 {
 
-        font-size: 2.8rem;
+        font-size: 2.9rem;
 
     }
 
@@ -370,31 +603,9 @@
 
     }
 
-    .logo-circle {
-
-        width: 95px;
-
-        height: 95px;
-
-        font-size: 2.1rem;
-
-    }
-
 }
 
-@media(max-width:576px) {
-
-    .hero-features {
-
-        grid-template-columns: 1fr;
-
-    }
-
-    .hero-content h1 {
-
-        font-size: 2.2rem;
-
-    }
+@media(max-width:768px) {
 
     .hero-buttons {
 
@@ -405,6 +616,52 @@
     .hero-buttons .btn {
 
         width: 100%;
+
+    }
+
+}
+
+@media(max-width:576px) {
+
+    .hero {
+
+        border-radius: 22px;
+
+    }
+
+    .hero-content h1 {
+
+        font-size: 2.2rem;
+
+        line-height: 1.2;
+
+    }
+
+    .hero-content p {
+
+        font-size: .95rem;
+
+    }
+
+    .hero-tag {
+
+        font-size: .82rem;
+
+        padding: 10px 18px;
+
+    }
+
+    .hero-features {
+
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
+    }
+
+    .hero-feature {
+
+        padding: 18px;
 
     }
 

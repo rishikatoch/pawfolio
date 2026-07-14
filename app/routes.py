@@ -5,15 +5,16 @@ from app.models import Pet, Vaccination
 from werkzeug.utils import secure_filename
 import os
 
+
 @app.route("/")
 def home():
 
     pets = Pet.query.all()
 
     total_pets = Pet.query.count()
-
     total_vaccinations = Vaccination.query.count()
 
+    # We'll calculate this properly later
     due_soon = 0
 
     return render_template(
@@ -21,26 +22,31 @@ def home():
         pets=pets,
         total_pets=total_pets,
         total_vaccinations=total_vaccinations,
-        due_soon=due_soon
+        due_soon=due_soon,
     )
+
 
 @app.route("/pet/<int:id>")
 def pet_profile(id):
+
     pet = Pet.query.get_or_404(id)
+
     return render_template("pet_profile.html", pet=pet)
 
 
 @app.route("/add-pet", methods=["GET", "POST"])
 def add_pet():
+
     if request.method == "POST":
 
-        name = request.form.get("pet_name", "").strip()
-        breed = request.form.get("pet_breed", "").strip()
-        gender = request.form.get("pet_gender", "").strip()
-        age = request.form.get("pet_age", "").strip()
-        vaccination_status = request.form.get("pet_vaccination_status", "").strip()
-        weight = request.form.get("pet_weight", "").strip()
-        photo = request.files.get("pet_photo")
+        name = request.form.get("name", "").strip()
+        breed = request.form.get("breed", "").strip()
+        gender = request.form.get("gender", "").strip()
+        age = request.form.get("age", "").strip()
+        vaccination_status = request.form.get("vaccination_status", "").strip()
+        weight = request.form.get("weight", "").strip()
+
+        photo = request.files.get("photo")
 
         if not name:
             return render_template("add_pet.html", error="Pet name is required.")
@@ -55,7 +61,9 @@ def add_pet():
             return render_template("add_pet.html", error="Age is required.")
 
         if not vaccination_status:
-            return render_template("add_pet.html", error="Vaccination status is required.")
+            return render_template(
+                "add_pet.html", error="Vaccination status is required."
+            )
 
         if weight == "":
             weight = None
@@ -64,23 +72,16 @@ def add_pet():
                 weight = float(weight)
             except ValueError:
                 return render_template(
-                    "add_pet.html",
-                    error="Weight must be a valid number."
+                    "add_pet.html", error="Weight must be a valid number."
                 )
-
-            print("UPLOAD_FOLDER =", app.config["UPLOAD_FOLDER"])
-            print("photo =", photo)
 
         filename = None
 
-        if photo and photo.filename:
+        if photo and photo.filename != "":
+
             filename = secure_filename(photo.filename)
-            photo.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    filename
-                )
-            )
+
+            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
         pet = Pet(
             name=name,
@@ -89,7 +90,7 @@ def add_pet():
             age=age,
             weight=weight,
             vaccination_status=vaccination_status,
-            photo=filename
+            photo=filename,
         )
 
         db.session.add(pet)
@@ -102,13 +103,18 @@ def add_pet():
 
 @app.route("/delete/<int:id>")
 def delete_pet(id):
+
     pet = Pet.query.get_or_404(id)
+
     db.session.delete(pet)
     db.session.commit()
+
     return redirect(url_for("home"))
+
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_pet(id):
+
     pet = Pet.query.get_or_404(id)
 
     if request.method == "POST":
@@ -127,22 +133,13 @@ def edit_pet(id):
 
         pet.vaccination_status = request.form.get("vaccination_status")
 
-        # ----------------------------
-        # Update Photo (optional)
-        # ----------------------------
-
         photo = request.files.get("photo")
 
         if photo and photo.filename != "":
 
             filename = secure_filename(photo.filename)
 
-            photo.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    filename
-                )
-            )
+            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
             pet.photo = filename
 
@@ -150,10 +147,9 @@ def edit_pet(id):
 
         return redirect(url_for("pet_profile", id=pet.id))
 
-    return render_template(
-        "edit_pet.html",
-        pet=pet
-    )
+    return render_template("edit_pet.html", pet=pet)
+
+
 @app.route("/pet/<int:pet_id>/vaccination/add", methods=["GET", "POST"])
 def add_vaccination(pet_id):
 
@@ -162,19 +158,12 @@ def add_vaccination(pet_id):
     if request.method == "POST":
 
         vaccination = Vaccination(
-
             pet_id=pet.id,
-
             vaccine_name=request.form.get("vaccine_name"),
-
             date_given=request.form.get("date_given"),
-
             next_due=request.form.get("next_due"),
-
             veterinarian=request.form.get("veterinarian"),
-
-            notes=request.form.get("notes")
-
+            notes=request.form.get("notes"),
         )
 
         db.session.add(vaccination)
@@ -182,10 +171,7 @@ def add_vaccination(pet_id):
 
         return redirect(url_for("pet_profile", id=pet.id))
 
-    return render_template(
-        "add_vaccination.html",
-        pet=pet
-    )
+    return render_template("add_vaccination.html", pet=pet)
 
 
 @app.route("/vaccination/<int:id>/delete")
@@ -198,9 +184,7 @@ def delete_vaccination(id):
     db.session.delete(vaccination)
     db.session.commit()
 
-    return redirect(
-        url_for("pet_profile", id=pet_id)
-    )
+    return redirect(url_for("pet_profile", id=pet_id))
 
 
 @app.route("/vaccination/<int:id>/edit", methods=["GET", "POST"])
@@ -222,14 +206,6 @@ def edit_vaccination(id):
 
         db.session.commit()
 
-        return redirect(
-            url_for(
-                "pet_profile",
-                id=vaccination.pet_id
-            )
-        )
+        return redirect(url_for("pet_profile", id=vaccination.pet_id))
 
-    return render_template(
-        "edit_vaccination.html",
-        vaccination=vaccination
-    )
+    return render_template("edit_vaccination.html", vaccination=vaccination)

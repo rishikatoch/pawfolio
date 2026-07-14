@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
 <div class="container py-5">
 
     <div class="text-center mb-5">
@@ -29,7 +35,7 @@
                         <div id="placeholder">
 
                             <div class="upload-icon">
-                              <i class="bi bi-cloud-arrow-up-fill upload-icon"></i>
+                                <i class="bi bi-cloud-arrow-up-fill upload-icon"></i>
                             </div>
 
                             <h5>Upload Pet Photo</h5>
@@ -52,12 +58,12 @@
                     <div class="row g-3">
 
                         <div class="col-md-6">
-                          <label><i class="bi bi-heart-fill"></i> Pet Name</label>
+                            <label><i class="bi bi-heart-fill"></i> Pet Name</label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
 
                         <div class="col-md-6">
-                         <label><i class="bi bi-award"></i> Breed</label>
+                            <label><i class="bi bi-award"></i> Breed</label>
                             <input type="text" name="breed" class="form-control">
                         </div>
 
@@ -73,7 +79,7 @@
                         </div>
 
                         <div class="col-md-6">
-                          <label><i class="bi bi-calendar-heart"></i> Age</label>
+                            <label><i class="bi bi-calendar-heart"></i> Age</label>
                             <input type="text" name="age" class="form-control">
                         </div>
 
@@ -83,7 +89,7 @@
                         </div>
 
                         <div class="col-md-6">
-                           <label><i class="bi bi-shield-check"></i> Vaccination Status</label>
+                            <label><i class="bi bi-shield-check"></i> Vaccination Status</label>
                             <input type="text" name="vaccination_status" class="form-control">
                         </div>
 

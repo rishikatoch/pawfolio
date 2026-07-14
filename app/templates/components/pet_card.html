@@ -2,88 +2,53 @@
 
 <div class="col-xl-4 col-lg-6 col-md-6">
 
-    <div class="card h-100 pet-card">
+    <div class="pet-card">
 
-        <!-- Status Bar -->
+        <a href="{{ url_for('pet_profile', id=pet.id) }}" class="pet-card-link">
 
-        {% if pet.vaccination_status == "Vaccinated" %}
+            <!-- ================= IMAGE ================= -->
 
-        <div class="status-bar bg-success"></div>
+            <div class="pet-image">
 
-        {% elif pet.vaccination_status == "Due Soon" %}
+                {% if pet.photo %}
 
-        <div class="status-bar bg-warning"></div>
+                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}">
 
-        {% else %}
+                {% else %}
 
-        <div class="status-bar bg-danger"></div>
+                <div class="no-photo">
 
-        {% endif %}
+                    <i class="bi bi-heart-fill heart-placeholder"></i>
 
-        <!-- Image -->
+                    <i class="bi bi-paw-fill paw-placeholder"></i>
 
-        {% if pet.photo %}
+                    <h5>
 
-        <a href="{{ url_for('pet_profile', id=pet.id) }}">
+                        No Photo Yet
 
-            <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" class="card-img-top"
-                alt="{{ pet.name }}">
+                    </h5>
 
-        </a>
+                    <p>
 
-        {% else %}
+                        Upload your pet's first memory.
 
-        <div class="text-center py-5 bg-light">
-
-            <h1 class="display-2">
-
-                🐶
-
-            </h1>
-
-            <p class="text-muted">
-
-                No Photo Available
-
-            </p>
-
-        </div>
-
-        {% endif %}
-
-        <!-- Body -->
-
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between align-items-start mb-3">
-
-                <div>
-
-                    <h3 class="fw-bold mb-1">
-
-                        {{ pet.name }}
-
-                    </h3>
-
-                    <span class="badge bg-primary">
-
-                        {{ pet.breed }}
-
-                    </span>
+                    </p>
 
                 </div>
 
-                {% if pet.vaccination_status == "Vaccinated" %}
+                {% endif %}
 
-                <span class="badge bg-success">
+                {% if pet.vaccination_status=="Vaccinated" %}
+
+                <span class="status-badge healthy">
 
                     🟢 Healthy
 
                 </span>
 
-                {% elif pet.vaccination_status == "Due Soon" %}
+                {% elif pet.vaccination_status=="Due Soon" %}
 
-                <span class="badge bg-warning text-dark">
+                <span class="status-badge due">
 
                     🟡 Due Soon
 
@@ -91,7 +56,7 @@
 
                 {% else %}
 
-                <span class="badge bg-danger">
+                <span class="status-badge overdue">
 
                     🔴 Attention
 
@@ -101,91 +66,99 @@
 
             </div>
 
-            <div class="row text-center mt-4">
+            <!-- ================= CONTENT ================= -->
 
-                <div class="col-4">
+            <div class="pet-content">
 
-                    <h5>
+                <h3>
 
-                        🐾
+                    {{ pet.name }}
 
-                    </h5>
+                </h3>
 
-                    <small class="text-muted">
+                <div class="breed-chip">
 
-                        {{ pet.gender }}
-
-                    </small>
+                    {{ pet.breed }}
 
                 </div>
 
-                <div class="col-4">
+                <div class="pet-info">
 
-                    <h5>
+                    <div class="info-chip">
 
-                        🎂
+                        <i class="bi bi-gender-ambiguous"></i>
 
-                    </h5>
+                        <span>
 
-                    <small class="text-muted">
+                            {{ pet.gender }}
 
-                        {{ pet.age }}
+                        </span>
 
-                    </small>
+                    </div>
 
-                </div>
+                    <div class="info-chip">
 
-                <div class="col-4">
+                        <i class="bi bi-cake2-fill"></i>
 
-                    <h5>
+                        <span>
 
-                        ⚖️
+                            {{ pet.age }}
 
-                    </h5>
+                        </span>
 
-                    <small class="text-muted">
+                    </div>
 
-                        {% if pet.weight %}
+                    <div class="info-chip">
 
-                        {{ pet.weight }} kg
+                        <i class="bi bi-speedometer2"></i>
 
-                        {% else %}
+                        <span>
 
-                        --
+                            {% if pet.weight %}
 
-                        {% endif %}
+                            {{ pet.weight }} kg
 
-                    </small>
+                            {% else %}
+
+                            --
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </a>
 
-        <!-- Footer -->
+        <!-- ================= BUTTONS ================= -->
 
-        <div class="card-footer">
+        <div class="pet-actions">
 
-            <div class="d-grid gap-2">
+            <div class="row g-2">
 
-                <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary">
+                <div class="col-6">
 
-                    👁 View Profile
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning w-100">
 
-                </a>
+                        <i class="bi bi-pencil-fill"></i>
 
-                <div class="d-flex gap-2">
-
-                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning flex-fill">
-
-                        ✏ Edit
+                        Edit
 
                     </a>
 
-                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger flex-fill">
+                </div>
 
-                        🗑 Delete
+                <div class="col-6">
+
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger w-100">
+
+                        <i class="bi bi-trash-fill"></i>
+
+                        Delete
 
                     </a>
 
