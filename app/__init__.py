@@ -4,6 +4,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -11,7 +14,7 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 # Secret Key
 # ==========================
 
-app.config["SECRET_KEY"] = "change-this-to-a-random-secret-key"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # ==========================
 # Upload Folder
@@ -27,10 +30,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # Database
 # ==========================
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://pawfolio:password@postgres:5432/pawfolio"
-)
-
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
