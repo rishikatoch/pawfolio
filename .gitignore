@@ -33,7 +33,9 @@ instance/
 # ==========================================
 # Uploaded Files
 # ==========================================
-app/static/uploads/
+# User uploaded files
+app/static/uploads/*
+!app/static/uploads/.gitkeep
 
 # ==========================================
 # Testing & Coverage
