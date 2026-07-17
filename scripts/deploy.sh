@@ -30,8 +30,6 @@ fi
 
 echo "Waiting for Docker service..."
 
-systemctl start docker
-
 until docker info >/dev/null 2>&1; do
     echo "Docker is starting..."
     sleep 2
@@ -42,10 +40,6 @@ echo "Docker is ready."
 echo "Stopping existing containers..."
 
 docker compose -f docker-compose.prod.yml down || true
-
-echo "Pulling latest repository changes..."
-
-git pull origin main
 
 echo "Building Docker images..."
 
