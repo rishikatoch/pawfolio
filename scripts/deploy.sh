@@ -21,17 +21,43 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
+echo "Checking Docker Compose file..."
+
+if [ ! -f "docker-compose.prod.yml" ]; then
+    echo "ERROR: docker-compose.prod.yml not found!"
+    exit 1
+fi
+
+echo "Waiting for Docker service..."
+
+systemctl start docker
+
+until docker info >/dev/null 2>&1; do
+    echo "Docker is starting..."
+    sleep 2
+done
+
+echo "Docker is ready."
+
 echo "Stopping existing containers..."
 
 docker compose -f docker-compose.prod.yml down || true
 
-echo "Building latest image..."
+echo "Pulling latest repository changes..."
 
-docker compose -f docker-compose.prod.yml build
+git pull origin main
+
+echo "Building Docker images..."
+
+docker compose -f docker-compose.prod.yml build --no-cache
 
 echo "Starting containers..."
 
 docker compose -f docker-compose.prod.yml up -d
+
+echo "Waiting for application to start..."
+
+sleep 10
 
 echo "Running health checks..."
 
