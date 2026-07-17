@@ -9,3 +9,7 @@ output "instance_id" {
 output "public_dns" {
   value = aws_instance.pawfolio.public_dns
 }
+output "elastic_ip" {
+  description = "Elastic IP address"
+  value       = aws_eip.pawfolio.public_ip
+}
