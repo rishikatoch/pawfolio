@@ -17,7 +17,8 @@ echo "Installing required packages..."
 apt-get install -y \
     docker.io \
     git \
-    curl
+    curl \
+    awscli
 
 echo "Starting Docker..."
 systemctl enable docker
@@ -47,9 +48,18 @@ fi
 
 cd "$APP_DIR"
 
+chmod +x scripts/generate_env.sh
 chmod +x scripts/deploy.sh
 chmod +x scripts/healthcheck.sh
+EOF
 
+echo "Generating environment file..."
+"$APP_DIR/scripts/generate_env.sh"
+
+echo "Deploying Pawfolio..."
+
+sudo -u ubuntu bash <<EOF
+cd "$APP_DIR"
 ./scripts/deploy.sh
 EOF
 
