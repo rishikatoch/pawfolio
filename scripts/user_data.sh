@@ -13,9 +13,9 @@ export DEBIAN_FRONTEND=noninteractive
 echo "Updating packages..."
 apt-get update -y
 
-echo "Installing required packages..."
 apt-get install -y \
     docker.io \
+    docker-compose-v2 \
     git \
     curl \
     awscli
