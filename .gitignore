@@ -62,18 +62,32 @@ htmlcov/
 Thumbs.db
 
 # ==========================================
-# Terraform (Future)
+# Terraform
 # ==========================================
+
+# Local Terraform working directory
 .terraform/
+
+# Terraform state (local only)
 *.tfstate
 *.tfstate.*
-terraform.tfvars
-terraform.tfvars.json
+
+# Crash logs
 crash.log
+
+# Override files
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+
+# Terraform plan files
+*.tfplan
+
+# CLI configuration (contains credentials if used)
+.terraformrc
+terraform.rc
+
 
 # ==========================================
 # Docker

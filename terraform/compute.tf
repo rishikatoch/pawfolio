@@ -7,6 +7,8 @@ resource "aws_instance" "pawfolio" {
 
   associate_public_ip_address = true
 
+  iam_instance_profile = aws_iam_instance_profile.pawfolio.name
+
   user_data = file("${path.module}/../scripts/user_data.sh")
 
   tags = {
