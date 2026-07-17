@@ -7,11 +7,10 @@ echo "=========================================="
 
 APP_DIR="/opt/pawfolio"
 
-# Install AWS CLI if it is not already installed
+# Ensure AWS CLI is installed
 if ! command -v aws >/dev/null 2>&1; then
-    echo "Installing AWS CLI..."
-    apt-get update -y
-    apt-get install -y awscli
+    echo "ERROR: AWS CLI is not installed."
+    exit 1
 fi
 
 echo "Retrieving AWS Region..."
