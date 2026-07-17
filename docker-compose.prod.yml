@@ -4,14 +4,14 @@ services:
     container_name: pawfolio-app
     restart: unless-stopped
 
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
 
     env_file:
       - .env
 
     volumes:
-    - ./app/static/uploads:/app/app/static/uploads
+      - ./app/static/uploads:/app/app/static/uploads
 
     depends_on:
       postgres:
@@ -36,6 +36,20 @@ services:
       timeout: 5s
       retries: 5
 
+  nginx:
+    image: nginx:alpine
+    container_name: pawfolio-nginx
+    restart: unless-stopped
+
+    depends_on:
+      - pawfolio
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./app/static/uploads:/app/app/static/uploads:ro
+
 volumes:
   postgres_data:
-  
