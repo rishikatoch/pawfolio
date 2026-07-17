@@ -13,3 +13,7 @@ output "elastic_ip" {
   description = "Elastic IP address"
   value       = aws_eip.pawfolio.public_ip
 }
+output "ecr_repository_url" {
+  description = "Pawfolio ECR Repository URL"
+  value       = aws_ecr_repository.pawfolio.repository_url
+}
