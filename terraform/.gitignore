@@ -9,4 +9,4 @@ crash.log
 !terraform.tfvars.example
 
 # Lock file
-.terraform.lock.hcl
+#.terraform.lock.hcl
