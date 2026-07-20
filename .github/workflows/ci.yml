@@ -48,6 +48,23 @@ jobs:
         run: |
           docker build -t pawfolio:latest .
 
+      - name: Cache Trivy Database
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: trivy-${{ runner.os }}
+          restore-keys: |
+            trivy-
+
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: "pawfolio:latest"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "HIGH,CRITICAL"
+
       - name: Run Bandit Security Scan
         run: |
           bandit -r app run.py -c .bandit
