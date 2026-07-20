@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -37,7 +38,8 @@ jobs:
 
       - name: Run Tests
         env:
-           SECRET_KEY: test-secret-key
-           DATABASE_URL: sqlite:///:memory:
+          SECRET_KEY: test-secret-key
+          DATABASE_URL: sqlite:///:memory:
         run: |
           python -m pytest
+          
