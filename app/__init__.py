@@ -52,7 +52,7 @@ login_manager.login_message = "Please login first."
 # Import Models
 # ==========================
 
-from app import models
+from app import models  # noqa: E402
 
 
 @login_manager.user_loader
@@ -64,4 +64,4 @@ def load_user(user_id):
 # Routes
 # ==========================
 
-from app import routes
+from app import routes  # noqa: E402,F401
