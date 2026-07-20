@@ -36,10 +36,10 @@ jobs:
         run: |
           flake8 .
 
-      - name: Run Tests
-        env:
-          SECRET_KEY: test-secret-key
-          DATABASE_URL: sqlite:///:memory:
-        run: |
-          python -m pytest
-          
+     - name: Run Tests
+  env:
+    SECRET_KEY: test-secret-key
+    DATABASE_URL: 'sqlite:///:memory:'
+  run: |
+    python -m pytest
+    
