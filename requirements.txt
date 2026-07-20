@@ -11,3 +11,4 @@ gunicorn==23.0.0
 Flask-Migrate==4.1.0
 flake8==7.3.0
 pytest==8.4.1
+bandit==1.8.1
