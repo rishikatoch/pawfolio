@@ -1,6 +1,7 @@
+---
 name: Pawfolio CI
 
-on:
+"on":
   push:
     branches:
       - main
@@ -42,4 +43,7 @@ jobs:
           DATABASE_URL: "sqlite:///:memory:"
         run: |
           python -m pytest
-          
+
+      - name: Build Docker Image
+        run: |
+          docker build -t pawfolio:latest .
