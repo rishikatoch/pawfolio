@@ -42,7 +42,7 @@ jobs:
       - name: Run Tests
         env:
           SECRET_KEY: test-secret-key
-          DATABASE_URL: sqlite:///:memory:
+          DATABASE_URL: "sqlite:///:memory:"
         run: pytest
 
       - name: Build Docker Image
