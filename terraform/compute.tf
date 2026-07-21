@@ -11,6 +11,17 @@ resource "aws_instance" "pawfolio" {
 
   user_data = file("${path.module}/../scripts/user_data.sh")
 
+  monitoring = true
+
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
   tags = {
     Name = "pawfolio-server"
   }

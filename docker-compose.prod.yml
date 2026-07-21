@@ -1,6 +1,6 @@
 services:
   pawfolio:
-    build: .
+    image: 977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio:latest
     container_name: pawfolio-app
     restart: unless-stopped
 

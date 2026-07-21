@@ -1,21 +1,25 @@
-name: Pawfolio CI
+name: Pawfolio CI/CD
 
 on:
   push:
     branches:
       - main
+      - feature/ci-improvements
 
   pull_request:
     branches:
       - main
 
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  ECR_REGISTRY: 977574653467.dkr.ecr.us-west-2.amazonaws.com
+
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -30,5 +34,88 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verify Flask Installation
+        run: flask --version
+
+      - name: Run Flake8
+        run: flake8 .
+
+      - name: Run Tests
+        env:
+          SECRET_KEY: test-secret-key
+          DATABASE_URL: "sqlite:///:memory:"
+        run: pytest
+
+      - name: Build Docker Image
+        run: docker build -t pawfolio:latest .
+
+      - name: Cache Trivy Database
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: trivy-${{ runner.os }}
+          restore-keys: |
+            trivy-
+
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: pawfolio:latest
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+
+      - name: Run Bandit Security Scan
+        run: bandit -r app run.py -c .bandit
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform
+          framework: terraform
+          config_file: .checkov.yaml
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker Image
         run: |
-          flask --version
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+          $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
+
+      - name: Push Docker Images
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /opt/pawfolio
+
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 977574653467.dkr.ecr.us-west-2.amazonaws.com
+
+            docker compose -f docker-compose.prod.yml pull
+
