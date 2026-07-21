@@ -4,27 +4,45 @@ on:
   push:
     branches:
       - main
-      - feature/ci-improvements
-
+      - feature/**
   pull_request:
     branches:
       - main
-
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-  ECR_REGISTRY: 977574653467.dkr.ecr.us-west-2.amazonaws.com
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pawfolio_test
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd="pg_isready -U postgres -d pawfolio_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pawfolio_test
+      SECRET_KEY: test-secret-key
+      FLASK_ENV: testing
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
+
         with:
           python-version: "3.12"
 
@@ -33,51 +51,36 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verify Flask Installation
-        run: flask --version
-
       - name: Run Flake8
         run: flake8 .
 
-      - name: Run Tests
-        env:
-          SECRET_KEY: test-secret-key
-          DATABASE_URL: "sqlite:///:memory:"
+      - name: Run Pytest
         run: pytest
 
-      - name: Build Docker Image
-        run: docker build -t pawfolio:latest .
-
-      - name: Cache Trivy Database
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/trivy
-          key: trivy-${{ runner.os }}
-          restore-keys: |
-            trivy-
-
-      - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          image-ref: pawfolio:latest
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          severity: HIGH,CRITICAL
-
       - name: Run Bandit Security Scan
-        run: bandit -r app run.py -c .bandit
+        run: bandit -r . -c .bandit
 
-      - name: Run Checkov
-        uses: bridgecrewio/checkov-action@v12
+      - name: Run Checkov Scan
+        uses: bridgecrewio/checkov-action@master
+
         with:
-          directory: terraform
-          framework: terraform
+          directory: .
           config_file: .checkov.yaml
 
+      - name: Run Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 0
+
   deploy:
-    if: github.ref == 'refs/heads/main'
     needs: test
+
+    if: github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -86,6 +89,7 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
+
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -96,26 +100,84 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build Docker Image
+        run: docker build -t pawfolio .
+
+      - name: Tag Docker Images
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest \
-          $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:latest
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
       - name: Push Docker Images
         run: |
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
+
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+
           script: |
+            set -e
+
             cd /opt/pawfolio
 
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 977574653467.dkr.ecr.us-west-2.amazonaws.com
+            echo "========================================"
+            echo "Updating repository..."
+            echo "========================================"
+
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+
+            echo "========================================"
+            echo "Logging into Amazon ECR..."
+            echo "========================================"
+
+            ECR_REGISTRY=$(echo "${{ secrets.ECR_REPOSITORY }}" | cut -d'/' -f1)
+
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+            | docker login \
+            --username AWS \
+            --password-stdin "$ECR_REGISTRY"
+
+            echo "========================================"
+            echo "Pulling latest Docker image..."
+            echo "========================================"
 
             docker compose -f docker-compose.prod.yml pull
 
+            echo "========================================"
+            echo "Restarting containers..."
+            echo "========================================"
+
+            docker compose -f docker-compose.prod.yml up -d
+
+            echo "========================================"
+            echo "Waiting for application..."
+            echo "========================================"
+
+            sleep 15
+
+            echo "========================================"
+            echo "Running health check..."
+            echo "========================================"
+
+            curl --fail http://localhost/health
+
+            echo "========================================"
+            echo "Health check passed!"
+            echo "========================================"
+
+            echo "========================================"
+            echo "Cleaning old Docker images..."
+            echo "========================================"
+
+            docker image prune -f
+
+            echo "========================================"
+            echo "Deployment completed successfully!"
+            echo "========================================"

@@ -399,3 +399,16 @@ def edit_vaccination(id):
         "edit_vaccination.html",
         vaccination=vaccination,
     )
+
+
+# ==========================
+# Health Check
+# ==========================
+
+
+@app.route("/health")
+def health():
+    return {
+        "status": "healthy",
+        "service": "pawfolio",
+    }, 200
