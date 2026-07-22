@@ -9,3 +9,4 @@ skip-check:
   - CKV_AWS_23
   - CKV2_AWS_11
   - CKV2_AWS_12
+  - CKV_AWS_51 # Portfolio project uses mutable ECR tags for CI/CD with the latest image
