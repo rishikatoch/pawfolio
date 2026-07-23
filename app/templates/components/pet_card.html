@@ -4,7 +4,7 @@
 
     <div class="pet-card">
 
-        <a href="{{ url_for('pet_profile', id=pet.id) }}" class="pet-card-link">
+        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="pet-card-link">
 
             <!-- ================= IMAGE ================= -->
 
@@ -12,7 +12,7 @@
 
                 {% if pet.photo %}
 
-                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}">
+                <img src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}" alt="{{ pet.name }}">
 
                 {% else %}
 
@@ -22,44 +22,30 @@
 
                     <i class="bi bi-paw-fill paw-placeholder"></i>
 
-                    <h5>
+                    <h5>No Photo Yet</h5>
 
-                        No Photo Yet
-
-                    </h5>
-
-                    <p>
-
-                        Upload your pet's first memory.
-
-                    </p>
+                    <p>Upload your pet's first memory.</p>
 
                 </div>
 
                 {% endif %}
 
-                {% if pet.vaccination_status=="Vaccinated" %}
+                {% if pet.vaccination_status == "Vaccinated" %}
 
                 <span class="status-badge healthy">
-
                     🟢 Healthy
-
                 </span>
 
-                {% elif pet.vaccination_status=="Due Soon" %}
+                {% elif pet.vaccination_status == "Due Soon" %}
 
                 <span class="status-badge due">
-
                     🟡 Due Soon
-
                 </span>
 
                 {% else %}
 
                 <span class="status-badge overdue">
-
                     🔴 Attention
-
                 </span>
 
                 {% endif %}
@@ -70,16 +56,10 @@
 
             <div class="pet-content">
 
-                <h3>
-
-                    {{ pet.name }}
-
-                </h3>
+                <h3>{{ pet.name }}</h3>
 
                 <div class="breed-chip">
-
                     {{ pet.breed }}
-
                 </div>
 
                 <div class="pet-info">
@@ -88,11 +68,7 @@
 
                         <i class="bi bi-gender-ambiguous"></i>
 
-                        <span>
-
-                            {{ pet.gender }}
-
-                        </span>
+                        <span>{{ pet.gender }}</span>
 
                     </div>
 
@@ -100,11 +76,7 @@
 
                         <i class="bi bi-cake2-fill"></i>
 
-                        <span>
-
-                            {{ pet.age }}
-
-                        </span>
+                        <span>{{ pet.age_display }}</span>
 
                     </div>
 
@@ -115,13 +87,9 @@
                         <span>
 
                             {% if pet.weight %}
-
                             {{ pet.weight }} kg
-
                             {% else %}
-
-                            --
-
+                            Not Recorded
                             {% endif %}
 
                         </span>
@@ -142,10 +110,9 @@
 
                 <div class="col-6">
 
-                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning w-100">
+                    <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="btn btn-warning w-100">
 
                         <i class="bi bi-pencil-fill"></i>
-
                         Edit
 
                     </a>
@@ -154,13 +121,17 @@
 
                 <div class="col-6">
 
-                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger w-100">
+                    <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
+                        onsubmit="return confirm('Delete this pet permanently?');">
 
-                        <i class="bi bi-trash-fill"></i>
+                        <button type="submit" class="btn btn-danger w-100">
 
-                        Delete
+                            <i class="bi bi-trash-fill"></i>
+                            Delete
 
-                    </a>
+                        </button>
+
+                    </form>
 
                 </div>
 

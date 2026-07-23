@@ -11,6 +11,7 @@
 <div class="container py-5">
 
     <div class="text-center mb-5">
+
         <h1 class="display-4 fw-bold">
             🐾 Add a New Pet
         </h1>
@@ -18,6 +19,7 @@
         <p class="lead text-muted">
             Create your pet's digital profile and health record.
         </p>
+
     </div>
 
     <div class="glass-form">
@@ -26,11 +28,13 @@
 
             <div class="row">
 
+                <!-- LEFT -->
+
                 <div class="col-md-5">
 
                     <div class="upload-card">
 
-                        <img id="preview" src="" class="preview-image d-none">
+                        <img id="preview" src="" class="preview-image d-none" alt="Preview">
 
                         <div id="placeholder">
 
@@ -41,70 +45,147 @@
                             <h5>Upload Pet Photo</h5>
 
                             <p class="text-muted">
-                                JPG, PNG or JPEG
+                                JPG, JPEG, PNG, GIF or WEBP
                             </p>
 
                         </div>
 
                         <input type="file" name="photo" id="photo" class="form-control mt-3"
-                            onchange="previewImage(event)">
+                            accept=".jpg,.jpeg,.png,.gif,.webp" onchange="previewImage(event)">
 
                     </div>
 
                 </div>
 
+                <!-- RIGHT -->
+
                 <div class="col-md-7">
 
                     <div class="row g-3">
 
+                        <!-- Name -->
+
                         <div class="col-md-6">
-                            <label><i class="bi bi-heart-fill"></i> Pet Name</label>
-                            <input type="text" name="name" class="form-control" required>
+
+                            <label>
+                                <i class="bi bi-heart-fill"></i>
+                                Pet Name
+                            </label>
+
+                            <input type="text" name="name" class="form-control"
+                                value="{{ request.form.get('name','') }}" required>
+
                         </div>
 
+                        <!-- Breed -->
+
                         <div class="col-md-6">
-                            <label><i class="bi bi-award"></i> Breed</label>
-                            <input type="text" name="breed" class="form-control">
+
+                            <label>
+                                <i class="bi bi-award"></i>
+                                Breed
+                            </label>
+
+                            <input type="text" name="breed" class="form-control"
+                                value="{{ request.form.get('breed','') }}" required>
+
                         </div>
 
+                        <!-- Gender -->
+
                         <div class="col-md-6">
-                            <label><i class="bi bi-gender-ambiguous"></i> Gender</label>
 
-                            <select name="gender" class="form-select">
+                            <label>
+                                <i class="bi bi-gender-ambiguous"></i>
+                                Gender
+                            </label>
 
-                                <option>Male</option>
-                                <option>Female</option>
+                            <select name="gender" class="form-select" required>
+
+                                <option value="Male" {% if request.form.get('gender')=="Male" %}selected{% endif %}>
+                                    Male
+                                </option>
+
+                                <option value="Female" {% if request.form.get('gender')=="Female" %}selected{% endif %}>
+                                    Female
+                                </option>
 
                             </select>
+
                         </div>
 
-                        <div class="col-md-6">
-                            <label><i class="bi bi-calendar-heart"></i> Age</label>
-                            <input type="text" name="age" class="form-control">
-                        </div>
+                        <!-- Birth Date -->
 
                         <div class="col-md-6">
-                            <label><i class="bi bi-speedometer2"></i> Weight (kg)</label>
-                            <input type="number" step="0.1" name="weight" class="form-control">
+
+                            <label>
+                                <i class="bi bi-calendar-heart"></i>
+                                Birth Date
+                            </label>
+
+                            <input type="date" name="birth_date" class="form-control"
+                                value="{{ request.form.get('birth_date','') }}" max="{{ now.strftime('%Y-%m-%d') }}">
+
                         </div>
 
+                        <!-- Weight -->
+
                         <div class="col-md-6">
-                            <label><i class="bi bi-shield-check"></i> Vaccination Status</label>
-                            <input type="text" name="vaccination_status" class="form-control">
+
+                            <label>
+                                <i class="bi bi-speedometer2"></i>
+                                Weight (kg)
+                            </label>
+
+                            <input type="number" step="0.1" min="0" name="weight" class="form-control"
+                                value="{{ request.form.get('weight','') }}">
+
+                        </div>
+
+                        <!-- Vaccination -->
+
+                        <div class="col-md-6">
+
+                            <label>
+                                <i class="bi bi-shield-check"></i>
+                                Vaccination Status
+                            </label>
+
+                            <select name="vaccination_status" class="form-select" required>
+
+                                <option value="">
+                                    Select Status
+                                </option>
+
+                                <option value="Vaccinated" {% if request.form.get('vaccination_status')=="Vaccinated"
+                                    %}selected{% endif %}>
+                                    Vaccinated
+                                </option>
+
+                                <option value="Due Soon" {% if request.form.get('vaccination_status')=="Due Soon"
+                                    %}selected{% endif %}>
+                                    Due Soon
+                                </option>
+
+                                <option value="Not Vaccinated" {% if
+                                    request.form.get('vaccination_status')=="Not Vaccinated" %}selected{% endif %}>
+                                    Not Vaccinated
+                                </option>
+
+                            </select>
+
                         </div>
 
                     </div>
 
                     <div class="mt-5">
 
-                        <button class="btn btn-primary btn-lg">
+                        <button class="btn btn-primary btn-lg" type="submit">
                             💾 Save Pet
                         </button>
 
                         <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-lg ms-2">
-
                             Cancel
-
                         </a>
 
                     </div>
@@ -125,19 +206,55 @@
 
         const file = event.target.files[0];
 
-        if (!file) return;
+        if (!file)
+            return;
+
+        const allowed = [
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp"
+        ];
+
+        if (!allowed.includes(file.type)) {
+
+            alert("Please choose a valid image.");
+
+            event.target.value = "";
+
+            return;
+
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+
+            alert("Image size should be below 5 MB.");
+
+            event.target.value = "";
+
+            return;
+
+        }
 
         const reader = new FileReader();
 
-        reader.onload = function () {
+        reader.onload = function (e) {
 
-            document.getElementById("preview").src = reader.result;
+            document
+                .getElementById("preview")
+                .src = e.target.result;
 
-            document.getElementById("preview").classList.remove("d-none");
+            document
+                .getElementById("preview")
+                .classList
+                .remove("d-none");
 
-            document.getElementById("placeholder").style.display = "none";
+            document
+                .getElementById("placeholder")
+                .style
+                .display = "none";
 
-        }
+        };
 
         reader.readAsDataURL(file);
 
