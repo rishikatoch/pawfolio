@@ -83,3 +83,4 @@ from app.routes import auth  # noqa: E402,F401
 from app.routes import main  # noqa: E402,F401
 from app.routes import pets  # noqa: E402,F401
 from app.routes import vaccinations  # noqa: E402,F401
+from app.routes import deworming  # noqa: E402,F401

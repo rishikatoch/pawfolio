@@ -71,13 +71,11 @@
                 <h2>⚖️</h2>
 
                 <h5>
-
                     {% if pet.weight %}
                     {{ pet.weight }} kg
                     {% else %}
                     Not Recorded
                     {% endif %}
-
                 </h5>
 
                 <p>Weight</p>
@@ -118,11 +116,11 @@
 
             <div class="stat-card">
 
-                <h2>❤️</h2>
+                <h2>🪱</h2>
 
-                <h5>Good</h5>
+                <h5>{{ pet.dewormings|length }}</h5>
 
-                <p>Health</p>
+                <p>Dewormings</p>
 
             </div>
 
@@ -173,7 +171,6 @@
                 {% endif %}
 
                 <p>
-
                     <strong>Weight</strong><br>
 
                     {% if pet.weight %}
@@ -185,11 +182,8 @@
                 </p>
 
                 <p>
-
                     <strong>Vaccination</strong><br>
-
                     {{ pet.vaccination_status }}
-
                 </p>
 
             </div>
@@ -199,6 +193,8 @@
         <!-- Right -->
 
         <div class="col-lg-8">
+
+            <!-- ================= Vaccinations ================= -->
 
             <div class="info-card">
 
@@ -223,13 +219,10 @@
                     <div class="card-body">
 
                         <h5 class="fw-bold">
-
                             💉 {{ vaccination.vaccine_name }}
-
                         </h5>
 
                         <p>
-
                             <strong>Date Given:</strong><br>
 
                             {% if vaccination.date_given %}
@@ -237,11 +230,9 @@
                             {% else %}
                             -
                             {% endif %}
-
                         </p>
 
                         <p>
-
                             <strong>Next Due:</strong><br>
 
                             {% if vaccination.next_due %}
@@ -249,23 +240,17 @@
                             {% else %}
                             -
                             {% endif %}
-
                         </p>
 
                         <p>
-
                             <strong>Veterinarian:</strong>
-
                             {{ vaccination.veterinarian or "-" }}
-
                         </p>
 
                         {% if vaccination.notes %}
 
                         <p>
-
                             {{ vaccination.notes }}
-
                         </p>
 
                         {% endif %}
@@ -293,14 +278,174 @@
                 {% else %}
 
                 <div class="coming-soon">
-
                     No vaccinations recorded yet.
+                </div>
+
+                {% endif %}
+
+            </div>
+            <!-- ================= Deworming ================= -->
+
+            <div class="info-card">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <h3 class="mb-0">
+                        🪱 Deworming Timeline
+                    </h3>
+
+                    <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-success">
+                        ➕ Add Deworming
+                    </a>
+
+                </div>
+
+                {% if pet.dewormings %}
+
+                {% for deworming in pet.dewormings %}
+
+                <div class="card mb-3 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <h5 class="fw-bold mb-3">
+                                🪱 {{ deworming.medicine_name }}
+                            </h5>
+
+                            {% set days_remaining = (deworming.next_due - today).days %}
+
+                            {% if days_remaining < 0 %} <span class="badge bg-danger">
+                                🔴 Overdue
+                                </span>
+
+                                {% elif days_remaining <= 7 %} <span class="badge bg-warning text-dark">
+                                    🟡 Due Soon
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-success">
+                                        🟢 Upcoming
+                                    </span>
+
+                                    {% endif %}
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <p>
+                                    <strong>💊 Medicine</strong><br>
+                                    {{ deworming.medicine_name }}
+                                </p>
+
+                                <p>
+                                    <strong>📅 Date Given</strong><br>
+                                    {{ deworming.date_given.strftime("%d %b %Y") }}
+                                </p>
+
+                                <p>
+                                    <strong>🎂 Age at Deworming</strong><br>
+                                    {{ deworming.age_at_deworming }}
+                                </p>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <p>
+                                    <strong>📆 Next Due</strong><br>
+                                    {{ deworming.next_due.strftime("%d %b %Y") }}
+                                </p>
+
+                                <p>
+                                    <strong>🔄 Schedule Used</strong><br>
+
+                                    {% if deworming.schedule_used == "Every 2 Weeks" %}
+
+                                    🐶 Every 2 Weeks
+
+                                    {% elif deworming.schedule_used == "Monthly" %}
+
+                                    📅 Monthly
+
+                                    {% elif deworming.schedule_used == "Every 3 Months" %}
+
+                                    🗓 Every 3 Months
+
+                                    {% else %}
+
+                                    {{ deworming.schedule_used }}
+
+                                    {% endif %}
+
+                                </p>
+
+                                <p>
+                                    <strong>👨‍⚕️ Veterinarian</strong><br>
+                                    {{ deworming.veterinarian or "-" }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        {% if deworming.notes %}
+
+                        <div class="alert alert-light mt-3 mb-3">
+
+                            <strong>📝 Notes</strong><br>
+
+                            {{ deworming.notes }}
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="mt-3">
+
+                            <a href="{{ url_for('edit_deworming', deworming_id=deworming.id) }}"
+                                class="btn btn-warning btn-sm">
+
+                                ✏ Edit
+
+                            </a>
+
+                            <form method="POST" action="{{ url_for('delete_deworming', deworming_id=deworming.id) }}"
+                                style="display:inline;" onsubmit="return confirm('Delete this deworming record?');">
+
+                                <button type="submit" class="btn btn-danger btn-sm">
+
+                                    🗑 Delete
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+                {% else %}
+
+                <div class="coming-soon">
+
+                    No deworming records yet.
 
                 </div>
 
                 {% endif %}
 
             </div>
+            <!-- ================= Health Records ================= -->
 
             <div class="info-card">
 
@@ -313,6 +458,8 @@
                 </div>
 
             </div>
+
+            <!-- ================= Gallery ================= -->
 
             <div class="info-card">
 
@@ -330,27 +477,43 @@
 
     </div>
 
+    <!-- ================= Action Buttons ================= -->
+
     <div class="profile-actions text-center mt-5">
 
         <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success btn-lg">
+
             💉 Add Vaccination
+
+        </a>
+
+        <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info btn-lg">
+
+            🪱 Add Deworming
+
         </a>
 
         <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="btn btn-warning btn-lg">
+
             ✏️ Edit Profile
+
         </a>
 
         <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}" style="display:inline;"
             onsubmit="return confirm('Delete this pet permanently?');">
 
             <button class="btn btn-danger btn-lg" type="submit">
+
                 🗑 Delete
+
             </button>
 
         </form>
 
         <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">
+
             🏠 Home
+
         </a>
 
     </div>

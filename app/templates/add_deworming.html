@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-4">
+
+                        <h1 class="fw-bold">
+                            💊 Add Deworming
+                        </h1>
+
+                        <p class="text-muted">
+                            Record a new deworming treatment for
+                            <strong>{{ pet.name }}</strong>
+                        </p>
+
+                    </div>
+
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <div class="alert alert-info border-0">
+
+                        <h6 class="fw-bold mb-2">
+                            🤖 Smart Scheduling Enabled
+                        </h6>
+
+                        <p class="mb-0">
+                            Pawfolio will automatically calculate the next
+                            deworming date based on your pet's birth date and
+                            age. You only need to enter the date the medicine
+                            was given.
+                        </p>
+
+                    </div>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Medicine Name
+                            </label>
+
+                            <input type="text" name="medicine_name" class="form-control"
+                                placeholder="Drontal / Easypet / Canworm / Fenbendazole" required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Date Given
+                            </label>
+
+                            <input type="date" name="date_given" class="form-control" required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Veterinarian
+                            </label>
+
+                            <input type="text" name="veterinarian" class="form-control"
+                                placeholder="Doctor / Clinic Name">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Notes
+                            </label>
+
+                            <textarea name="notes" rows="4" class="form-control"
+                                placeholder="Any observations..."></textarea>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit" class="btn btn-success btn-lg">
+                                💊 Save Deworming Record
+                            </button>
+
+                            <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -58,6 +58,10 @@ class Pet(db.Model):
         "Vaccination", backref="pet", lazy=True, cascade="all, delete-orphan"
     )
 
+    dewormings = db.relationship(
+        "Deworming", backref="pet", lazy=True, cascade="all, delete-orphan"
+    )
+
     @property
     def age_display(self):
         """
@@ -180,6 +184,30 @@ class Vaccination(db.Model):
     date_given = db.Column(db.Date, nullable=False)
 
     next_due = db.Column(db.Date, nullable=False)
+
+    notes = db.Column(db.Text)
+
+    veterinarian = db.Column(db.String(100))
+
+
+class Deworming(db.Model):
+    __tablename__ = "deworming"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    pet_id = db.Column(db.Integer, db.ForeignKey("pet.id"), nullable=False)
+
+    medicine_name = db.Column(db.String(100), nullable=False)
+
+    date_given = db.Column(db.Date, nullable=False)
+
+    next_due = db.Column(db.Date, nullable=False)
+
+    # NEW
+    schedule_used = db.Column(db.String(50), nullable=False)
+
+    # NEW
+    age_at_deworming = db.Column(db.String(50), nullable=False)
 
     notes = db.Column(db.Text)
 

@@ -63,14 +63,6 @@ def save_pet_photo(photo):
 
     filename = f"{uuid.uuid4().hex}.{extension}"
 
-    # --------------------------------------------------
-    # FIX:
-    # UPLOAD_FOLDER already points to:
-    # app/static/uploads/pets
-    #
-    # Don't append another "pets"
-    # --------------------------------------------------
-
     upload_folder = current_app.config["UPLOAD_FOLDER"]
 
     os.makedirs(upload_folder, exist_ok=True)
@@ -123,11 +115,14 @@ def pet_profile(pet_id):
     ).first_or_404()
 
     vaccinations = pet.vaccinations if hasattr(pet, "vaccinations") else []
+    dewormings = pet.dewormings if hasattr(pet, "dewormings") else []
 
     return render_template(
         "pet_profile.html",
         pet=pet,
         vaccinations=vaccinations,
+        dewormings=dewormings,
+        today=date.today(),
     )
 
 
@@ -259,7 +254,8 @@ def add_pet():
                     error="Unable to save uploaded image.",
                     now=date.today(),
                 )
-                # ------------------------------------------
+
+        # ------------------------------------------
         # Create Pet
         # ------------------------------------------
 
@@ -503,7 +499,8 @@ def edit_pet(pet_id):
             delete_pet_photo(pet.photo)
 
             pet.photo = new_filename
-            # ------------------------------------------
+
+        # ------------------------------------------
         # Update Database
         # ------------------------------------------
 
