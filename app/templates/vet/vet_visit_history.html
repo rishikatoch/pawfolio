@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vet Visit History • Pawfolio
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+
+                🩺 Vet Visit History
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ pet.name }}'s complete medical visit history
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('add_vet_visit', pet_id=pet.id) }}" class="btn btn-primary">
+
+                ➕ Add Vet Visit
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% if visits %}
+
+    <div class="row g-4">
+
+        {% for visit in visits %}
+
+        <div class="col-12">
+
+            <div class="card shadow-sm border-0 rounded-4">
+
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-3">
+
+                            <h5 class="mb-1">
+
+                                {{ visit.visit_date.strftime("%d %b %Y") }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Visit Date
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-lg-3">
+
+                            <strong>
+
+                                {{ visit.clinic_name }}
+
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ visit.veterinarian }}
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            {{ visit.reason }}
+
+                        </div>
+
+                        <div class="col-lg-2 text-lg-end">
+                            <div class="btn-group" role="group">
+
+                                <a href="{{ url_for('view_vet_visit', visit_id=visit.id) }}"
+                                    class="btn btn-outline-primary btn-sm">
+
+                                    👁 View
+
+                                </a>
+
+                                <a href="{{ url_for('edit_vet_visit', visit_id=visit.id) }}"
+                                    class="btn btn-outline-warning btn-sm">
+
+                                    ✏ Edit
+
+                                </a>
+
+                                <form method="POST" action="{{ url_for('delete_vet_visit', visit_id=visit.id) }}"
+                                    class="d-inline" onsubmit="return confirm('Delete this vet visit?');">
+
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+
+                                        🗑 Delete
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% if visit.diagnosis %}
+
+                    <hr>
+
+                    <div>
+
+                        <strong>
+
+                            Diagnosis
+
+                        </strong>
+
+                        <p class="mb-0 mt-2">
+
+                            {{ visit.diagnosis }}
+
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body text-center py-5">
+
+            <div class="display-2 mb-3">
+
+                🩺
+
+            </div>
+
+            <h3>
+
+                No Vet Visits Yet
+
+            </h3>
+
+            <p class="text-muted">
+
+                Start building your pet's medical history by adding the
+                first veterinary visit.
+
+            </p>
+
+            <a href="{{ url_for('add_vet_visit', pet_id=pet.id) }}" class="btn btn-primary mt-3">
+
+                ➕ Add First Vet Visit
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+    <div class="text-center mt-4">
+
+        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary btn-lg">
+
+            ← Back to Pet Profile
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

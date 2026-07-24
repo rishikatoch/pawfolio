@@ -7,18 +7,17 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pawfolio</title>
+    <title>
+        {% block title %}Pawfolio{% endblock %}
+    </title>
 
     <!-- Bootstrap -->
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Icons -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Google Fonts -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,175 +26,238 @@
         rel="stylesheet">
 
     <!-- Main CSS -->
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Homepage CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    {% block extra_css %}
+    {% endblock %}
 
 </head>
 
 <body class="dark-mode">
 
-    <!-- ===========================
-             NAVBAR
-    ============================ -->
+    <!-- ======================================
+                    NAVBAR
+    ======================================= -->
 
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="pf-navbar">
 
         <div class="container">
 
-            <a class="navbar-brand" href="{{ url_for('home') }}">
+            <div class="pf-navbar-inner">
 
-                <div class="logo">
+                <!-- Brand -->
 
-                    <i class="bi bi-heart-fill heart-icon"></i>
+                <a href="{{ url_for('home') }}" class="pf-brand">
 
-                    <i class="bi bi-paw-fill paw-icon"></i>
+                    <div class="pf-logo">
 
-                </div>
+                        <span class="pf-heart">
+                            <i class="bi bi-heart-fill"></i>
+                        </span>
 
-                <div class="brand-text">
+                        <span class="pf-paw">
+                            <i class="bi bi-paw-fill"></i>
+                        </span>
 
-                    <span class="brand-title">
+                    </div>
 
-                        Pawfolio
+                    <div class="pf-brand-text">
 
-                    </span>
+                        <span class="pf-brand-title">
+                            Pawfolio
+                        </span>
 
-                    <small>
+                        <span class="pf-brand-subtitle">
+                            Your Pet's Digital Companion
+                        </span>
 
-                        Your Pet's Digital Companion
+                    </div>
 
-                    </small>
+                </a>
 
-                </div>
-
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-
-                <span class="navbar-toggler-icon"></span>
-
-            </button>
-
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                <li class="nav-item">
-
-                    <a class="nav-link" href="{{ url_for('home') }}">
-                        <i class="bi bi-house-door-fill"></i>
-                        Home
-                    </a>
-
-                </li>
+                <!-- Center Navigation -->
 
                 {% if current_user.is_authenticated %}
 
-                <li class="nav-item">
+                <div class="pf-nav-center">
 
-                    <a class="nav-link" href="{{ url_for('add_pet') }}">
-                        <i class="bi bi-plus-circle-fill"></i>
-                        Add Pet
-                    </a>
+                    <a href="{{ url_for('home') }}" class="pf-nav-link active">
 
-                </li>
-
-                <li class="nav-item">
-
-                    <span class="nav-link">
-
-                        👋 {{ current_user.username }}
-
-                    </span>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="btn btn-danger ms-lg-2" href="{{ url_for('logout') }}">
-
-                        <i class="bi bi-box-arrow-right"></i>
-
-                        Logout
+                        Dashboard
 
                     </a>
 
-                </li>
+                </div>
 
                 {% else %}
 
-                <li class="nav-item">
-
-                    <a class="nav-link" href="{{ url_for('login') }}">
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        Login
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="btn btn-primary ms-lg-2" href="{{ url_for('register') }}">
-
-                        Register
-
-                    </a>
-
-                </li>
+                <div class="pf-nav-center"></div>
 
                 {% endif %}
 
-            </ul>
-        </div>
+                <!-- Right Side -->
+
+                <div class="pf-nav-right">
+
+                    {% if current_user.is_authenticated %}
+
+                    <div class="dropdown">
+
+                        <button class="pf-user-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            <div class="pf-avatar">
+
+                                {{ current_user.username[0]|upper }}
+
+                            </div>
+
+                            <span>
+
+                                {{ current_user.username }}
+
+                            </span>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end pf-dropdown">
+
+                            <li>
+
+                                <a class="dropdown-item" href="#">
+
+                                    <i class="bi bi-person-circle"></i>
+
+                                    Profile
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#">
+
+                                    <i class="bi bi-gear"></i>
+
+                                    Settings
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <hr class="dropdown-divider">
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+
+                                    <i class="bi bi-box-arrow-right"></i>
+
+                                    Logout
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="d-flex gap-2">
+
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light">
+
+                            Login
+
+                        </a>
+
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">
+
+                            Register
+
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
 
         </div>
 
     </nav>
 
-    <!-- ===========================
-             MAIN CONTENT
-    ============================ -->
+    <!-- ======================================
+                    MAIN
+    ======================================= -->
 
-    <main>
+    <main class="pf-main">
 
         {% block content %}
-
         {% endblock %}
 
     </main>
 
-    <!-- ===========================
-             FOOTER
-    ============================ -->
+    <!-- ======================================
+                    FOOTER
+    ======================================= -->
 
     <footer class="footer">
 
-        <div class="container text-center">
+        <div class="container">
 
-            <div class="footer-logo">
+            <div class="text-center">
 
-                <i class="bi bi-heart-fill heart-icon"></i>
+                <div class="footer-logo">
 
-                <i class="bi bi-paw-fill paw-icon"></i>
+                    <span class="pf-heart">
 
-            </div>
+                        <i class="bi bi-heart-fill"></i>
 
-            <h4>
+                    </span>
 
-                Pawfolio
+                    <span class="pf-paw">
 
-            </h4>
+                        <i class="bi bi-paw-fill"></i>
 
-            <p>
+                    </span>
 
-                Your Pet's Digital Companion
+                </div>
 
-            </p>
+                <h4>
 
-            <div class="footer-love">
+                    Pawfolio
 
-                ❤️ Made with Love
+                </h4>
+
+                <p>
+
+                    Your Pet's Digital Companion
+
+                </p>
+
+                <div class="footer-love">
+
+                    ❤️ Made with Love for Pet Parents
+
+                </div>
 
             </div>
 
@@ -203,9 +265,12 @@
 
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}
+    {% endblock %}
 
 </body>
 

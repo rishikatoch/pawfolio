@@ -2,79 +2,232 @@
      Pet Details
 ========================================================== -->
 
-<div class="container py-5">
+<section class="pet-details-section">
 
-    <div class="info-card">
+    <div class="container">
 
-        <h3>
-            <i class="bi bi-card-list"></i>
-            Pet Details
-        </h3>
+        <div class="details-card">
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Name</span>
-            <span class="pet-detail-value">
-                {{ pet.name }}
-            </span>
-        </div>
+            <div class="section-header">
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Breed</span>
-            <span class="pet-detail-value">
-                {{ pet.breed or "Not Available" }}
-            </span>
-        </div>
+                <div>
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Gender</span>
-            <span class="pet-detail-value">
-                {{ pet.gender or "Not Available" }}
-            </span>
-        </div>
+                    <h2>
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Age</span>
-            <span class="pet-detail-value">
-                {{ pet.age_display }}
-            </span>
-        </div>
+                        <i class="bi bi-card-list"></i>
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Weight</span>
-            <span class="pet-detail-value">
-                {% if pet.weight %}
-                {{ pet.weight }} kg
-                {% else %}
-                Not Available
-                {% endif %}
-            </span>
-        </div>
+                        Pet Details
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Birth Date</span>
-            <span class="pet-detail-value">
-                {% if pet.birth_date %}
-                {{ pet.birth_date.strftime("%d %b %Y") }}
-                {% else %}
-                Not Available
-                {% endif %}
-            </span>
-        </div>
+                    </h2>
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Life Stage</span>
-            <span class="pet-detail-value">
-                {{ pet.life_stage }}
-            </span>
-        </div>
+                    <span>
 
-        <div class="pet-detail">
-            <span class="pet-detail-title">Vaccination Status</span>
-            <span class="pet-detail-value">
-                {{ pet.vaccination_status or "Not Available" }}
-            </span>
+                        Complete information about your pet
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-paw-fill"></i>
+
+                            Name
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.name }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-bookmark-fill"></i>
+
+                            Breed
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.breed or "Not Available" }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-gender-ambiguous"></i>
+
+                            Gender
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.gender or "Not Available" }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-cake2-fill"></i>
+
+                            Age
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.age_display }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-speedometer2"></i>
+
+                            Weight
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {% if pet.weight %}
+
+                            {{ pet.weight }} kg
+
+                            {% else %}
+
+                            Not Available
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-calendar-event-fill"></i>
+
+                            Birth Date
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {% if pet.birth_date %}
+
+                            {{ pet.birth_date.strftime("%d %b %Y") }}
+
+                            {% else %}
+
+                            Not Available
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-stars"></i>
+
+                            Life Stage
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.life_stage }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Vaccination Status
+
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ pet.vaccination_status or "Not Available" }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
-</div>
+</section>

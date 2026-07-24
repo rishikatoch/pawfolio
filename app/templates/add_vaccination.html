@@ -4,105 +4,145 @@
 
 <div class="container py-5">
 
-    <div class="row justify-content-center">
+    <div class="page-header text-center mb-5">
 
-        <div class="col-lg-8">
+        <span class="page-badge">
 
-            <div class="card shadow border-0 rounded-4">
+            <i class="bi bi-shield-plus"></i>
 
-                <div class="card-body p-5">
+            Pawfolio
 
-                    <div class="text-center mb-4">
+        </span>
 
-                        <h1 class="fw-bold">
-                            💉 Add Vaccination
-                        </h1>
+        <h1>
 
-                        <p class="text-muted">
-                            Record a new vaccination for
-                            <strong>{{ pet.name }}</strong>
-                        </p>
+            Add Vaccination
+
+        </h1>
+
+        <p>
+
+            Record a new vaccination for
+            <strong>{{ pet.name }}</strong>
+            and keep the health timeline up to date.
+
+        </p>
+
+    </div>
+
+    <div class="glass-form">
+
+        <form method="POST">
+
+            <div class="form-section">
+
+                <div class="section-title">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                    Vaccination Details
+
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- Vaccine Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Vaccine Name
+
+                        </label>
+
+                        <input type="text" name="vaccine_name" class="form-control" placeholder="Rabies, DHPP, Parvo..."
+                            required>
 
                     </div>
 
-                    <form method="POST">
+                    <!-- Veterinarian -->
 
-                        <div class="mb-3">
+                    <div class="col-md-6">
 
-                            <label class="form-label">
-                                Vaccine Name
-                            </label>
+                        <label class="form-label">
 
-                            <input type="text" name="vaccine_name" class="form-control"
-                                placeholder="Rabies / DHPP / Parvo" required>
+                            Veterinarian
 
-                        </div>
+                        </label>
 
-                        <div class="row">
+                        <input type="text" name="veterinarian" class="form-control" placeholder="Doctor or Clinic Name">
 
-                            <div class="col-md-6 mb-3">
+                    </div>
 
-                                <label class="form-label">
-                                    Date Given
-                                </label>
+                    <!-- Date Given -->
 
-                                <input type="date" name="date_given" class="form-control" required>
+                    <div class="col-md-6">
 
-                            </div>
+                        <label class="form-label">
 
-                            <div class="col-md-6 mb-3">
+                            Date Given
 
-                                <label class="form-label">
-                                    Next Due
-                                </label>
+                        </label>
 
-                                <input type="date" name="next_due" class="form-control" required>
+                        <input type="date" name="date_given" class="form-control" required>
 
-                            </div>
+                    </div>
 
-                        </div>
+                    <!-- Next Due -->
 
-                        <div class="mb-3">
+                    <div class="col-md-6">
 
-                            <label class="form-label">
-                                Veterinarian
-                            </label>
+                        <label class="form-label">
 
-                            <input type="text" name="veterinarian" class="form-control"
-                                placeholder="Doctor / Clinic Name">
+                            Next Due Date
 
-                        </div>
+                        </label>
 
-                        <div class="mb-4">
+                        <input type="date" name="next_due" class="form-control" required>
 
-                            <label class="form-label">
-                                Notes
-                            </label>
+                    </div>
 
-                            <textarea name="notes" rows="4" class="form-control"
-                                placeholder="Any observations..."></textarea>
+                    <!-- Notes -->
 
-                        </div>
+                    <div class="col-12">
 
-                        <div class="d-grid gap-2">
+                        <label class="form-label">
 
-                            <button type="submit" class="btn btn-success btn-lg">
-                                💉 Save Vaccination
-                            </button>
+                            Notes
 
-                            <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary">
-                                Cancel
-                            </a>
+                        </label>
 
-                        </div>
+                        <textarea name="notes" rows="5" class="form-control"
+                            placeholder="Enter observations, side effects, vaccine batch details, reminders or anything important..."></textarea>
 
-                    </form>
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-success btn-lg">
+
+                    <i class="bi bi-shield-check me-2"></i>
+
+                    Save Vaccination
+
+                </button>
+
+                <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary btn-lg">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
 
     </div>
 

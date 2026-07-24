@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Vet Visit • Pawfolio
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-warning text-dark py-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="me-3 fs-1">
+                            ✏️
+                        </div>
+
+                        <div>
+
+                            <h2 class="mb-1">
+                                Edit Vet Visit
+                            </h2>
+
+                            <p class="mb-0 opacity-75">
+
+                                Update veterinary visit for
+                                <strong>{{ pet.name }}</strong>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        <div class="row g-4">
+
+                            <!-- Visit Date -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+
+                                    Visit Date
+
+                                </label>
+
+                                <input type="date" name="visit_date" class="form-control" value="{{ visit.visit_date }}"
+                                    max="{{ today }}" required>
+
+                            </div>
+
+                            <!-- Follow-up Date -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+
+                                    Follow-up Date
+
+                                </label>
+
+                                <input type="date" name="follow_up_date" class="form-control"
+                                    value="{{ visit.follow_up_date if visit.follow_up_date else '' }}">
+
+                            </div>
+
+                            <!-- Clinic -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+
+                                    Clinic Name
+
+                                </label>
+
+                                <input type="text" name="clinic_name" class="form-control" maxlength="150"
+                                    value="{{ visit.clinic_name }}" required>
+
+                            </div>
+
+                            <!-- Veterinarian -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+
+                                    Veterinarian
+
+                                </label>
+
+                                <input type="text" name="veterinarian" class="form-control" maxlength="150"
+                                    value="{{ visit.veterinarian }}" required>
+
+                            </div>
+
+                            <!-- Reason -->
+
+                            <div class="col-12">
+
+                                <label class="form-label fw-semibold">
+
+                                    Reason For Visit
+
+                                </label>
+
+                                <input type="text" name="reason" class="form-control" maxlength="255"
+                                    value="{{ visit.reason }}" required>
+
+                            </div>
+                            <!-- Diagnosis -->
+
+                            <div class="col-12">
+
+                                <label class="form-label fw-semibold">
+
+                                    Diagnosis
+
+                                </label>
+
+                                <textarea name="diagnosis" class="form-control" rows="4"
+                                    placeholder="Diagnosis made by the veterinarian">{{ visit.diagnosis or '' }}</textarea>
+
+                            </div>
+
+                            <!-- Treatment -->
+
+                            <div class="col-12">
+
+                                <label class="form-label fw-semibold">
+
+                                    Treatment
+
+                                </label>
+
+                                <textarea name="treatment" class="form-control" rows="4"
+                                    placeholder="Treatment provided">{{ visit.treatment or '' }}</textarea>
+
+                            </div>
+
+                            <!-- Prescription -->
+
+                            <div class="col-12">
+
+                                <label class="form-label fw-semibold">
+
+                                    Prescription
+
+                                </label>
+
+                                <textarea name="prescription" class="form-control" rows="4"
+                                    placeholder="Medicines prescribed">{{ visit.prescription or '' }}</textarea>
+
+                            </div>
+
+                            <!-- Notes -->
+
+                            <div class="col-12">
+
+                                <label class="form-label fw-semibold">
+
+                                    Additional Notes
+
+                                </label>
+
+                                <textarea name="notes" class="form-control" rows="5"
+                                    placeholder="Any additional observations or instructions">{{ visit.notes or '' }}</textarea>
+
+                            </div>
+
+                            <!-- Action Buttons -->
+
+                            <div class="col-12">
+
+                                <div class="d-flex justify-content-between mt-4">
+
+                                    <a href="{{ url_for('pet_profile', pet_id=pet.id) }}"
+                                        class="btn btn-outline-secondary btn-lg">
+
+                                        ← Cancel
+
+                                    </a>
+
+                                    <button type="submit" class="btn btn-warning btn-lg">
+
+                                        💾 Update Vet Visit
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <small class="text-muted">
+
+                    Keep your pet's medical records accurate by updating
+                    diagnoses, treatments, prescriptions and follow-up
+                    information after every veterinary visit.
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date, datetime
 
 from app import db
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class User(UserMixin, db.Model):
@@ -19,7 +19,10 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     pets = db.relationship(
-        "Pet", backref="owner", lazy=True, cascade="all, delete-orphan"
+        "Pet",
+        backref="owner",
+        lazy=True,
+        cascade="all, delete-orphan",
     )
 
     def set_password(self, password):
@@ -43,7 +46,7 @@ class Pet(db.Model):
     # Existing field (kept for compatibility)
     age = db.Column(db.String(50))
 
-    # New field (this will replace "age" in the future)
+    # Preferred field
     birth_date = db.Column(db.Date, nullable=True)
 
     weight = db.Column(db.Float)
@@ -52,14 +55,32 @@ class Pet(db.Model):
 
     photo = db.Column(db.String(255))
 
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=True,
+    )
 
     vaccinations = db.relationship(
-        "Vaccination", backref="pet", lazy=True, cascade="all, delete-orphan"
+        "Vaccination",
+        backref="pet",
+        lazy=True,
+        cascade="all, delete-orphan",
     )
 
     dewormings = db.relationship(
-        "Deworming", backref="pet", lazy=True, cascade="all, delete-orphan"
+        "Deworming",
+        backref="pet",
+        lazy=True,
+        cascade="all, delete-orphan",
+    )
+
+    vet_visits = db.relationship(
+        "VetVisit",
+        backref="pet",
+        lazy=True,
+        cascade="all, delete-orphan",
+        order_by="desc(VetVisit.visit_date)",
     )
 
     @property
@@ -71,8 +92,8 @@ class Pet(db.Model):
         - 1 year
         - 2 years 4 months
 
-        Falls back to the old 'age' field if birth_date
-        hasn't been entered yet.
+        Falls back to the old age field if birth_date
+        has not been entered.
         """
 
         if not self.birth_date:
@@ -93,17 +114,13 @@ class Pet(db.Model):
             return "Unknown"
 
         if months < 12:
-            if months == 1:
-                return "1 month"
-            return f"{months} months"
+            return "1 month" if months == 1 else f"{months} months"
 
         years = months // 12
         remaining_months = months % 12
 
         if remaining_months == 0:
-            if years == 1:
-                return "1 year"
-            return f"{years} years"
+            return "1 year" if years == 1 else f"{years} years"
 
         if years == 1:
             return f"1 year {remaining_months} months"
@@ -177,13 +194,26 @@ class Vaccination(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    pet_id = db.Column(db.Integer, db.ForeignKey("pet.id"), nullable=False)
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+    )
 
-    vaccine_name = db.Column(db.String(100), nullable=False)
+    vaccine_name = db.Column(
+        db.String(100),
+        nullable=False,
+    )
 
-    date_given = db.Column(db.Date, nullable=False)
+    date_given = db.Column(
+        db.Date,
+        nullable=False,
+    )
 
-    next_due = db.Column(db.Date, nullable=False)
+    next_due = db.Column(
+        db.Date,
+        nullable=False,
+    )
 
     notes = db.Column(db.Text)
 
@@ -195,20 +225,100 @@ class Deworming(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    pet_id = db.Column(db.Integer, db.ForeignKey("pet.id"), nullable=False)
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+    )
 
-    medicine_name = db.Column(db.String(100), nullable=False)
+    medicine_name = db.Column(
+        db.String(100),
+        nullable=False,
+    )
 
-    date_given = db.Column(db.Date, nullable=False)
+    date_given = db.Column(
+        db.Date,
+        nullable=False,
+    )
 
-    next_due = db.Column(db.Date, nullable=False)
+    next_due = db.Column(
+        db.Date,
+        nullable=False,
+    )
 
-    # NEW
-    schedule_used = db.Column(db.String(50), nullable=False)
+    schedule_used = db.Column(
+        db.String(50),
+        nullable=False,
+    )
 
-    # NEW
-    age_at_deworming = db.Column(db.String(50), nullable=False)
+    age_at_deworming = db.Column(
+        db.String(50),
+        nullable=False,
+    )
 
     notes = db.Column(db.Text)
 
     veterinarian = db.Column(db.String(100))
+
+
+class VetVisit(db.Model):
+    __tablename__ = "vet_visit"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+    )
+
+    visit_date = db.Column(
+        db.Date,
+        nullable=False,
+    )
+
+    clinic_name = db.Column(
+        db.String(150),
+        nullable=False,
+    )
+
+    veterinarian = db.Column(
+        db.String(150),
+        nullable=False,
+    )
+
+    reason = db.Column(
+        db.String(255),
+        nullable=False,
+    )
+
+    diagnosis = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    treatment = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    prescription = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    follow_up_date = db.Column(
+        db.Date,
+        nullable=True,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )

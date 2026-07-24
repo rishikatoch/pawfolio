@@ -1,44 +1,166 @@
 <!-- ==========================================================
-     Profile Actions
+     Pet Actions
 ========================================================== -->
 
-<div class="container py-5">
+<section class="pet-actions-section">
 
-    <div class="profile-actions">
+    <div class="container">
 
-        <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="btn btn-warning">
+        <div class="actions-card">
 
-            <i class="bi bi-pencil-square"></i>
-            Edit Pet
+            <div class="section-header">
 
-        </a>
+                <div>
 
-        <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success">
+                    <h2>
 
-            <i class="bi bi-shield-plus"></i>
-            Add Vaccination
+                        <i class="bi bi-lightning-charge-fill"></i>
 
-        </a>
+                        Quick Actions
 
-        <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info">
+                    </h2>
 
-            <i class="bi bi-bug"></i>
-            Add Deworming
+                    <span>
 
-        </a>
+                        Manage {{ pet.name }} with a single click
 
-        <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
-            onsubmit="return confirm('Are you sure you want to delete this pet?');">
+                    </span>
 
-            <button type="submit" class="btn btn-danger">
+                </div>
 
-                <i class="bi bi-trash"></i>
-                Delete Pet
+            </div>
 
-            </button>
+            <div class="row g-4">
 
-        </form>
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="action-button warning">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+
+                                Edit Pet
+
+                            </h5>
+
+                            <p>
+
+                                Update profile information
+
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="action-button success">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-shield-plus"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+
+                                Vaccination
+
+                            </h5>
+
+                            <p>
+
+                                Add a vaccination record
+
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="action-button info">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-bug-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+
+                                Deworming
+
+                            </h5>
+
+                            <p>
+
+                                Record a deworming treatment
+
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
+                        onsubmit="return confirm('Are you sure you want to permanently delete this pet?');">
+
+                        <button type="submit" class="action-button danger w-100 border-0">
+
+                            <div class="action-icon">
+
+                                <i class="bi bi-trash-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5>
+
+                                    Delete Pet
+
+                                </h5>
+
+                                <p>
+
+                                    Permanently remove this pet
+
+                                </p>
+
+                            </div>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+</section>

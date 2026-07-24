@@ -1,121 +1,173 @@
 <!-- ==========================================================
-     Premium Pet Hero
+     Pet Hero
 ========================================================== -->
 
 <section class="pet-hero">
 
     {% if pet.photo %}
 
-    <div class="pet-hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pet.photo) }}');">
+    <div class="pet-hero-bg" style="background-image: url('{{ url_for('static', filename='uploads/' ~ pet.photo) }}');">
     </div>
 
     {% else %}
 
     <div class="pet-hero-bg"
-        style="background-image:url('{{ url_for('static', filename='images/default_pet.png') }}');">
+        style="background-image: url('{{ url_for('static', filename='images/default_pet.png') }}');">
     </div>
 
     {% endif %}
 
     <div class="pet-overlay"></div>
 
-    <div class="pet-content container">
+    <div class="container">
 
-        {% if pet.photo %}
+        <div class="pet-hero-card">
 
-        <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" class="profile-photo" alt="{{ pet.name }}">
+            <div class="pet-profile-section">
 
-        {% else %}
+                {% if pet.photo %}
 
-        <img src="{{ url_for('static', filename='images/default_pet.png') }}" class="profile-photo" alt="No Photo">
+                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}"
+                    class="profile-photo">
 
-        {% endif %}
-
-        <h1>
-
-            {{ pet.name }}
-
-        </h1>
-
-        <p>
-
-            {{ pet.breed }}
-
-            {% if pet.gender %}
-            • {{ pet.gender }}
-            {% endif %}
-
-        </p>
-
-        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
-
-            {% if pet.life_stage != "Unknown" %}
-
-            <span class="badge bg-primary">
-
-                {{ pet.life_stage }}
-
-            </span>
-
-            {% endif %}
-
-            {% if pet.vaccination_status %}
-
-            <span class="badge bg-success">
-
-                {{ pet.vaccination_status }}
-
-            </span>
-
-            {% endif %}
-
-            {% if pet.birthday_today %}
-
-            <span class="badge bg-danger">
-
-                🎉 Birthday Today
-
-            </span>
-
-            {% endif %}
-
-        </div>
-
-        <div class="row justify-content-center mt-5 gy-3">
-
-            <div class="col-lg-3 col-md-6">
-
-                <strong>Birth Date</strong><br>
-
-                {% if pet.birth_date %}
-                {{ pet.birth_date.strftime("%d %b %Y") }}
                 {% else %}
-                —
+
+                <img src="{{ url_for('static', filename='images/default_pet.png') }}" alt="No Photo"
+                    class="profile-photo">
+
                 {% endif %}
+
+                <div class="pet-main-info">
+
+                    <div class="pet-title-row">
+
+                        <h1>{{ pet.name }}</h1>
+
+                        {% if pet.vaccination_status %}
+
+                        <span class="status-badge">
+
+                            {{ pet.vaccination_status }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <p class="pet-subtitle">
+
+                        {{ pet.breed }}
+
+                        {% if pet.gender %}
+                        • {{ pet.gender }}
+                        {% endif %}
+
+                    </p>
+
+                    <div class="hero-badges">
+
+                        {% if pet.life_stage != "Unknown" %}
+
+                        <span class="hero-badge">
+
+                            <i class="bi bi-stars"></i>
+
+                            {{ pet.life_stage }}
+
+                        </span>
+
+                        {% endif %}
+
+                        {% if pet.birthday_today %}
+
+                        <span class="hero-badge birthday">
+
+                            🎉 Birthday Today
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="col-lg-3 col-md-6">
+            <div class="hero-stats">
 
-                <strong>Next Birthday</strong><br>
+                <div class="hero-stat-card">
 
-                {% if pet.next_birthday %}
-                {{ pet.next_birthday.strftime("%d %b %Y") }}
-                {% else %}
-                —
-                {% endif %}
+                    <span class="hero-stat-label">
 
-            </div>
+                        Birth Date
 
-            <div class="col-lg-3 col-md-6">
+                    </span>
 
-                <strong>Days Left</strong><br>
+                    <strong>
 
-                {% if pet.days_until_birthday is not none %}
-                {{ pet.days_until_birthday }}
-                {% else %}
-                —
-                {% endif %}
+                        {% if pet.birth_date %}
+
+                        {{ pet.birth_date.strftime("%d %b %Y") }}
+
+                        {% else %}
+
+                        —
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+                <div class="hero-stat-card">
+
+                    <span class="hero-stat-label">
+
+                        Next Birthday
+
+                    </span>
+
+                    <strong>
+
+                        {% if pet.next_birthday %}
+
+                        {{ pet.next_birthday.strftime("%d %b %Y") }}
+
+                        {% else %}
+
+                        —
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+                <div class="hero-stat-card">
+
+                    <span class="hero-stat-label">
+
+                        Days Left
+
+                    </span>
+
+                    <strong>
+
+                        {% if pet.days_until_birthday is not none %}
+
+                        {{ pet.days_until_birthday }}
+
+                        {% else %}
+
+                        —
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
 
             </div>
 

@@ -1,0 +1,152 @@
+<nav class="pf-navbar">
+
+    <div class="container">
+
+        <div class="pf-navbar-inner">
+
+            <!-- ======================
+                 Brand
+            ======================= -->
+
+            <a href="{{ url_for('home') }}" class="pf-brand">
+
+                <div class="pf-brand-icon">
+
+                    <i class="bi bi-heart-fill"></i>
+                    <i class="bi bi-paw-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <span class="pf-brand-title">
+                        Pawfolio
+                    </span>
+
+                    <span class="pf-brand-subtitle">
+                        Your Pet's Digital Companion
+                    </span>
+
+                </div>
+
+            </a>
+
+            <!-- ======================
+                 Navigation
+            ======================= -->
+
+            {% if current_user.is_authenticated %}
+
+            <div class="pf-nav-links">
+
+                <a href="{{ url_for('home') }}" class="pf-nav-link active">
+
+                    Dashboard
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+            <!-- ======================
+                 User Menu
+            ======================= -->
+
+            <div class="pf-user-area">
+
+                {% if current_user.is_authenticated %}
+
+                <div class="dropdown">
+
+                    <button class="pf-user-button" data-bs-toggle="dropdown">
+
+                        <div class="pf-avatar">
+
+                            {{ current_user.username[:1]|upper }}
+
+                        </div>
+
+                        <span>
+
+                            {{ current_user.username }}
+
+                        </span>
+
+                        <i class="bi bi-chevron-down"></i>
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+
+                            <a class="dropdown-item" href="#">
+
+                                <i class="bi bi-person"></i>
+
+                                Profile
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item" href="#">
+
+                                <i class="bi bi-gear"></i>
+
+                                Settings
+
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+
+                                <i class="bi bi-box-arrow-right"></i>
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                {% else %}
+
+                <div class="d-flex gap-2">
+
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light">
+
+                        Login
+
+                    </a>
+
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">
+
+                        Register
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>

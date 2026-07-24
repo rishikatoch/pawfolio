@@ -1,118 +1,184 @@
 <!-- ==========================================================
-     Floating Profile Statistics
+     Pet Statistics
 ========================================================== -->
 
-<div class="container profile-stats">
+<section class="pet-stats-section">
 
-    <div class="row g-4">
+    <div class="container">
 
-        <div class="col-lg-3 col-md-6">
+        <div class="row g-4">
 
-            <div class="stat-card">
+            <!-- Current Weight -->
 
-                <h2>
-                    <i class="bi bi-speedometer2"></i>
-                </h2>
+            <div class="col-lg-3 col-md-6">
 
-                <h5>
+                <div class="pet-stat-card">
 
-                    {% if pet.weight %}
-                    {{ pet.weight }} kg
-                    {% else %}
-                    —
-                    {% endif %}
+                    <div class="pet-stat-icon bg-primary">
 
-                </h5>
+                        <i class="bi bi-speedometer2"></i>
 
-                <p>Current Weight</p>
+                    </div>
 
-            </div>
+                    <div class="pet-stat-content">
 
-        </div>
+                        <span class="pet-stat-label">
 
-        <div class="col-lg-3 col-md-6">
+                            Current Weight
 
-            <div class="stat-card">
+                        </span>
 
-                <h2>
-                    <i class="bi bi-cake2-fill"></i>
-                </h2>
+                        <h3>
 
-                <h5>
+                            {% if pet.weight %}
 
-                    {{ pet.age_display }}
+                            {{ pet.weight }} kg
 
-                </h5>
+                            {% else %}
 
-                <p>Age</p>
+                            —
 
-            </div>
+                            {% endif %}
 
-        </div>
+                        </h3>
 
-        <div class="col-lg-3 col-md-6">
+                    </div>
 
-            <div class="stat-card">
-
-                <h2>
-                    <i class="bi bi-calendar-heart"></i>
-                </h2>
-
-                {% if next_due %}
-
-                <h5>
-
-                    {{ next_due.date.strftime("%d %b %Y") }}
-
-                </h5>
-
-                <p>
-
-                    {{ next_due.title }}
-
-                </p>
-
-                {% else %}
-
-                <h5>
-
-                    None
-
-                </h5>
-
-                <p>
-
-                    No upcoming reminders
-
-                </p>
-
-                {% endif %}
+                </div>
 
             </div>
 
-        </div>
+            <!-- Age -->
 
-        <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6">
 
-            <div class="stat-card">
+                <div class="pet-stat-card">
 
-                <h2>
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                </h2>
+                    <div class="pet-stat-icon bg-success">
 
-                <h5 class="
-                    {% if overdue_count == 0 %}
-                        text-success
-                    {% elif overdue_count == 1 %}
-                        text-warning
-                    {% else %}
-                        text-danger
-                    {% endif %}
-                ">
-                    {{ overdue_count }}
-                </h5>
+                        <i class="bi bi-cake2-fill"></i>
 
-                <p>Overdue Reminders</p>
+                    </div>
+
+                    <div class="pet-stat-content">
+
+                        <span class="pet-stat-label">
+
+                            Age
+
+                        </span>
+
+                        <h3>
+
+                            {{ pet.age_display }}
+
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Next Reminder -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="pet-stat-card">
+
+                    <div class="pet-stat-icon bg-warning">
+
+                        <i class="bi bi-calendar-heart"></i>
+
+                    </div>
+
+                    <div class="pet-stat-content">
+
+                        <span class="pet-stat-label">
+
+                            Next Reminder
+
+                        </span>
+
+                        {% if next_due %}
+
+                        <h3>
+
+                            {{ next_due.date.strftime("%d %b %Y") }}
+
+                        </h3>
+
+                        <small>
+
+                            {{ next_due.title }}
+
+                        </small>
+
+                        {% else %}
+
+                        <h3>
+
+                            None
+
+                        </h3>
+
+                        <small>
+
+                            No upcoming reminders
+
+                        </small>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Overdue -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="pet-stat-card">
+
+                    <div class="pet-stat-icon bg-danger">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+                    <div class="pet-stat-content">
+
+                        <span class="pet-stat-label">
+
+                            Overdue
+
+                        </span>
+
+                        <h3 class="
+                            {% if overdue_count == 0 %}
+                                text-success
+                            {% elif overdue_count == 1 %}
+                                text-warning
+                            {% else %}
+                                text-danger
+                            {% endif %}
+                        ">
+
+                            {{ overdue_count }}
+
+                        </h3>
+
+                        <small>
+
+                            Reminder{% if overdue_count != 1 %}s{% endif %}
+
+                        </small>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -120,4 +186,4 @@
 
     </div>
 
-</div>
+</section>

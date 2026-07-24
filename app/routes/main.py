@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from flask import render_template
 from flask_login import current_user, login_required
@@ -212,7 +212,7 @@ def home():
                 "date": vaccination.date_given,
                 "icon": "💉",
                 "message": (
-                    f"{vaccination.pet.name} received " f"{vaccination.vaccine_name}"
+                    f"{vaccination.pet.name} received {vaccination.vaccine_name}"
                 ),
             }
         )
@@ -231,9 +231,7 @@ def home():
             {
                 "date": deworming.date_given,
                 "icon": "🪱",
-                "message": (
-                    f"{deworming.pet.name} received " f"{deworming.medicine_name}"
-                ),
+                "message": (f"{deworming.pet.name} received {deworming.medicine_name}"),
             }
         )
 
@@ -256,6 +254,7 @@ def home():
         overdue_reminders=overdue_reminders,
         upcoming_birthdays=upcoming_birthdays,
         recent_activity=recent_activity,
+        now=datetime.now(),
     )
 
 

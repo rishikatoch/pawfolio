@@ -1,0 +1,365 @@
+/* ==========================
+   Mascot Scene
+========================== */
+
+.mascot-scene {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+.welcome-mascot {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    height: auto;
+
+    animation: breathe 5s ease-in-out infinite;
+
+    transition: .35s;
+
+}
+
+.welcome-mascot:hover {
+
+    transform: translateY(-8px) scale(1.02);
+
+}
+
+/* ==========================
+   Breathing Animation
+========================== */
+
+@keyframes breathe {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.02);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* =====================================
+   Mascot Scene
+===================================== */
+
+.mascot-scene {
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin-top: 2rem;
+
+}
+
+.welcome-mascot {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    height: auto;
+
+    animation: breathe 5s ease-in-out infinite;
+
+    transition: .35s;
+
+}
+
+.welcome-mascot:hover {
+
+    transform: translateY(-8px);
+
+}
+
+/* =====================================
+   Speech Bubble
+===================================== */
+
+.speech-bubble {
+
+    position: absolute;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 18px 22px;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+
+    width: 180px;
+
+    animation: floatBubble 4s ease-in-out infinite;
+
+    z-index: 5;
+
+}
+
+.speech-bubble h5 {
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+
+}
+
+.speech-bubble p {
+
+    margin: 0;
+
+    color: #666;
+
+}
+
+.speech-left {
+
+    left: -35px;
+
+    top: 40px;
+
+}
+
+.speech-right {
+
+    right: -35px;
+
+    bottom: 50px;
+
+}
+
+/* Bubble Tail */
+
+.speech-left::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: -10px;
+
+    top: 40px;
+
+    width: 20px;
+
+    height: 20px;
+
+    background: white;
+
+    transform: rotate(45deg);
+
+}
+
+.speech-right::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -10px;
+
+    top: 40px;
+
+    width: 20px;
+
+    height: 20px;
+
+    background: white;
+
+    transform: rotate(45deg);
+
+}
+
+/* =====================================
+   Animations
+===================================== */
+
+@keyframes breathe {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.02);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+@keyframes floatBubble {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-8px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+@media (max-width:991px) {
+
+    .speech-bubble {
+
+        display: none;
+
+    }
+
+    .welcome-mascot {
+
+        max-width: 320px;
+
+    }
+
+}
+
+/* ===========================
+   Hero Panel
+=========================== */
+
+.hero-panel {
+
+    text-align: center;
+
+}
+
+.hero-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .5rem;
+
+    background: #EEF7FF;
+
+    color: #2A7FFF;
+
+    padding: .6rem 1.2rem;
+
+    border-radius: 999px;
+
+    font-weight: 600;
+
+    margin-bottom: 1.5rem;
+
+}
+
+.hero-title {
+
+    font-size: 3rem;
+
+    font-weight: 800;
+
+    margin-bottom: 1rem;
+
+}
+
+.hero-description {
+
+    max-width: 550px;
+
+    margin: auto;
+
+    color: #6b7280;
+
+    line-height: 1.8;
+
+    font-size: 1.1rem;
+
+    margin-bottom: 2rem;
+
+}
+
+.hero-features {
+
+    margin-top: 2.5rem;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 1rem;
+
+    flex-wrap: wrap;
+
+}
+
+.feature-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .6rem;
+
+    background: white;
+
+    padding: .9rem 1.3rem;
+
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+
+    transition: .3s;
+
+}
+
+.feature-card:hover {
+
+    transform: translateY(-6px);
+
+}
+
+.feature-card i {
+
+    color: #2A7FFF;
+
+    font-size: 1.2rem;
+
+}

@@ -2,140 +2,282 @@
      Vaccination Timeline
 ========================================================== -->
 
-<div class="container py-4">
+<section class="timeline-section">
 
-    <div class="info-card">
+    <div class="container">
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div class="timeline-card">
 
-            <h3 class="mb-0">
-                <i class="bi bi-shield-plus"></i>
-                Vaccination Timeline
-            </h3>
+            <div class="section-header">
 
-            <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i>
-                Add Vaccination
-            </a>
+                <div>
 
-        </div>
+                    <h2>
 
-        {% if vaccinations %}
+                        <i class="bi bi-shield-check"></i>
 
-        {% for vaccination in vaccinations %}
+                        Vaccination Timeline
 
-        <div class="vaccine-card">
+                    </h2>
 
-            <h5>{{ vaccination.vaccine_name }}</h5>
+                    <span>
 
-            <div class="pet-detail">
-                <span class="pet-detail-title">Date Given</span>
-                <span class="pet-detail-value">
-                    {{ vaccination.date_given.strftime("%d %b %Y") }}
-                </span>
+                        Complete vaccination history for {{ pet.name }}
+
+                    </span>
+
+                </div>
+
+                <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Add Vaccination
+
+                </a>
+
             </div>
 
-            <div class="pet-detail">
-                <span class="pet-detail-title">Next Due</span>
-                <span class="pet-detail-value">
-                    {{ vaccination.next_due.strftime("%d %b %Y") }}
-                </span>
+            {% if vaccinations %}
+
+            <div class="timeline">
+
+                {% for vaccination in vaccinations %}
+
+                <div class="timeline-item">
+
+                    <div class="timeline-marker">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div class="timeline-content">
+
+                        <div class="timeline-top">
+
+                            <div>
+
+                                <h4>
+
+                                    {{ vaccination.vaccine_name }}
+
+                                </h4>
+
+                                <p>
+
+                                    Vaccination Record
+
+                                </p>
+
+                            </div>
+
+                            <div>
+
+                                {% if vaccination.next_due < today %} <span class="badge bg-danger">
+
+                                    Overdue
+
+                                    </span>
+
+                                    {% elif vaccination.next_due == today %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Due Today
+
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-success">
+
+                                        Upcoming
+
+                                    </span>
+
+                                    {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="row g-4 mt-2">
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Date Given
+
+                                    </span>
+
+                                    <strong>
+
+                                        {{ vaccination.date_given.strftime("%d %b %Y") }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Next Due
+
+                                    </span>
+
+                                    <strong>
+
+                                        {{ vaccination.next_due.strftime("%d %b %Y") }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Veterinarian
+
+                                    </span>
+
+                                    <strong>
+
+                                        {{ vaccination.veterinarian or "Not Available" }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Status
+
+                                    </span>
+
+                                    <strong>
+
+                                        {% if vaccination.next_due < today %} Overdue {% elif
+                                            vaccination.next_due==today %} Due Today {% else %} Upcoming {% endif %}
+                                            </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% if vaccination.notes %}
+
+                        <div class="timeline-notes">
+
+                            <h6>
+
+                                Notes
+
+                            </h6>
+
+                            <p>
+
+                                {{ vaccination.notes }}
+
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="timeline-actions">
+
+                            <a href="{{ url_for('edit_vaccination', vaccination_id=vaccination.id) }}"
+                                class="btn btn-warning">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                                Edit
+
+                            </a>
+
+                            <form method="POST"
+                                action="{{ url_for('delete_vaccination', vaccination_id=vaccination.id) }}"
+                                onsubmit="return confirm('Delete this vaccination record?');">
+
+                                <button type="submit" class="btn btn-danger">
+
+                                    <i class="bi bi-trash"></i>
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
             </div>
 
-            <div class="pet-detail">
-                <span class="pet-detail-title">Status</span>
-                <span class="pet-detail-value">
+            {% else %}
 
-                    {% if vaccination.next_due < today %} <span class="badge bg-danger">
-                        Overdue
-                </span>
+            <div class="empty-state">
 
-                {% elif vaccination.next_due == today %}
+                <div class="empty-icon">
 
-                <span class="badge bg-warning text-dark">
-                    Due Today
-                </span>
+                    <i class="bi bi-shield-check"></i>
 
-                {% else %}
+                </div>
 
-                <span class="badge bg-success">
-                    Upcoming
-                </span>
+                <h2>
 
-                {% endif %}
+                    No Vaccination Records
 
-                </span>
-            </div>
+                </h2>
 
-            <div class="pet-detail">
-                <span class="pet-detail-title">Veterinarian</span>
-                <span class="pet-detail-value">
-                    {{ vaccination.veterinarian or "—" }}
-                </span>
-            </div>
+                <p>
 
-            {% if vaccination.notes %}
+                    Keep your pet protected by recording every vaccination.
+                    Start by adding the first vaccination record.
 
-            <div class="mt-4">
-
-                <strong>Notes</strong>
-
-                <p class="mt-2 mb-0">
-                    {{ vaccination.notes }}
                 </p>
+
+                <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Add First Vaccination
+
+                </a>
 
             </div>
 
             {% endif %}
 
-            <div class="vaccine-actions">
-
-                <a href="{{ url_for('edit_vaccination', vaccination_id=vaccination.id) }}" class="btn btn-warning">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit
-                </a>
-
-                <form method="POST" action="{{ url_for('delete_vaccination', vaccination_id=vaccination.id) }}"
-                    onsubmit="return confirm('Delete this vaccination record?');">
-
-                    <button type="submit" class="btn btn-danger">
-
-                        <i class="bi bi-trash"></i>
-                        Delete
-
-                    </button>
-
-                </form>
-
-            </div>
-
         </div>
-
-        {% endfor %}
-
-        {% else %}
-
-        <div class="coming-soon">
-
-            <i class="bi bi-shield-plus display-3 mb-3"></i>
-
-            <h4>No Vaccination Records Yet</h4>
-
-            <p>
-                Start tracking your pet's vaccinations by adding the first record.
-            </p>
-
-            <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="btn btn-success mt-3">
-
-                <i class="bi bi-plus-circle"></i>
-                Add First Vaccination
-
-            </a>
-
-        </div>
-
-        {% endif %}
 
     </div>
 
-</div>
+</section>
