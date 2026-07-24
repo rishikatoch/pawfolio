@@ -16,7 +16,6 @@ from flask_login import (
 from app import app, db
 from app.models import Pet, Vaccination
 
-
 # ==========================================================
 # Add Vaccination
 # ==========================================================
@@ -99,19 +98,26 @@ def add_vaccination(pet_id):
         )
 
         try:
-
             db.session.add(vaccination)
             db.session.commit()
 
-        except Exception:
+            print("========== SAVED ==========")
+            print(vaccination.id)
+            print("===========================")
+
+        except Exception as e:
 
             db.session.rollback()
+
+            print("========== ERROR ==========")
+            print(e)
+            print("===========================")
 
             return render_template(
                 "add_vaccination.html",
                 pet=pet,
                 today=date.today(),
-                error="Unable to save vaccination.",
+                error=str(e),
             )
 
         flash(
@@ -145,9 +151,7 @@ def add_vaccination(pet_id):
 @login_required
 def edit_vaccination(vaccination_id):
 
-    vaccination = Vaccination.query.get_or_404(
-        vaccination_id
-    )
+    vaccination = Vaccination.query.get_or_404(vaccination_id)
 
     pet = Pet.query.filter_by(
         id=vaccination.pet_id,
@@ -272,9 +276,7 @@ def edit_vaccination(vaccination_id):
 @login_required
 def delete_vaccination(vaccination_id):
 
-    vaccination = Vaccination.query.get_or_404(
-        vaccination_id
-    )
+    vaccination = Vaccination.query.get_or_404(vaccination_id)
 
     pet = Pet.query.filter_by(
         id=vaccination.pet_id,

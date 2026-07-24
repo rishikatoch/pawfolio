@@ -98,3 +98,6 @@ terraform.rc
 # Misc
 # ==========================================
 .cache/
+pawfolio.zip
+*.tfplan
+tfplan
