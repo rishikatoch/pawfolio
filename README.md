@@ -5,7 +5,9 @@
 </p>
 
 <h1 align="center">
-Production-Ready Pet Management Platform
+Meet Luffy and Laila! 🐶❤️
+
+Pawfolio began as a way to keep track of my own dogs' vaccinations, deworming schedules, health records, and daily care. As the project grew, it became a complete pet health management platform built with Flask, Docker, PostgreSQL, Terraform, AWS, and DevSecOps practices.
 </h1>
 
 <p align="center">
