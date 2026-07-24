@@ -1,0 +1,92 @@
+<!-- ==========================================================
+     Overdue Reminders
+========================================================== -->
+
+<div class="dashboard-panel dashboard-panel-danger">
+
+    <div class="dashboard-panel-header">
+
+        <div>
+
+            <span class="dashboard-badge dashboard-badge-danger">
+
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                Immediate Attention
+
+            </span>
+
+            <h3>
+
+                Overdue Reminders
+
+            </h3>
+
+            <p>
+
+                These vaccinations or deworming schedules have passed their
+                due date and should be completed as soon as possible.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-list">
+
+        {% for reminder in overdue_reminders %}
+
+        <div class="dashboard-list-item dashboard-list-danger">
+
+            <div class="dashboard-list-left">
+
+                <div class="dashboard-list-icon dashboard-danger-icon">
+
+                    {% if reminder.type == "Vaccination" %}
+
+                    <i class="bi bi-shield-exclamation"></i>
+
+                    {% else %}
+
+                    <i class="bi bi-bug-fill"></i>
+
+                    {% endif %}
+
+                </div>
+
+                <div>
+
+                    <h5>
+
+                        {{ reminder.pet_name }}
+
+                    </h5>
+
+                    <p>
+
+                        {{ reminder.title }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-list-right">
+
+                <span class="dashboard-date dashboard-date-danger">
+
+                    {{ reminder.date.strftime("%d %b %Y") }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>

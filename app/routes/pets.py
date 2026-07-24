@@ -1,20 +1,24 @@
-from datetime import date
 import os
 import uuid
+from datetime import date
 
 from flask import (
+    current_app,
     flash,
     redirect,
     render_template,
     request,
     url_for,
-    current_app,
 )
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from app import app, db
-from app.models import Pet
+from app.models import (
+    Deworming,
+    Pet,
+    Vaccination,
+)
 
 # ==========================================================
 # Configuration
@@ -68,13 +72,10 @@ def save_pet_photo(photo):
     os.makedirs(upload_folder, exist_ok=True)
 
     try:
-
         photo.save(os.path.join(upload_folder, filename))
-
         return filename
 
     except Exception:
-
         return None
 
 
@@ -92,7 +93,6 @@ def delete_pet_photo(filename):
     )
 
     try:
-
         if os.path.exists(path):
             os.remove(path)
 
@@ -114,15 +114,66 @@ def pet_profile(pet_id):
         user_id=current_user.id,
     ).first_or_404()
 
-    vaccinations = pet.vaccinations if hasattr(pet, "vaccinations") else []
-    dewormings = pet.dewormings if hasattr(pet, "dewormings") else []
+    vaccinations = pet.vaccinations
+    dewormings = pet.dewormings
+
+    today = date.today()
+
+    upcoming_items = []
+    overdue_count = 0
+
+    # -----------------------------
+    # Vaccinations
+    # -----------------------------
+    for vaccination in vaccinations:
+
+        if vaccination.next_due:
+
+            if vaccination.next_due < today:
+                overdue_count += 1
+            else:
+                upcoming_items.append(
+                    {
+                        "title": vaccination.vaccine_name,
+                        "date": vaccination.next_due,
+                        "type": "Vaccination",
+                    }
+                )
+
+    # -----------------------------
+    # Dewormings
+    # -----------------------------
+    for deworming in dewormings:
+
+        if deworming.next_due:
+
+            if deworming.next_due < today:
+                overdue_count += 1
+            else:
+                upcoming_items.append(
+                    {
+                        "title": deworming.medicine_name,
+                        "date": deworming.next_due,
+                        "type": "Deworming",
+                    }
+                )
+
+    next_due = None
+
+    if upcoming_items:
+        next_due = min(
+            upcoming_items,
+            key=lambda item: item["date"],
+        )
 
     return render_template(
         "pet_profile.html",
         pet=pet,
         vaccinations=vaccinations,
         dewormings=dewormings,
-        today=date.today(),
+        today=today,
+        next_due=next_due,
+        overdue_count=overdue_count,
     )
 
 
@@ -138,15 +189,10 @@ def add_pet():
     if request.method == "POST":
 
         name = request.form.get("name", "").strip()
-
         breed = request.form.get("breed", "").strip()
-
         gender = request.form.get("gender", "").strip()
-
         birth_date = request.form.get("birth_date", "").strip()
-
         weight = request.form.get("weight", "").strip()
-
         vaccination_status = request.form.get(
             "vaccination_status",
             "",
@@ -157,7 +203,6 @@ def add_pet():
         # ------------------------------------------
 
         if not name:
-
             return render_template(
                 "add_pet.html",
                 error="Pet name is required.",
@@ -165,18 +210,13 @@ def add_pet():
             )
 
         if not breed:
-
             return render_template(
                 "add_pet.html",
                 error="Breed is required.",
                 now=date.today(),
             )
 
-        if gender not in [
-            "Male",
-            "Female",
-        ]:
-
+        if gender not in ("Male", "Female"):
             return render_template(
                 "add_pet.html",
                 error="Invalid gender selected.",
@@ -188,11 +228,9 @@ def add_pet():
         if birth_date:
 
             try:
-
                 parsed_birth_date = date.fromisoformat(birth_date)
 
                 if parsed_birth_date > date.today():
-
                     return render_template(
                         "add_pet.html",
                         error="Birth date cannot be in the future.",
@@ -200,7 +238,6 @@ def add_pet():
                     )
 
             except ValueError:
-
                 return render_template(
                     "add_pet.html",
                     error="Invalid birth date.",
@@ -212,11 +249,9 @@ def add_pet():
         if weight:
 
             try:
-
                 parsed_weight = float(weight)
 
                 if parsed_weight <= 0:
-
                     return render_template(
                         "add_pet.html",
                         error="Weight must be greater than zero.",
@@ -224,7 +259,6 @@ def add_pet():
                     )
 
             except ValueError:
-
                 return render_template(
                     "add_pet.html",
                     error="Invalid weight.",
@@ -238,7 +272,6 @@ def add_pet():
         if photo and photo.filename:
 
             if not allowed_file(photo.filename):
-
                 return render_template(
                     "add_pet.html",
                     error="Only JPG, JPEG, PNG, GIF and WEBP images are allowed.",
@@ -248,16 +281,11 @@ def add_pet():
             filename = save_pet_photo(photo)
 
             if filename is None:
-
                 return render_template(
                     "add_pet.html",
                     error="Unable to save uploaded image.",
                     now=date.today(),
                 )
-
-        # ------------------------------------------
-        # Create Pet
-        # ------------------------------------------
 
         pet = Pet(
             user_id=current_user.id,
@@ -271,7 +299,6 @@ def add_pet():
         )
 
         try:
-
             db.session.add(pet)
             db.session.commit()
 
@@ -323,15 +350,10 @@ def edit_pet(pet_id):
     if request.method == "POST":
 
         name = request.form.get("name", "").strip()
-
         breed = request.form.get("breed", "").strip()
-
         gender = request.form.get("gender", "").strip()
-
         birth_date = request.form.get("birth_date", "").strip()
-
         weight = request.form.get("weight", "").strip()
-
         vaccination_status = request.form.get(
             "vaccination_status",
             "",
@@ -342,121 +364,46 @@ def edit_pet(pet_id):
         # ------------------------------------------
 
         if not name:
-
-            flash(
-                "Pet name is required.",
-                "danger",
-            )
-
-            return redirect(
-                url_for(
-                    "edit_pet",
-                    pet_id=pet.id,
-                )
-            )
+            flash("Pet name is required.", "danger")
+            return redirect(url_for("edit_pet", pet_id=pet.id))
 
         if not breed:
+            flash("Breed is required.", "danger")
+            return redirect(url_for("edit_pet", pet_id=pet.id))
 
-            flash(
-                "Breed is required.",
-                "danger",
-            )
-
-            return redirect(
-                url_for(
-                    "edit_pet",
-                    pet_id=pet.id,
-                )
-            )
-
-        if gender not in (
-            "Male",
-            "Female",
-        ):
-
-            flash(
-                "Invalid gender selected.",
-                "danger",
-            )
-
-            return redirect(
-                url_for(
-                    "edit_pet",
-                    pet_id=pet.id,
-                )
-            )
+        if gender not in ("Male", "Female"):
+            flash("Invalid gender selected.", "danger")
+            return redirect(url_for("edit_pet", pet_id=pet.id))
 
         parsed_birth_date = None
 
         if birth_date:
 
             try:
-
                 parsed_birth_date = date.fromisoformat(birth_date)
 
                 if parsed_birth_date > date.today():
-
-                    flash(
-                        "Birth date cannot be in the future.",
-                        "danger",
-                    )
-
-                    return redirect(
-                        url_for(
-                            "edit_pet",
-                            pet_id=pet.id,
-                        )
-                    )
+                    flash("Birth date cannot be in the future.", "danger")
+                    return redirect(url_for("edit_pet", pet_id=pet.id))
 
             except ValueError:
-
-                flash(
-                    "Invalid birth date.",
-                    "danger",
-                )
-
-                return redirect(
-                    url_for(
-                        "edit_pet",
-                        pet_id=pet.id,
-                    )
-                )
+                flash("Invalid birth date.", "danger")
+                return redirect(url_for("edit_pet", pet_id=pet.id))
 
         parsed_weight = None
 
         if weight:
 
             try:
-
                 parsed_weight = float(weight)
 
                 if parsed_weight <= 0:
-
-                    flash(
-                        "Weight must be greater than zero.",
-                        "danger",
-                    )
-
-                    return redirect(
-                        url_for(
-                            "edit_pet",
-                            pet_id=pet.id,
-                        )
-                    )
+                    flash("Weight must be greater than zero.", "danger")
+                    return redirect(url_for("edit_pet", pet_id=pet.id))
 
             except ValueError:
-
-                flash(
-                    "Invalid weight.",
-                    "danger",
-                )
-
-                return redirect(
-                    url_for(
-                        "edit_pet",
-                        pet_id=pet.id,
-                    )
-                )
+                flash("Invalid weight.", "danger")
+                return redirect(url_for("edit_pet", pet_id=pet.id))
 
         # ------------------------------------------
         # Upload New Photo
@@ -467,37 +414,19 @@ def edit_pet(pet_id):
         if photo and photo.filename:
 
             if not allowed_file(photo.filename):
-
                 flash(
                     "Only JPG, JPEG, PNG, GIF and WEBP images are allowed.",
                     "danger",
                 )
-
-                return redirect(
-                    url_for(
-                        "edit_pet",
-                        pet_id=pet.id,
-                    )
-                )
+                return redirect(url_for("edit_pet", pet_id=pet.id))
 
             new_filename = save_pet_photo(photo)
 
             if new_filename is None:
-
-                flash(
-                    "Unable to save uploaded image.",
-                    "danger",
-                )
-
-                return redirect(
-                    url_for(
-                        "edit_pet",
-                        pet_id=pet.id,
-                    )
-                )
+                flash("Unable to save uploaded image.", "danger")
+                return redirect(url_for("edit_pet", pet_id=pet.id))
 
             delete_pet_photo(pet.photo)
-
             pet.photo = new_filename
 
         # ------------------------------------------
@@ -512,7 +441,6 @@ def edit_pet(pet_id):
         pet.vaccination_status = vaccination_status
 
         try:
-
             db.session.commit()
 
         except Exception:
@@ -524,12 +452,7 @@ def edit_pet(pet_id):
                 "danger",
             )
 
-            return redirect(
-                url_for(
-                    "edit_pet",
-                    pet_id=pet.id,
-                )
-            )
+            return redirect(url_for("edit_pet", pet_id=pet.id))
 
         flash(
             "Pet updated successfully!",
@@ -576,7 +499,6 @@ def delete_pet(pet_id):
     # ------------------------------------------
 
     try:
-
         db.session.delete(pet)
         db.session.commit()
 

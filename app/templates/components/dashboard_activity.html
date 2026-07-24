@@ -1,0 +1,117 @@
+<!-- ==========================================================
+     Recent Activity
+========================================================== -->
+
+<div class="dashboard-panel">
+
+    <div class="dashboard-panel-header">
+
+        <div>
+
+            <span class="dashboard-badge">
+
+                <i class="bi bi-clock-history me-2"></i>
+
+                Activity Feed
+
+            </span>
+
+            <h3>
+
+                Recent Activity
+
+            </h3>
+
+            <p>
+
+                Stay informed with the latest updates across your pets'
+                profiles, vaccinations, deworming schedules and health records.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if recent_activity %}
+
+    <div class="dashboard-list">
+
+        {% for activity in recent_activity %}
+
+        <div class="dashboard-list-item">
+
+            <div class="dashboard-list-left">
+
+                <div class="dashboard-list-icon">
+
+                    <span class="activity-emoji">
+
+                        {{ activity.icon }}
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h5>
+
+                        {{ activity.message }}
+
+                    </h5>
+
+                    <p>
+
+                        Recorded activity
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-list-right">
+
+                <span class="dashboard-date">
+
+                    {{ activity.date.strftime("%d %b %Y") }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-empty">
+
+        <div class="dashboard-empty-icon">
+
+            <i class="bi bi-clock-history"></i>
+
+        </div>
+
+        <h4>
+
+            No Recent Activity
+
+        </h4>
+
+        <p>
+
+            Vaccinations, deworming records, profile updates and future
+            activities will automatically appear here as you use Pawfolio.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>

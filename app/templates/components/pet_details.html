@@ -1,0 +1,80 @@
+<!-- ==========================================================
+     Pet Details
+========================================================== -->
+
+<div class="container py-5">
+
+    <div class="info-card">
+
+        <h3>
+            <i class="bi bi-card-list"></i>
+            Pet Details
+        </h3>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Name</span>
+            <span class="pet-detail-value">
+                {{ pet.name }}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Breed</span>
+            <span class="pet-detail-value">
+                {{ pet.breed or "Not Available" }}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Gender</span>
+            <span class="pet-detail-value">
+                {{ pet.gender or "Not Available" }}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Age</span>
+            <span class="pet-detail-value">
+                {{ pet.age_display }}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Weight</span>
+            <span class="pet-detail-value">
+                {% if pet.weight %}
+                {{ pet.weight }} kg
+                {% else %}
+                Not Available
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Birth Date</span>
+            <span class="pet-detail-value">
+                {% if pet.birth_date %}
+                {{ pet.birth_date.strftime("%d %b %Y") }}
+                {% else %}
+                Not Available
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Life Stage</span>
+            <span class="pet-detail-value">
+                {{ pet.life_stage }}
+            </span>
+        </div>
+
+        <div class="pet-detail">
+            <span class="pet-detail-title">Vaccination Status</span>
+            <span class="pet-detail-value">
+                {{ pet.vaccination_status or "Not Available" }}
+            </span>
+        </div>
+
+    </div>
+
+</div>

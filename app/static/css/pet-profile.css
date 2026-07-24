@@ -1,33 +1,35 @@
 /* ==========================================================
-   Pawfolio Premium Pet Profile v4
+   Pawfolio Premium UI v5
+   Part 1 - Foundation
+   Hero • Profile • Stats
 ========================================================== */
 
-/* ==========================================
-   Hero
-========================================== */
+/* ==========================================================
+   HERO
+========================================================== */
 
 .pet-hero {
-
     position: relative;
-
     overflow: hidden;
-
-    min-height: 540px;
+    min-height: 640px;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
-    border-radius: 0 0 45px 45px;
 
     isolation: isolate;
 
-    box-shadow:
-        0 25px 70px rgba(15, 23, 42, .18);
+    border-radius: 0 0 42px 42px;
 
+    background: var(--card);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, .25);
 }
+
+/* ==========================================================
+   Background Image
+========================================================== */
 
 .pet-hero-bg {
 
@@ -36,25 +38,23 @@
     inset: 0;
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
 
-    transform: scale(1.18);
+    transform: scale(1.15);
 
-    filter: blur(12px) brightness(.40);
+    filter:
+        blur(14px) brightness(.32) saturate(120%);
 
     animation:
-        heroMove 18s ease-in-out infinite alternate;
-
+        heroZoom 22s ease-in-out infinite alternate;
 }
 
-@keyframes heroMove {
+@keyframes heroZoom {
 
     from {
 
-        transform: scale(1.10);
+        transform: scale(1.08);
 
     }
 
@@ -66,6 +66,10 @@
 
 }
 
+/* ==========================================================
+   Overlay
+========================================================== */
+
 .pet-overlay {
 
     position: absolute;
@@ -73,10 +77,23 @@
     inset: 0;
 
     background:
-        linear-gradient(rgba(18, 34, 68, .45),
-            rgba(18, 34, 68, .78));
+
+        radial-gradient(circle at top,
+            rgba(255, 145, 77, .22),
+            transparent 40%),
+
+        radial-gradient(circle at bottom right,
+            rgba(91, 190, 247, .18),
+            transparent 35%),
+
+        linear-gradient(rgba(15, 23, 42, .45),
+            rgba(15, 23, 42, .82));
 
 }
+
+/* ==========================================================
+   Hero Content
+========================================================== */
 
 .pet-content {
 
@@ -84,17 +101,23 @@
 
     z-index: 5;
 
-    color: white;
+    width: 100%;
+
+    max-width: 1050px;
 
     text-align: center;
 
-    padding: 70px 30px;
+    color: white;
+
+    padding:
+
+        80px 32px 120px;
 
 }
 
-/* ==========================================
+/* ==========================================================
    Profile Photo
-========================================== */
+========================================================== */
 
 .profile-photo {
 
@@ -102,33 +125,44 @@
 
     height: 220px;
 
-    border-radius: 50%;
-
     object-fit: cover;
+
+    border-radius: 50%;
 
     border: 7px solid rgba(255, 255, 255, .95);
 
     box-shadow:
 
-        0 25px 60px rgba(0, 0, 0, .30);
+        0 18px 50px rgba(0, 0, 0, .35);
 
-    transition: .4s;
+    transition:
+
+        transform .35s,
+        box-shadow .35s;
 
 }
 
 .profile-photo:hover {
 
-    transform: scale(1.06);
+    transform:
+
+        translateY(-8px) scale(1.04);
+
+    box-shadow:
+
+        0 35px 70px rgba(0, 0, 0, .45);
 
 }
 
-/* ==========================================
-   Heading
-========================================== */
+/* ==========================================================
+   Hero Heading
+========================================================== */
 
 .pet-content h1 {
 
-    margin-top: 24px;
+    margin-top: 26px;
+
+    margin-bottom: 12px;
 
     font-size: 3.4rem;
 
@@ -136,110 +170,207 @@
 
     letter-spacing: -1px;
 
+    color: white;
+
 }
 
 .pet-content p {
 
-    color: #DCEBFF;
+    margin:
 
-    font-size: 1.15rem;
+        0 auto 28px;
 
-    margin: 18px 0 28px;
+    max-width: 760px;
+
+    color:
+
+        rgba(255, 255, 255, .86);
+
+    font-size: 1.1rem;
+
+    line-height: 1.9;
 
 }
+
+/* ==========================================================
+   Badges
+========================================================== */
 
 .pet-content .badge {
 
-    font-size: .95rem;
+    padding:
 
-    padding: 12px 22px;
+        12px 22px;
+
+    border-radius: 999px;
+
+    font-size: .9rem;
+
+    font-weight: 700;
+
+    box-shadow:
+
+        0 8px 18px rgba(0, 0, 0, .18);
 
 }
 
-/* ==========================================
+/* ==========================================================
    Floating Stats
-========================================== */
+========================================================== */
 
 .profile-stats {
 
-    margin-top: -80px;
-
     position: relative;
 
-    z-index: 10;
+    z-index: 20;
+
+    margin-top: -90px;
 
 }
 
+/* ==========================================================
+   Stat Cards
+========================================================== */
+
 .stat-card {
 
-    background: white;
+    background:
 
-    border-radius: 24px;
+        linear-gradient(145deg,
 
-    padding: 30px;
+            var(--card),
+
+            var(--surface));
+
+    border:
+
+        1px solid var(--border);
+
+    border-radius: 26px;
+
+    padding: 34px;
 
     text-align: center;
 
-    box-shadow:
-        0 18px 45px rgba(15, 23, 42, .08);
+    transition:
 
-    transition: .35s;
+        transform .35s,
+        box-shadow .35s;
+
+    box-shadow:
+
+        0 18px 40px rgba(0, 0, 0, .08);
+
+    height: 100%;
 
 }
 
 .stat-card:hover {
 
-    transform: translateY(-8px);
+    transform:
+
+        translateY(-10px);
+
+    box-shadow:
+
+        0 25px 60px rgba(0, 0, 0, .15);
 
 }
 
 .stat-card h2 {
 
-    font-size: 2.3rem;
+    font-size: 2.5rem;
 
-    color: #3B82F6;
+    margin-bottom: 18px;
 
-    margin-bottom: 14px;
+    color: var(--primary);
 
 }
 
 .stat-card h5 {
 
-    font-size: 1.3rem;
+    font-size: 1.35rem;
 
     font-weight: 800;
 
-    color: #1E293B;
+    color: var(--heading);
+
+    margin-bottom: 10px;
 
 }
 
 .stat-card p {
 
-    color: #64748B;
-
     margin: 0;
+
+    color: var(--text-light);
+
+    font-size: .95rem;
 
 }
 
 /* ==========================================================
-   Information Cards
+   Hero Animation
+========================================================== */
+
+.profile-photo,
+.stat-card {
+
+    animation:
+
+        fadeUp .8s ease both;
+
+}
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+
+            translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   CONTENT CARDS
 ========================================================== */
 
 .info-card {
 
-    background: white;
+    background:
+        linear-gradient(145deg,
+            var(--card),
+            var(--surface));
+
+    border: 1px solid var(--border);
 
     border-radius: 28px;
 
-    padding: 34px;
+    padding: 36px;
 
-    margin-bottom: 30px;
+    margin-bottom: 32px;
 
     box-shadow:
+        0 18px 45px rgba(0, 0, 0, .08);
 
-        0 18px 50px rgba(15, 23, 42, .08);
-
-    transition: .35s;
+    transition:
+        transform .35s,
+        box-shadow .35s;
 
 }
 
@@ -248,8 +379,7 @@
     transform: translateY(-6px);
 
     box-shadow:
-
-        0 28px 60px rgba(15, 23, 42, .12);
+        0 28px 65px rgba(0, 0, 0, .15);
 
 }
 
@@ -259,31 +389,29 @@
 
     align-items: center;
 
-    gap: 12px;
+    gap: 14px;
 
-    font-size: 1.6rem;
+    margin-bottom: 30px;
+
+    font-size: 1.55rem;
 
     font-weight: 800;
 
-    color: #1E293B;
-
-    margin-bottom: 24px;
+    color: var(--heading);
 
 }
 
-.info-card hr {
+.info-card h3 i {
 
-    margin: 18px 0 24px;
+    color: var(--primary);
 
-    opacity: .08;
+    font-size: 1.3rem;
 
 }
 
 .info-card p {
 
-    margin-bottom: 18px;
-
-    color: #475569;
+    color: var(--text);
 
     line-height: 1.8;
 
@@ -291,219 +419,13 @@
 
 .info-card strong {
 
-    color: #0F172A;
-
-    font-weight: 700;
-
-}
-
-/* ==========================================
-   Vaccination Timeline
-========================================== */
-
-.vaccine-card {
-
-    position: relative;
-
-    background: #F8FBFF;
-
-    border: 1px solid #E6F0FF;
-
-    border-left: 6px solid #3B82F6;
-
-    border-radius: 22px;
-
-    padding: 24px;
-
-    margin-bottom: 22px;
-
-    transition: .35s;
-
-}
-
-.vaccine-card:hover {
-
-    transform: translateY(-4px);
-
-    background: white;
-
-    box-shadow:
-
-        0 18px 40px rgba(59, 130, 246, .12);
-
-}
-
-.vaccine-card h5 {
-
-    font-size: 1.2rem;
-
-    font-weight: 800;
-
-    margin-bottom: 18px;
-
-    color: #1E293B;
-
-}
-
-.vaccine-card p {
-
-    margin-bottom: 10px;
-
-    color: #475569;
-
-}
-
-.vaccine-card strong {
-
-    color: #0F172A;
-
-}
-
-.vaccine-actions {
-
-    display: flex;
-
-    gap: 12px;
-
-    margin-top: 18px;
-
-}
-
-.vaccine-actions .btn {
-
-    border-radius: 14px;
-
-    font-size: .9rem;
-
-    font-weight: 700;
-
-}
-
-/* ==========================================
-   Empty Timeline
-========================================== */
-
-.coming-soon {
-
-    background: #F8FAFC;
-
-    border: 2px dashed #CBD5E1;
-
-    border-radius: 24px;
-
-    padding: 55px 30px;
-
-    text-align: center;
-
-    color: #64748B;
-
-}
-
-.coming-soon h4 {
-
-    font-weight: 700;
-
-    margin-bottom: 10px;
-
-}
-
-.coming-soon p {
-
-    margin: 0;
-
-}
-
-/* ==========================================
-   Health Cards
-========================================== */
-
-.health-summary {
-
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 18px;
-
-    margin-top: 18px;
-
-}
-
-.health-box {
-
-    background: #F8FBFF;
-
-    border-radius: 20px;
-
-    padding: 20px;
-
-    text-align: center;
-
-    border: 1px solid #E8F0FF;
-
-}
-
-.health-box h4 {
-
-    font-size: 1.8rem;
-
-    margin-bottom: 8px;
-
-}
-
-.health-box p {
-
-    margin: 0;
-
-    font-weight: 600;
-
-    color: #475569;
+    color: var(--heading);
 
 }
 
 /* ==========================================================
-   Profile Action Buttons
+   PET DETAIL ROWS
 ========================================================== */
-
-.profile-actions {
-
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 18px;
-
-    margin-top: 45px;
-
-}
-
-.profile-actions .btn {
-
-    min-width: 190px;
-
-    padding: 16px 22px;
-
-    border-radius: 18px;
-
-    font-size: 1rem;
-
-    font-weight: 700;
-
-    transition: .30s;
-
-}
-
-.profile-actions .btn:hover {
-
-    transform: translateY(-4px);
-
-}
-
-/* ==========================================
-   Pet Details List
-========================================== */
 
 .pet-detail {
 
@@ -513,9 +435,11 @@
 
     align-items: center;
 
-    padding: 14px 0;
+    gap: 20px;
 
-    border-bottom: 1px solid #EEF2F7;
+    padding: 18px 0;
+
+    border-bottom: 1px solid var(--border);
 
 }
 
@@ -529,75 +453,357 @@
 
     font-weight: 700;
 
-    color: #334155;
+    color: var(--heading);
 
 }
 
 .pet-detail-value {
 
-    color: #64748B;
+    color: var(--text-light);
+
+    text-align: right;
 
     font-weight: 600;
 
 }
 
-/* ==========================================
-   Beautiful Scrollbar
-========================================== */
+/* ==========================================================
+   TIMELINE CARD
+========================================================== */
 
-.info-card::-webkit-scrollbar {
+.vaccine-card {
 
-    width: 8px;
+    background:
+        linear-gradient(145deg,
+            var(--surface),
+            var(--card));
 
-}
+    border: 1px solid var(--border);
 
-.info-card::-webkit-scrollbar-thumb {
+    border-left: 6px solid var(--primary);
 
-    background: #CBD5E1;
+    border-radius: 22px;
 
-    border-radius: 999px;
+    padding: 26px;
 
-}
+    margin-bottom: 24px;
 
-.info-card::-webkit-scrollbar-thumb:hover {
-
-    background: #94A3B8;
-
-}
-
-/* ==========================================
-   Hover Effects
-========================================== */
-
-.profile-photo:hover {
-
-    transform: scale(1.06) rotate(1deg);
-
-}
-
-.stat-card:hover h2 {
-
-    transform: scale(1.08);
+    transition:
+        transform .35s,
+        box-shadow .35s,
+        border-color .35s;
 
 }
 
 .vaccine-card:hover {
 
-    border-left-color: #22C55E;
+    transform: translateY(-5px);
+
+    border-left-color: var(--success);
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, .12);
 
 }
+
+.vaccine-card h5 {
+
+    font-size: 1.2rem;
+
+    font-weight: 700;
+
+    margin-bottom: 20px;
+
+    color: var(--heading);
+
+}
+
+.vaccine-card p {
+
+    color: var(--text);
+
+    margin-bottom: 8px;
+
+}
+
+/* ==========================================================
+   ACTION BUTTONS INSIDE TIMELINE
+========================================================== */
+
+.vaccine-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 22px;
+
+}
+
+.vaccine-actions .btn {
+
+    border-radius: 14px;
+
+    padding: 10px 18px;
+
+    font-weight: 700;
+
+}
+
+/* ==========================================================
+   EMPTY STATES
+========================================================== */
+
+.coming-soon {
+
+    background:
+        linear-gradient(145deg,
+            var(--surface),
+            var(--card));
+
+    border: 2px dashed var(--border);
+
+    border-radius: 26px;
+
+    padding: 60px 30px;
+
+    text-align: center;
+
+}
+
+.coming-soon i {
+
+    color: var(--primary);
+
+}
+
+.coming-soon h4 {
+
+    margin-top: 16px;
+
+    font-weight: 800;
+
+    color: var(--heading);
+
+}
+
+.coming-soon p {
+
+    color: var(--text-light);
+
+    margin-top: 10px;
+
+}
+
+/* ==========================================================
+   HEALTH SUMMARY
+========================================================== */
+
+.health-summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-top: 20px;
+
+}
+
+.health-box {
+
+    background:
+        linear-gradient(145deg,
+            var(--surface),
+            var(--card));
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 22px;
+
+    text-align: center;
+
+    transition: .3s;
+
+}
+
+.health-box:hover {
+
+    transform: translateY(-5px);
+
+}
+
+.health-box h4 {
+
+    color: var(--primary);
+
+    font-size: 1.8rem;
+
+    margin-bottom: 10px;
+
+}
+
+.health-box p {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-weight: 600;
+
+}
+
+/* ==========================================================
+   PROFILE ACTIONS
+========================================================== */
+
+.profile-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    margin: 45px 0;
+
+}
+
+.profile-actions .btn {
+
+    min-width: 200px;
+
+    padding: 15px 22px;
+
+    border-radius: 18px;
+
+    font-weight: 700;
+
+    transition:
+        transform .3s,
+        box-shadow .3s;
+
+}
+
+.profile-actions .btn:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 14px 30px rgba(0, 0, 0, .15);
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+.info-card::-webkit-scrollbar {
+    width: 8px;
+}
+
+.info-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.info-card::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+}
+
+.info-card::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ==========================================================
+   GLOBAL HOVER EFFECTS
+========================================================== */
 
 .info-card:hover h3 {
+    color: var(--primary);
+}
 
-    color: #2563EB;
+.stat-card:hover h2 {
+    transform: scale(1.05);
+    transition: transform .3s ease;
+}
+
+.vaccine-card:hover h5 {
+    color: var(--primary);
+}
+
+.health-box:hover h4 {
+    transform: scale(1.08);
+    transition: transform .3s ease;
+}
+
+/* ==========================================================
+   SMOOTH TRANSITIONS
+========================================================== */
+
+.pet-hero,
+.info-card,
+.stat-card,
+.vaccine-card,
+.health-box,
+.profile-photo,
+.profile-actions .btn {
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
 
 }
 
-/* ==========================================
-   Responsive
-========================================== */
+/* ==========================================================
+   TABLET
+========================================================== */
 
-@media(max-width:992px) {
+@media (max-width:992px) {
+
+    .pet-hero {
+
+        min-height: auto;
+
+        border-radius: 0 0 32px 32px;
+
+    }
+
+    .pet-content {
+
+        padding:
+            70px 30px 100px;
+
+    }
+
+    .pet-content h1 {
+
+        font-size: 2.8rem;
+
+    }
+
+    .profile-photo {
+
+        width: 190px;
+        height: 190px;
+
+    }
+
+    .profile-stats {
+
+        margin-top: -60px;
+
+    }
 
     .health-summary {
 
@@ -607,63 +813,43 @@
 
 }
 
-@media(max-width:768px) {
+/* ==========================================================
+   MOBILE
+========================================================== */
 
-    .pet-hero {
+@media (max-width:768px) {
 
-        min-height: auto;
+    .pet-content {
 
-        padding: 70px 20px;
+        padding:
+            55px 24px 80px;
 
-        border-radius: 0 0 30px 30px;
+    }
+
+    .pet-content h1 {
+
+        font-size: 2.2rem;
+
+    }
+
+    .pet-content p {
+
+        font-size: 1rem;
+
+        line-height: 1.7;
 
     }
 
     .profile-photo {
 
-        width: 170px;
-
-        height: 170px;
-
-    }
-
-    .pet-content h1 {
-
-        font-size: 2.5rem;
+        width: 165px;
+        height: 165px;
 
     }
 
     .profile-stats {
 
-        margin-top: -40px;
-
-    }
-
-    .profile-actions {
-
-        flex-direction: column;
-
-    }
-
-    .profile-actions .btn {
-
-        width: 100%;
-
-    }
-
-}
-
-@media(max-width:576px) {
-
-    .pet-content {
-
-        padding: 40px 20px;
-
-    }
-
-    .pet-content h1 {
-
-        font-size: 2rem;
+        margin-top: -35px;
 
     }
 
@@ -673,9 +859,49 @@
 
     }
 
+    .stat-card h2 {
+
+        font-size: 2rem;
+
+    }
+
     .info-card {
 
         padding: 24px;
+
+        border-radius: 22px;
+
+    }
+
+    .pet-detail {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 6px;
+
+    }
+
+    .pet-detail-value {
+
+        text-align: left;
+
+    }
+
+    .profile-actions {
+
+        flex-direction: column;
+
+        width: 100%;
+
+    }
+
+    .profile-actions .btn {
+
+        width: 100%;
+
+        min-width: unset;
 
     }
 
@@ -694,5 +920,105 @@
 }
 
 /* ==========================================================
-   End of Pawfolio Premium Profile
+   SMALL DEVICES
+========================================================== */
+
+@media (max-width:480px) {
+
+    .pet-hero {
+
+        border-radius: 0 0 24px 24px;
+
+    }
+
+    .pet-content {
+
+        padding:
+            45px 18px 70px;
+
+    }
+
+    .pet-content h1 {
+
+        font-size: 1.9rem;
+
+    }
+
+    .profile-photo {
+
+        width: 145px;
+        height: 145px;
+    }
+
+    .stat-card {
+
+        padding: 20px;
+
+    }
+
+    .info-card {
+
+        padding: 20px;
+
+    }
+
+    .coming-soon {
+
+        padding: 40px 20px;
+
+    }
+
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+.btn:focus,
+.btn:focus-visible {
+
+    outline: none;
+
+    box-shadow:
+        0 0 0 4px rgba(59, 130, 246, .25);
+
+}
+
+.profile-photo:focus {
+
+    outline: none;
+
+}
+
+/* ==========================================================
+   OPTIONAL GLASS EFFECT
+========================================================== */
+
+.glass {
+
+    background: rgba(255, 255, 255, .08);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, .12);
+
+}
+
+/* ==========================================================
+   REMOVE OLD STYLES
+========================================================== */
+
+/* Old Bootstrap hero classes intentionally removed.
+   Hero now uses:
+   .pet-hero
+   .pet-hero-bg
+   .pet-overlay
+   .pet-content
+   .profile-photo
+*/
+
+/* ==========================================================
+   END
 ========================================================== */

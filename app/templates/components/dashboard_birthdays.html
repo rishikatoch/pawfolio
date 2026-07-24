@@ -1,0 +1,136 @@
+<!-- ==========================================================
+     Upcoming Birthdays
+========================================================== -->
+
+<div class="dashboard-panel">
+
+    <div class="dashboard-panel-header">
+
+        <div>
+
+            <span class="dashboard-badge">
+
+                <i class="bi bi-cake2-fill me-2"></i>
+
+                Celebrations
+
+            </span>
+
+            <h3>
+
+                Upcoming Birthdays
+
+            </h3>
+
+            <p>
+
+                Never miss your pets' special day. Celebrate every birthday
+                with timely reminders.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if upcoming_birthdays %}
+
+    <div class="dashboard-list">
+
+        {% for birthday in upcoming_birthdays %}
+
+        <div class="dashboard-list-item">
+
+            <div class="dashboard-list-left">
+
+                <div class="dashboard-list-icon">
+
+                    <i class="bi bi-cake2-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <h5>
+
+                        {{ birthday.pet.name }}
+
+                    </h5>
+
+                    <p>
+
+                        Birthday
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-list-right">
+
+                <div class="mb-2">
+
+                    <span class="dashboard-date">
+
+                        {{ birthday.next_birthday.strftime("%d %b %Y") }}
+
+                    </span>
+
+                </div>
+
+                {% if birthday.birthday_today %}
+
+                <span class="badge bg-success rounded-pill px-3 py-2">
+
+                    🎉 Today
+
+                </span>
+
+                {% else %}
+
+                <span class="badge bg-primary rounded-pill px-3 py-2">
+
+                    {{ birthday.days_left }}
+                    day{% if birthday.days_left != 1 %}s{% endif %} left
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-empty">
+
+        <div class="dashboard-empty-icon">
+
+            <i class="bi bi-cake2-fill"></i>
+
+        </div>
+
+        <h4>
+
+            No Upcoming Birthdays
+
+        </h4>
+
+        <p>
+
+            Birthday reminders will automatically appear here once your pets'
+            birth dates are added.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>

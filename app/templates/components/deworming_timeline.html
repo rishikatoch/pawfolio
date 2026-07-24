@@ -1,0 +1,165 @@
+<!-- ==========================================================
+     Deworming Timeline
+========================================================== -->
+
+<div class="container py-4">
+
+    <div class="info-card">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+            <h3 class="mb-0">
+                <i class="bi bi-bug"></i>
+                Deworming Timeline
+            </h3>
+
+            <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info">
+
+                <i class="bi bi-plus-circle"></i>
+                Add Deworming
+
+            </a>
+
+        </div>
+
+        {% if dewormings %}
+
+        {% for deworming in dewormings %}
+
+        <div class="vaccine-card">
+
+            <h5>{{ deworming.medicine_name }}</h5>
+
+            <div class="pet-detail">
+
+                <span class="pet-detail-title">
+                    Date Given
+                </span>
+
+                <span class="pet-detail-value">
+                    {{ deworming.date_given.strftime("%d %b %Y") }}
+                </span>
+
+            </div>
+
+            <div class="pet-detail">
+
+                <span class="pet-detail-title">
+                    Next Due
+                </span>
+
+                <span class="pet-detail-value">
+                    {{ deworming.next_due.strftime("%d %b %Y") }}
+                </span>
+
+            </div>
+
+            <div class="pet-detail">
+
+                <span class="pet-detail-title">
+                    Status
+                </span>
+
+                <span class="pet-detail-value">
+
+                    {% if deworming.next_due < today %} <span class="badge bg-danger">
+                        Overdue
+                </span>
+
+                {% elif deworming.next_due == today %}
+
+                <span class="badge bg-warning text-dark">
+                    Due Today
+                </span>
+
+                {% else %}
+
+                <span class="badge bg-success">
+                    Upcoming
+                </span>
+
+                {% endif %}
+
+                </span>
+
+            </div>
+
+            <div class="pet-detail">
+
+                <span class="pet-detail-title">
+                    Veterinarian
+                </span>
+
+                <span class="pet-detail-value">
+                    {{ deworming.veterinarian or "—" }}
+                </span>
+
+            </div>
+
+            {% if deworming.notes %}
+
+            <div class="mt-4">
+
+                <strong>Notes</strong>
+
+                <p class="mt-2 mb-0">
+                    {{ deworming.notes }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+            <div class="vaccine-actions">
+
+                <a href="{{ url_for('edit_deworming', deworming_id=deworming.id) }}" class="btn btn-warning">
+
+                    <i class="bi bi-pencil-square"></i>
+                    Edit
+
+                </a>
+
+                <form method="POST" action="{{ url_for('delete_deworming', deworming_id=deworming.id) }}"
+                    onsubmit="return confirm('Delete this deworming record?');">
+
+                    <button type="submit" class="btn btn-danger">
+
+                        <i class="bi bi-trash"></i>
+                        Delete
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="coming-soon">
+
+            <i class="bi bi-bug display-3 mb-3"></i>
+
+            <h4>No Deworming Records Yet</h4>
+
+            <p>
+                Start tracking your pet's deworming schedule by adding the first record.
+            </p>
+
+            <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info mt-3">
+
+                <i class="bi bi-plus-circle"></i>
+                Add First Deworming
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>

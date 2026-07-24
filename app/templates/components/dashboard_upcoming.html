@@ -1,0 +1,121 @@
+<!-- ==========================================================
+     Upcoming Reminders
+========================================================== -->
+
+<div class="dashboard-panel">
+
+    <div class="dashboard-panel-header">
+
+        <div>
+
+            <span class="dashboard-badge">
+
+                <i class="bi bi-calendar-event me-2"></i>
+
+                Coming Up
+
+            </span>
+
+            <h3>
+
+                Upcoming Reminders
+
+            </h3>
+
+            <p>
+
+                Vaccinations and deworming schedules due within the next
+                7 days.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if upcoming_reminders %}
+
+    <div class="dashboard-list">
+
+        {% for reminder in upcoming_reminders %}
+
+        <div class="dashboard-list-item">
+
+            <div class="dashboard-list-left">
+
+                <div class="dashboard-list-icon">
+
+                    {% if reminder.type == "Vaccination" %}
+
+                    <i class="bi bi-shield-check"></i>
+
+                    {% else %}
+
+                    <i class="bi bi-bug-fill"></i>
+
+                    {% endif %}
+
+                </div>
+
+                <div>
+
+                    <h5>
+
+                        {{ reminder.pet_name }}
+
+                    </h5>
+
+                    <p>
+
+                        {{ reminder.title }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-list-right">
+
+                <span class="dashboard-date">
+
+                    {{ reminder.date.strftime("%d %b %Y") }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-empty">
+
+        <div class="dashboard-empty-icon">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+        </div>
+
+        <h4>
+
+            You're all caught up!
+
+        </h4>
+
+        <p>
+
+            There are no vaccinations or deworming reminders scheduled
+            for the next seven days.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>

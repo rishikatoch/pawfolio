@@ -5,147 +5,236 @@
     <div class="hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pets[0].photo) }}');">
     </div>
 
+    {% else %}
+
+    <div class="hero-bg hero-default-bg"></div>
+
     {% endif %}
 
     <div class="hero-overlay"></div>
 
     <div class="hero-glow"></div>
 
-    <div class="hero-content container">
+    <div class="container">
 
-        <div class="hero-logo">
+        <div class="hero-content">
 
-            <div class="logo-circle">
+            <!-- Badge -->
 
-                <i class="bi bi-heart-fill heart-icon"></i>
+            <div class="hero-badge">
 
-                <i class="bi bi-paw-fill paw-icon"></i>
+                <i class="bi bi-stars"></i>
 
-            </div>
-
-        </div>
-
-        <span class="hero-tag">
-
-            🐾 Every Paw Has A Story
-
-        </span>
-
-        <h1>
-
-            Give Your Best Friend The
-
-            <span>
-
-                Care They Deserve
-
-            </span>
-
-        </h1>
-
-        <p>
-
-            Pawfolio keeps vaccinations, medications, health records,
-            growth history and precious memories together in one
-            beautiful digital home for your pets.
-
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg">
-
-                <i class="bi bi-plus-circle-fill"></i>
-
-                Add My Pet
-
-            </a>
-
-            {% if pets %}
-
-            <a href="#mypets" class="btn btn-outline-light btn-lg">
-
-                <i class="bi bi-heart-fill"></i>
-
-                View My Pets
-
-            </a>
-
-            {% endif %}
-
-        </div>
-
-        <div class="hero-features">
-
-            <div class="hero-feature">
-
-                <i class="bi bi-heart-pulse-fill"></i>
-
-                <h5>
-
-                    Health Tracking
-
-                </h5>
-
-                <p>
-
-                    Store complete medical history.
-
-                </p>
+                Trusted Digital Pet Care Companion
 
             </div>
 
-            <div class="hero-feature">
+            <!-- Logo -->
 
-                <i class="bi bi-shield-check"></i>
+            <div class="hero-logo">
 
-                <h5>
+                <div class="logo-circle">
 
-                    Vaccinations
+                    <i class="bi bi-heart-fill heart-icon"></i>
 
-                </h5>
+                    <i class="bi bi-paw-fill paw-icon"></i>
 
-                <p>
-
-                    Never miss another vaccine.
-
-                </p>
+                </div>
 
             </div>
 
-            <div class="hero-feature">
+            <!-- Heading -->
 
-                <i class="bi bi-calendar-check-fill"></i>
+            <h1>
 
-                <h5>
+                Every Pet Deserves
 
-                    Smart Reminders
+                <span>a Lifetime of Love & Care</span>
 
-                </h5>
+            </h1>
 
-                <p>
+            <!-- Subtitle -->
 
-                    Upcoming doses and alerts.
+            <p>
 
-                </p>
+                Organize vaccinations, deworming schedules, medical history,
+                medications, growth records, appointments and treasured
+                memories—all in one beautiful, secure home built for your
+                beloved companions.
+
+            </p>
+
+            <!-- CTA Buttons -->
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg rounded-pill px-4">
+
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+
+                    Add Your First Pet
+
+                </a>
+
+                {% if pets %}
+
+                <a href="#mypets" class="btn btn-outline-light btn-lg rounded-pill px-4">
+
+                    <i class="bi bi-heart-fill me-2"></i>
+
+                    View My Pets
+
+                </a>
+
+                {% endif %}
 
             </div>
 
-            <div class="hero-feature">
+            <!-- Stats -->
 
-                <i class="bi bi-camera-fill"></i>
+            <div class="hero-stats">
 
-                <h5>
+                <div class="hero-stat">
 
-                    Memories
+                    <h2>
 
-                </h5>
+                        {{ pets|length }}
 
-                <p>
+                    </h2>
 
-                    Build a lifetime photo journal.
+                    <span>
 
-                </p>
+                        Pets
+
+                    </span>
+
+                </div>
+
+                <div class="hero-stat">
+
+                    <h2>
+
+                        24×7
+
+                    </h2>
+
+                    <span>
+
+                        Records Available
+
+                    </span>
+
+                </div>
+
+                <div class="hero-stat">
+
+                    <h2>
+
+                        100%
+
+                    </h2>
+
+                    <span>
+
+                        Digital Tracking
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Feature Cards -->
+
+            <div class="hero-features">
+
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-heart-pulse-fill"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Health Records
+
+                    </h5>
+
+                    <p>
+
+                        Maintain complete medical history in one secure place.
+
+                    </p>
+
+                </div>
+
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Vaccination Tracker
+
+                    </h5>
+
+                    <p>
+
+                        Stay updated with upcoming vaccines and boosters.
+
+                    </p>
+
+                </div>
+
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-bell-fill"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Smart Reminders
+
+                    </h5>
+
+                    <p>
+
+                        Never forget medicines, deworming or vet visits.
+
+                    </p>
+
+                </div>
+
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-images"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Memories
+
+                    </h5>
+
+                    <p>
+
+                        Save photos and milestones throughout every stage of life.
+
+                    </p>
+
+                </div>
 
             </div>
 
