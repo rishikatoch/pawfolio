@@ -1,5 +1,5 @@
 <!-- ==========================================================
-     Deworming Timeline
+     DEWORMING TIMELINE
 ========================================================== -->
 
 <section class="timeline-section">
@@ -8,27 +8,40 @@
 
         <div class="timeline-card">
 
+            <!-- ==============================================
+                 HEADER
+            =============================================== -->
+
             <div class="section-header">
 
                 <div>
 
-                    <h2>
+                    <span class="dashboard-badge">
 
                         <i class="bi bi-bug-fill"></i>
+
+                        Health History
+
+                    </span>
+
+                    <h2>
 
                         Deworming Timeline
 
                     </h2>
 
-                    <span>
+                    <p>
 
-                        Complete deworming history for {{ pet.name }}
+                        Complete deworming history for
+                        <strong>{{ pet.name }}</strong>.
+                        Monitor treatments, upcoming schedules,
+                        and maintain a healthy routine.
 
-                    </span>
+                    </p>
 
                 </div>
 
-                <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info text-white">
+                <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-primary">
 
                     <i class="bi bi-plus-circle"></i>
 
@@ -38,13 +51,20 @@
 
             </div>
 
+
+            <!-- ==============================================
+                 TIMELINE
+            =============================================== -->
+
             {% if dewormings %}
 
             <div class="timeline">
 
                 {% for deworming in dewormings %}
 
-                <div class="timeline-item">
+                <article class="timeline-item">
+
+                    <!-- Timeline Icon -->
 
                     <div class="timeline-marker bg-info">
 
@@ -52,7 +72,14 @@
 
                     </div>
 
+
+                    <!-- Card -->
+
                     <div class="timeline-content">
+
+                        <!-- ==================================
+                             TOP
+                        =================================== -->
 
                         <div class="timeline-top">
 
@@ -66,7 +93,7 @@
 
                                 <p>
 
-                                    Deworming Record
+                                    Deworming Treatment
 
                                 </p>
 
@@ -76,6 +103,8 @@
 
                                 {% if deworming.next_due < today %} <span class="badge bg-danger">
 
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
                                     Overdue
 
                                     </span>
@@ -84,6 +113,8 @@
 
                                     <span class="badge bg-warning text-dark">
 
+                                        <i class="bi bi-clock me-1"></i>
+
                                         Due Today
 
                                     </span>
@@ -91,6 +122,8 @@
                                     {% else %}
 
                                     <span class="badge bg-success">
+
+                                        <i class="bi bi-check-circle me-1"></i>
 
                                         Upcoming
 
@@ -102,9 +135,14 @@
 
                         </div>
 
+
+                        <!-- ==================================
+                             DETAILS
+                        =================================== -->
+
                         <div class="row g-4 mt-2">
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-xl-3 col-md-6">
 
                                 <div class="timeline-info">
 
@@ -124,7 +162,7 @@
 
                             </div>
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-xl-3 col-md-6">
 
                                 <div class="timeline-info">
 
@@ -144,7 +182,7 @@
 
                             </div>
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-xl-3 col-md-6">
 
                                 <div class="timeline-info">
 
@@ -164,13 +202,13 @@
 
                             </div>
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-xl-3 col-md-6">
 
                                 <div class="timeline-info">
 
                                     <span>
 
-                                        Status
+                                        Current Status
 
                                     </span>
 
@@ -185,13 +223,20 @@
 
                         </div>
 
+
+                        <!-- ==================================
+                             NOTES
+                        =================================== -->
+
                         {% if deworming.notes %}
 
                         <div class="timeline-notes">
 
                             <h6>
 
-                                Notes
+                                <i class="bi bi-journal-text me-2"></i>
+
+                                Treatment Notes
 
                             </h6>
 
@@ -205,10 +250,15 @@
 
                         {% endif %}
 
+
+                        <!-- ==================================
+                             ACTIONS
+                        =================================== -->
+
                         <div class="timeline-actions">
 
                             <a href="{{ url_for('edit_deworming', deworming_id=deworming.id) }}"
-                                class="btn btn-warning">
+                                class="btn btn-outline-primary">
 
                                 <i class="bi bi-pencil-square"></i>
 
@@ -219,7 +269,7 @@
                             <form method="POST" action="{{ url_for('delete_deworming', deworming_id=deworming.id) }}"
                                 onsubmit="return confirm('Delete this deworming record?');">
 
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-outline-danger">
 
                                     <i class="bi bi-trash"></i>
 
@@ -233,11 +283,16 @@
 
                     </div>
 
-                </div>
+                </article>
 
                 {% endfor %}
 
             </div>
+
+
+            <!-- ==============================================
+                 EMPTY STATE
+            =============================================== -->
 
             {% else %}
 
@@ -251,18 +306,20 @@
 
                 <h2>
 
-                    No Deworming Records
+                    No Deworming Records Yet
 
                 </h2>
 
                 <p>
 
-                    Track every deworming treatment to maintain your pet's health.
-                    Add the first deworming record to begin building the timeline.
+                    Start building your pet's health history by recording
+                    the first deworming treatment. Pawfolio will help you
+                    keep future schedules organized and never miss the next
+                    due date.
 
                 </p>
 
-                <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-info text-white">
+                <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="btn btn-primary">
 
                     <i class="bi bi-plus-circle"></i>
 

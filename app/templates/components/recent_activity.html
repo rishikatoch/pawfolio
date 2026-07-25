@@ -1,36 +1,72 @@
-<section class="recent-activity mb-5">
+<!-- ==========================================================
+     RECENT ACTIVITY
+========================================================== -->
 
-    <div class="mb-4">
+<section class="recent-activity">
 
-        <h2 class="fw-bold mb-1">
-            Recent Activity
-        </h2>
+    <div class="container">
 
-        <p class="text-secondary mb-0">
-            Latest updates from your pet records.
-        </p>
+        <div class="activity-card">
 
-    </div>
+            <!-- ==========================================
+                 HEADER
+            =========================================== -->
 
-    <div class="activity-card">
+            <div class="section-header">
 
-        <div class="activity-item">
+                <div>
 
-            <div class="activity-icon">
-                💉
-            </div>
+                    <span class="dashboard-badge">
 
-            <div>
+                        <i class="bi bi-clock-history"></i>
 
-                <strong>
-                    No recent activity yet
-                </strong>
+                        Activity Feed
 
-                <div class="text-secondary">
+                    </span>
 
-                    Vaccinations, deworming and health updates will appear here.
+                    <h2>
+
+                        Recent Activity
+
+                    </h2>
+
+                    <p>
+
+                        Follow the latest updates for {{ pet.name }},
+                        including vaccinations, deworming records,
+                        profile updates, and upcoming reminders.
+
+                    </p>
 
                 </div>
+
+            </div>
+
+            <!-- ==========================================
+                 EMPTY STATE
+            =========================================== -->
+
+            <div class="dashboard-empty">
+
+                <div class="dashboard-empty-icon">
+
+                    <i class="bi bi-clock-history"></i>
+
+                </div>
+
+                <h3>
+
+                    No Activity Yet
+
+                </h3>
+
+                <p>
+
+                    As you record vaccinations, deworming treatments,
+                    edit your pet's profile, or schedule future care,
+                    those events will appear here in chronological order.
+
+                </p>
 
             </div>
 

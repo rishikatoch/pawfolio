@@ -1,0 +1,248 @@
+/* ==========================================
+   Pawfolio Layout System v1
+   Shared layout utilities
+========================================== */
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+
+.pf-main {
+
+    min-height: calc(100vh - var(--navbar-height));
+
+    padding-top: 2rem;
+
+    padding-bottom: 4rem;
+
+}
+
+/* ==========================================
+   CONTAINERS
+========================================== */
+
+.container-xl {
+
+    width: 100%;
+
+    max-width: var(--container-width);
+
+    margin-inline: auto;
+
+    padding-inline: 1.5rem;
+
+}
+
+.container-md {
+
+    max-width: 960px;
+
+    margin-inline: auto;
+
+}
+
+.container-sm {
+
+    max-width: 720px;
+
+    margin-inline: auto;
+
+}
+
+/* ==========================================
+   SECTIONS
+========================================== */
+
+.pf-section {
+
+    margin-bottom: var(--section-gap);
+
+}
+
+.pf-section:last-child {
+
+    margin-bottom: 0;
+
+}
+
+/* ==========================================
+   FLEX HELPERS
+========================================== */
+
+.flex-center {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+.flex-between {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.flex-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+/* ==========================================
+   GRID
+========================================== */
+
+.grid-2 {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 2rem;
+
+}
+
+.grid-3 {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 2rem;
+
+}
+
+.grid-4 {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 2rem;
+
+}
+
+/* ==========================================
+   PAGE HEADERS
+========================================== */
+
+.page-header {
+
+    margin-bottom: 3rem;
+
+}
+
+.page-title {
+
+    font-size: 2.5rem;
+
+    font-weight: 700;
+
+    color: var(--heading);
+
+    margin-bottom: .75rem;
+
+}
+
+.page-subtitle {
+
+    font-size: 1rem;
+
+    color: var(--text-light);
+
+    max-width: 650px;
+
+}
+
+/* ==========================================
+   SPACING
+========================================== */
+
+.mt-section {
+
+    margin-top: var(--section-gap);
+
+}
+
+.mb-section {
+
+    margin-bottom: var(--section-gap);
+
+}
+
+.py-section {
+
+    padding-block: var(--section-gap);
+
+}
+
+/* ==========================================
+   DIVIDERS
+========================================== */
+
+.divider {
+
+    height: 1px;
+
+    background: var(--border);
+
+    margin: 2rem 0;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:1200px) {
+
+    .grid-4 {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width:992px) {
+
+    .grid-3,
+
+    .grid-2 {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+@media (max-width:768px) {
+
+    .container-xl {
+
+        padding-inline: 1rem;
+
+    }
+
+    .page-title {
+
+        font-size: 2rem;
+
+    }
+
+    .pf-main {
+
+        padding-top: 1.5rem;
+
+    }
+
+}

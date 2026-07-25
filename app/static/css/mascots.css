@@ -1,66 +1,12 @@
-/* ==========================
-   Mascot Scene
-========================== */
+/* ==========================================
+   Pawfolio Mascot System v2
+   Luffy • Laila • Hero Section
+========================================== */
 
-.mascot-scene {
 
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-}
-
-.welcome-mascot {
-
-    width: 100%;
-
-    max-width: 520px;
-
-    height: auto;
-
-    animation: breathe 5s ease-in-out infinite;
-
-    transition: .35s;
-
-}
-
-.welcome-mascot:hover {
-
-    transform: translateY(-8px) scale(1.02);
-
-}
-
-/* ==========================
-   Breathing Animation
-========================== */
-
-@keyframes breathe {
-
-    0% {
-
-        transform: scale(1);
-
-    }
-
-    50% {
-
-        transform: scale(1.02);
-
-    }
-
-    100% {
-
-        transform: scale(1);
-
-    }
-
-}
-
-/* =====================================
-   Mascot Scene
-===================================== */
+/* ==========================================
+   MASCOT SCENE
+========================================== */
 
 .mascot-scene {
 
@@ -76,55 +22,65 @@
 
 }
 
+/* ==========================================
+   MAIN MASCOT
+========================================== */
+
 .welcome-mascot {
 
     width: 100%;
 
-    max-width: 520px;
+    max-width: 540px;
 
     height: auto;
 
-    animation: breathe 5s ease-in-out infinite;
+    transition: var(--transition);
 
-    transition: .35s;
+    animation: breathe 5s ease-in-out infinite;
 
 }
 
 .welcome-mascot:hover {
 
-    transform: translateY(-8px);
+    transform: translateY(-8px) scale(1.02);
 
 }
 
-/* =====================================
-   Speech Bubble
-===================================== */
+/* ==========================================
+   SPEECH BUBBLES
+========================================== */
 
 .speech-bubble {
 
     position: absolute;
 
-    background: white;
+    width: 210px;
 
-    border-radius: 20px;
+    padding: 1.2rem 1.4rem;
 
-    padding: 18px 22px;
+    background: var(--card);
 
-    box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+    border: 1px solid var(--border);
 
-    width: 180px;
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow);
 
     animation: floatBubble 4s ease-in-out infinite;
 
-    z-index: 5;
+    z-index: 20;
 
 }
 
 .speech-bubble h5 {
 
+    margin-bottom: .35rem;
+
+    font-size: 1rem;
+
     font-weight: 700;
 
-    margin-bottom: 6px;
+    color: var(--heading);
 
 }
 
@@ -132,13 +88,21 @@
 
     margin: 0;
 
-    color: #666;
+    color: var(--text-light);
+
+    font-size: .9rem;
+
+    line-height: 1.5;
 
 }
 
+/* ==========================================
+   BUBBLE POSITIONS
+========================================== */
+
 .speech-left {
 
-    left: -35px;
+    left: -50px;
 
     top: 40px;
 
@@ -146,13 +110,15 @@
 
 .speech-right {
 
-    right: -35px;
+    right: -50px;
 
-    bottom: 50px;
+    bottom: 60px;
 
 }
 
-/* Bubble Tail */
+/* ==========================================
+   BUBBLE TAILS
+========================================== */
 
 .speech-left::after {
 
@@ -160,17 +126,21 @@
 
     position: absolute;
 
-    right: -10px;
+    width: 18px;
 
-    top: 40px;
+    height: 18px;
 
-    width: 20px;
+    background: var(--card);
 
-    height: 20px;
+    border-right: 1px solid var(--border);
 
-    background: white;
+    border-bottom: 1px solid var(--border);
 
-    transform: rotate(45deg);
+    transform: rotate(-45deg);
+
+    right: -9px;
+
+    top: 42px;
 
 }
 
@@ -180,23 +150,151 @@
 
     position: absolute;
 
-    left: -10px;
+    width: 18px;
 
-    top: 40px;
+    height: 18px;
 
-    width: 20px;
+    background: var(--card);
 
-    height: 20px;
+    border-left: 1px solid var(--border);
 
-    background: white;
+    border-bottom: 1px solid var(--border);
 
     transform: rotate(45deg);
 
+    left: -9px;
+
+    top: 42px;
+
 }
 
-/* =====================================
-   Animations
-===================================== */
+/* ==========================================
+   HERO PANEL
+========================================== */
+
+.hero-panel {
+
+    text-align: center;
+
+}
+
+.hero-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .6rem;
+
+    padding: .7rem 1.3rem;
+
+    border-radius: var(--radius-pill);
+
+    background: var(--secondary-light);
+
+    color: var(--primary);
+
+    font-weight: 700;
+
+    margin-bottom: 1.5rem;
+
+    box-shadow: var(--shadow-xs);
+
+}
+
+.hero-title {
+
+    font-size: 3rem;
+
+    font-weight: 800;
+
+    color: var(--heading);
+
+    margin-bottom: 1rem;
+
+}
+
+.hero-description {
+
+    max-width: 620px;
+
+    margin: 0 auto 2rem;
+
+    color: var(--text-light);
+
+    line-height: 1.8;
+
+    font-size: 1.05rem;
+
+}
+
+/* ==========================================
+   FEATURE CARDS
+========================================== */
+
+.hero-features {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 1rem;
+
+    margin-top: 2.5rem;
+
+}
+
+.feature-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .7rem;
+
+    padding: .95rem 1.35rem;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-xs);
+
+    transition: var(--transition-fast);
+
+}
+
+.feature-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: var(--shadow);
+
+}
+
+.feature-card i {
+
+    color: var(--primary);
+
+    font-size: 1.15rem;
+
+}
+
+.feature-card span {
+
+    color: var(--heading);
+
+    font-weight: 600;
+
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
 
 @keyframes breathe {
 
@@ -242,7 +340,11 @@
 
 }
 
-@media (max-width:991px) {
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:992px) {
 
     .speech-bubble {
 
@@ -252,114 +354,58 @@
 
     .welcome-mascot {
 
-        max-width: 320px;
+        max-width: 360px;
 
     }
 
 }
 
-/* ===========================
-   Hero Panel
-=========================== */
+@media (max-width:768px) {
 
-.hero-panel {
+    .hero-title {
 
-    text-align: center;
+        font-size: 2.2rem;
 
-}
+    }
 
-.hero-badge {
+    .hero-description {
 
-    display: inline-flex;
+        font-size: .95rem;
 
-    align-items: center;
+    }
 
-    gap: .5rem;
+    .hero-features {
 
-    background: #EEF7FF;
+        flex-direction: column;
 
-    color: #2A7FFF;
+        align-items: center;
 
-    padding: .6rem 1.2rem;
+    }
 
-    border-radius: 999px;
+    .feature-card {
 
-    font-weight: 600;
+        width: 100%;
 
-    margin-bottom: 1.5rem;
+        justify-content: center;
 
-}
+        max-width: 340px;
 
-.hero-title {
-
-    font-size: 3rem;
-
-    font-weight: 800;
-
-    margin-bottom: 1rem;
+    }
 
 }
 
-.hero-description {
+@media (max-width:480px) {
 
-    max-width: 550px;
+    .welcome-mascot {
 
-    margin: auto;
+        max-width: 280px;
 
-    color: #6b7280;
+    }
 
-    line-height: 1.8;
+    .hero-title {
 
-    font-size: 1.1rem;
+        font-size: 1.9rem;
 
-    margin-bottom: 2rem;
-
-}
-
-.hero-features {
-
-    margin-top: 2.5rem;
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 1rem;
-
-    flex-wrap: wrap;
-
-}
-
-.feature-card {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: .6rem;
-
-    background: white;
-
-    padding: .9rem 1.3rem;
-
-    border-radius: 16px;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
-
-    transition: .3s;
-
-}
-
-.feature-card:hover {
-
-    transform: translateY(-6px);
-
-}
-
-.feature-card i {
-
-    color: #2A7FFF;
-
-    font-size: 1.2rem;
+    }
 
 }

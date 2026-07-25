@@ -1,31 +1,24 @@
-<!-- ==========================================================
-     Recent Activity
-========================================================== -->
+<div class="activity-card">
 
-<div class="dashboard-panel">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="dashboard-panel-header">
+    <div class="card-header-modern">
 
         <div>
 
-            <span class="dashboard-badge">
+            <h3>
 
                 <i class="bi bi-clock-history me-2"></i>
-
-                Activity Feed
-
-            </span>
-
-            <h3>
 
                 Recent Activity
 
             </h3>
 
-            <p>
+            <p class="mb-0 text-muted">
 
-                Stay informed with the latest updates across your pets'
-                profiles, vaccinations, deworming schedules and health records.
+                A timeline of the latest updates across your pets' health records.
 
             </p>
 
@@ -33,47 +26,47 @@
 
     </div>
 
+
+    <!-- =====================================================
+         ACTIVITY TIMELINE
+    ====================================================== -->
+
     {% if recent_activity %}
 
-    <div class="dashboard-list">
+    <div class="activity-list">
 
         {% for activity in recent_activity %}
 
-        <div class="dashboard-list-item">
+        <div class="activity-item">
 
-            <div class="dashboard-list-left">
+            <!-- Timeline Icon -->
 
-                <div class="dashboard-list-icon">
+            <div class="activity-icon">
 
-                    <span class="activity-emoji">
-
-                        {{ activity.icon }}
-
-                    </span>
-
-                </div>
-
-                <div>
-
-                    <h5>
-
-                        {{ activity.message }}
-
-                    </h5>
-
-                    <p>
-
-                        Recorded activity
-
-                    </p>
-
-                </div>
+                {{ activity.icon }}
 
             </div>
 
-            <div class="dashboard-list-right">
 
-                <span class="dashboard-date">
+            <!-- Content -->
+
+            <div class="activity-content">
+
+                <h5>
+
+                    {{ activity.message }}
+
+                </h5>
+
+                <p>
+
+                    Recorded activity in your Pawfolio account.
+
+                </p>
+
+                <span class="activity-time">
+
+                    <i class="bi bi-calendar3 me-1"></i>
 
                     {{ activity.date.strftime("%d %b %Y") }}
 
@@ -87,6 +80,11 @@
 
     </div>
 
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
     {% else %}
 
     <div class="dashboard-empty">
@@ -97,16 +95,17 @@
 
         </div>
 
-        <h4>
+        <h3>
 
-            No Recent Activity
+            No Recent Activity Yet
 
-        </h4>
+        </h3>
 
         <p>
 
-            Vaccinations, deworming records, profile updates and future
-            activities will automatically appear here as you use Pawfolio.
+            As you add pets, record vaccinations, log deworming treatments,
+            schedule vet visits, and update profiles, your latest activities
+            will appear here in chronological order.
 
         </p>
 

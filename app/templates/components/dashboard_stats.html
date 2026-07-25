@@ -1,207 +1,172 @@
-<div class="row g-4">
+<div class="dashboard-stats">
 
-    <!-- ======================================================
-         Total Pets
-    ======================================================= -->
+    <!-- =====================================================
+         TOTAL PETS
+    ====================================================== -->
 
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <article class="stat-card">
 
-        <div class="dashboard-stat-card dashboard-blue h-100">
+        <div class="stat-icon bg-primary">
 
-            <div class="stat-top">
+            <i class="bi bi-heart-fill"></i>
 
-                <div class="stat-icon">
+        </div>
 
-                    <i class="bi bi-heart-fill"></i>
+        <div class="stat-content">
 
-                </div>
+            <div class="stat-value">
 
-                <span class="stat-badge">
-
-                    Total Pets
-
-                </span>
+                {{ total_pets }}
 
             </div>
 
-            <div class="stat-body">
+            <div class="stat-label">
 
-                <h2>
+                Registered Pets
 
-                    {{ total_pets }}
+            </div>
 
-                </h2>
+            <div class="stat-trend up">
 
-                <h5>
+                <i class="bi bi-check-circle-fill"></i>
 
-                    Registered Pets
-
-                </h5>
-
-                <p>
-
-                    Every companion is safely stored with health records,
-                    vaccinations, photos and important information.
-
-                </p>
+                All your pets are managed in one place
 
             </div>
 
         </div>
 
-    </div>
+    </article>
 
-    <!-- ======================================================
-         Vaccinations
-    ======================================================= -->
 
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <!-- =====================================================
+         VACCINATIONS
+    ====================================================== -->
 
-        <div class="dashboard-stat-card dashboard-green h-100">
+    <article class="stat-card">
 
-            <div class="stat-top">
+        <div class="stat-icon bg-success">
 
-                <div class="stat-icon">
+            <i class="bi bi-shield-check"></i>
 
-                    <i class="bi bi-shield-check"></i>
+        </div>
 
-                </div>
+        <div class="stat-content">
 
-                <span class="stat-badge">
+            <div class="stat-value">
 
-                    Vaccinations
-
-                </span>
+                {{ total_vaccinations }}
 
             </div>
 
-            <div class="stat-body">
+            <div class="stat-label">
 
-                <h2>
+                Vaccine Records
 
-                    {{ total_vaccinations }}
+            </div>
 
-                </h2>
+            <div class="stat-trend up">
 
-                <h5>
+                <i class="bi bi-shield-fill-check"></i>
 
-                    Vaccine Records
-
-                </h5>
-
-                <p>
-
-                    Complete vaccination history is organized and always
-                    available whenever you need it.
-
-                </p>
+                Complete vaccination history available
 
             </div>
 
         </div>
 
-    </div>
+    </article>
 
-    <!-- ======================================================
-         Deworming
-    ======================================================= -->
 
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <!-- =====================================================
+         DEWORMING
+    ====================================================== -->
 
-        <div class="dashboard-stat-card dashboard-orange h-100">
+    <article class="stat-card">
 
-            <div class="stat-top">
+        <div class="stat-icon bg-warning">
 
-                <div class="stat-icon">
+            <i class="bi bi-bug-fill"></i>
 
-                    <i class="bi bi-bug-fill"></i>
+        </div>
 
-                </div>
+        <div class="stat-content">
 
-                <span class="stat-badge">
+            <div class="stat-value">
 
-                    Deworming
-
-                </span>
+                {{ total_dewormings }}
 
             </div>
 
-            <div class="stat-body">
+            <div class="stat-label">
 
-                <h2>
+                Deworming Treatments
 
-                    {{ total_dewormings }}
+            </div>
 
-                </h2>
+            <div class="stat-trend up">
 
-                <h5>
+                <i class="bi bi-calendar2-check-fill"></i>
 
-                    Treatments Logged
-
-                </h5>
-
-                <p>
-
-                    Monitor completed treatments and keep future deworming
-                    schedules under control.
-
-                </p>
+                Treatment schedule is being tracked
 
             </div>
 
         </div>
 
-    </div>
+    </article>
 
-    <!-- ======================================================
-         Overdue
-    ======================================================= -->
 
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <!-- =====================================================
+         OVERDUE
+    ====================================================== -->
 
-        <div class="dashboard-stat-card dashboard-red h-100">
+    <article class="stat-card">
 
-            <div class="stat-top">
+        <div class="stat-icon bg-danger">
 
-                <div class="stat-icon">
-
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-
-                </div>
-
-                <span class="stat-badge">
-
-                    Overdue
-
-                </span>
-
-            </div>
-
-            <div class="stat-body">
-
-                <h2>
-
-                    {{ overdue_count }}
-
-                </h2>
-
-                <h5>
-
-                    Needs Attention
-
-                </h5>
-
-                <p>
-
-                    Vaccinations or deworming reminders that require immediate
-                    action to keep your pets healthy.
-
-                </p>
-
-            </div>
+            <i class="bi bi-exclamation-triangle-fill"></i>
 
         </div>
 
-    </div>
+        <div class="stat-content">
+
+            <div class="stat-value">
+
+                {{ overdue_count }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Pending Reminders
+
+            </div>
+
+            {% if overdue_count > 0 %}
+
+            <div class="stat-trend down">
+
+                <i class="bi bi-clock-history"></i>
+
+                Action required to keep your pets healthy
+
+            </div>
+
+            {% else %}
+
+            <div class="stat-trend up">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                No overdue reminders 🎉
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </article>
 
 </div>

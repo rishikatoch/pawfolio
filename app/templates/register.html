@@ -1,85 +1,146 @@
 {% extends "base.html" %}
 
+{% block show_layout %}
+false
+{% endblock %}
+
+{% block title %}
+Create Account • Pawfolio
+{% endblock %}
+
+{% block body_class %}
+register-body
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
-<div class="container py-5">
+<div class="register-page">
 
-    <div class="row justify-content-center align-items-center g-5">
+    <!-- Decorative Paw Prints -->
 
-        <!-- ==========================================================
-             LEFT SIDE
-        ========================================================== -->
+    <i class="bi bi-paw-fill paw paw-1"></i>
+    <i class="bi bi-paw-fill paw paw-2"></i>
+    <i class="bi bi-paw-fill paw paw-3"></i>
 
-        <div class="col-lg-6 d-none d-lg-block">
+    <div class="container-xl">
 
-            <div class="text-center">
+        <div class="row align-items-center justify-content-center g-5 min-vh-100">
 
-                <div class="page-badge mb-4">
+            <!-- ======================================================
+                            LEFT SIDE
+            ======================================================= -->
 
-                    <i class="bi bi-heart-pulse-fill"></i>
+            <div class="col-lg-6 d-none d-lg-block">
 
-                    Pawfolio
+                <div class="hero-panel">
 
-                </div>
+                    <div class="hero-badge">
 
-                <h1 class="display-4 fw-bold mb-4">
+                        <i class="bi bi-heart-pulse-fill"></i>
 
-                    Join Pawfolio 🐾
-
-                </h1>
-
-                <p class="lead text-muted mb-5">
-
-                    Create your free account and keep your pets'
-                    vaccinations, deworming schedules, health records,
-                    growth, and reminders organized in one secure place.
-
-                </p>
-
-                <img src="{{ url_for('static', filename='images/login-dog.svg') }}" alt="Pawfolio" class="img-fluid"
-                    style="max-height:420px;">
-
-            </div>
-
-        </div>
-
-        <!-- ==========================================================
-             REGISTER CARD
-        ========================================================== -->
-
-        <div class="col-lg-5">
-
-            <div class="glass-form">
-
-                <div class="text-center mb-5">
-
-                    <div class="upload-circle mx-auto mb-4">
-
-                        <i class="bi bi-person-plus-fill"></i>
+                        Pawfolio
 
                     </div>
 
-                    <h2 class="fw-bold">
+                    <h1 class="hero-title">
 
-                        Create Account
+                        Every Happy Tail
+                        <br>
+                        Deserves Great Care.
 
-                    </h2>
+                    </h1>
 
-                    <p class="text-muted">
+                    <p class="hero-description">
 
-                        Start your Pawfolio journey today.
+                        Join thousands of pet parents using Pawfolio to
+                        organize vaccinations, deworming schedules,
+                        vet visits, growth records and precious memories
+                        in one beautiful dashboard.
 
                     </p>
 
+                    <div class="hero-illustration">
+
+                        {% include "components/mascot_scene.html" %}
+
+                    </div>
+
+                    <div class="hero-features">
+
+                        <div class="feature-card">
+
+                            <i class="bi bi-heart-pulse"></i>
+
+                            <span>Health Tracking</span>
+
+                        </div>
+
+                        <div class="feature-card">
+
+                            <i class="bi bi-bell-fill"></i>
+
+                            <span>Smart Reminders</span>
+
+                        </div>
+
+                        <div class="feature-card">
+
+                            <i class="bi bi-cloud-check-fill"></i>
+
+                            <span>Secure Cloud Storage</span>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <form method="POST">
+            </div>
 
-                    {{ form.hidden_tag() }}
+            <!-- ======================================================
+                        REGISTER CARD
+            ======================================================= -->
 
-                    <div class="form-section">
+            <div class="col-lg-5 col-xl-4">
 
-                        <!-- Username -->
+                <div class="glass-form">
+
+                    <div class="text-center mb-5">
+
+                        <div class="upload-circle mx-auto mb-4">
+
+                            <i class="bi bi-person-plus-fill"></i>
+
+                        </div>
+
+                        <h2 class="fw-bold mb-2">
+
+                            Create Account
+
+                        </h2>
+
+                        <p class="text-muted">
+
+                            Create your free Pawfolio account
+                            and start protecting your furry family.
+
+                        </p>
+
+                    </div>
+
+                    <form method="POST" novalidate>
+
+                        {{ form.hidden_tag() }}
+
+                        <!-- ======================================
+                                USERNAME
+                        ======================================= -->
 
                         <div class="mb-4">
 
@@ -93,13 +154,23 @@
 
                                 </span>
 
-                                {{ form.username(class="form-control", placeholder="Choose a username") }}
+                                {{ form.username(
+
+                                class="form-control",
+
+                                placeholder="Choose a username",
+
+                                autocomplete="username"
+
+                                ) }}
 
                             </div>
 
                         </div>
 
-                        <!-- Email -->
+                        <!-- ======================================
+                                EMAIL
+                        ======================================= -->
 
                         <div class="mb-4">
 
@@ -113,13 +184,23 @@
 
                                 </span>
 
-                                {{ form.email(class="form-control", placeholder="Enter your email") }}
+                                {{ form.email(
+
+                                class="form-control",
+
+                                placeholder="Enter your email",
+
+                                autocomplete="email"
+
+                                ) }}
 
                             </div>
 
                         </div>
 
-                        <!-- Password -->
+                        <!-- ======================================
+                                PASSWORD
+                        ======================================= -->
 
                         <div class="mb-4">
 
@@ -133,10 +214,20 @@
 
                                 </span>
 
-                                {{ form.password(class="form-control", id="password", placeholder="Create a password")
-                                }}
+                                {{ form.password(
 
-                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                class="form-control",
+
+                                id="password",
+
+                                placeholder="Create a password",
+
+                                autocomplete="new-password"
+
+                                ) }}
+
+                                <button type="button" id="togglePassword" class="btn btn-light"
+                                    aria-label="Show password">
 
                                     <i class="bi bi-eye"></i>
 
@@ -146,7 +237,9 @@
 
                         </div>
 
-                        <!-- Confirm Password -->
+                        <!-- ======================================
+                            CONFIRM PASSWORD
+                        ======================================= -->
 
                         <div class="mb-4">
 
@@ -160,10 +253,20 @@
 
                                 </span>
 
-                                {{ form.confirm_password(class="form-control", id="confirmPassword",
-                                placeholder="Confirm your password") }}
+                                {{ form.confirm_password(
 
-                                <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+                                class="form-control",
+
+                                id="confirmPassword",
+
+                                placeholder="Confirm your password",
+
+                                autocomplete="new-password"
+
+                                ) }}
+
+                                <button type="button" id="toggleConfirmPassword" class="btn btn-light"
+                                    aria-label="Show password">
 
                                     <i class="bi bi-eye"></i>
 
@@ -173,29 +276,39 @@
 
                         </div>
 
+                        <div class="d-grid">
+
+                            {{ form.submit(
+
+                            class="btn btn-primary btn-lg"
+
+                            ) }}
+
+                        </div>
+
+                    </form>
+
+                    <hr class="my-5">
+
+                    <div class="text-center">
+
+                        <p class="mb-2 text-muted">
+
+                            Already have an account?
+
+                        </p>
+
+                        <a href="{{ url_for('login') }}" class="fw-bold text-decoration-none">
+
+                            Sign In
+
+                            <i class="bi bi-arrow-right ms-1"></i>
+
+                        </a>
+
                     </div>
 
-                    <div class="form-actions">
-
-                        {{ form.submit(class="btn btn-primary btn-lg") }}
-
-                    </div>
-
-                </form>
-
-                <hr class="my-5">
-
-                <p class="text-center mb-0">
-
-                    Already have an account?
-
-                    <a href="{{ url_for('login') }}" class="fw-semibold text-decoration-none">
-
-                        Sign In
-
-                    </a>
-
-                </p>
+                </div>
 
             </div>
 
@@ -205,39 +318,43 @@
 
 </div>
 
+{% endblock %}
+{% block extra_js %}
+
 <script>
 
-    function toggleVisibility(buttonId, inputId) {
+    document.addEventListener("DOMContentLoaded", () => {
 
-        const button = document.getElementById(buttonId);
+        function toggleVisibility(buttonId, inputId) {
 
-        const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            const input = document.getElementById(inputId);
 
-        button.addEventListener("click", function () {
+            if (!button || !input) return;
 
-            if (input.type === "password") {
+            button.addEventListener("click", () => {
 
-                input.type = "text";
+                const hidden = input.type === "password";
 
-                this.innerHTML = '<i class="bi bi-eye-slash"></i>';
+                input.type = hidden ? "text" : "password";
 
-            }
+                button.setAttribute(
+                    "aria-label",
+                    hidden ? "Hide password" : "Show password"
+                );
 
-            else {
+                button.innerHTML = hidden
+                    ? '<i class="bi bi-eye-slash"></i>'
+                    : '<i class="bi bi-eye"></i>';
 
-                input.type = "password";
+            });
 
-                this.innerHTML = '<i class="bi bi-eye"></i>';
+        }
 
-            }
+        toggleVisibility("togglePassword", "password");
+        toggleVisibility("toggleConfirmPassword", "confirmPassword");
 
-        });
-
-    }
-
-    toggleVisibility("togglePassword", "password");
-
-    toggleVisibility("toggleConfirmPassword", "confirmPassword");
+    });
 
 </script>
 

@@ -1,31 +1,24 @@
-<!-- ==========================================================
-     Upcoming Birthdays
-========================================================== -->
+<div class="birthdays-card">
 
-<div class="dashboard-panel">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="dashboard-panel-header">
+    <div class="card-header-modern">
 
         <div>
 
-            <span class="dashboard-badge">
+            <h3>
 
                 <i class="bi bi-cake2-fill me-2"></i>
-
-                Celebrations
-
-            </span>
-
-            <h3>
 
                 Upcoming Birthdays
 
             </h3>
 
-            <p>
+            <p class="mb-0 text-muted">
 
-                Never miss your pets' special day. Celebrate every birthday
-                with timely reminders.
+                Celebrate every special day and never miss a birthday.
 
             </p>
 
@@ -33,23 +26,30 @@
 
     </div>
 
+
+    <!-- =====================================================
+         BIRTHDAY LIST
+    ====================================================== -->
+
     {% if upcoming_birthdays %}
 
-    <div class="dashboard-list">
+    <div class="birthday-list">
 
         {% for birthday in upcoming_birthdays %}
 
-        <div class="dashboard-list-item">
+        <div class="birthday-item">
 
-            <div class="dashboard-list-left">
+            <!-- Left -->
 
-                <div class="dashboard-list-icon">
+            <div class="birthday-pet">
+
+                <div class="birthday-avatar">
 
                     <i class="bi bi-cake2-fill"></i>
 
                 </div>
 
-                <div>
+                <div class="birthday-info">
 
                     <h5>
 
@@ -59,7 +59,7 @@
 
                     <p>
 
-                        Birthday
+                        Birthday Celebration
 
                     </p>
 
@@ -67,21 +67,20 @@
 
             </div>
 
-            <div class="dashboard-list-right">
 
-                <div class="mb-2">
+            <!-- Right -->
 
-                    <span class="dashboard-date">
+            <div class="text-end">
 
-                        {{ birthday.next_birthday.strftime("%d %b %Y") }}
+                <div class="birthday-date mb-2">
 
-                    </span>
+                    {{ birthday.next_birthday.strftime("%d %b") }}
 
                 </div>
 
                 {% if birthday.birthday_today %}
 
-                <span class="badge bg-success rounded-pill px-3 py-2">
+                <span class="badge rounded-pill bg-success px-3 py-2">
 
                     🎉 Today
 
@@ -89,7 +88,7 @@
 
                 {% else %}
 
-                <span class="badge bg-primary rounded-pill px-3 py-2">
+                <span class="badge rounded-pill bg-primary px-3 py-2">
 
                     {{ birthday.days_left }}
                     day{% if birthday.days_left != 1 %}s{% endif %} left
@@ -106,6 +105,11 @@
 
     </div>
 
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
     {% else %}
 
     <div class="dashboard-empty">
@@ -116,16 +120,17 @@
 
         </div>
 
-        <h4>
+        <h3>
 
-            No Upcoming Birthdays
+            No Upcoming Birthdays 🎂
 
-        </h4>
+        </h3>
 
         <p>
 
-            Birthday reminders will automatically appear here once your pets'
-            birth dates are added.
+            Birthday reminders will automatically appear here once you
+            add your pets' birth dates. Every celebration deserves to
+            be remembered.
 
         </p>
 

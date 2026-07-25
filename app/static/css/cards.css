@@ -1,555 +1,405 @@
-{% for pet in pets %}
-
-<div class="col-xl-4 col-lg-6">
-
-    <div class="pet-card">
-
-        <a href="{{ url_for('pet_profile', id=pet.id) }}"
-           class="pet-card-link">
-
-            <!-- ================= IMAGE ================= -->
-
-            <div class="pet-image">
-
-                {% if pet.photo %}
-
-                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}"
-                     alt="{{ pet.name }}">
-
-                {% else %}
-
-                <div class="no-photo">
-
-                    <i class="bi bi-heart-fill heart-placeholder"></i>
-
-                    <i class="bi bi-paw-fill paw-placeholder"></i>
-
-                </div>
-
-                {% endif %}
-
-                {% if pet.vaccination_status=="Vaccinated" %}
-
-                <span class="status-badge healthy">
-
-                    Healthy
-
-                </span>
-
-                {% elif pet.vaccination_status=="Due Soon" %}
-
-                <span class="status-badge due">
-
-                    Due Soon
-
-                </span>
-
-                {% else %}
-
-                <span class="status-badge overdue">
-
-                    Attention
-
-                </span>
-
-                {% endif %}
-
-            </div>
-
-            <!-- ================= BODY ================= -->
-
-            <div class="pet-body">
-
-                <h3>
-
-                    {{ pet.name }}
-
-                </h3>
-
-                <span class="breed-chip">
-
-                    {{ pet.breed }}
-
-                </span>
-
-                <div class="pet-meta">
-
-                    <div>
-
-                        <i class="bi bi-gender-ambiguous"></i>
-
-                        {{ pet.gender }}
-
-                    </div>
-
-                    <div>
-
-                        <i class="bi bi-cake2-fill"></i>
-
-                        {{ pet.age }}
-
-                    </div>
-
-                    <div>
-
-                        <i class="bi bi-speedometer2"></i>
-
-                        {% if pet.weight %}
-
-                        {{ pet.weight }} kg
-
-                        {% else %}
-
-                        --
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </a>
-
-        <div class="pet-footer">
-
-            <div class="row g-2">
-
-                <div class="col-6">
-
-                    <a href="{{ url_for('edit_pet', id=pet.id) }}"
-                       class="btn btn-warning w-100">
-
-                        Edit
-
-                    </a>
-
-                </div>
-
-                <div class="col-6">
-
-                    <a href="{{ url_for('delete_pet', id=pet.id) }}"
-                       class="btn btn-danger w-100">
-
-                        Delete
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-{% endfor %}
 /* ==========================================
-   Pawfolio Cards (Final)
+   Pawfolio Card System v2
+   Warm • Friendly • Modern
 ========================================== */
 
-/* ==========================
-   Card
-========================== */
+/* ==========================================
+   BASE CARD
+========================================== */
 
-.pet-card{
+.card-soft,
+.pet-card,
+.dashboard-card {
 
-    background:#1b2333;
+    background: var(--card);
 
-    border-radius:24px;
+    border: 1px solid var(--border);
 
-    overflow:hidden;
+    border-radius: var(--radius-lg);
 
-    border:1px solid rgba(255,255,255,.08);
+    overflow: hidden;
 
-    transition:.35s;
+    box-shadow: var(--shadow-sm);
 
-    display:flex;
-
-    flex-direction:column;
-
-    height:100%;
-
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
+    transition: var(--transition);
 
 }
 
-.pet-card:hover{
+.card-soft:hover,
+.pet-card:hover,
+.dashboard-card:hover {
 
-    transform:translateY(-8px);
+    transform: translateY(-6px);
 
-    box-shadow:0 18px 45px rgba(0,0,0,.35);
-
-}
-
-/* ==========================
-   Entire Card Clickable
-========================== */
-
-.pet-card-link{
-
-    text-decoration:none;
-
-    color:inherit;
-
-    display:block;
+    box-shadow: var(--shadow-lg);
 
 }
 
-/* ==========================
-   Image
-========================== */
+/* ==========================================
+   PET CARD
+========================================== */
 
-.pet-image{
+.pet-card {
 
-    position:relative;
+    display: flex;
 
-    height:280px;
+    flex-direction: column;
 
-    overflow:hidden;
-
-    background:#111827;
+    height: 100%;
 
 }
 
-.pet-image img{
+/* ==========================================
+   CLICKABLE CARD
+========================================== */
 
-    width:100%;
+.pet-card-link {
 
-    height:100%;
+    display: block;
 
-    object-fit:cover;
+    text-decoration: none;
 
-    transition:.4s;
-
-    display:block;
-
-}
-
-.pet-card:hover .pet-image img{
-
-    transform:scale(1.08);
+    color: inherit;
 
 }
 
-/* ==========================
-   Status Badge
-========================== */
+/* ==========================================
+   IMAGE
+========================================== */
 
-.status-badge{
+.pet-image {
 
-    position:absolute;
+    position: relative;
 
-    top:16px;
+    height: 280px;
 
-    right:16px;
+    overflow: hidden;
 
-    padding:8px 14px;
-
-    border-radius:50px;
-
-    font-size:.82rem;
-
-    font-weight:700;
-
-    color:white;
-
-    backdrop-filter:blur(10px);
+    background: var(--surface-alt);
 
 }
 
-.healthy{
+.pet-image img {
 
-    background:#28a745;
+    width: 100%;
 
-}
+    height: 100%;
 
-.due{
+    object-fit: cover;
 
-    background:#f0ad4e;
-
-    color:#111;
+    transition: .45s;
 
 }
 
-.overdue{
+.pet-card:hover .pet-image img {
 
-    background:#dc3545;
-
-}
-
-/* ==========================
-   No Photo
-========================== */
-
-.no-photo{
-
-    height:280px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#0f172a;
-
-    color:#94a3b8;
+    transform: scale(1.08);
 
 }
 
-.no-photo i{
+/* ==========================================
+   STATUS BADGES
+========================================== */
 
-    font-size:3rem;
+.status-badge {
 
-}
+    position: absolute;
 
-.heart-placeholder{
+    top: 18px;
 
-    color:#ff6b81;
+    right: 18px;
 
-}
+    padding: .55rem 1rem;
 
-.paw-placeholder{
+    border-radius: var(--radius-pill);
 
-    color:white;
+    font-size: .8rem;
 
-    margin-top:-28px;
+    font-weight: 700;
 
-    font-size:1.4rem !important;
+    color: #fff;
 
-}
-
-/* ==========================
-   Body
-========================== */
-
-.pet-body{
-
-    padding:24px;
+    box-shadow: var(--shadow-xs);
 
 }
 
-.pet-body h3{
+.healthy {
 
-    color:white;
-
-    font-size:1.7rem;
-
-    font-weight:700;
-
-    margin-bottom:12px;
+    background: var(--success);
 
 }
 
-.breed-chip{
+.due {
 
-    display:inline-block;
+    background: var(--warning);
 
-    background:#ff914d;
-
-    color:white;
-
-    border-radius:30px;
-
-    padding:6px 16px;
-
-    font-size:.85rem;
-
-    font-weight:600;
-
-    margin-bottom:22px;
+    color: var(--heading);
 
 }
 
-/* ==========================
-   Meta
-========================== */
+.overdue {
 
-.pet-meta{
-
-    display:grid;
-
-    gap:12px;
+    background: var(--danger);
 
 }
 
-.pet-meta div{
+/* ==========================================
+   NO PHOTO
+========================================== */
 
-    display:flex;
+.no-photo {
 
-    align-items:center;
+    height: 100%;
 
-    gap:12px;
+    display: flex;
 
-    color:#d4d8df;
+    flex-direction: column;
 
-    font-size:.95rem;
+    justify-content: center;
 
-}
+    align-items: center;
 
-.pet-meta i{
-
-    color:#ff914d;
-
-    width:20px;
+    background: var(--gradient-soft);
 
 }
 
-/* ==========================
-   Footer
-========================== */
+.heart-placeholder {
 
-.pet-footer{
+    font-size: 3.8rem;
 
-    margin-top:auto;
-
-    padding:24px;
-
-    border-top:1px solid rgba(255,255,255,.08);
+    color: var(--primary);
 
 }
 
-/* ==========================
-   Buttons
-========================== */
+.paw-placeholder {
 
-.pet-footer .btn{
+    margin-top: -28px;
 
-    border-radius:14px;
+    font-size: 1.7rem;
 
-    padding:12px;
-
-    font-weight:600;
+    color: var(--text-500);
 
 }
 
-.btn-warning{
+/* ==========================================
+   CARD BODY
+========================================== */
 
-    background:#f8b400;
+.pet-body {
 
-    border:none;
-
-}
-
-.btn-danger{
-
-    border:none;
+    padding: var(--card-padding);
 
 }
 
-/* ==========================
-   Dashboard Cards
-========================== */
+.pet-body h3 {
 
-.dashboard-card{
+    color: var(--heading);
 
-    border-radius:24px;
+    font-size: 1.6rem;
 
-    padding:30px;
+    font-weight: 700;
 
-    border:none;
-
-    color:white;
+    margin-bottom: .8rem;
 
 }
 
-.dashboard-icon{
+/* ==========================================
+   BREED CHIP
+========================================== */
 
-    width:70px;
+.breed-chip {
 
-    height:70px;
+    display: inline-flex;
 
-    border-radius:50%;
+    align-items: center;
 
-    display:flex;
+    justify-content: center;
 
-    justify-content:center;
+    background: var(--gradient-primary);
 
-    align-items:center;
+    color: #fff;
 
-    margin:auto auto 18px;
+    padding: .45rem 1rem;
 
-    font-size:2rem;
+    border-radius: var(--radius-pill);
 
-    background:rgba(255,255,255,.15);
+    font-size: .82rem;
 
-}
+    font-weight: 600;
 
-.dashboard-blue{
-
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-
-}
-
-.dashboard-green{
-
-    background:linear-gradient(135deg,#16a34a,#22c55e);
+    margin-bottom: 1.5rem;
 
 }
 
-.dashboard-orange{
+/* ==========================================
+   PET META
+========================================== */
 
-    background:linear-gradient(135deg,#ea580c,#fb923c);
+.pet-meta {
 
-}
+    display: grid;
 
-.dashboard-pink{
-
-    background:linear-gradient(135deg,#db2777,#ec4899);
-
-}
-
-/* ==========================
-   Empty State
-========================== */
-
-.empty-state{
-
-    padding:80px 30px;
-
-    text-align:center;
+    gap: 1rem;
 
 }
 
-.empty-state h1{
+.pet-meta div {
 
-    font-size:4rem;
+    display: flex;
+
+    align-items: center;
+
+    gap: .8rem;
+
+    color: var(--text);
+
+    font-size: .95rem;
 
 }
 
-.empty-state p{
+.pet-meta i {
 
-    color:#94a3b8;
+    color: var(--primary);
+
+    width: 22px;
+
+    font-size: 1rem;
 
 }
 
-/* ==========================
-   Mobile
-========================== */
+/* ==========================================
+   FOOTER
+========================================== */
 
-@media(max-width:768px){
+.pet-footer {
 
-    .pet-image{
+    margin-top: auto;
 
-        height:240px;
+    padding: var(--card-padding);
+
+    border-top: 1px solid var(--border);
+
+    background: var(--surface);
+
+}
+
+/* ==========================================
+   DASHBOARD CARD
+========================================== */
+
+.dashboard-card {
+
+    padding: 2rem;
+
+    text-align: center;
+
+}
+
+.dashboard-icon {
+
+    width: 72px;
+
+    height: 72px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin: 0 auto 1.5rem;
+
+    font-size: 2rem;
+
+    color: #fff;
+
+}
+
+.dashboard-blue {
+
+    background: linear-gradient(135deg,
+            #4F8EF7,
+            #74C0FC);
+
+}
+
+.dashboard-green {
+
+    background: linear-gradient(135deg,
+            #5CCB7D,
+            #8AE6A5);
+
+}
+
+.dashboard-orange {
+
+    background: linear-gradient(135deg,
+            #FF914D,
+            #FFD166);
+
+}
+
+.dashboard-pink {
+
+    background: linear-gradient(135deg,
+            #F472B6,
+            #EC4899);
+
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.empty-state {
+
+    padding: 6rem 2rem;
+
+    text-align: center;
+
+}
+
+.empty-state h1 {
+
+    font-size: 4rem;
+
+    margin-bottom: 1rem;
+
+}
+
+.empty-state p {
+
+    color: var(--text-light);
+
+    max-width: 500px;
+
+    margin: auto;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:768px) {
+
+    .pet-image {
+
+        height: 230px;
 
     }
 
-    .no-photo{
+    .pet-body {
 
-        height:240px;
+        padding: 1.4rem;
 
     }
 
-    .pet-body{
+    .pet-footer {
 
-        padding:20px;
+        padding: 1.4rem;
 
     }
 

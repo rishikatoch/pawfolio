@@ -1,5 +1,5 @@
 <!-- ==========================================================
-     Pet Actions
+     QUICK ACTIONS
 ========================================================== -->
 
 <section class="pet-actions-section">
@@ -8,61 +8,47 @@
 
         <div class="actions-card">
 
+            <!-- ==========================================
+                 HEADER
+            =========================================== -->
+
             <div class="section-header">
 
                 <div>
 
-                    <h2>
+                    <span class="dashboard-badge">
 
                         <i class="bi bi-lightning-charge-fill"></i>
 
                         Quick Actions
 
+                    </span>
+
+                    <h2>
+
+                        Manage {{ pet.name }}
+
                     </h2>
 
-                    <span>
+                    <p>
 
-                        Manage {{ pet.name }} with a single click
+                        Update your pet's profile, record treatments,
+                        and manage health records with a single click.
 
-                    </span>
+                    </p>
 
                 </div>
 
             </div>
 
+
+            <!-- ==========================================
+                 PRIMARY ACTIONS
+            =========================================== -->
+
             <div class="row g-4">
 
-                <div class="col-lg-3 col-md-6">
-
-                    <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="action-button warning">
-
-                        <div class="action-icon">
-
-                            <i class="bi bi-pencil-square"></i>
-
-                        </div>
-
-                        <div>
-
-                            <h5>
-
-                                Edit Pet
-
-                            </h5>
-
-                            <p>
-
-                                Update profile information
-
-                            </p>
-
-                        </div>
-
-                    </a>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
 
                     <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="action-button success">
 
@@ -76,13 +62,13 @@
 
                             <h5>
 
-                                Vaccination
+                                Add Vaccination
 
                             </h5>
 
                             <p>
 
-                                Add a vaccination record
+                                Record a new vaccination.
 
                             </p>
 
@@ -92,7 +78,7 @@
 
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
 
                     <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="action-button info">
 
@@ -106,13 +92,13 @@
 
                             <h5>
 
-                                Deworming
+                                Add Deworming
 
                             </h5>
 
                             <p>
 
-                                Record a deworming treatment
+                                Log a deworming treatment.
 
                             </p>
 
@@ -122,40 +108,80 @@
 
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-xl-4 col-md-12">
 
-                    <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
-                        onsubmit="return confirm('Are you sure you want to permanently delete this pet?');">
+                    <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="action-button warning">
 
-                        <button type="submit" class="action-button danger w-100 border-0">
+                        <div class="action-icon">
 
-                            <div class="action-icon">
+                            <i class="bi bi-pencil-square"></i>
 
-                                <i class="bi bi-trash-fill"></i>
+                        </div>
 
-                            </div>
+                        <div>
 
-                            <div>
+                            <h5>
 
-                                <h5>
+                                Edit Profile
 
-                                    Delete Pet
+                            </h5>
 
-                                </h5>
+                            <p>
 
-                                <p>
+                                Update your pet's information.
 
-                                    Permanently remove this pet
+                            </p>
 
-                                </p>
+                        </div>
 
-                            </div>
-
-                        </button>
-
-                    </form>
+                    </a>
 
                 </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 DANGER ZONE
+            =========================================== -->
+
+            <div class="danger-zone">
+
+                <div class="danger-zone-header">
+
+                    <div>
+
+                        <h4>
+
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            Danger Zone
+
+                        </h4>
+
+                        <p>
+
+                            Permanently remove this pet and all associated
+                            records from Pawfolio.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
+                    onsubmit="return confirm('Are you sure you want to permanently delete this pet?');">
+
+                    <button type="submit" class="btn btn-outline-danger btn-lg">
+
+                        <i class="bi bi-trash-fill"></i>
+
+                        Delete {{ pet.name }}
+
+                    </button>
+
+                </form>
 
             </div>
 

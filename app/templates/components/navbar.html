@@ -1,12 +1,16 @@
+<!-- ==========================================================
+     PAWFOLIO NAVBAR
+========================================================== -->
+
 <nav class="pf-navbar">
 
     <div class="container">
 
         <div class="pf-navbar-inner">
 
-            <!-- ======================
-                 Brand
-            ======================= -->
+            <!-- ==============================================
+                 BRAND
+            =============================================== -->
 
             <a href="{{ url_for('home') }}" class="pf-brand">
 
@@ -17,29 +21,36 @@
 
                 </div>
 
-                <div>
+                <div class="pf-brand-text">
 
                     <span class="pf-brand-title">
+
                         Pawfolio
+
                     </span>
 
                     <span class="pf-brand-subtitle">
+
                         Your Pet's Digital Companion
+
                     </span>
 
                 </div>
 
             </a>
 
-            <!-- ======================
-                 Navigation
-            ======================= -->
+
+            <!-- ==============================================
+                 NAVIGATION
+            =============================================== -->
 
             {% if current_user.is_authenticated %}
 
             <div class="pf-nav-links">
 
                 <a href="{{ url_for('home') }}" class="pf-nav-link active">
+
+                    <i class="bi bi-grid-1x2-fill"></i>
 
                     Dashboard
 
@@ -49,9 +60,10 @@
 
             {% endif %}
 
-            <!-- ======================
-                 User Menu
-            ======================= -->
+
+            <!-- ==============================================
+                 RIGHT SIDE
+            =============================================== -->
 
             <div class="pf-user-area">
 
@@ -67,23 +79,58 @@
 
                         </div>
 
-                        <span>
+                        <div class="pf-user-info">
 
-                            {{ current_user.username }}
+                            <span class="pf-user-name">
 
-                        </span>
+                                {{ current_user.username }}
+
+                            </span>
+
+                            <small>
+
+                                Pet Parent
+
+                            </small>
+
+                        </div>
 
                         <i class="bi bi-chevron-down"></i>
 
                     </button>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
+
+                    <!-- ======================================
+                         DROPDOWN
+                    ======================================= -->
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+
+                        <li>
+
+                            <div class="dropdown-header">
+
+                                Signed in as
+
+                                <strong>
+
+                                    {{ current_user.username }}
+
+                                </strong>
+
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
                         <li>
 
                             <a class="dropdown-item" href="#">
 
-                                <i class="bi bi-person"></i>
+                                <i class="bi bi-person-circle"></i>
 
                                 Profile
 
@@ -95,9 +142,21 @@
 
                             <a class="dropdown-item" href="#">
 
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-gear-fill"></i>
 
                                 Settings
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item" href="#">
+
+                                <i class="bi bi-question-circle"></i>
+
+                                Help Center
 
                             </a>
 
@@ -125,9 +184,9 @@
 
                 {% else %}
 
-                <div class="d-flex gap-2">
+                <div class="pf-auth-buttons">
 
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-light">
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
 
                         Login
 
@@ -135,7 +194,7 @@
 
                     <a href="{{ url_for('register') }}" class="btn btn-primary">
 
-                        Register
+                        Get Started
 
                     </a>
 

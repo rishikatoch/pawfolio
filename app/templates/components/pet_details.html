@@ -1,5 +1,5 @@
 <!-- ==========================================================
-     Pet Details
+     PET DETAILS
 ========================================================== -->
 
 <section class="pet-details-section">
@@ -8,219 +8,273 @@
 
         <div class="details-card">
 
+            <!-- ==========================================
+                 HEADER
+            =========================================== -->
+
             <div class="section-header">
 
                 <div>
 
-                    <h2>
+                    <span class="dashboard-badge">
 
                         <i class="bi bi-card-list"></i>
 
-                        Pet Details
+                        Pet Information
+
+                    </span>
+
+                    <h2>
+
+                        About {{ pet.name }}
 
                     </h2>
 
-                    <span>
+                    <p>
 
-                        Complete information about your pet
+                        Everything you need to know about your companion,
+                        including identity, health information and important
+                        milestones.
 
-                    </span>
+                    </p>
 
                 </div>
 
             </div>
 
-            <div class="row g-4">
 
-                <div class="col-lg-6">
+            <!-- ==========================================
+                 DETAILS GRID
+            =========================================== -->
 
-                    <div class="detail-item">
+            <div class="details-grid">
 
-                        <span class="detail-label">
+                <div class="detail-card">
 
-                            <i class="bi bi-paw-fill"></i>
+                    <div class="detail-icon">
 
-                            Name
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.name }}
-
-                        </span>
+                        <i class="bi bi-paw-fill"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Name
+
+                    </span>
+
+                    <strong>
+
+                        {{ pet.name }}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-bookmark-fill"></i>
-
-                            Breed
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.breed or "Not Available" }}
-
-                        </span>
+                        <i class="bi bi-bookmark-fill"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Breed
+
+                    </span>
+
+                    <strong>
+
+                        {{ pet.breed or "Not Available" }}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-gender-ambiguous"></i>
-
-                            Gender
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.gender or "Not Available" }}
-
-                        </span>
+                        <i class="bi bi-gender-ambiguous"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Gender
+
+                    </span>
+
+                    <strong>
+
+                        {{ pet.gender or "Not Available" }}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-cake2-fill"></i>
-
-                            Age
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.age_display }}
-
-                        </span>
+                        <i class="bi bi-cake2-fill"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Age
+
+                    </span>
+
+                    <strong>
+
+                        {{ pet.age_display }}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-speedometer2"></i>
-
-                            Weight
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {% if pet.weight %}
-
-                            {{ pet.weight }} kg
-
-                            {% else %}
-
-                            Not Available
-
-                            {% endif %}
-
-                        </span>
+                        <i class="bi bi-speedometer2"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Weight
+
+                    </span>
+
+                    <strong>
+
+                        {% if pet.weight %}
+
+                        {{ pet.weight }} kg
+
+                        {% else %}
+
+                        Not Available
+
+                        {% endif %}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-calendar-event-fill"></i>
-
-                            Birth Date
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {% if pet.birth_date %}
-
-                            {{ pet.birth_date.strftime("%d %b %Y") }}
-
-                            {% else %}
-
-                            Not Available
-
-                            {% endif %}
-
-                        </span>
+                        <i class="bi bi-calendar-event-fill"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Birth Date
+
+                    </span>
+
+                    <strong>
+
+                        {% if pet.birth_date %}
+
+                        {{ pet.birth_date.strftime("%d %b %Y") }}
+
+                        {% else %}
+
+                        Not Available
+
+                        {% endif %}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-stars"></i>
-
-                            Life Stage
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.life_stage }}
-
-                        </span>
+                        <i class="bi bi-stars"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Life Stage
+
+                    </span>
+
+                    <strong>
+
+                        {{ pet.life_stage }}
+
+                    </strong>
 
                 </div>
 
-                <div class="col-lg-6">
 
-                    <div class="detail-item">
+                <div class="detail-card">
 
-                        <span class="detail-label">
+                    <div class="detail-icon">
 
-                            <i class="bi bi-shield-check"></i>
-
-                            Vaccination Status
-
-                        </span>
-
-                        <span class="detail-value">
-
-                            {{ pet.vaccination_status or "Not Available" }}
-
-                        </span>
+                        <i class="bi bi-shield-check"></i>
 
                     </div>
+
+                    <span class="detail-label">
+
+                        Vaccination Status
+
+                    </span>
+
+                    <strong>
+
+                        {% if pet.vaccination_status == "Vaccinated" %}
+
+                        <span class="status success">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Healthy
+
+                        </span>
+
+                        {% elif pet.vaccination_status == "Due Soon" %}
+
+                        <span class="status warning">
+
+                            <i class="bi bi-clock-fill"></i>
+
+                            Due Soon
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="status danger">
+
+                            <i class="bi bi-exclamation-circle-fill"></i>
+
+                            Overdue
+
+                        </span>
+
+                        {% endif %}
+
+                    </strong>
 
                 </div>
 

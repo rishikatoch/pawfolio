@@ -1,122 +1,210 @@
 /* ==========================================
-   Pawfolio Design System v3
+   Pawfolio Design System v4
    Warm • Friendly • Modern
 ========================================== */
 
 :root {
 
-    /* ==========================
-       Brand Colors
-    ========================== */
+   /* ==========================================
+       BRAND COLORS
+    ========================================== */
 
-    --primary: #ff914d;
-    --primary-dark: #ff7a24;
-    --primary-light: #ffb37a;
+   --primary: #ff914d;
+   --primary-hover: #ff7a24;
+   --primary-dark: #e76816;
+   --primary-light: #ffb37a;
 
-    --secondary: #5bbef7;
-    --secondary-light: #dff5ff;
+   --secondary: #5bbef7;
+   --secondary-hover: #37adef;
+   --secondary-light: #dff5ff;
 
-    /* ==========================
-       Status Colors
-    ========================== */
+   /* ==========================================
+       STATUS COLORS
+    ========================================== */
 
-    --success: #5ccb7d;
-    --success-light: #e8faef;
+   --success: #5ccb7d;
+   --success-light: #e8faef;
 
-    --warning: #ffd166;
-    --warning-light: #fff7dd;
+   --warning: #ffd166;
+   --warning-light: #fff7dd;
 
-    --danger: #ff6b6b;
-    --danger-light: #ffe8e8;
+   --danger: #ff6b6b;
+   --danger-light: #ffe8e8;
 
-    --info: #74c0fc;
-    --info-light: #e8f7ff;
+   --info: #74c0fc;
+   --info-light: #e8f7ff;
 
-    /* ==========================
-       Backgrounds
-    ========================== */
+   /* ==========================================
+       PAGE BACKGROUNDS
+    ========================================== */
 
-    --bg-color: #fff8f2;
+   --bg-color: #fff8f2;
 
-    --surface: #ffffff;
+   --surface: #ffffff;
 
-    --surface-alt: #fff3e6;
+   --surface-alt: #fff3e6;
 
-    --card: #ffffff;
+   --surface-hover: #fff8f2;
 
-    /* ==========================
-       Typography
-    ========================== */
+   --card: #ffffff;
 
-    --heading: #3b2f2f;
+   --navbar: rgba(255, 255, 255, .78);
 
-    --text: #544646;
+   /* ==========================================
+       TYPOGRAPHY
+    ========================================== */
 
-    --text-light: #8b7b7b;
+   --text-900: #2f2727;
 
-    /* ==========================
-       Navbar
-    ========================== */
+   --text-700: #544646;
 
-    --navbar: rgba(255, 255, 255, .75);
+   --text-500: #8b7b7b;
 
-    /* ==========================
-       Borders
-    ========================== */
+   --text-300: #c7bbbb;
 
-    --border: #f2e4d7;
+   /* Compatibility aliases */
 
-    /* ==========================
-       Radius
-    ========================== */
+   --heading: var(--text-900);
 
-    --radius-sm: 12px;
+   --text: var(--text-700);
 
-    --radius: 22px;
+   --text-light: var(--text-500);
 
-    --radius-lg: 34px;
+   /* ==========================================
+       BORDERS
+    ========================================== */
 
-    --radius-xl: 50px;
+   --border: #f2e4d7;
 
-    /* ==========================
-       Shadows
-    ========================== */
+   --border-hover: #e9d6c6;
 
-    --shadow-sm:
-        0 6px 18px rgba(0, 0, 0, .06);
+   /* ==========================================
+       BORDER RADIUS
+    ========================================== */
 
-    --shadow:
-        0 12px 30px rgba(0, 0, 0, .08);
+   --radius-sm: 12px;
 
-    --shadow-lg:
-        0 20px 50px rgba(0, 0, 0, .12);
+   --radius-md: 22px;
 
-    /* ==========================
-       Gradients
-    ========================== */
+   --radius-lg: 34px;
 
-    --gradient-primary:
-        linear-gradient(135deg,
-            #ff914d,
-            #ffb347);
+   --radius-xl: 50px;
 
-    --gradient-hero:
-        linear-gradient(135deg,
-            #ff914d 0%,
-            #ffd166 35%,
-            #74c0fc 70%,
-            #5ccb7d 100%);
+   --radius-pill: 999px;
 
-    --gradient-card:
-        linear-gradient(135deg,
-            #ffffff,
-            #fff8f2);
+   /* ==========================================
+       SHADOWS
+    ========================================== */
 
-    /* ==========================
-       Animation
-    ========================== */
+   --shadow-xs:
+      0 2px 8px rgba(0, 0, 0, .04);
 
-    --transition:
-        .30s ease-in-out;
+   --shadow-sm:
+      0 6px 18px rgba(0, 0, 0, .06);
+
+   --shadow:
+      0 12px 30px rgba(0, 0, 0, .08);
+
+   --shadow-lg:
+      0 20px 50px rgba(0, 0, 0, .12);
+
+   /* ==========================================
+       GRADIENTS
+    ========================================== */
+
+   --gradient-primary:
+      linear-gradient(135deg,
+         #ff914d,
+         #ffb347);
+
+   --gradient-hero:
+      linear-gradient(135deg,
+         #ff914d 0%,
+         #ffd166 35%,
+         #74c0fc 70%,
+         #5ccb7d 100%);
+
+   --gradient-card:
+      linear-gradient(135deg,
+         #ffffff,
+         #fff8f2);
+
+   --gradient-soft:
+      linear-gradient(180deg,
+         #fffdfb 0%,
+         #fff8f2 100%);
+
+   /* ==========================================
+       SPACING
+    ========================================== */
+
+   --space-xs: .5rem;
+
+   --space-sm: 1rem;
+
+   --space-md: 1.5rem;
+
+   --space-lg: 2rem;
+
+   --space-xl: 3rem;
+
+   --space-2xl: 5rem;
+
+   /* ==========================================
+       LAYOUT
+    ========================================== */
+
+   --container-width: 1400px;
+
+   --section-gap: 5rem;
+
+   --card-padding: 2rem;
+
+   --card-padding-lg: 2.5rem;
+
+   --navbar-height: 76px;
+
+   /* ==========================================
+       FORM ELEMENTS
+    ========================================== */
+
+   --input-height: 56px;
+
+   --button-height: 56px;
+
+   --icon-size: 22px;
+
+   /* ==========================================
+       FOCUS STATES
+    ========================================== */
+
+   --focus-ring:
+      0 0 0 4px rgba(255, 145, 77, .22);
+
+   /* ==========================================
+       ANIMATIONS
+    ========================================== */
+
+   --transition-fast: .18s ease;
+
+   --transition: .30s ease-in-out;
+
+   --transition-slow: .45s ease;
+
+   /* ==========================================
+       Z-INDEX
+    ========================================== */
+
+   --z-dropdown: 1000;
+
+   --z-navbar: 1020;
+
+   --z-sticky: 1030;
+
+   --z-modal-backdrop: 1040;
+
+   --z-modal: 1050;
+
+   --z-tooltip: 1080;
 
 }

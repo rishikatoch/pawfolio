@@ -1,29 +1,153 @@
-<div class="card border-0 shadow-lg text-center p-5">
+<!-- ==========================================================
+     EMPTY PET STATE
+========================================================== -->
 
-    <div class="display-1 mb-4">
+<div class="empty-state">
 
-        🐾
+    <!-- ==============================================
+         ICON
+    =============================================== -->
+
+    <div class="empty-icon">
+
+        <i class="bi bi-heart-fill"></i>
 
     </div>
 
-    <h2 class="fw-bold">
+
+    <!-- ==============================================
+         CONTENT
+    =============================================== -->
+
+    <span class="dashboard-badge mb-4">
+
+        <i class="bi bi-stars"></i>
 
         Welcome to Pawfolio
 
+    </span>
+
+    <h2>
+
+        Your Pet Family Starts Here 🐾
+
     </h2>
 
-    <p class="text-muted mb-4">
+    <p>
 
-        You haven't added any pets yet.
-
-        Start by creating your first pet profile.
+        It looks like you haven't added any pets yet.
+        Create your first pet profile to begin tracking
+        vaccinations, deworming schedules, vet visits,
+        birthdays, photos, and every important milestone
+        in one organized place.
 
     </p>
 
-    <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
 
-        ➕ Add Your First Pet
+    <!-- ==============================================
+         ACTIONS
+    =============================================== -->
 
-    </a>
+    <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+
+        <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
+
+            <i class="bi bi-plus-circle-fill"></i>
+
+            Add Your First Pet
+
+        </a>
+
+    </div>
+
+
+    <!-- ==============================================
+         FEATURES
+    =============================================== -->
+
+    <div class="row g-4 mt-5">
+
+        <div class="col-md-4">
+
+            <div class="overview-card h-100">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                </div>
+
+                <h4>
+
+                    Health Records
+
+                </h4>
+
+                <p>
+
+                    Store vaccinations, deworming history,
+                    medications, and important medical notes.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="overview-card h-100">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-bell-fill"></i>
+
+                </div>
+
+                <h4>
+
+                    Smart Reminders
+
+                </h4>
+
+                <p>
+
+                    Receive timely reminders for vaccinations,
+                    deworming schedules, birthdays, and vet visits.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="overview-card h-100">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-images"></i>
+
+                </div>
+
+                <h4>
+
+                    Beautiful Pet Profiles
+
+                </h4>
+
+                <p>
+
+                    Keep photos, breed information, health history,
+                    and memorable moments together in one place.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>

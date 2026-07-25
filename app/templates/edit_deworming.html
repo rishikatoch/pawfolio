@@ -1,104 +1,376 @@
 {% extends "base.html" %}
 
+{% block title %}
+Edit Deworming Record • Pawfolio
+{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-8">
+        <div class="col-xl-10 col-lg-11">
 
-            <div class="card shadow border-0 rounded-4">
+            {% if error %}
+
+            <div class="alert alert-danger border-0 shadow-sm mb-4">
+
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+                <!-- ==========================================================
+                     HEADER
+                =========================================================== -->
+
+                <div class="card-body p-5 pb-4">
+
+                    <span class="dashboard-badge mb-3">
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Health Record
+
+                    </span>
+
+                    <h1 class="fw-bold mb-2">
+
+                        Edit Deworming Record
+
+                    </h1>
+
+                    <p class="text-secondary mb-0">
+
+                        Update the deworming treatment for your pet.
+                        Pawfolio will automatically recalculate the next
+                        reminder whenever the treatment date changes.
+
+                    </p>
+
+                </div>
+
+                <hr class="m-0">
 
                 <div class="card-body p-5">
 
-                    <div class="text-center mb-4">
+                    <!-- ==========================================================
+                         SMART SCHEDULING
+                    =========================================================== -->
 
-                        <h1 class="fw-bold">
-                            ✏ Edit Deworming
-                        </h1>
+                    <div class="alert alert-light border rounded-4 mb-5">
 
-                        <p class="text-muted">
-                            Update deworming record.
-                        </p>
+                        <div class="d-flex">
 
-                    </div>
+                            <i class="bi bi-robot text-primary fs-2 me-3"></i>
 
-                    {% if error %}
-                    <div class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                    {% endif %}
+                            <div>
 
-                    <div class="alert alert-info border-0">
+                                <strong>
 
-                        <h6 class="fw-bold mb-2">
-                            🤖 Smart Scheduling Enabled
-                        </h6>
+                                    Automatic Reminder Scheduling
 
-                        <p class="mb-0">
-                            Changing the <strong>Date Given</strong> will automatically
-                            recalculate the recommended next deworming date based on
-                            your pet's age on that date.
-                        </p>
+                                </strong>
+
+                                <p class="mb-0 text-secondary">
+
+                                    Changing the
+                                    <strong>Treatment Date</strong>
+                                    automatically recalculates the recommended
+                                    next deworming schedule using your pet's
+                                    birth date and age. No manual calculations
+                                    are required.
+
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
                     <form method="POST">
 
-                        <div class="mb-3">
+                        <!-- ==========================================================
+                             TREATMENT INFORMATION
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Medicine Name
-                            </label>
+                        <div class="mb-5">
 
-                            <input type="text" name="medicine_name" class="form-control"
-                                value="{{ deworming.medicine_name }}" required>
+                            <div class="d-flex align-items-center mb-4">
+
+                                <i class="bi bi-capsule-pill fs-4 text-success me-3"></i>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+
+                                        Treatment Information
+
+                                    </h4>
+
+                                    <p class="text-secondary mb-0">
+
+                                        Update the medicine and treatment details.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row g-4">
+
+                                <!-- Medicine -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Medicine Name
+
+                                    </label>
+
+                                    <input type="text" name="medicine_name" class="form-control"
+                                        value="{{ deworming.medicine_name }}"
+                                        placeholder="Drontal Plus, Easypet, Fenbendazole..." required>
+
+                                </div>
+
+                                <!-- Veterinarian -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Veterinarian
+
+                                    </label>
+
+                                    <input type="text" name="veterinarian" class="form-control"
+                                        value="{{ deworming.veterinarian or '' }}" placeholder="Doctor or Clinic Name">
+
+                                </div>
+
+                                <!-- Treatment Date -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Treatment Date
+
+                                    </label>
+
+                                    <input type="date" name="date_given" class="form-control"
+                                        value="{{ deworming.date_given }}" required>
+
+                                    <div class="form-text">
+
+                                        Updating this date will automatically
+                                        generate the next recommended reminder.
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Reminder -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Next Reminder
+
+                                    </label>
+
+                                    <input type="text" class="form-control bg-light"
+                                        value="✓ Automatically recalculated after saving" readonly>
+
+                                    <div class="form-text">
+
+                                        Generated automatically by Pawfolio.
+
+                                    </div>
+
+                                </div>
+                                <!-- ==========================================================
+                                     ADDITIONAL NOTES
+                                =========================================================== -->
+
+                                <div class="col-12">
+
+                                    <hr class="my-4">
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <i class="bi bi-journal-text fs-4 text-warning me-3"></i>
+
+                                        <div>
+
+                                            <h4 class="fw-bold mb-1">
+
+                                                Additional Notes
+
+                                            </h4>
+
+                                            <p class="text-secondary mb-0">
+
+                                                Update observations or treatment
+                                                notes from this deworming session.
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Notes
+
+                                    </label>
+
+                                    <textarea name="notes" rows="5" class="form-control"
+                                        placeholder="Medicine dosage, body weight, appetite, stool condition, side effects, behaviour changes or any important observations...">{{ deworming.notes or '' }}</textarea>
+
+                                    <div class="form-text">
+
+                                        These notes become part of your pet's
+                                        permanent medical history.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="mb-3">
+                        <!-- ==========================================================
+                             HEALTH REMINDER
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Date Given
-                            </label>
+                        <div class="alert alert-light border rounded-4 mt-5">
 
-                            <input type="date" name="date_given" class="form-control" value="{{ deworming.date_given }}"
-                                required>
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
+
+                                <div>
+
+                                    <strong>
+
+                                        Health Reminder
+
+                                    </strong>
+
+                                    <p class="mb-3 text-secondary">
+
+                                        Updating this record keeps
+                                        <strong>{{ pet.name if pet is defined else "your pet" }}</strong>'s
+                                        medical history accurate. Future
+                                        reminders are recalculated
+                                        automatically to help ensure
+                                        deworming treatments remain on
+                                        schedule.
+
+                                    </p>
+
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Automatic Reminder Updates
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Permanent Health History
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Deworming Timeline
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Health Dashboard
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="mb-3">
+                        <!-- ==========================================================
+                             ACTION BUTTONS
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Veterinarian
-                            </label>
-
-                            <input type="text" name="veterinarian" class="form-control"
-                                value="{{ deworming.veterinarian or '' }}">
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Notes
-                            </label>
-
-                            <textarea name="notes" rows="4" class="form-control">{{ deworming.notes or '' }}</textarea>
-
-                        </div>
-
-                        <div class="d-grid gap-2">
-
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                💾 Update Deworming Record
-                            </button>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
 
                             <a href="{{ url_for('pet_profile', pet_id=deworming.pet_id) }}"
-                                class="btn btn-outline-secondary">
-                                Cancel
+                                class="btn btn-outline-secondary btn-lg">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Back to Profile
+
                             </a>
+
+                            <button type="submit" class="btn btn-primary btn-lg">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Update Record
+
+                            </button>
 
                         </div>
 

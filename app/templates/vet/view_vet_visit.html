@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Vet Visit • Pawfolio
+Veterinary Visit • Pawfolio
 {% endblock %}
 
 {% block content %}
@@ -10,32 +10,48 @@ Vet Visit • Pawfolio
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-10">
+        <div class="col-xl-10 col-lg-11">
 
-            <div class="card shadow-lg border-0 rounded-4">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-                <div class="card-header bg-success text-white py-4">
+                <!-- ==========================================================
+                     PAGE HEADER
+                =========================================================== -->
 
-                    <div class="d-flex justify-content-between align-items-center">
+                <div class="card-body p-5 pb-4">
+
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
 
                         <div>
 
-                            <h2 class="mb-1">
-                                🩺 Veterinary Visit
-                            </h2>
+                            <span class="dashboard-badge mb-3">
 
-                            <p class="mb-0 opacity-75">
+                                <i class="bi bi-heart-pulse-fill"></i>
 
-                                Medical record for
-                                <strong>{{ pet.name }}</strong>
+                                Medical Record
+
+                            </span>
+
+                            <h1 class="fw-bold mb-2">
+
+                                Veterinary Visit
+
+                            </h1>
+
+                            <p class="text-secondary mb-0">
+
+                                Complete consultation record for
+                                <strong>{{ pet.name }}</strong>.
 
                             </p>
 
                         </div>
 
-                        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-light">
+                        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary">
 
-                            ← Back
+                            <i class="bi bi-arrow-left"></i>
+
+                            Back to Profile
 
                         </a>
 
@@ -43,246 +59,412 @@ Vet Visit • Pawfolio
 
                 </div>
 
-                <div class="card-body p-4">
+                <hr class="m-0">
 
-                    <div class="row g-4">
+                <div class="card-body p-5">
 
-                        <div class="col-md-6">
+                    <!-- ==========================================================
+                         VISIT INFORMATION
+                    =========================================================== -->
 
-                            <label class="text-muted small">
+                    <div class="mb-5">
 
-                                Visit Date
+                        <div class="d-flex align-items-center mb-4">
 
-                            </label>
+                            <i class="bi bi-calendar-event fs-4 text-primary me-3"></i>
 
-                            <h5>
+                            <div>
 
-                                {{ visit.visit_date.strftime('%d %B %Y') }}
+                                <h4 class="fw-bold mb-1">
 
-                            </h5>
+                                    Visit Information
 
-                        </div>
+                                </h4>
 
-                        <div class="col-md-6">
+                                <p class="text-secondary mb-0">
 
-                            <label class="text-muted small">
+                                    General information about this consultation.
 
-                                Follow-up Date
-
-                            </label>
-
-                            <h5>
-
-                                {% if visit.follow_up_date %}
-                                {{ visit.follow_up_date.strftime('%d %B %Y') }}
-                                {% else %}
-                                —
-                                {% endif %}
-
-                            </h5>
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <label class="text-muted small">
-
-                                Clinic
-
-                            </label>
-
-                            <h5>
-
-                                {{ visit.clinic_name }}
-
-                            </h5>
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <label class="text-muted small">
-
-                                Veterinarian
-
-                            </label>
-
-                            <h5>
-
-                                {{ visit.veterinarian }}
-
-                            </h5>
-
-                        </div>
-
-                        <div class="col-12">
-
-                            <label class="text-muted small">
-
-                                Reason for Visit
-
-                            </label>
-
-                            <div class="border rounded-3 p-3 bg-light">
-
-                                {{ visit.reason }}
-
-                            </div>
-
-                        </div>
-                        <!-- Diagnosis -->
-
-                        <div class="col-12">
-
-                            <label class="text-muted small">
-
-                                Diagnosis
-
-                            </label>
-
-                            <div class="border rounded-3 p-3 bg-light">
-
-                                {% if visit.diagnosis %}
-
-                                {{ visit.diagnosis }}
-
-                                {% else %}
-
-                                <span class="text-muted">
-                                    No diagnosis recorded.
-                                </span>
-
-                                {% endif %}
+                                </p>
 
                             </div>
 
                         </div>
 
-                        <!-- Treatment -->
+                        <div class="row g-4">
 
-                        <div class="col-12">
+                            <div class="col-lg-4 col-md-6">
 
-                            <label class="text-muted small">
+                                <div class="timeline-info">
 
-                                Treatment
+                                    <span>
 
-                            </label>
+                                        Visit Date
 
-                            <div class="border rounded-3 p-3 bg-light">
+                                    </span>
 
-                                {% if visit.treatment %}
+                                    <strong>
 
-                                {{ visit.treatment }}
+                                        {{ visit.visit_date.strftime('%d %B %Y') }}
 
-                                {% else %}
+                                    </strong>
 
-                                <span class="text-muted">
-                                    No treatment recorded.
-                                </span>
+                                </div>
 
-                                {% endif %}
+                            </div>
+
+                            <div class="col-lg-4 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Follow-up Date
+
+                                    </span>
+
+                                    <strong>
+
+                                        {% if visit.follow_up_date %}
+
+                                        {{ visit.follow_up_date.strftime('%d %B %Y') }}
+
+                                        {% else %}
+
+                                        Not Scheduled
+
+                                        {% endif %}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Veterinarian
+
+                                    </span>
+
+                                    <strong>
+
+                                        Dr. {{ visit.veterinarian }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Clinic
+
+                                    </span>
+
+                                    <strong>
+
+                                        {{ visit.clinic_name }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+
+                                <div class="timeline-info">
+
+                                    <span>
+
+                                        Reason for Visit
+
+                                    </span>
+
+                                    <strong>
+
+                                        {{ visit.reason }}
+
+                                    </strong>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <!-- Prescription -->
+                    </div>
 
-                        <div class="col-12">
+                    <hr class="my-5">
 
-                            <label class="text-muted small">
+                    <!-- ==========================================================
+                         DIAGNOSIS
+                    =========================================================== -->
 
-                                Prescription
+                    <div class="mb-5">
 
-                            </label>
+                        <div class="d-flex align-items-center mb-4">
 
-                            <div class="border rounded-3 p-3 bg-light">
+                            <i class="bi bi-clipboard2-pulse fs-4 text-success me-3"></i>
 
-                                {% if visit.prescription %}
+                            <div>
 
-                                {{ visit.prescription }}
+                                <h4 class="fw-bold mb-1">
 
-                                {% else %}
+                                    Diagnosis
 
-                                <span class="text-muted">
-                                    No prescription recorded.
-                                </span>
+                                </h4>
 
-                                {% endif %}
+                                <p class="text-secondary mb-0">
 
-                            </div>
+                                    Findings recorded during the consultation.
 
-                        </div>
-
-                        <!-- Notes -->
-
-                        <div class="col-12">
-
-                            <label class="text-muted small">
-
-                                Additional Notes
-
-                            </label>
-
-                            <div class="border rounded-3 p-3 bg-light">
-
-                                {% if visit.notes %}
-
-                                {{ visit.notes }}
-
-                                {% else %}
-
-                                <span class="text-muted">
-                                    No additional notes.
-                                </span>
-
-                                {% endif %}
+                                </p>
 
                             </div>
 
                         </div>
 
-                        <!-- Action Buttons -->
+                        <div class="timeline-notes">
 
-                        <div class="col-12">
+                            {% if visit.diagnosis %}
 
-                            <div class="d-flex justify-content-between mt-4">
+                            {{ visit.diagnosis }}
 
-                                <a href="{{ url_for('edit_vet_visit', visit_id=visit.id) }}" class="btn btn-warning">
+                            {% else %}
 
-                                    ✏️ Edit Visit
+                            <span class="text-muted">
 
-                                </a>
+                                No diagnosis has been recorded for this visit.
 
-                                <form method="POST" action="{{ url_for('delete_vet_visit', visit_id=visit.id) }}"
-                                    onsubmit="return confirm('Delete this vet visit permanently?');">
+                            </span>
 
-                                    <button type="submit" class="btn btn-danger">
+                            {% endif %}
 
-                                        🗑️ Delete Visit
+                        </div>
 
-                                    </button>
+                    </div>
 
-                                </form>
+                    <!-- ==========================================================
+                         TREATMENT
+                    =========================================================== -->
+
+                    <div class="mb-5">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <i class="bi bi-bandaid fs-4 text-warning me-3"></i>
+
+                            <div>
+
+                                <h4 class="fw-bold mb-1">
+
+                                    Treatment
+
+                                </h4>
+
+                                <p class="text-secondary mb-0">
+
+                                    Procedures and treatments performed.
+
+                                </p>
 
                             </div>
 
                         </div>
+
+                        <div class="timeline-notes">
+
+                            {% if visit.treatment %}
+
+                            {{ visit.treatment }}
+
+                            {% else %}
+
+                            <span class="text-muted">
+
+                                No treatment has been recorded.
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- ==========================================================
+                         PRESCRIPTION
+                    =========================================================== -->
+
+                    <div class="mb-5">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <i class="bi bi-capsule-pill fs-4 text-danger me-3"></i>
+
+                            <div>
+
+                                <h4 class="fw-bold mb-1">
+
+                                    Prescription
+
+                                </h4>
+
+                                <p class="text-secondary mb-0">
+
+                                    Medicines prescribed after the consultation.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-notes">
+
+                            {% if visit.prescription %}
+
+                            {{ visit.prescription }}
+
+                            {% else %}
+
+                            <span class="text-muted">
+
+                                No prescription has been recorded.
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- ==========================================================
+                         ADDITIONAL NOTES
+                    =========================================================== -->
+
+                    <div>
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <i class="bi bi-journal-text fs-4 text-info me-3"></i>
+
+                            <div>
+
+                                <h4 class="fw-bold mb-1">
+
+                                    Additional Notes
+
+                                </h4>
+
+                                <p class="text-secondary mb-0">
+
+                                    Observations, home care instructions and recommendations.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-notes">
+
+                            {% if visit.notes %}
+
+                            {{ visit.notes }}
+
+                            {% else %}
+
+                            <span class="text-muted">
+
+                                No additional notes have been recorded.
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- ==========================================================
+                         INFO BOX
+                    =========================================================== -->
+
+                    <div class="alert alert-light border rounded-4 mt-5">
+
+                        <div class="d-flex">
+
+                            <i class="bi bi-info-circle-fill text-primary fs-4 me-3"></i>
+
+                            <div>
+
+                                <strong>
+
+                                    Medical History
+
+                                </strong>
+
+                                <p class="mb-0 text-secondary">
+
+                                    This consultation is stored as part of
+                                    <strong>{{ pet.name }}</strong>'s permanent
+                                    medical history. Keeping these records
+                                    accurate makes it easier to monitor health,
+                                    compare previous diagnoses and prepare for
+                                    future veterinary visits.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ==========================================================
+                         ACTIONS
+                    =========================================================== -->
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+
+                        <a href="{{ url_for('edit_vet_visit', visit_id=visit.id) }}"
+                            class="btn btn-outline-primary btn-lg">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            Edit Visit
+
+                        </a>
+
+                        <form method="POST" action="{{ url_for('delete_vet_visit', visit_id=visit.id) }}"
+                            onsubmit="return confirm('Delete this veterinary visit permanently?');">
+
+                            <button type="submit" class="btn btn-outline-danger btn-lg">
+
+                                <i class="bi bi-trash"></i>
+
+                                Delete Visit
+
+                            </button>
+
+                        </form>
+
                     </div>
 
                 </div>
-
-            </div>
-
-            <div class="text-center mt-4">
-
-                <small class="text-muted">
-
-                    This record is part of your pet's permanent medical history
-                    in Pawfolio. Keep it updated after every veterinary visit to
-                    maintain accurate health records.
-
-                </small>
 
             </div>
 

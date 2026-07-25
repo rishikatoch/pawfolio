@@ -1,106 +1,343 @@
 {% extends "base.html" %}
 
+{% block title %}
+Edit Vaccination • Pawfolio
+{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-8">
+        <div class="col-xl-10 col-lg-11">
 
-            <div class="card shadow border-0 rounded-4">
+            {% if error %}
+
+            <div class="alert alert-danger border-0 shadow-sm mb-4">
+
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+                <!-- ==========================================================
+                     HEADER
+                =========================================================== -->
+
+                <div class="card-body p-5 pb-4">
+
+                    <span class="dashboard-badge mb-3">
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Health Record
+
+                    </span>
+
+                    <h1 class="fw-bold mb-2">
+
+                        Edit Vaccination
+
+                    </h1>
+
+                    <p class="text-secondary mb-0">
+
+                        Update your pet's vaccination record to keep its
+                        medical history accurate and ensure future reminders
+                        remain up to date.
+
+                    </p>
+
+                </div>
+
+                <hr class="m-0">
 
                 <div class="card-body p-5">
 
-                    <div class="text-center mb-4">
-
-                        <h1 class="fw-bold">
-                            ✏ Edit Vaccination
-                        </h1>
-
-                        <p class="text-muted">
-                            Update vaccination details.
-                        </p>
-
-                    </div>
-
-                    {% if error %}
-                    <div class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                    {% endif %}
-
                     <form method="POST">
 
-                        <div class="mb-3">
+                        <!-- ==========================================================
+                             VACCINATION INFORMATION
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Vaccine Name
-                            </label>
+                        <div class="mb-5">
 
-                            <input type="text" name="vaccine_name" class="form-control"
-                                value="{{ vaccination.vaccine_name }}" required>
+                            <div class="d-flex align-items-center mb-4">
 
-                        </div>
+                                <i class="bi bi-shield-check fs-3 text-success me-3"></i>
 
-                        <div class="row">
+                                <div>
 
-                            <div class="col-md-6 mb-3">
+                                    <h4 class="fw-bold mb-1">
 
-                                <label class="form-label">
-                                    Date Given
-                                </label>
+                                        Vaccination Information
 
-                                <input type="date" name="date_given" class="form-control"
-                                    value="{{ vaccination.date_given or '' }}" required>
+                                    </h4>
 
-                            </div>
+                                    <p class="text-secondary mb-0">
 
-                            <div class="col-md-6 mb-3">
+                                        Update the vaccine details and booster
+                                        schedule.
 
-                                <label class="form-label">
-                                    Next Due
-                                </label>
+                                    </p>
 
-                                <input type="date" name="next_due" class="form-control"
-                                    value="{{ vaccination.next_due or '' }}" required>
+                                </div>
 
                             </div>
 
+                            <div class="row g-4">
+
+                                <!-- Vaccine Name -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Vaccine Name
+
+                                    </label>
+
+                                    <input type="text" name="vaccine_name" class="form-control"
+                                        value="{{ vaccination.vaccine_name }}"
+                                        placeholder="DHPP, Rabies, Leptospirosis..." required>
+
+                                </div>
+
+                                <!-- Veterinarian -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Veterinarian
+
+                                    </label>
+
+                                    <input type="text" name="veterinarian" class="form-control"
+                                        value="{{ vaccination.veterinarian or '' }}"
+                                        placeholder="Doctor or Clinic Name">
+
+                                </div>
+
+                                <!-- Date Given -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Date Given
+
+                                    </label>
+
+                                    <input type="date" name="date_given" class="form-control"
+                                        value="{{ vaccination.date_given or '' }}" required>
+
+                                    <div class="form-text">
+
+                                        Date on which the vaccine was
+                                        administered.
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Next Due -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Next Due Date
+
+                                    </label>
+
+                                    <input type="date" name="next_due" class="form-control"
+                                        value="{{ vaccination.next_due or '' }}" required>
+
+                                    <div class="form-text">
+
+                                        Used by Pawfolio to generate upcoming
+                                        vaccination reminders.
+
+                                    </div>
+
+                                </div>
+                                <!-- ==========================================================
+                                     ADDITIONAL NOTES
+                                =========================================================== -->
+
+                                <div class="col-12">
+
+                                    <hr class="my-4">
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <i class="bi bi-journal-text fs-4 text-warning me-3"></i>
+
+                                        <div>
+
+                                            <h4 class="fw-bold mb-1">
+
+                                                Additional Notes
+
+                                            </h4>
+
+                                            <p class="text-secondary mb-0">
+
+                                                Update any observations or
+                                                important information related to
+                                                this vaccination.
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Notes
+
+                                    </label>
+
+                                    <textarea name="notes" rows="5" class="form-control"
+                                        placeholder="Record vaccine batch number, side effects, appetite, behaviour, after-care instructions or anything important...">{{ vaccination.notes or '' }}</textarea>
+
+                                    <div class="form-text">
+
+                                        These notes become part of your pet's
+                                        permanent vaccination history.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="mb-3">
+                        <!-- ==========================================================
+                             INFORMATION CARD
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Veterinarian
-                            </label>
+                        <div class="alert alert-light border rounded-4 mt-5">
 
-                            <input type="text" name="veterinarian" class="form-control"
-                                value="{{ vaccination.veterinarian or '' }}">
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
+
+                                <div>
+
+                                    <strong>
+
+                                        Vaccination Reminder
+
+                                    </strong>
+
+                                    <p class="mb-3 text-secondary">
+
+                                        Keeping vaccination records up to date
+                                        helps Pawfolio generate accurate booster
+                                        reminders and maintain a complete
+                                        medical history for
+                                        <strong>{{ pet.name if pet is defined else "your pet" }}</strong>.
+
+                                    </p>
+
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Booster Reminders
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Vaccination Timeline
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Permanent Health History
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Health Dashboard
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="mb-4">
+                        <!-- ==========================================================
+                             ACTION BUTTONS
+                        =========================================================== -->
 
-                            <label class="form-label">
-                                Notes
-                            </label>
-
-                            <textarea name="notes" rows="4"
-                                class="form-control">{{ vaccination.notes or '' }}</textarea>
-
-                        </div>
-
-                        <div class="d-grid gap-2">
-
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                💾 Update Vaccination
-                            </button>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
 
                             <a href="{{ url_for('pet_profile', pet_id=vaccination.pet_id) }}"
-                                class="btn btn-outline-secondary">
-                                Cancel
+                                class="btn btn-outline-secondary btn-lg">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Back to Profile
+
                             </a>
+
+                            <button type="submit" class="btn btn-primary btn-lg">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Update Vaccination
+
+                            </button>
 
                         </div>
 

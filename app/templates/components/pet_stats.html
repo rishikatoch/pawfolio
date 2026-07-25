@@ -1,5 +1,5 @@
 <!-- ==========================================================
-     Pet Statistics
+     HEALTH OVERVIEW
 ========================================================== -->
 
 <section class="pet-stats-section">
@@ -8,15 +8,17 @@
 
         <div class="row g-4">
 
-            <!-- Current Weight -->
+            <!-- ==========================================
+                 Vaccination Status
+            =========================================== -->
 
             <div class="col-lg-3 col-md-6">
 
                 <div class="pet-stat-card">
 
-                    <div class="pet-stat-icon bg-primary">
+                    <div class="pet-stat-icon bg-success">
 
-                        <i class="bi bi-speedometer2"></i>
+                        <i class="bi bi-shield-check"></i>
 
                     </div>
 
@@ -24,19 +26,23 @@
 
                         <span class="pet-stat-label">
 
-                            Current Weight
+                            Vaccination
 
                         </span>
 
                         <h3>
 
-                            {% if pet.weight %}
+                            {% if pet.vaccination_status == "Vaccinated" %}
 
-                            {{ pet.weight }} kg
+                            Healthy
+
+                            {% elif pet.vaccination_status == "Due Soon" %}
+
+                            Due Soon
 
                             {% else %}
 
-                            —
+                            Overdue
 
                             {% endif %}
 
@@ -48,15 +54,18 @@
 
             </div>
 
-            <!-- Age -->
+
+            <!-- ==========================================
+                 Life Stage
+            =========================================== -->
 
             <div class="col-lg-3 col-md-6">
 
                 <div class="pet-stat-card">
 
-                    <div class="pet-stat-icon bg-success">
+                    <div class="pet-stat-icon bg-primary">
 
-                        <i class="bi bi-cake2-fill"></i>
+                        <i class="bi bi-stars"></i>
 
                     </div>
 
@@ -64,13 +73,13 @@
 
                         <span class="pet-stat-label">
 
-                            Age
+                            Life Stage
 
                         </span>
 
                         <h3>
 
-                            {{ pet.age_display }}
+                            {{ pet.life_stage }}
 
                         </h3>
 
@@ -80,7 +89,10 @@
 
             </div>
 
-            <!-- Next Reminder -->
+
+            <!-- ==========================================
+                 Next Reminder
+            =========================================== -->
 
             <div class="col-lg-3 col-md-6">
 
@@ -124,7 +136,7 @@
 
                         <small>
 
-                            No upcoming reminders
+                            You're all caught up
 
                         </small>
 
@@ -136,7 +148,10 @@
 
             </div>
 
-            <!-- Overdue -->
+
+            <!-- ==========================================
+                 Overdue Items
+            =========================================== -->
 
             <div class="col-lg-3 col-md-6">
 

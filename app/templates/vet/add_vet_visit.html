@@ -10,213 +10,370 @@ Add Vet Visit • Pawfolio
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-9">
+        <div class="col-xl-10 col-lg-11">
 
-            <div class="card shadow-lg border-0 rounded-4">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-                <div class="card-header bg-primary text-white py-4">
+                <!-- ==========================================================
+                     HEADER
+                =========================================================== -->
 
-                    <div class="d-flex align-items-center">
+                <div class="card-body p-5 pb-4">
 
-                        <div class="me-3 fs-1">
-                            🩺
-                        </div>
+                    <span class="dashboard-badge mb-3">
 
-                        <div>
+                        <i class="bi bi-heart-pulse-fill"></i>
 
-                            <h2 class="mb-1">
-                                Add Vet Visit
-                            </h2>
+                        Medical Record
 
-                            <p class="mb-0 opacity-75">
-                                Record a veterinary visit for
-                                <strong>{{ pet.name }}</strong>
-                            </p>
+                    </span>
 
-                        </div>
+                    <h1 class="fw-bold mb-2">
 
-                    </div>
+                        Veterinary Visit
+
+                    </h1>
+
+                    <p class="text-secondary mb-0">
+
+                        Record consultations, diagnoses, treatments and
+                        follow-up appointments for
+                        <strong>{{ pet.name }}</strong>.
+
+                    </p>
 
                 </div>
 
-                <div class="card-body p-4">
+                <hr class="m-0">
+
+                <div class="card-body p-5">
 
                     <form method="POST">
 
-                        <div class="row g-4">
+                        <!-- ==========================================================
+                             VISIT INFORMATION
+                        =========================================================== -->
 
-                            <!-- Visit Date -->
+                        <div class="mb-5">
 
-                            <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-4">
 
-                                <label class="form-label fw-semibold">
+                                <i class="bi bi-calendar-event fs-4 text-primary me-3"></i>
 
-                                    Visit Date
+                                <div>
 
-                                </label>
+                                    <h4 class="fw-bold mb-1">
 
-                                <input type="date" name="visit_date" class="form-control" value="{{ today }}"
-                                    max="{{ today }}" required>
+                                        Visit Information
 
-                            </div>
+                                    </h4>
 
-                            <!-- Follow Up -->
+                                    <p class="text-secondary mb-0">
 
-                            <div class="col-md-6">
+                                        Basic information about this veterinary visit.
 
-                                <label class="form-label fw-semibold">
-
-                                    Follow-up Date
-
-                                </label>
-
-                                <input type="date" name="follow_up_date" class="form-control">
-
-                            </div>
-
-                            <!-- Clinic -->
-
-                            <div class="col-md-6">
-
-                                <label class="form-label fw-semibold">
-
-                                    Clinic Name
-
-                                </label>
-
-                                <input type="text" name="clinic_name" class="form-control" maxlength="150"
-                                    placeholder="ABC Pet Hospital" required>
-
-                            </div>
-
-                            <!-- Doctor -->
-
-                            <div class="col-md-6">
-
-                                <label class="form-label fw-semibold">
-
-                                    Veterinarian
-
-                                </label>
-
-                                <input type="text" name="veterinarian" class="form-control" maxlength="150"
-                                    placeholder="Dr. Sharma" required>
-
-                            </div>
-
-                            <!-- Reason -->
-
-                            <div class="col-12">
-
-                                <label class="form-label fw-semibold">
-
-                                    Reason For Visit
-
-                                </label>
-
-                                <input type="text" name="reason" class="form-control" maxlength="255"
-                                    placeholder="Routine check-up" required>
-
-                            </div>
-                            <!-- Diagnosis -->
-
-                            <div class="col-12">
-
-                                <label class="form-label fw-semibold">
-
-                                    Diagnosis
-
-                                </label>
-
-                                <textarea name="diagnosis" class="form-control" rows="4"
-                                    placeholder="Diagnosis made by the veterinarian"></textarea>
-
-                            </div>
-
-                            <!-- Treatment -->
-
-                            <div class="col-12">
-
-                                <label class="form-label fw-semibold">
-
-                                    Treatment
-
-                                </label>
-
-                                <textarea name="treatment" class="form-control" rows="4"
-                                    placeholder="Treatment provided"></textarea>
-
-                            </div>
-
-                            <!-- Prescription -->
-
-                            <div class="col-12">
-
-                                <label class="form-label fw-semibold">
-
-                                    Prescription
-
-                                </label>
-
-                                <textarea name="prescription" class="form-control" rows="4"
-                                    placeholder="Medicines prescribed"></textarea>
-
-                            </div>
-
-                            <!-- Notes -->
-
-                            <div class="col-12">
-
-                                <label class="form-label fw-semibold">
-
-                                    Additional Notes
-
-                                </label>
-
-                                <textarea name="notes" class="form-control" rows="5"
-                                    placeholder="Any additional observations or instructions"></textarea>
-
-                            </div>
-
-                            <!-- Buttons -->
-
-                            <div class="col-12">
-
-                                <div class="d-flex justify-content-between mt-4">
-
-                                    <a href="{{ url_for('pet_profile', pet_id=pet.id) }}"
-                                        class="btn btn-outline-secondary btn-lg">
-
-                                        ← Cancel
-
-                                    </a>
-
-                                    <button type="submit" class="btn btn-primary btn-lg">
-
-                                        💾 Save Vet Visit
-
-                                    </button>
+                                    </p>
 
                                 </div>
 
                             </div>
+
+                            <div class="row g-4">
+
+                                <!-- Visit Date -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Visit Date
+
+                                    </label>
+
+                                    <input type="date" name="visit_date" class="form-control" value="{{ today }}"
+                                        max="{{ today }}" required>
+
+                                </div>
+
+                                <!-- Follow-up -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Follow-up Date
+
+                                    </label>
+
+                                    <input type="date" name="follow_up_date" class="form-control">
+
+                                    <div class="form-text">
+
+                                        Leave empty if no follow-up has been scheduled.
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Clinic -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Clinic Name
+
+                                    </label>
+
+                                    <input type="text" name="clinic_name" class="form-control" maxlength="150"
+                                        placeholder="ABC Pet Hospital" required>
+
+                                </div>
+
+                                <!-- Veterinarian -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Veterinarian
+
+                                    </label>
+
+                                    <input type="text" name="veterinarian" class="form-control" maxlength="150"
+                                        placeholder="Dr. Sharma" required>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-5">
+
+                        <!-- ==========================================================
+                             MEDICAL DETAILS
+                        =========================================================== -->
+
+                        <div class="mb-5">
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <i class="bi bi-clipboard2-pulse fs-4 text-success me-3"></i>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+
+                                        Medical Details
+
+                                    </h4>
+
+                                    <p class="text-secondary mb-0">
+
+                                        Record the consultation outcome and treatment plan.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row g-4">
+
+                                <!-- Reason -->
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Reason for Visit
+
+                                    </label>
+
+                                    <input type="text" name="reason" class="form-control" maxlength="255"
+                                        placeholder="Annual health check-up, skin allergy, vaccination consultation, limping on front leg..."
+                                        required>
+
+                                </div>
+
+                                <!-- Diagnosis -->
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Diagnosis
+
+                                    </label>
+
+                                    <textarea name="diagnosis" rows="4" class="form-control"
+                                        placeholder="Describe the veterinarian's diagnosis or medical findings."></textarea>
+
+                                    <div class="form-text">
+
+                                        Record the condition identified during the examination.
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Treatment -->
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Treatment
+
+                                    </label>
+
+                                    <textarea name="treatment" rows="4" class="form-control"
+                                        placeholder="Treatments, procedures, injections or therapies provided."></textarea>
+
+                                    <div class="form-text">
+
+                                        Include surgeries, wound care, injections or other procedures.
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Prescription -->
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Prescription
+
+                                    </label>
+
+                                    <textarea name="prescription" rows="4" class="form-control"
+                                        placeholder="List medicines, dosage instructions and duration."></textarea>
+
+                                    <div class="form-text">
+
+                                        Include medication names, dosage and frequency.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-5">
+
+                        <!-- ==========================================================
+                             ADDITIONAL NOTES
+                        =========================================================== -->
+
+                        <div>
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <i class="bi bi-journal-text fs-4 text-warning me-3"></i>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+
+                                        Additional Notes
+
+                                    </h4>
+
+                                    <p class="text-secondary mb-0">
+
+                                        Optional observations, recommendations and reminders.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Notes
+
+                                    </label>
+
+                                    <textarea name="notes" rows="5" class="form-control"
+                                        placeholder="Additional observations, dietary advice, home care instructions or anything you'd like to remember."></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ==========================================================
+                             INFO BOX
+                        =========================================================== -->
+
+                        <div class="alert alert-light border rounded-4 mt-5">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill text-primary fs-4 me-3"></i>
+
+                                <div>
+
+                                    <strong>
+
+                                        Medical Records
+
+                                    </strong>
+
+                                    <p class="mb-0 text-secondary">
+
+                                        Pawfolio securely stores your pet's consultation history,
+                                        diagnoses, prescriptions and follow-up appointments,
+                                        making it easy to access a complete medical record
+                                        whenever you need it.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ==========================================================
+                             ACTIONS
+                        =========================================================== -->
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+
+                            <a href="{{ url_for('pet_profile', pet_id=pet.id) }}"
+                                class="btn btn-outline-secondary btn-lg">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Back to Profile
+
+                            </a>
+
+                            <button type="submit" class="btn btn-primary btn-lg">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Save Visit
+
+                            </button>
+
                         </div>
 
                     </form>
 
                 </div>
-
-            </div>
-
-            <div class="text-center mt-4">
-
-                <small class="text-muted">
-
-                    Pawfolio securely stores your pet's veterinary history so you
-                    can keep track of every visit, diagnosis, treatment and
-                    follow-up appointment.
-
-                </small>
 
             </div>
 

@@ -4,9 +4,9 @@
 
     <article class="pet-card">
 
-        <!-- =========================
-             Pet Image
-        ========================== -->
+        <!-- ==================================================
+             IMAGE
+        =================================================== -->
 
         <div class="pet-card-image">
 
@@ -26,17 +26,10 @@
 
             {% endif %}
 
-        </div>
 
-        <!-- =========================
-             Card Body
-        ========================== -->
+            <!-- Vaccination Badge -->
 
-        <div class="pet-card-body">
-
-            <!-- Vaccination Status -->
-
-            <div class="pet-status">
+            <div class="pet-status-floating">
 
                 {% if pet.vaccination_status == "Vaccinated" %}
 
@@ -44,7 +37,7 @@
 
                     <i class="bi bi-check-circle-fill"></i>
 
-                    Vaccination Up To Date
+                    Healthy
 
                 </span>
 
@@ -54,7 +47,7 @@
 
                     <i class="bi bi-clock-fill"></i>
 
-                    Vaccination Due Soon
+                    Due Soon
 
                 </span>
 
@@ -64,7 +57,7 @@
 
                     <i class="bi bi-exclamation-circle-fill"></i>
 
-                    Vaccination Overdue
+                    Overdue
 
                 </span>
 
@@ -72,67 +65,90 @@
 
             </div>
 
-            <!-- Name -->
+        </div>
 
-            <h3 class="pet-name">
 
-                {{ pet.name }}
+        <!-- ==================================================
+             BODY
+        =================================================== -->
 
-            </h3>
+        <div class="pet-card-body">
 
-            <!-- Breed -->
+            <div class="pet-header">
 
-            <p class="pet-breed">
+                <div>
 
-                {{ pet.breed }}
+                    <h3 class="pet-name">
 
-            </p>
+                        {{ pet.name }}
 
-            <!-- Details -->
+                    </h3>
 
-            <div class="pet-meta">
+                    <p class="pet-breed">
 
-                <span>
+                        {{ pet.breed }}
 
-                    <i class="bi bi-gender-ambiguous"></i>
+                    </p>
 
-                    {{ pet.gender }}
-
-                </span>
-
-                <span>•</span>
-
-                <span>
-
-                    <i class="bi bi-cake2"></i>
-
-                    {{ pet.age_display }}
-
-                </span>
-
-                <span>•</span>
-
-                <span>
-
-                    <i class="bi bi-speedometer2"></i>
-
-                    {% if pet.weight %}
-                    {{ pet.weight }} kg
-                    {% else %}
-                    --
-                    {% endif %}
-
-                </span>
+                </div>
 
             </div>
 
-            <!-- Divider -->
 
-            <hr>
+            <!-- Information -->
+
+            <div class="pet-meta-grid">
+
+                <div class="pet-meta-item">
+
+                    <i class="bi bi-gender-ambiguous"></i>
+
+                    <span>
+
+                        {{ pet.gender }}
+
+                    </span>
+
+                </div>
+
+                <div class="pet-meta-item">
+
+                    <i class="bi bi-cake2"></i>
+
+                    <span>
+
+                        {{ pet.age_display }}
+
+                    </span>
+
+                </div>
+
+                <div class="pet-meta-item">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    <span>
+
+                        {% if pet.weight %}
+
+                        {{ pet.weight }} kg
+
+                        {% else %}
+
+                        —
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            </div>
+
 
             <!-- Reminder -->
 
-            <div class="next-reminder">
+            <div class="pet-reminder-card">
 
                 <small>
 
@@ -150,9 +166,10 @@
 
         </div>
 
-        <!-- =========================
-             Footer
-        ========================== -->
+
+        <!-- ==================================================
+             FOOTER
+        =================================================== -->
 
         <div class="pet-card-footer">
 
@@ -160,28 +177,24 @@
 
                 <i class="bi bi-heart-fill me-2"></i>
 
-                View Profile
+                Open Profile
 
             </a>
 
-            <div class="pet-secondary-actions">
+            <div class="pet-card-actions">
 
-                <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="btn btn-light">
+                <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="icon-action">
 
                     <i class="bi bi-pencil"></i>
-
-                    Edit
 
                 </a>
 
                 <form method="POST" action="{{ url_for('delete_pet', pet_id=pet.id) }}"
                     onsubmit="return confirm('Delete {{ pet.name }} permanently?');">
 
-                    <button type="submit" class="btn btn-light text-danger">
+                    <button type="submit" class="icon-action danger">
 
                         <i class="bi bi-trash"></i>
-
-                        Delete
 
                     </button>
 

@@ -1,247 +1,475 @@
 {% extends "base.html" %}
 
+{% block title %}
+Edit Pet Profile • Pawfolio
+{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
 
-    <div class="page-header text-center mb-5">
+    <div class="row justify-content-center">
 
-        <span class="page-badge">
+        <div class="col-xl-11">
 
-            <i class="bi bi-pencil-square"></i>
-
-            Pawfolio
-
-        </span>
-
-        <h1>
-
-            Edit Pet Profile
-
-        </h1>
-
-        <p>
-
-            Update your pet's profile, health information and photo.
-
-        </p>
-
-    </div>
-
-    <div class="glass-form">
-
-        <form method="POST" enctype="multipart/form-data">
-
-            <div class="row g-5">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
                 <!-- ==========================================================
-                     PHOTO
-                ========================================================== -->
+                     PAGE HEADER
+                =========================================================== -->
 
-                <div class="col-lg-4">
+                <div class="card-body p-5 pb-4">
 
-                    <div class="upload-card">
+                    <span class="dashboard-badge mb-3">
 
-                        {% if pet.photo %}
+                        <i class="bi bi-pencil-square"></i>
 
-                        <img id="preview" src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}"
-                            class="preview-image" alt="{{ pet.name }}">
+                        Pet Profile
 
-                        {% else %}
+                    </span>
 
-                        <img id="preview" src="{{ url_for('static', filename='images/default-pet.png') }}"
-                            class="preview-image" alt="{{ pet.name }}">
+                    <h1 class="fw-bold mb-2">
 
-                        {% endif %}
+                        Edit Pet Profile
 
-                        <h4 class="mt-4">
+                    </h1>
 
-                            Change Photo
+                    <p class="text-secondary mb-0">
 
-                        </h4>
+                        Update your pet's profile, health information and
+                        profile photo. Keeping these details current helps
+                        Pawfolio provide accurate reminders and health records.
 
-                        <p>
-
-                            Select a new image if you'd like to replace the current one.
-
-                        </p>
-
-                        <small>
-
-                            JPG • PNG • GIF • WEBP
-
-                            <br>
-
-                            Maximum size: 5 MB
-
-                        </small>
-
-                        <input type="file" id="photo" name="photo" class="form-control mt-4"
-                            accept=".jpg,.jpeg,.png,.gif,.webp" onchange="previewImage(event)">
-
-                    </div>
+                    </p>
 
                 </div>
 
-                <!-- ==========================================================
-                     DETAILS
-                ========================================================== -->
+                <hr class="m-0">
 
-                <div class="col-lg-8">
+                <div class="card-body p-5">
 
-                    <div class="form-section">
+                    <form method="POST" enctype="multipart/form-data">
 
-                        <div class="section-title">
+                        <!-- ==========================================================
+                             PHOTO SECTION
+                        =========================================================== -->
 
-                            <i class="bi bi-heart-pulse-fill"></i>
+                        <div class="mb-5">
 
-                            Pet Information
+                            <div class="d-flex align-items-center mb-4">
 
-                        </div>
+                                <i class="bi bi-image fs-3 text-primary me-3"></i>
 
-                        <div class="row g-4">
+                                <div>
 
-                            <div class="col-md-6">
+                                    <h4 class="fw-bold mb-1">
 
-                                <label class="form-label">
+                                        Pet Photo
 
-                                    Pet Name
+                                    </h4>
 
-                                </label>
+                                    <p class="text-secondary mb-0">
 
-                                <input type="text" name="name" class="form-control" value="{{ pet.name }}" required>
+                                        Replace the current profile picture with
+                                        a new one if you'd like.
 
-                            </div>
+                                    </p>
 
-                            <div class="col-md-6">
-
-                                <label class="form-label">
-
-                                    Breed
-
-                                </label>
-
-                                <input type="text" name="breed" class="form-control" value="{{ pet.breed }}" required>
+                                </div>
 
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="row justify-content-center">
 
-                                <label class="form-label">
+                                <div class="col-lg-5">
 
-                                    Gender
+                                    <div class="border rounded-4 p-5 bg-light text-center">
 
-                                </label>
+                                        {% if pet.photo %}
 
-                                <select name="gender" class="form-select" required>
+                                        <img id="preview"
+                                            src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}"
+                                            class="img-fluid rounded-4 shadow-sm mb-4" alt="{{ pet.name }}">
 
-                                    <option value="Male" {% if pet.gender=="Male" %}selected{% endif %}>
+                                        {% else %}
 
-                                        Male
+                                        <img id="preview"
+                                            src="{{ url_for('static', filename='images/default-pet.png') }}"
+                                            class="img-fluid rounded-4 shadow-sm mb-4" alt="{{ pet.name }}">
 
-                                    </option>
+                                        {% endif %}
 
-                                    <option value="Female" {% if pet.gender=="Female" %}selected{% endif %}>
+                                        <h5 class="fw-bold">
 
-                                        Female
+                                            Change Photo
 
-                                    </option>
+                                        </h5>
 
-                                </select>
+                                        <p class="text-secondary">
 
-                            </div>
+                                            Select a new image to replace the
+                                            current profile picture.
 
-                            <div class="col-md-6">
+                                        </p>
 
-                                <label class="form-label">
+                                        <small class="text-muted d-block mb-4">
 
-                                    Birth Date
+                                            JPG • PNG • GIF • WEBP
 
-                                </label>
+                                            <br>
 
-                                <input type="date" name="birth_date" class="form-control"
-                                    max="{{ now.strftime('%Y-%m-%d') }}"
-                                    value="{{ pet.birth_date.strftime('%Y-%m-%d') if pet.birth_date else '' }}">
+                                            Maximum size: 5 MB
 
-                            </div>
+                                        </small>
 
-                            <div class="col-md-6">
+                                        <input type="file" id="photo" name="photo" class="form-control"
+                                            accept=".jpg,.jpeg,.png,.gif,.webp" onchange="previewImage(event)">
 
-                                <label class="form-label">
+                                    </div>
 
-                                    Weight (kg)
-
-                                </label>
-
-                                <input type="number" name="weight" class="form-control" min="0" step="0.1"
-                                    value="{{ pet.weight if pet.weight else '' }}">
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <label class="form-label">
-
-                                    Vaccination Status
-
-                                </label>
-
-                                <select name="vaccination_status" class="form-select" required>
-
-                                    <option value="Vaccinated" {% if pet.vaccination_status=="Vaccinated" %}selected{%
-                                        endif %}>
-
-                                        Vaccinated
-
-                                    </option>
-
-                                    <option value="Due Soon" {% if pet.vaccination_status=="Due Soon" %}selected{% endif
-                                        %}>
-
-                                        Due Soon
-
-                                    </option>
-
-                                    <option value="Not Vaccinated" {% if pet.vaccination_status=="Not Vaccinated"
-                                        %}selected{% endif %}>
-
-                                        Not Vaccinated
-
-                                    </option>
-
-                                </select>
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                        <hr class="my-5">
 
-                    <div class="form-actions">
+                        <!-- ==========================================================
+                             BASIC INFORMATION
+                        =========================================================== -->
 
-                        <button class="btn btn-primary btn-lg" type="submit">
+                        <div class="mb-5">
 
-                            <i class="bi bi-floppy-fill me-2"></i>
+                            <div class="d-flex align-items-center mb-4">
 
-                            Save Changes
+                                <i class="bi bi-info-circle-fill fs-3 text-success me-3"></i>
 
-                        </button>
+                                <div>
 
-                        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary btn-lg">
+                                    <h4 class="fw-bold mb-1">
 
-                            <i class="bi bi-arrow-left me-2"></i>
+                                        Basic Information
 
-                            Cancel
+                                    </h4>
 
-                        </a>
+                                    <p class="text-secondary mb-0">
 
-                    </div>
+                                        Update your pet's identity and profile
+                                        information.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row g-4">
+
+                                <!-- Pet Name -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Pet Name
+
+                                    </label>
+
+                                    <input type="text" name="name" class="form-control" value="{{ pet.name }}" required>
+
+                                </div>
+
+                                <!-- Breed -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Breed
+
+                                    </label>
+
+                                    <input type="text" name="breed" class="form-control" value="{{ pet.breed }}"
+                                        required>
+
+                                </div>
+
+                                <!-- Gender -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Gender
+
+                                    </label>
+
+                                    <select name="gender" class="form-select" required>
+
+                                        <option value="Male" {% if pet.gender=="Male" %}selected{% endif %}>
+
+                                            Male
+
+                                        </option>
+
+                                        <option value="Female" {% if pet.gender=="Female" %}selected{% endif %}>
+
+                                            Female
+
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <!-- Birth Date -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Birth Date
+
+                                    </label>
+
+                                    <input type="date" name="birth_date" class="form-control"
+                                        max="{{ now.strftime('%Y-%m-%d') }}"
+                                        value="{{ pet.birth_date.strftime('%Y-%m-%d') if pet.birth_date else '' }}">
+
+                                    <div class="form-text">
+
+                                        Used to calculate age, vaccination
+                                        schedules and deworming reminders.
+
+                                    </div>
+
+                                </div>
+                                <!-- Weight -->
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Weight (kg)
+
+                                    </label>
+
+                                    <input type="number" name="weight" class="form-control" min="0" step="0.1"
+                                        value="{{ pet.weight if pet.weight else '' }}" placeholder="Example: 18.5">
+
+                                    <div class="form-text">
+
+                                        Keep your pet's weight updated for better
+                                        health tracking.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-5">
+
+                        <!-- ==========================================================
+                             HEALTH INFORMATION
+                        =========================================================== -->
+
+                        <div class="mb-5">
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <i class="bi bi-heart-pulse-fill fs-3 text-danger me-3"></i>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+
+                                        Health Information
+
+                                    </h4>
+
+                                    <p class="text-secondary mb-0">
+
+                                        Maintain your pet's vaccination status
+                                        for accurate reminders and dashboard
+                                        statistics.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Vaccination Status
+
+                                    </label>
+
+                                    <select name="vaccination_status" class="form-select" required>
+
+                                        <option value="Vaccinated" {% if pet.vaccination_status=="Vaccinated"
+                                            %}selected{% endif %}>
+
+                                            🟢 Vaccinated
+
+                                        </option>
+
+                                        <option value="Due Soon" {% if pet.vaccination_status=="Due Soon" %}selected{%
+                                            endif %}>
+
+                                            🟡 Due Soon
+
+                                        </option>
+
+                                        <option value="Not Vaccinated" {% if pet.vaccination_status=="Not Vaccinated"
+                                            %}selected{% endif %}>
+
+                                            🔴 Not Vaccinated
+
+                                        </option>
+
+                                    </select>
+
+                                    <div class="form-text">
+
+                                        This status appears throughout Pawfolio
+                                        including the dashboard and pet profile.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ==========================================================
+                             INFORMATION CARD
+                        =========================================================== -->
+
+                        <div class="alert alert-light border rounded-4 mt-5">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
+
+                                <div>
+
+                                    <strong>
+
+                                        Keep Your Pet Profile Updated
+
+                                    </strong>
+
+                                    <p class="mb-3 text-secondary">
+
+                                        Your pet profile is the foundation of
+                                        Pawfolio. Accurate information helps
+                                        calculate age-based reminders,
+                                        vaccination schedules, deworming
+                                        recommendations and provides a complete
+                                        medical history.
+
+                                    </p>
+
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Accurate Age Calculations
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Health Dashboard
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Vaccination Reminders
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="d-flex align-items-center">
+
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                                Medical History
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ==========================================================
+                             ACTION BUTTONS
+                        =========================================================== -->
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-5">
+
+                            <a href="{{ url_for('pet_profile', pet_id=pet.id) }}"
+                                class="btn btn-outline-secondary btn-lg">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Back to Profile
+
+                            </a>
+
+                            <button type="submit" class="btn btn-primary btn-lg">
+
+                                <i class="bi bi-floppy-fill"></i>
+
+                                Update Profile
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
             </div>
 
-        </form>
+        </div>
 
     </div>
 
@@ -253,17 +481,13 @@
 
         const file = event.target.files[0];
 
-        if (!file)
-            return;
+        if (!file) return;
 
         const allowed = [
 
             "image/jpeg",
-
             "image/png",
-
             "image/gif",
-
             "image/webp"
 
         ];

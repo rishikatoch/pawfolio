@@ -1,199 +1,291 @@
-<div class="container mb-5">
+<!-- ==========================================================
+     VETERINARY VISITS
+========================================================== -->
 
-    <div class="card shadow-sm border-0 rounded-4">
+<section class="vet-visits-section">
 
-        <div class="card-header bg-white">
+    <div class="container">
 
-            <div class="d-flex justify-content-between align-items-center">
+        <div class="timeline-card">
 
-                <div>
+            <!-- ==========================================
+                 HEADER
+            =========================================== -->
 
-                    <h4 class="mb-1">
-
-                        🩺 Veterinary Visits
-
-                    </h4>
-
-                    <small class="text-muted">
-
-                        Complete medical history and follow-up records
-
-                    </small>
-
-                </div>
+            <div class="section-header">
 
                 <div>
 
-                    <a href="{{ url_for('add_vet_visit', pet_id=pet.id) }}" class="btn btn-primary">
+                    <span class="dashboard-badge">
 
-                        ➕ Add Visit
+                        <i class="bi bi-heart-pulse-fill"></i>
 
-                    </a>
+                        Medical History
+
+                    </span>
+
+                    <h2>
+
+                        Veterinary Visits
+
+                    </h2>
+
+                    <p>
+
+                        Keep a complete history of consultations,
+                        diagnoses, treatments and follow-up appointments
+                        for <strong>{{ pet.name }}</strong>.
+
+                    </p>
 
                 </div>
+
+                <a href="{{ url_for('add_vet_visit', pet_id=pet.id) }}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Add Visit
+
+                </a>
 
             </div>
 
-        </div>
 
-        <div class="card-body">
+            <!-- ==========================================
+                 SUMMARY
+            =========================================== -->
 
-            <div class="row text-center mb-4">
+            <div class="dashboard-stats mb-5">
 
-                <div class="col-md-4">
+                <div class="stat-card">
 
-                    <h5>
+                    <div class="stat-icon">
 
-                        {{ pet.vet_visits|length }}
+                        <i class="bi bi-hospital"></i>
 
-                    </h5>
+                    </div>
 
-                    <small class="text-muted">
+                    <div class="stat-content">
 
-                        Total Visits
+                        <span class="stat-label">
 
-                    </small>
+                            Total Visits
 
-                </div>
+                        </span>
 
-                <div class="col-md-4">
+                        <h3>
 
-                    <h5>
+                            {{ pet.vet_visits|length }}
 
-                        {% if pet.vet_visits %}
-
-                        {{ pet.vet_visits[0].visit_date.strftime("%d %b %Y") }}
-
-                        {% else %}
-
-                        —
-
-                        {% endif %}
-
-                    </h5>
-
-                    <small class="text-muted">
-
-                        Last Visit
-
-                    </small>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <h5>
-
-                        {% if pet.vet_visits and pet.vet_visits[0].follow_up_date %}
-
-                        {{ pet.vet_visits[0].follow_up_date.strftime("%d %b %Y") }}
-
-                        {% else %}
-
-                        —
-
-                        {% endif %}
-
-                    </h5>
-
-                    <small class="text-muted">
-
-                        Next Follow-up
-
-                    </small>
-
-                </div>
-
-            </div>
-            {% if pet.vet_visits %}
-
-            <div class="list-group list-group-flush">
-
-                {% for visit in pet.vet_visits[:5] %}
-
-                <div class="list-group-item py-3">
-
-                    <div class="row align-items-center">
-
-                        <div class="col-lg-3">
-
-                            <strong>
-
-                                {{ visit.visit_date.strftime("%d %b %Y") }}
-
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                {{ visit.clinic_name }}
-
-                            </small>
-
-                        </div>
-
-                        <div class="col-lg-3">
-
-                            <strong>
-
-                                Dr. {{ visit.veterinarian }}
-
-                            </strong>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            {{ visit.reason }}
-
-                        </div>
-
-                        <div class="col-lg-2 text-lg-end">
-
-                            <a href="{{ url_for('view_vet_visit', visit_id=visit.id) }}"
-                                class="btn btn-outline-primary btn-sm">
-
-                                View
-
-                            </a>
-
-                        </div>
+                        </h3>
 
                     </div>
 
                 </div>
 
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-calendar-check"></i>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+
+                            Last Visit
+
+                        </span>
+
+                        <h3>
+
+                            {% if pet.vet_visits %}
+
+                            {{ pet.vet_visits[0].visit_date.strftime("%d %b %Y") }}
+
+                            {% else %}
+
+                            —
+
+                            {% endif %}
+
+                        </h3>
+
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-calendar-heart"></i>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+
+                            Next Follow-up
+
+                        </span>
+
+                        <h3>
+
+                            {% if pet.vet_visits and pet.vet_visits[0].follow_up_date %}
+
+                            {{ pet.vet_visits[0].follow_up_date.strftime("%d %b %Y") }}
+
+                            {% else %}
+
+                            —
+
+                            {% endif %}
+
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 VISITS
+            =========================================== -->
+
+            {% if pet.vet_visits %}
+
+            <div class="activity-list">
+
+                {% for visit in pet.vet_visits[:5] %}
+
+                <article class="activity-item">
+
+                    <div class="activity-icon">
+
+                        <i class="bi bi-heart-pulse-fill"></i>
+
+                    </div>
+
+                    <div class="activity-content">
+
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+
+                            <div>
+
+                                <h5>
+
+                                    {{ visit.reason }}
+
+                                </h5>
+
+                                <p>
+
+                                    {{ visit.clinic_name }}
+
+                                </p>
+
+                            </div>
+
+                            <span class="dashboard-date">
+
+                                {{ visit.visit_date.strftime("%d %b %Y") }}
+
+                            </span>
+
+                        </div>
+
+                        <div class="row mt-3">
+
+                            <div class="col-lg-6">
+
+                                <small class="text-muted">
+
+                                    Veterinarian
+
+                                </small>
+
+                                <div>
+
+                                    Dr. {{ visit.veterinarian }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
+
+                                <a href="{{ url_for('view_vet_visit', visit_id=visit.id) }}"
+                                    class="btn btn-outline-primary">
+
+                                    <i class="bi bi-eye"></i>
+
+                                    View Details
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
                 {% endfor %}
+
+            </div>
+
+            <div class="text-end mt-4">
+
+                <a href="{{ url_for('pet_vet_visits', pet_id=pet.id) }}" class="btn btn-outline-secondary">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    View Complete History
+
+                </a>
 
             </div>
 
             {% else %}
 
-            <div class="text-center py-5">
+            <!-- ==========================================
+                 EMPTY STATE
+            =========================================== -->
 
-                <div class="display-4 mb-3">
+            <div class="dashboard-empty">
 
-                    🩺
+                <div class="dashboard-empty-icon">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
 
                 </div>
 
-                <h5>
+                <h3>
 
-                    No Vet Visits Recorded
+                    No Veterinary Visits Yet
 
-                </h5>
+                </h3>
 
-                <p class="text-muted mb-4">
+                <p>
 
-                    Start building your pet's medical history by adding the
-                    first veterinary visit.
+                    Record consultations, diagnoses, prescriptions,
+                    surgeries and follow-up appointments to build
+                    a complete medical history for {{ pet.name }}.
 
                 </p>
 
                 <a href="{{ url_for('add_vet_visit', pet_id=pet.id) }}" class="btn btn-primary">
 
-                    ➕ Add First Visit
+                    <i class="bi bi-plus-circle"></i>
+
+                    Add First Visit
 
                 </a>
 
@@ -201,19 +293,8 @@
 
             {% endif %}
 
-            <hr class="my-4">
-
-            <div class="d-flex justify-content-end">
-
-                <a href="{{ url_for('pet_vet_visits', pet_id=pet.id) }}" class="btn btn-outline-secondary">
-
-                    📋 View Complete History
-
-                </a>
-
-            </div>
         </div>
 
     </div>
 
-</div>
+</section>

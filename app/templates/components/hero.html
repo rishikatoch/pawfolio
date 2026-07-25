@@ -1,8 +1,13 @@
+<!-- ==========================================================
+     PAWFOLIO HERO
+========================================================== -->
+
 <section class="hero">
 
     {% if pets and pets[0].photo %}
 
     <div class="hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pets[0].photo) }}');">
+
     </div>
 
     {% else %}
@@ -19,17 +24,22 @@
 
         <div class="hero-content">
 
-            <!-- Badge -->
+            <!-- ==========================================
+                 Badge
+            =========================================== -->
 
             <div class="hero-badge">
 
                 <i class="bi bi-stars"></i>
 
-                Trusted Digital Pet Care Companion
+                Welcome to Pawfolio
 
             </div>
 
-            <!-- Logo -->
+
+            <!-- ==========================================
+                 Logo
+            =========================================== -->
 
             <div class="hero-logo">
 
@@ -43,46 +53,54 @@
 
             </div>
 
-            <!-- Heading -->
+
+            <!-- ==========================================
+                 Heading
+            =========================================== -->
 
             <h1>
 
-                Every Pet Deserves
+                Every Pet's Story
 
-                <span>a Lifetime of Love & Care</span>
+                <span>Deserves to Be Remembered</span>
 
             </h1>
 
-            <!-- Subtitle -->
+
+            <!-- ==========================================
+                 Subtitle
+            =========================================== -->
 
             <p>
 
-                Organize vaccinations, deworming schedules, medical history,
-                medications, growth records, appointments and treasured
-                memories—all in one beautiful, secure home built for your
-                beloved companions.
+                Manage vaccinations, deworming schedules, vet visits,
+                medications, birthdays and cherished memories in one
+                secure home for every member of your furry family.
 
             </p>
 
-            <!-- CTA Buttons -->
+
+            <!-- ==========================================
+                 ACTIONS
+            =========================================== -->
 
             <div class="hero-buttons">
 
-                <a href="{{ url_for('add_pet') }}" class="btn btn-warning btn-lg rounded-pill px-4">
+                <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
 
-                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <i class="bi bi-plus-circle-fill"></i>
 
-                    Add Your First Pet
+                    Add Pet
 
                 </a>
 
                 {% if pets %}
 
-                <a href="#mypets" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                <a href="#mypets" class="btn btn-outline-light btn-lg">
 
-                    <i class="bi bi-heart-fill me-2"></i>
+                    <i class="bi bi-grid"></i>
 
-                    View My Pets
+                    My Pets
 
                 </a>
 
@@ -90,7 +108,10 @@
 
             </div>
 
-            <!-- Stats -->
+
+            <!-- ==========================================
+                 LIVE STATS
+            =========================================== -->
 
             <div class="hero-stats">
 
@@ -114,13 +135,13 @@
 
                     <h2>
 
-                        24×7
+                        {{ total_vaccinations }}
 
                     </h2>
 
                     <span>
 
-                        Records Available
+                        Vaccinations
 
                     </span>
 
@@ -130,109 +151,31 @@
 
                     <h2>
 
-                        100%
+                        {{ total_dewormings }}
 
                     </h2>
 
                     <span>
 
-                        Digital Tracking
+                        Dewormings
 
                     </span>
 
                 </div>
 
-            </div>
+                <div class="hero-stat">
 
-            <!-- Feature Cards -->
+                    <h2>
 
-            <div class="hero-features">
+                        {{ overdue_count }}
 
-                <div class="hero-feature">
+                    </h2>
 
-                    <div class="feature-icon">
+                    <span>
 
-                        <i class="bi bi-heart-pulse-fill"></i>
+                        Overdue
 
-                    </div>
-
-                    <h5>
-
-                        Health Records
-
-                    </h5>
-
-                    <p>
-
-                        Maintain complete medical history in one secure place.
-
-                    </p>
-
-                </div>
-
-                <div class="hero-feature">
-
-                    <div class="feature-icon">
-
-                        <i class="bi bi-shield-check"></i>
-
-                    </div>
-
-                    <h5>
-
-                        Vaccination Tracker
-
-                    </h5>
-
-                    <p>
-
-                        Stay updated with upcoming vaccines and boosters.
-
-                    </p>
-
-                </div>
-
-                <div class="hero-feature">
-
-                    <div class="feature-icon">
-
-                        <i class="bi bi-bell-fill"></i>
-
-                    </div>
-
-                    <h5>
-
-                        Smart Reminders
-
-                    </h5>
-
-                    <p>
-
-                        Never forget medicines, deworming or vet visits.
-
-                    </p>
-
-                </div>
-
-                <div class="hero-feature">
-
-                    <div class="feature-icon">
-
-                        <i class="bi bi-images"></i>
-
-                    </div>
-
-                    <h5>
-
-                        Memories
-
-                    </h5>
-
-                    <p>
-
-                        Save photos and milestones throughout every stage of life.
-
-                    </p>
+                    </span>
 
                 </div>
 

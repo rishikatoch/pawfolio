@@ -1,92 +1,112 @@
-<!-- ==========================================================
-     Overdue Reminders
-========================================================== -->
+<div class="overdue-card">
 
-<div class="dashboard-panel dashboard-panel-danger">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="dashboard-panel-header">
+    <div class="overdue-header">
 
-        <div>
+        <h3 class="overdue-title">
 
-            <span class="dashboard-badge dashboard-badge-danger">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
 
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Overdue Reminders
 
-                Immediate Attention
+        </h3>
 
-            </span>
+        <p class="mb-0 text-muted mt-2">
 
-            <h3>
+            These vaccinations or deworming schedules have passed their
+            due date and require immediate attention.
 
-                Overdue Reminders
-
-            </h3>
-
-            <p>
-
-                These vaccinations or deworming schedules have passed their
-                due date and should be completed as soon as possible.
-
-            </p>
-
-        </div>
+        </p>
 
     </div>
 
-    <div class="dashboard-list">
 
-        {% for reminder in overdue_reminders %}
+    <!-- =====================================================
+         REMINDER LIST
+    ====================================================== -->
 
-        <div class="dashboard-list-item dashboard-list-danger">
+    {% if overdue_reminders %}
 
-            <div class="dashboard-list-left">
+    {% for reminder in overdue_reminders %}
 
-                <div class="dashboard-list-icon dashboard-danger-icon">
+    <div class="overdue-item">
 
-                    {% if reminder.type == "Vaccination" %}
+        <div class="upcoming-pet">
 
-                    <i class="bi bi-shield-exclamation"></i>
+            <div class="upcoming-avatar">
 
-                    {% else %}
+                {% if reminder.type == "Vaccination" %}
 
-                    <i class="bi bi-bug-fill"></i>
+                <i class="bi bi-shield-exclamation"></i>
 
-                    {% endif %}
+                {% else %}
 
-                </div>
+                <i class="bi bi-bug-fill"></i>
 
-                <div>
-
-                    <h5>
-
-                        {{ reminder.pet_name }}
-
-                    </h5>
-
-                    <p>
-
-                        {{ reminder.title }}
-
-                    </p>
-
-                </div>
+                {% endif %}
 
             </div>
 
-            <div class="dashboard-list-right">
+            <div class="upcoming-details">
 
-                <span class="dashboard-date dashboard-date-danger">
+                <h5>
 
-                    {{ reminder.date.strftime("%d %b %Y") }}
+                    {{ reminder.pet_name }}
 
-                </span>
+                </h5>
+
+                <p>
+
+                    {{ reminder.title }}
+
+                </p>
 
             </div>
 
         </div>
 
-        {% endfor %}
+        <div class="upcoming-date">
+
+            {{ reminder.date.strftime("%d %b") }}
+
+        </div>
 
     </div>
+
+    {% endfor %}
+
+    {% else %}
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
+    <div class="dashboard-empty">
+
+        <div class="dashboard-empty-icon">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+        </div>
+
+        <h3>
+
+            No Overdue Reminders 🎉
+
+        </h3>
+
+        <p>
+
+            Fantastic! Every vaccination and deworming schedule is up to
+            date. Your pets currently have no overdue health reminders.
+
+        </p>
+
+    </div>
+
+    {% endif %}
 
 </div>

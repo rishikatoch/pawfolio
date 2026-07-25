@@ -1,31 +1,24 @@
-<!-- ==========================================================
-     Upcoming Reminders
-========================================================== -->
+<div class="upcoming-card">
 
-<div class="dashboard-panel">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="dashboard-panel-header">
+    <div class="card-header-modern">
 
         <div>
 
-            <span class="dashboard-badge">
+            <h3>
 
                 <i class="bi bi-calendar-event me-2"></i>
-
-                Coming Up
-
-            </span>
-
-            <h3>
 
                 Upcoming Reminders
 
             </h3>
 
-            <p>
+            <p class="mb-0 text-muted">
 
-                Vaccinations and deworming schedules due within the next
-                7 days.
+                Vaccinations and deworming schedules due within the next 7 days.
 
             </p>
 
@@ -33,17 +26,24 @@
 
     </div>
 
+
+    <!-- =====================================================
+         REMINDER LIST
+    ====================================================== -->
+
     {% if upcoming_reminders %}
 
-    <div class="dashboard-list">
+    <div class="upcoming-list">
 
         {% for reminder in upcoming_reminders %}
 
-        <div class="dashboard-list-item">
+        <div class="upcoming-item">
 
-            <div class="dashboard-list-left">
+            <!-- Left -->
 
-                <div class="dashboard-list-icon">
+            <div class="upcoming-pet">
+
+                <div class="upcoming-avatar">
 
                     {% if reminder.type == "Vaccination" %}
 
@@ -57,7 +57,7 @@
 
                 </div>
 
-                <div>
+                <div class="upcoming-details">
 
                     <h5>
 
@@ -75,13 +75,11 @@
 
             </div>
 
-            <div class="dashboard-list-right">
+            <!-- Right -->
 
-                <span class="dashboard-date">
+            <div class="upcoming-date">
 
-                    {{ reminder.date.strftime("%d %b %Y") }}
-
-                </span>
+                {{ reminder.date.strftime("%d %b") }}
 
             </div>
 
@@ -90,6 +88,11 @@
         {% endfor %}
 
     </div>
+
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
 
     {% else %}
 
@@ -101,16 +104,19 @@
 
         </div>
 
-        <h4>
+        <h3>
 
-            You're all caught up!
+            You're All Caught Up! 🎉
 
-        </h4>
+        </h3>
 
         <p>
 
-            There are no vaccinations or deworming reminders scheduled
-            for the next seven days.
+            Excellent work! There are no vaccinations or deworming
+            reminders scheduled for the next seven days.
+
+            Every pet currently has a healthy schedule with nothing
+            requiring immediate attention.
 
         </p>
 

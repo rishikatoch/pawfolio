@@ -4,76 +4,112 @@
 
 <section class="dashboard-section">
 
-    <!-- Dashboard Header -->
-    <div class="dashboard-header mb-5">
+    <!-- Decorative Background -->
+    <div class="dashboard-bg-circle bg-circle-1"></div>
+    <div class="dashboard-bg-circle bg-circle-2"></div>
 
-        <div>
+    <!-- ======================================================
+         HERO
+    ======================================================= -->
+
+    <header class="dashboard-header">
+
+        <div class="dashboard-header-content">
 
             <span class="dashboard-badge">
 
-                <i class="bi bi-speedometer2 me-2"></i>
+                <i class="bi bi-stars"></i>
 
-                Dashboard
+                Pawfolio Dashboard
 
             </span>
 
-            <h2 class="display-5 fw-bold mt-3 mb-2">
+            <h1 class="dashboard-title">
 
                 Welcome Back 👋
 
-            </h2>
+            </h1>
 
-            <p class="text-secondary fs-5 mb-0">
+            <p class="dashboard-description">
 
-                Stay on top of your pets' health, vaccinations,
-                reminders and important milestones.
+                Stay on top of vaccinations, deworming schedules,
+                vet visits, birthdays, and every important moment
+                in your pets' lives.
 
             </p>
 
         </div>
 
-    </div>
+        <div class="dashboard-header-actions">
 
-    <!-- Statistics -->
-    <div class="dashboard-block mb-5">
+            <a href="{{ url_for('pets.add_pet') }}" class="btn btn-primary">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Add Pet
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         STATISTICS
+    ======================================================= -->
+
+    <section class="dashboard-block">
 
         {% include "components/dashboard_stats.html" %}
 
-    </div>
+    </section>
 
-    <!-- Upcoming Vaccinations -->
-    <div class="dashboard-block mb-5">
+
+    <!-- ======================================================
+         UPCOMING
+    ======================================================= -->
+
+    <section class="dashboard-block">
 
         {% include "components/dashboard_upcoming.html" %}
 
-    </div>
+    </section>
 
-    <!-- Overdue Reminders -->
+
+    <!-- ======================================================
+         OVERDUE
+    ======================================================= -->
+
     {% if overdue_reminders %}
 
-    <div class="dashboard-block mb-5">
+    <section class="dashboard-block">
 
         {% include "components/dashboard_overdue.html" %}
 
-    </div>
+    </section>
 
     {% endif %}
 
-    <!-- Bottom Grid -->
-    <div class="row g-4">
 
-        <div class="col-lg-6">
+    <!-- ======================================================
+         BOTTOM GRID
+    ======================================================= -->
+
+    <section class="dashboard-grid">
+
+        <div class="dashboard-card-wrapper">
 
             {% include "components/dashboard_birthdays.html" %}
 
         </div>
 
-        <div class="col-lg-6">
+        <div class="dashboard-card-wrapper">
 
             {% include "components/dashboard_activity.html" %}
 
         </div>
 
-    </div>
+    </section>
 
 </section>

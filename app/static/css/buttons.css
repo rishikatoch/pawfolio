@@ -1,0 +1,325 @@
+/* ==========================================
+   Pawfolio Button System v1
+========================================== */
+
+/* ==========================================
+   BASE BUTTON
+========================================== */
+
+.btn {
+
+    height: var(--button-height);
+
+    padding: 0 1.6rem;
+
+    border: none;
+
+    border-radius: var(--radius-md);
+
+    font-weight: 600;
+
+    font-size: .95rem;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: .6rem;
+
+    cursor: pointer;
+
+    transition: var(--transition-fast);
+
+    box-shadow: var(--shadow-xs);
+
+}
+
+.btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+.btn:active {
+
+    transform: translateY(0);
+
+}
+
+.btn:focus {
+
+    box-shadow: var(--focus-ring);
+
+}
+
+/* ==========================================
+   PRIMARY
+========================================== */
+
+.btn-primary {
+
+    background: var(--gradient-primary);
+
+    color: #fff;
+
+}
+
+.btn-primary:hover {
+
+    background: var(--primary-hover);
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   SECONDARY
+========================================== */
+
+.btn-secondary {
+
+    background: var(--secondary);
+
+    color: #fff;
+
+}
+
+.btn-secondary:hover {
+
+    background: var(--secondary-hover);
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   OUTLINE PRIMARY
+========================================== */
+
+.btn-outline-primary {
+
+    background: #fff;
+
+    border: 2px solid var(--primary);
+
+    color: var(--primary);
+
+}
+
+.btn-outline-primary:hover {
+
+    background: var(--primary);
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   LIGHT
+========================================== */
+
+.btn-light {
+
+    background: #fff;
+
+    color: var(--heading);
+
+    border: 1px solid var(--border);
+
+}
+
+.btn-light:hover {
+
+    background: var(--surface-hover);
+
+}
+
+/* ==========================================
+   SUCCESS
+========================================== */
+
+.btn-success {
+
+    background: var(--success);
+
+    color: #fff;
+
+}
+
+.btn-success:hover {
+
+    filter: brightness(.95);
+
+}
+
+/* ==========================================
+   WARNING
+========================================== */
+
+.btn-warning {
+
+    background: var(--warning);
+
+    color: var(--heading);
+
+}
+
+.btn-warning:hover {
+
+    filter: brightness(.96);
+
+}
+
+/* ==========================================
+   DANGER
+========================================== */
+
+.btn-danger {
+
+    background: var(--danger);
+
+    color: #fff;
+
+}
+
+.btn-danger:hover {
+
+    filter: brightness(.95);
+
+}
+
+/* ==========================================
+   GHOST
+========================================== */
+
+.btn-ghost {
+
+    background: transparent;
+
+    color: var(--heading);
+
+    border: 1px solid transparent;
+
+    box-shadow: none;
+
+}
+
+.btn-ghost:hover {
+
+    background: var(--surface-alt);
+
+}
+
+/* ==========================================
+   ICON BUTTON
+========================================== */
+
+.btn-icon {
+
+    width: var(--button-height);
+
+    height: var(--button-height);
+
+    padding: 0;
+
+    border-radius: 50%;
+
+}
+
+/* ==========================================
+   BUTTON SIZES
+========================================== */
+
+.btn-sm {
+
+    height: 42px;
+
+    padding: 0 1rem;
+
+    font-size: .85rem;
+
+}
+
+.btn-lg {
+
+    height: 64px;
+
+    padding: 0 2rem;
+
+    font-size: 1rem;
+
+}
+
+/* ==========================================
+   FULL WIDTH
+========================================== */
+
+.btn-block {
+
+    width: 100%;
+
+}
+
+/* ==========================================
+   BUTTON GROUP
+========================================== */
+
+.btn-group-soft {
+
+    display: flex;
+
+    gap: 1rem;
+
+    flex-wrap: wrap;
+
+}
+
+/* ==========================================
+   DROPDOWN BUTTONS
+========================================== */
+
+.dropdown-toggle::after {
+
+    margin-left: .6rem;
+
+}
+
+/* ==========================================
+   DISABLED
+========================================== */
+
+.btn:disabled {
+
+    opacity: .55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px) {
+
+    .btn {
+
+        width: 100%;
+
+    }
+
+    .btn-group-soft {
+
+        flex-direction: column;
+
+    }
+
+}

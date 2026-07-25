@@ -1,82 +1,120 @@
-<section class="dashboard-summary mb-5">
+<!-- ==========================================================
+     HEALTH INSIGHTS
+========================================================== -->
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<section class="health-overview">
 
-        <div>
+    <div class="dashboard-section-header">
 
-            <h2 class="fw-bold mb-1">
-                Health Summary
-            </h2>
+        <h2 class="dashboard-section-title">
 
-            <p class="text-secondary mb-0">
-                A quick overview of your pets' health.
-            </p>
+            Health Insights
 
-        </div>
+        </h2>
+
+        <a href="{{ url_for('pets.list_pets') }}" class="dashboard-section-link">
+
+            View All Pets
+
+            <i class="bi bi-arrow-right ms-1"></i>
+
+        </a>
 
     </div>
 
     <div class="row g-4">
 
-        <div class="col-md-6 col-xl-3">
+        <!-- ==================================================
+             HEALTH RECORDS
+        =================================================== -->
 
-            <div class="summary-card">
+        <div class="col-lg-4">
 
-                <div class="summary-icon bg-primary-subtle">
-                    🐶
+            <div class="overview-card">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
                 </div>
 
-                <h3>{{ pets|length }}</h3>
+                <h4>
 
-                <p>Total Pets</p>
+                    Health Records
+
+                </h4>
+
+                <p>
+
+                    Keep vaccination history, deworming schedules,
+                    medical notes and health milestones organized for
+                    every pet in one secure place.
+
+                </p>
 
             </div>
 
         </div>
 
-        <div class="col-md-6 col-xl-3">
+        <!-- ==================================================
+             REMINDERS
+        =================================================== -->
 
-            <div class="summary-card">
+        <div class="col-lg-4">
 
-                <div class="summary-icon bg-success-subtle">
-                    💉
+            <div class="overview-card">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-bell-fill"></i>
+
                 </div>
 
-                <h3>0</h3>
+                <h4>
 
-                <p>Vaccines Due</p>
+                    Smart Reminders
+
+                </h4>
+
+                <p>
+
+                    Pawfolio automatically helps you stay ahead of
+                    upcoming vaccinations, deworming schedules and
+                    important health events.
+
+                </p>
 
             </div>
 
         </div>
 
-        <div class="col-md-6 col-xl-3">
+        <!-- ==================================================
+             PET PROFILES
+        =================================================== -->
 
-            <div class="summary-card">
+        <div class="col-lg-4">
 
-                <div class="summary-icon bg-warning-subtle">
-                    🪱
+            <div class="overview-card">
+
+                <div class="overview-icon">
+
+                    <i class="bi bi-stars"></i>
+
                 </div>
 
-                <h3>0</h3>
+                <h4>
 
-                <p>Deworming Due</p>
+                    Complete Pet Profiles
 
-            </div>
+                </h4>
 
-        </div>
+                <p>
 
-        <div class="col-md-6 col-xl-3">
+                    Store birthdays, photos, breed information,
+                    veterinary history and every important detail
+                    about your companions.
 
-            <div class="summary-card">
-
-                <div class="summary-icon bg-danger-subtle">
-                    🎂
-                </div>
-
-                <h3>0</h3>
-
-                <p>Birthdays This Month</p>
+                </p>
 
             </div>
 
