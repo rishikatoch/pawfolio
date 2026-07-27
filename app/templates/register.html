@@ -1,315 +1,504 @@
 {% extends "base.html" %}
 
-{% block show_layout %}
-false
-{% endblock %}
+{% block title %}Create Account | Pawfolio{% endblock %}
 
-{% block title %}
-Create Account • Pawfolio
-{% endblock %}
-
-{% block body_class %}
-register-body
-{% endblock %}
+{% set show_layout = false %}
 
 {% block extra_css %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 
-<div class="register-page">
+<div class="register-body">
 
-    <!-- Decorative Paw Prints -->
+    <div class="register-page">
 
-    <i class="bi bi-paw-fill paw paw-1"></i>
-    <i class="bi bi-paw-fill paw paw-2"></i>
-    <i class="bi bi-paw-fill paw paw-3"></i>
+        <div class="register-container">
 
-    <div class="container-xl">
+            <!-- =======================================================
+                        TOP BAR
+======================================================== -->
 
-        <div class="row align-items-center justify-content-center g-5 min-vh-100">
+            <header class="register-topbar">
 
-            <!-- ======================================================
-                            LEFT SIDE
-            ======================================================= -->
+                <a href="{{ url_for('home') }}" class="brand">
 
-            <div class="col-lg-6 d-none d-lg-block">
-
-                <div class="hero-panel">
-
-                    <div class="hero-badge">
-
-                        <i class="bi bi-heart-pulse-fill"></i>
-
-                        Pawfolio
-
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-paw"></i>
                     </div>
 
-                    <h1 class="hero-title">
-
-                        Every Happy Tail
-                        <br>
-                        Deserves Great Care.
-
-                    </h1>
-
-                    <p class="hero-description">
-
-                        Join thousands of pet parents using Pawfolio to
-                        organize vaccinations, deworming schedules,
-                        vet visits, growth records and precious memories
-                        in one beautiful dashboard.
-
-                    </p>
-
-                    <div class="hero-illustration">
-
-                        {% include "components/mascot_scene.html" %}
-
+                    <div class="brand-text">
+                        <h4>Pawfolio</h4>
+                        <span>Pet Health • Care • Memories</span>
                     </div>
 
-                    <div class="hero-features">
+                </a>
 
-                        <div class="feature-card">
+                <div class="top-login">
 
-                            <i class="bi bi-heart-pulse"></i>
+                    <span>Already have an account?</span>
 
-                            <span>Health Tracking</span>
-
-                        </div>
-
-                        <div class="feature-card">
-
-                            <i class="bi bi-bell-fill"></i>
-
-                            <span>Smart Reminders</span>
-
-                        </div>
-
-                        <div class="feature-card">
-
-                            <i class="bi bi-cloud-check-fill"></i>
-
-                            <span>Secure Cloud Storage</span>
-
-                        </div>
-
-                    </div>
+                    <a href="{{ url_for('login') }}">
+                        Login
+                    </a>
 
                 </div>
 
-            </div>
+            </header>
 
-            <!-- ======================================================
-                        REGISTER CARD
-            ======================================================= -->
+            <!-- =======================================================
+                        MAIN GRID
+======================================================== -->
 
-            <div class="col-lg-5 col-xl-4">
+            <div class="register-layout">
 
-                <div class="glass-form">
+                <!-- =======================================================
+                        LEFT SIDE
+======================================================== -->
 
-                    <div class="text-center mb-5">
+                <section class="hero-panel">
 
-                        <div class="upload-circle mx-auto mb-4">
+                    <div class="hero-content">
 
-                            <i class="bi bi-person-plus-fill"></i>
+                        <h1>
 
-                        </div>
+                            Let's build your
 
-                        <h2 class="fw-bold mb-2">
+                            <span>Pawfolio</span>
 
-                            Create Account
+                            today.
 
-                        </h2>
+                        </h1>
 
-                        <p class="text-muted">
+                        <p>
 
-                            Create your free Pawfolio account
-                            and start protecting your furry family.
+                            Keep every vaccination, deworming schedule, medical record,
+                            feeding routine and unforgettable memory organized in one
+                            beautiful place.
 
                         </p>
 
-                    </div>
+                        <div class="feature-list">
 
-                    <form method="POST" novalidate>
+                            <div class="feature-item">
 
-                        {{ form.hidden_tag() }}
+                                <div class="feature-icon orange">
+                                    <i class="fa-solid fa-shield-dog"></i>
+                                </div>
 
-                        <!-- ======================================
-                                USERNAME
-                        ======================================= -->
+                                <div>
 
-                        <div class="mb-4">
+                                    <strong>Complete Health Tracking</strong>
 
-                            {{ form.username.label(class="form-label") }}
+                                    <small>
 
-                            <div class="input-group">
+                                        Vaccinations, medications,
+                                        deworming schedules and
+                                        medical history in one dashboard.
 
-                                <span class="input-group-text">
+                                    </small>
 
-                                    <i class="bi bi-person-fill"></i>
+                                </div>
 
-                                </span>
+                            </div>
 
-                                {{ form.username(
+                            <div class="feature-item">
 
-                                class="form-control",
+                                <div class="feature-icon green">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
 
-                                placeholder="Choose a username",
+                                <div>
 
-                                autocomplete="username"
+                                    <strong>Smart Reminders</strong>
 
-                                ) }}
+                                    <small>
+
+                                        Never miss an important vaccine,
+                                        check-up or grooming appointment.
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="feature-item">
+
+                                <div class="feature-icon purple">
+                                    <i class="fa-solid fa-heart-circle-check"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>Pet Wellness</strong>
+
+                                    <small>
+
+                                        Track weight, diet,
+                                        growth and daily activities
+                                        over time.
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="feature-item">
+
+                                <div class="feature-icon pink">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>Beautiful Memories</strong>
+
+                                    <small>
+
+                                        Store milestones,
+                                        photos and precious moments
+                                        for every pet.
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="hero-image">
+
+                            <img src="{{ url_for('static', filename='images/register/hero.png') }}" alt="Happy pets">
+
+                            <div class="hero-card">
+
+                                <div class="avatars">
+
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>Join thousands of pet parents</strong>
+
+                                    <small>
+                                        Trusted for smarter pet care,
+                                        reminders and lifelong memories.
+                                    </small>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <!-- ======================================
-                                EMAIL
-                        ======================================= -->
+                </section>
 
-                        <div class="mb-4">
+                <!-- =======================================================
+                        RIGHT SIDE
+======================================================== -->
 
-                            {{ form.email.label(class="form-label") }}
+                <section class="register-panel">
 
-                            <div class="input-group">
+                    <div class="register-card">
 
-                                <span class="input-group-text">
+                        <div class="card-header">
 
-                                    <i class="bi bi-envelope-fill"></i>
+                            <div class="card-icon">
 
-                                </span>
-
-                                {{ form.email(
-
-                                class="form-control",
-
-                                placeholder="Enter your email",
-
-                                autocomplete="email"
-
-                                ) }}
+                                <i class="fa-solid fa-user-plus"></i>
 
                             </div>
 
-                        </div>
+                            <div>
 
-                        <!-- ======================================
-                                PASSWORD
-                        ======================================= -->
+                                <h2>
 
-                        <div class="mb-4">
+                                    Create
 
-                            {{ form.password.label(class="form-label") }}
+                                    <span>Account</span>
 
-                            <div class="input-group">
-
-                                <span class="input-group-text">
-
-                                    <i class="bi bi-lock-fill"></i>
-
-                                </span>
-
-                                {{ form.password(
-
-                                class="form-control",
-
-                                id="password",
-
-                                placeholder="Create a password",
-
-                                autocomplete="new-password"
-
-                                ) }}
-
-                                <button type="button" id="togglePassword" class="btn btn-light"
-                                    aria-label="Show password">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </button>
+                                </h2>
 
                             </div>
 
+                            <p>
+
+                                Start managing your pets in just
+                                a few seconds.
+
+                            </p>
+
                         </div>
 
-                        <!-- ======================================
-                            CONFIRM PASSWORD
-                        ======================================= -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
 
-                        <div class="mb-4">
+                        {% if messages %}
 
-                            {{ form.confirm_password.label(class="form-label") }}
+                        {% for category, message in messages %}
 
-                            <div class="input-group">
+                        <div class="alert alert-{{ category }}">
 
-                                <span class="input-group-text">
+                            {{ message }}
 
-                                    <i class="bi bi-shield-lock-fill"></i>
+                        </div>
 
-                                </span>
+                        {% endfor %}
 
-                                {{ form.confirm_password(
+                        {% endif %}
 
-                                class="form-control",
+                        {% endwith %}
 
-                                id="confirmPassword",
+                        <form method="POST" novalidate>
 
-                                placeholder="Confirm your password",
+                            {{ form.hidden_tag() }}
 
-                                autocomplete="new-password"
+                            <div class="form-group">
 
-                                ) }}
+                                <label class="form-label">
 
-                                <button type="button" id="toggleConfirmPassword" class="btn btn-light"
-                                    aria-label="Show password">
+                                    Username
 
-                                    <i class="bi bi-eye"></i>
+                                </label>
 
-                                </button>
+                                <div class="input-wrapper">
+
+                                    <i class="fa-regular fa-user"></i>
+
+                                    {{ form.username(
+                                    class="form-control",
+                                    placeholder="Choose a username"
+                                    ) }}
+
+                                </div>
+
+                                {% for error in form.username.errors %}
+
+                                <div class="form-error">
+
+                                    {{ error }}
+
+                                </div>
+
+                                {% endfor %}
 
                             </div>
 
-                        </div>
+                            <div class="form-group">
 
-                        <div class="d-grid">
+                                <label class="form-label">
+
+                                    Email Address
+
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-regular fa-envelope"></i>
+
+                                    {{ form.email(
+                                    class="form-control",
+                                    placeholder="Enter your email"
+                                    ) }}
+
+                                </div>
+
+                                {% for error in form.email.errors %}
+
+                                <div class="form-error">
+
+                                    {{ error }}
+
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                            <div class="form-row two-columns">
+
+                                <div class="form-group">
+
+                                    <label class="form-label">
+
+                                        Password
+
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fa-solid fa-lock"></i>
+
+                                        {{ form.password(
+                                        class="form-control",
+                                        id="password",
+                                        placeholder="Password"
+                                        ) }}
+
+                                        <button type="button" class="password-toggle" data-target="password">
+
+                                            <i class="fa-regular fa-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                    {% for error in form.password.errors %}
+
+                                    <div class="form-error">
+
+                                        {{ error }}
+
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="form-label">
+
+                                        Confirm Password
+
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fa-solid fa-lock"></i>
+
+                                        {{ form.confirm_password(
+                                        class="form-control",
+                                        id="confirm_password",
+                                        placeholder="Confirm password"
+                                        ) }}
+
+                                        <button type="button" class="password-toggle" data-target="confirm_password">
+
+                                            <i class="fa-regular fa-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                    {% for error in form.confirm_password.errors %}
+
+                                    <div class="form-error">
+
+                                        {{ error }}
+
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                            <div class="security-box">
+
+                                <div class="security-icon">
+
+                                    <i class="fa-solid fa-shield-heart"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>Your data stays protected</strong>
+
+                                    <small>
+
+                                        All pet records, vaccination history,
+                                        photos and personal information are
+                                        securely stored and protected.
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <label class="terms">
+
+                                <input type="checkbox" required>
+
+                                <span>
+
+                                    I agree to the
+
+                                    <a href="#">Terms of Service</a>
+
+                                    and
+
+                                    <a href="#">Privacy Policy</a>
+
+                                </span>
+
+                            </label>
 
                             {{ form.submit(
-
-                            class="btn btn-primary btn-lg"
-
+                            class="register-btn",
+                            value="Create My Pawfolio"
                             ) }}
 
-                        </div>
+                            <div class="divider">
 
-                    </form>
+                                <span>
 
-                    <hr class="my-5">
+                                    or continue with
 
-                    <div class="text-center">
+                                </span>
 
-                        <p class="mb-2 text-muted">
+                            </div>
 
-                            Already have an account?
+                            <div class="social-buttons">
 
-                        </p>
+                                <button type="button" class="social-btn">
 
-                        <a href="{{ url_for('login') }}" class="fw-bold text-decoration-none">
+                                    <i class="fa-brands fa-google"></i>
 
-                            Sign In
+                                    Continue with Google
 
-                            <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
 
-                        </a>
+                                <button type="button" class="social-btn">
+
+                                    <i class="fa-brands fa-apple"></i>
+
+                                    Continue with Apple
+
+                                </button>
+
+                            </div>
+
+                            <div class="login-footer">
+
+                                <p>
+
+                                    Already have an account?
+
+                                    <a href="{{ url_for('login') }}">
+
+                                        Sign in
+
+                                    </a>
+
+                                </p>
+
+                            </div>
+
+                        </form>
 
                     </div>
 
-                </div>
-
+                </section>
             </div>
 
         </div>
@@ -318,41 +507,39 @@ register-body
 
 </div>
 
-{% endblock %}
-{% block extra_js %}
+</div>
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".password-toggle").forEach(button => {
 
-        function toggleVisibility(buttonId, inputId) {
+        button.addEventListener("click", function () {
 
-            const button = document.getElementById(buttonId);
-            const input = document.getElementById(inputId);
+            const input = document.getElementById(
+                this.dataset.target
+            );
 
-            if (!button || !input) return;
+            const icon = this.querySelector("i");
 
-            button.addEventListener("click", () => {
+            if (input.type === "password") {
 
-                const hidden = input.type === "password";
+                input.type = "text";
 
-                input.type = hidden ? "text" : "password";
+                icon.classList.remove("fa-eye");
 
-                button.setAttribute(
-                    "aria-label",
-                    hidden ? "Hide password" : "Show password"
-                );
+                icon.classList.add("fa-eye-slash");
 
-                button.innerHTML = hidden
-                    ? '<i class="bi bi-eye-slash"></i>'
-                    : '<i class="bi bi-eye"></i>';
+            } else {
 
-            });
+                input.type = "password";
 
-        }
+                icon.classList.remove("fa-eye-slash");
 
-        toggleVisibility("togglePassword", "password");
-        toggleVisibility("toggleConfirmPassword", "confirmPassword");
+                icon.classList.add("fa-eye");
+
+            }
+
+        });
 
     });
 

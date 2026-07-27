@@ -1,13 +1,13 @@
 /* ==========================================
-   Pawfolio Base Styles v1
-   Global styles used across the application
+   Pawfolio Base Styles v2
+   Premium SaaS Foundation
 ========================================== */
 
 /* ==========================================
    GOOGLE FONT
 ========================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 
 /* ==========================================
@@ -17,9 +17,13 @@
 *,
 *::before,
 *::after {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
 }
 
 
@@ -31,6 +35,8 @@ html {
 
     scroll-behavior: smooth;
 
+    font-size: 16px;
+
 }
 
 
@@ -40,17 +46,21 @@ html {
 
 body {
 
-    font-family: 'Poppins', sans-serif;
+    font-family: "Inter", sans-serif;
 
     background: var(--bg-color);
 
     color: var(--text);
 
+    font-size: .95rem;
+
+    line-height: 1.6;
+
     min-height: 100vh;
 
-    line-height: 1.65;
-
     overflow-x: hidden;
+
+    text-rendering: optimizeLegibility;
 
     -webkit-font-smoothing: antialiased;
 
@@ -67,7 +77,7 @@ body {
 
     background: var(--primary);
 
-    color: white;
+    color: #ffffff;
 
 }
 
@@ -87,33 +97,47 @@ h6 {
 
     font-weight: 700;
 
+    letter-spacing: -.03em;
+
     line-height: 1.2;
 
-    margin-bottom: 1rem;
+    margin-bottom: .75rem;
 
 }
 
 h1 {
 
-    font-size: 3rem;
+    font-size: clamp(2rem, 4vw, 2.75rem);
 
 }
 
 h2 {
 
-    font-size: 2.25rem;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
 
 }
 
 h3 {
 
-    font-size: 1.75rem;
+    font-size: 1.4rem;
 
 }
 
 h4 {
 
-    font-size: 1.4rem;
+    font-size: 1.15rem;
+
+}
+
+h5 {
+
+    font-size: 1rem;
+
+}
+
+h6 {
+
+    font-size: .9rem;
 
 }
 
@@ -131,6 +155,14 @@ small {
 
 }
 
+strong {
+
+    color: var(--heading);
+
+    font-weight: 600;
+
+}
+
 
 /* ==========================================
    LINKS
@@ -142,7 +174,7 @@ a {
 
     text-decoration: none;
 
-    transition: var(--transition-fast);
+    transition: var(--transition);
 
 }
 
@@ -159,24 +191,24 @@ a:hover {
 
 img {
 
+    display: block;
+
     max-width: 100%;
 
-    display: block;
+    height: auto;
 
 }
 
 
 /* ==========================================
-   CONTAINER
+   CONTAINERS
 ========================================== */
 
+.container,
+.container-lg,
 .container-xl {
 
     max-width: var(--container-width);
-
-    margin: auto;
-
-    padding-inline: 1.5rem;
 
 }
 
@@ -184,6 +216,12 @@ img {
 /* ==========================================
    SECTIONS
 ========================================== */
+
+section {
+
+    margin-bottom: var(--section-gap);
+
+}
 
 .section {
 
@@ -193,14 +231,113 @@ img {
 
 
 /* ==========================================
-   TEXT HELPERS
+   HORIZONTAL RULE
 ========================================== */
 
-.text-muted {
+hr {
 
-    color: var(--text-light) !important;
+    border: none;
+
+    height: 1px;
+
+    background: var(--border);
+
+    opacity: 1;
+
+    margin: 2rem 0;
 
 }
+
+
+/* ==========================================
+   LISTS
+========================================== */
+
+ul,
+ol {
+
+    padding-left: 1.25rem;
+
+}
+
+li {
+
+    margin-bottom: .35rem;
+
+}
+
+
+/* ==========================================
+   FORMS
+========================================== */
+
+label {
+
+    color: var(--heading);
+
+    font-size: .92rem;
+
+    font-weight: 600;
+
+    margin-bottom: .45rem;
+
+}
+
+input,
+textarea,
+select {
+
+    transition: var(--transition);
+
+}
+
+
+/* ==========================================
+   FOCUS
+========================================== */
+
+button:focus,
+button:focus-visible,
+input:focus,
+textarea:focus,
+select:focus {
+
+    outline: none;
+
+    box-shadow: var(--focus-ring);
+
+}
+
+
+/* ==========================================
+   PLACEHOLDER
+========================================== */
+
+::placeholder {
+
+    color: var(--text-light);
+
+    opacity: .8;
+
+}
+
+
+/* ==========================================
+   TABLES
+========================================== */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+/* ==========================================
+   HELPERS
+========================================== */
 
 .text-primary {
 
@@ -208,10 +345,11 @@ img {
 
 }
 
+.text-muted {
 
-/* ==========================================
-   BACKGROUNDS
-========================================== */
+    color: var(--text-light) !important;
+
+}
 
 .bg-soft {
 
@@ -224,11 +362,6 @@ img {
     background: var(--card);
 
 }
-
-
-/* ==========================================
-   BORDER RADIUS
-========================================== */
 
 .rounded-soft {
 
@@ -248,11 +381,6 @@ img {
 
 }
 
-
-/* ==========================================
-   SHADOWS
-========================================== */
-
 .shadow-soft {
 
     box-shadow: var(--shadow-sm);
@@ -271,83 +399,11 @@ img {
 
 }
 
-
-/* ==========================================
-   TRANSITIONS
-========================================== */
-
 .transition {
 
     transition: var(--transition);
 
 }
-
-
-/* ==========================================
-   SCROLLBAR
-========================================== */
-
-::-webkit-scrollbar {
-
-    width: 10px;
-
-}
-
-::-webkit-scrollbar-track {
-
-    background: #f8f8f8;
-
-}
-
-::-webkit-scrollbar-thumb {
-
-    background: var(--primary-light);
-
-    border-radius: 999px;
-
-}
-
-::-webkit-scrollbar-thumb:hover {
-
-    background: var(--primary);
-
-}
-
-
-/* ==========================================
-   FOCUS
-========================================== */
-
-button:focus,
-input:focus,
-textarea:focus,
-select:focus {
-
-    outline: none;
-
-    box-shadow: var(--focus-ring);
-
-}
-
-
-/* ==========================================
-   HORIZONTAL RULE
-========================================== */
-
-hr {
-
-    border: none;
-
-    height: 1px;
-
-    background: var(--border);
-
-}
-
-
-/* ==========================================
-   UTILITIES
-========================================== */
 
 .cursor-pointer {
 
@@ -365,4 +421,79 @@ hr {
 
     overflow: hidden;
 
+}
+
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar {
+
+    width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background: #eef2f7;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--primary);
+
+}
+
+/* ==========================================
+   Global Styles
+   ========================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    background:
+        linear-gradient(135deg,
+            #eef5ff 0%,
+            #f8fbff 45%,
+            #ffffff 100%);
+
+    color: var(--text);
+
+    font-family: "Poppins", sans-serif;
+
+    min-height: 100vh;
+
+    transition:
+        background .3s ease,
+        color .3s ease;
+
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.container {
+    animation: fadeIn .5s ease;
 }
