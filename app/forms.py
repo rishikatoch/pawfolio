@@ -131,3 +131,47 @@ class ResetPasswordForm(FlaskForm):
     )
 
     submit = SubmitField("Reset Password")
+
+
+# ==================================================
+# Notification Settings
+# ==================================================
+
+from wtforms import (
+    BooleanField,
+    IntegerField,
+    SelectField,
+    TimeField,
+)
+
+
+class NotificationSettingsForm(FlaskForm):
+
+    email_notifications = BooleanField("Enable Email Notifications")
+
+    reminder_days = SelectField(
+        "Remind Me",
+        choices=[
+            (1, "1 Day Before"),
+            (3, "3 Days Before"),
+            (7, "7 Days Before"),
+            (14, "14 Days Before"),
+        ],
+        coerce=int,
+    )
+
+    notification_time = TimeField(
+        "Notification Time",
+        validators=[
+            DataRequired(),
+        ],
+    )
+
+    timezone = SelectField(
+        "Timezone",
+        choices=[
+            ("Asia/Kolkata", "Asia/Kolkata (IST)"),
+        ],
+    )
+
+    submit = SubmitField("Save Preferences")

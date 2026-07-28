@@ -1,0 +1,193 @@
+/* ==================================================
+   SETTINGS PAGE
+================================================== */
+
+.settings-page {
+    padding: 3rem 0 5rem;
+}
+
+/* ==================================================
+   PAGE HEADER
+================================================== */
+
+.settings-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.settings-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+
+    color: #ffffff;
+
+    background: linear-gradient(135deg,
+            var(--pf-primary),
+            var(--pf-primary-dark));
+
+    border-radius: 50%;
+
+    box-shadow: 0 12px 30px rgba(255, 145, 77, 0.25);
+}
+
+.settings-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--pf-text-dark);
+    margin-bottom: .5rem;
+}
+
+.settings-subtitle {
+    color: var(--pf-text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ==================================================
+   CARD
+================================================== */
+
+.settings-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+
+    border: 1px solid rgba(0, 0, 0, .05);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, .06);
+}
+
+.settings-card-header {
+    padding: 1.5rem 2rem;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    border-bottom: 1px solid rgba(0, 0, 0, .06);
+
+    background:
+        linear-gradient(to right,
+            rgba(255, 145, 77, .08),
+            transparent);
+}
+
+.settings-card-header i {
+    font-size: 1.4rem;
+    color: var(--pf-primary);
+}
+
+.settings-card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.settings-card-body {
+    padding: 2rem;
+}
+
+/* ==================================================
+   FORM
+================================================== */
+
+.settings-group {
+    margin-bottom: 2rem;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-label {
+    display: block;
+
+    margin-bottom: .6rem;
+
+    font-weight: 600;
+
+    color: var(--pf-text-dark);
+}
+
+.settings-help {
+    margin-top: .5rem;
+
+    color: var(--pf-text-muted);
+
+    font-size: .9rem;
+}
+
+/* ==================================================
+   SWITCH
+================================================== */
+
+.form-check.form-switch {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+
+    padding-left: 0;
+}
+
+.form-check-input {
+    margin-left: 0 !important;
+
+    width: 3rem;
+    height: 1.6rem;
+
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* ==================================================
+   BUTTON
+================================================== */
+
+.settings-actions {
+    margin-top: 2.5rem;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.settings-actions .btn {
+    min-width: 180px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 768px) {
+
+    .settings-card-header,
+    .settings-card-body {
+        padding: 1.5rem;
+    }
+
+    .settings-title {
+        font-size: 1.6rem;
+    }
+
+    .settings-actions {
+        justify-content: stretch;
+    }
+
+    .settings-actions .btn {
+        width: 100%;
+    }
+
+}

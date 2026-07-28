@@ -1,0 +1,165 @@
+/* ==================================================
+   Timeline
+================================================== */
+
+.timeline {
+    position: relative;
+    margin: 2rem 0;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--border-color);
+    border-radius: 999px;
+}
+
+/* ==================================================
+   Timeline Item
+================================================== */
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================================================
+   Timeline Icon
+================================================== */
+
+.timeline-icon {
+    position: absolute;
+    left: -18px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+/* ==================================================
+   Timeline Card
+================================================== */
+
+.timeline-content {
+    width: 100%;
+    margin-left: 40px;
+}
+
+.timeline-content .card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.timeline-content .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .12);
+}
+
+.timeline-content .card-body {
+    padding: 1.5rem;
+}
+
+/* ==================================================
+   Typography
+================================================== */
+
+.timeline-content h5 {
+    font-weight: 700;
+    margin-bottom: .75rem;
+}
+
+.timeline-content p {
+    margin-bottom: .5rem;
+}
+
+.timeline-content strong {
+    font-weight: 600;
+}
+
+/* ==================================================
+   Badges
+================================================== */
+
+.timeline .badge {
+    font-size: .8rem;
+    padding: .45rem .8rem;
+    border-radius: 999px;
+}
+
+/* ==================================================
+   Empty State
+================================================== */
+
+.timeline-empty {
+    max-width: 650px;
+    margin: 5rem auto;
+    text-align: center;
+}
+
+.timeline-empty i {
+    font-size: 5rem;
+    opacity: .35;
+    margin-bottom: 1rem;
+}
+
+/* ==================================================
+   Mobile
+================================================== */
+
+@media (max-width: 768px) {
+
+    .timeline {
+        padding-left: 25px;
+    }
+
+    .timeline::before {
+        left: 13px;
+    }
+
+    .timeline-icon {
+        width: 34px;
+        height: 34px;
+        left: -4px;
+        font-size: .9rem;
+    }
+
+    .timeline-content {
+        margin-left: 28px;
+    }
+
+    .timeline-content .card-body {
+        padding: 1rem;
+    }
+}
+
+/* ==================================================
+   Dark Theme
+================================================== */
+
+[data-theme="dark"] .timeline::before {
+    background: rgba(255, 255, 255, .12);
+}
+
+[data-theme="dark"] .timeline-content .card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+}

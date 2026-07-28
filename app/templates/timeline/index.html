@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ pet.name }} Timeline | Pawfolio
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- ==========================================
+                    PAGE HEADER
+    =========================================== -->
+
+    <div class="mb-5 text-center">
+
+        <h1 class="display-5 fw-bold">
+
+            🐾 {{ pet.name }}
+
+        </h1>
+
+        <p class="text-muted">
+
+            Complete Medical Timeline
+
+        </p>
+
+    </div>
+
+    {% if events %}
+
+    <div class="timeline">
+
+        {% for event in events %}
+
+        <div class="timeline-item">
+
+            <div class="timeline-icon bg-{{ event.color }}">
+
+                <i class="bi {{ event.icon }}"></i>
+
+            </div>
+
+            <div class="timeline-content">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+
+                                <span class="badge bg-{{ event.color }}">
+
+                                    {{ event.category }}
+
+                                </span>
+
+                            </div>
+
+                            <small class="text-muted">
+
+                                {{ event.date.strftime("%d %b %Y") }}
+
+                            </small>
+
+                        </div>
+
+                        <h5 class="fw-bold">
+
+                            {{ event.title }}
+
+                        </h5>
+
+                        {% if event.description %}
+
+                        <p class="text-muted mb-3">
+
+                            {{ event.description }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if event.category == "Vet Visit" %}
+
+                        {% if event.clinic %}
+
+                        <p class="mb-1">
+
+                            <strong>Clinic:</strong>
+
+                            {{ event.clinic }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if event.veterinarian %}
+
+                        <p class="mb-1">
+
+                            <strong>Veterinarian:</strong>
+
+                            {{ event.veterinarian }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if event.prescription %}
+
+                        <p class="mb-1">
+
+                            <strong>Prescription:</strong>
+
+                            {{ event.prescription }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if event.follow_up %}
+
+                        <p class="mb-0">
+
+                            <strong>Follow-up:</strong>
+
+                            {{ event.follow_up.strftime("%d %b %Y") }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% else %}
+
+                        {% if event.next_due %}
+
+                        <p class="mb-0">
+
+                            <strong>Next Due:</strong>
+
+                            {{ event.next_due.strftime("%d %b %Y") }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="text-center py-5">
+
+        <i class="bi bi-clock-history display-1 text-secondary"></i>
+
+        <h3 class="mt-4">
+
+            No Medical Records Yet
+
+        </h3>
+
+        <p class="text-muted">
+
+            Vaccinations, deworming and vet visits will appear here.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

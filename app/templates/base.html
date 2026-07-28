@@ -63,6 +63,7 @@
     =================================================== -->
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reminders.css') }}">
 
     <!-- ==================================================
                         GLOBAL CSS
@@ -150,9 +151,31 @@
 
                 <div class="pf-nav-center">
 
-                    <a href="{{ url_for('home') }}" class="pf-nav-link active">
+                    <a href="{{ url_for('home') }}"
+                        class="pf-nav-link {% if request.endpoint == 'home' %}active{% endif %}">
+
+                        <i class="bi bi-speedometer2 me-1"></i>
 
                         Dashboard
+
+                    </a>
+
+                    <a href="{{ url_for('reminders') }}"
+                        class="pf-nav-link {% if request.endpoint == 'reminders' %}active{% endif %}">
+
+                        <i class="bi bi-bell me-1"></i>
+
+                        Reminders
+
+                        {% if due_reminder_count > 0 %}
+
+                        <span class="badge rounded-pill bg-danger ms-1">
+
+                            {{ due_reminder_count }}
+
+                        </span>
+
+                        {% endif %}
 
                     </a>
 
@@ -192,21 +215,11 @@
 
                         <ul class="dropdown-menu dropdown-menu-end pf-dropdown">
 
-                            <li>
-
-                                <a class="dropdown-item" href="#">
-
-                                    <i class="bi bi-person-circle"></i>
-
-                                    Profile
-
-                                </a>
-
-                            </li>
 
                             <li>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item {% if request.endpoint == 'settings' %}active{% endif %}"
+                                    href="{{ url_for('settings') }}">
 
                                     <i class="bi bi-gear"></i>
 

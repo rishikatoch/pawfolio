@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 from flask import current_app
 from flask_login import UserMixin
@@ -57,6 +57,29 @@ class User(UserMixin, db.Model):
         db.DateTime,
         default=datetime.utcnow,
         nullable=False,
+    )
+    email_notifications = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    reminder_days = db.Column(
+        db.Integer,
+        nullable=False,
+        default=7,
+    )
+
+    notification_time = db.Column(
+        db.Time,
+        nullable=False,
+        default=time(9, 0),
+    )
+
+    timezone = db.Column(
+        db.String(50),
+        nullable=False,
+        default="Asia/Kolkata",
     )
 
     pets = db.relationship(
@@ -678,6 +701,44 @@ class VetVisit(db.Model):
         return f"<VetVisit " f"id={self.id} " f"pet_id={self.pet_id}>"
 
     # ==================================================
+
+
+class ReminderLog(db.Model):
+    __tablename__ = "reminder_logs"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=False,
+    )
+
+    reminder_type = db.Column(
+        db.String(50),
+        nullable=False,
+    )
+
+    reference_id = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    reminder_date = db.Column(
+        db.Date,
+        nullable=False,
+    )
+
+    sent_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )
+
+    user = db.relationship(
+        "User",
+        backref="reminder_logs",
+    )
 
 
 # Model Notes

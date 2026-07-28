@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Pawfolio Reminder</title>
+
+</head>
+
+<body style="
+    margin:0;
+    padding:0;
+    background:#f4f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+
+        <tr>
+
+            <td align="center">
+
+                <table width="600" cellpadding="0" cellspacing="0" style="
+        background:#ffffff;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #e5e7eb;
+    ">
+
+                    <!-- Header -->
+
+                    <tr>
+
+                        <td align="center" style="
+                background:#ff914d;
+                color:#ffffff;
+                padding:30px;
+            ">
+
+                            <h1 style="
+                margin:0;
+                font-size:28px;
+            ">
+                                🐾 Pawfolio
+                            </h1>
+
+                            <p style="
+                margin-top:10px;
+                font-size:16px;
+            ">
+                                Upcoming Pet Care Reminder
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- Greeting -->
+
+                    <tr>
+
+                        <td style="padding:35px;">
+
+                            <p style="font-size:16px;">
+
+                                Hi {{ user.username }},
+
+                            </p>
+
+                            <p style="
+                font-size:15px;
+                line-height:1.8;
+                color:#555;
+            ">
+
+                                Here are the upcoming pet care reminders based on your notification preferences.
+
+                            </p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="
+                    margin-top:25px;
+                    border-collapse:collapse;
+                ">
+
+                                <thead>
+
+                                    <tr style="background:#f7f7f7;">
+
+                                        <th align="left" style="
+                                padding:12px;
+                                border:1px solid #ececec;
+                            ">
+
+                                            Pet
+
+                                        </th>
+
+                                        <th align="left" style="
+                                padding:12px;
+                                border:1px solid #ececec;
+                            ">
+
+                                            Reminder
+
+                                        </th>
+
+                                        <th align="left" style="
+                                padding:12px;
+                                border:1px solid #ececec;
+                            ">
+
+                                            Due Date
+
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {% for reminder in reminders %}
+
+                                    <tr>
+
+                                        <td style="
+                            padding:12px;
+                            border:1px solid #ececec;
+                        ">
+                                            {{ reminder.pet }}
+                                        </td>
+
+                                        <td style="
+                            padding:12px;
+                            border:1px solid #ececec;
+                        ">
+                                            {{ reminder.title }}
+                                        </td>
+
+                                        <td style="
+                            padding:12px;
+                            border:1px solid #ececec;
+                        ">
+                                            {{ reminder.date.strftime("%d %b %Y") }}
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                            <p style="
+                margin-top:30px;
+                color:#555;
+                line-height:1.7;
+            ">
+
+                                Please make sure your pets receive timely vaccinations, deworming, and follow-up care to
+                                keep them healthy.
+
+                            </p>
+
+                            <p style="
+                margin-top:35px;
+            ">
+
+                                Thank you for using
+                                <strong>Pawfolio</strong>.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- Footer -->
+
+                    <tr>
+
+                        <td align="center" style="
+                background:#fafafa;
+                color:#888;
+                font-size:13px;
+                padding:20px;
+            ">
+
+                            This reminder was sent automatically by Pawfolio.
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</body>
+
+</html>

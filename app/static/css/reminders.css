@@ -1,0 +1,149 @@
+/* ==================================================
+   Reminder Dashboard
+================================================== */
+
+.reminder-header {
+    margin-bottom: 2rem;
+}
+
+.reminder-header h1 {
+    font-weight: 700;
+}
+
+.reminder-header p {
+    color: var(--text-secondary);
+}
+
+/* ==================================================
+   Summary Cards
+================================================== */
+
+.reminder-summary-card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+    transition: all .25s ease;
+    overflow: hidden;
+}
+
+.reminder-summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .12);
+}
+
+.reminder-summary-card .card-body {
+    padding: 2rem;
+}
+
+.reminder-summary-number {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+
+.reminder-summary-label {
+    color: var(--text-secondary);
+}
+
+/* ==================================================
+   Sections
+================================================== */
+
+.reminder-section {
+    margin-top: 3rem;
+}
+
+.reminder-section h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* ==================================================
+   Reminder Cards
+================================================== */
+
+.reminder-card {
+    border: none;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    transition: all .2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+}
+
+.reminder-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .10);
+}
+
+.reminder-card .card-body {
+    padding: 1.2rem 1.4rem;
+}
+
+.reminder-title {
+    font-weight: 600;
+    margin-bottom: .35rem;
+}
+
+.reminder-meta {
+    font-size: .9rem;
+    color: var(--text-secondary);
+}
+
+/* ==================================================
+   Status Badges
+================================================== */
+
+.badge-today {
+    background: #ffc107;
+    color: #000;
+}
+
+.badge-upcoming {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.badge-overdue {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* ==================================================
+   Empty State
+================================================== */
+
+.reminder-empty {
+    text-align: center;
+    padding: 3rem;
+    border-radius: 16px;
+    background: var(--surface-color);
+    border: 1px dashed var(--border-color);
+}
+
+.reminder-empty i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: .5;
+}
+
+.reminder-empty h4 {
+    margin-bottom: .5rem;
+}
+
+.reminder-empty p {
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+/* ==================================================
+   Dark Mode
+================================================== */
+
+[data-theme="dark"] .reminder-summary-card,
+[data-theme="dark"] .reminder-card {
+    background: var(--surface-color);
+}
+
+[data-theme="dark"] .reminder-empty {
+    background: var(--surface-color);
+}

@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}
+Settings • Pawfolio
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-xl settings-page">
+
+    <!-- ======================================
+                    PAGE HEADER
+    ======================================= -->
+
+    <div class="settings-header">
+
+        <div class="settings-icon">
+
+            <i class="bi bi-gear-fill"></i>
+
+        </div>
+
+        <h1 class="settings-title">
+
+            Settings
+
+        </h1>
+
+        <p class="settings-subtitle">
+
+            Manage your notification preferences so Pawfolio can remind you about
+            upcoming vaccinations, deworming schedules, and other important pet care.
+
+        </p>
+
+    </div>
+
+    <!-- ======================================
+                    SETTINGS CARD
+    ======================================= -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <i class="bi bi-bell-fill"></i>
+
+                    <h3>
+
+                        Notification Preferences
+
+                    </h3>
+
+                </div>
+
+                <div class="settings-card-body">
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <!-- ======================================
+                                EMAIL NOTIFICATIONS
+                        ======================================= -->
+
+                        <div class="settings-group">
+
+                            <div class="form-check form-switch">
+
+                                {{ form.email_notifications(
+                                class="form-check-input"
+                                ) }}
+
+                                {{ form.email_notifications.label(
+                                class="form-check-label"
+                                ) }}
+
+                            </div>
+
+                            <div class="settings-help">
+
+                                Receive email reminders before your pet's vaccinations
+                                and deworming are due.
+
+                            </div>
+
+                        </div>
+
+                        <!-- ======================================
+                                REMINDER DAYS
+                        ======================================= -->
+
+                        <div class="settings-group">
+
+                            {{ form.reminder_days.label(
+                            class="settings-label"
+                            ) }}
+
+                            {{ form.reminder_days(
+                            class="form-select"
+                            ) }}
+
+                            <div class="settings-help">
+
+                                Choose how many days before the due date you would
+                                like to receive a reminder.
+
+                            </div>
+
+                        </div>
+
+                        <!-- ======================================
+                                NOTIFICATION TIME
+                        ======================================= -->
+
+                        <div class="settings-group">
+
+                            {{ form.notification_time.label(
+                            class="settings-label"
+                            ) }}
+
+                            {{ form.notification_time(
+                            class="form-control"
+                            ) }}
+
+                            <div class="settings-help">
+
+                                Pawfolio will send reminder emails around this time.
+
+                            </div>
+
+                        </div>
+
+                        <!-- ======================================
+                                TIMEZONE
+                        ======================================= -->
+
+                        <div class="settings-group">
+
+                            {{ form.timezone.label(
+                            class="settings-label"
+                            ) }}
+
+                            {{ form.timezone(
+                            class="form-select"
+                            ) }}
+
+                            <div class="settings-help">
+
+                                Used to ensure reminders arrive at the correct local
+                                time.
+
+                            </div>
+
+                        </div>
+
+                        <!-- ======================================
+                                SAVE BUTTON
+                        ======================================= -->
+
+                        <div class="settings-actions">
+
+                            {{ form.submit(
+                            class="btn btn-primary btn-lg"
+                            ) }}
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+Hi {{ user.username }},
+
+This is a friendly reminder from Pawfolio about your upcoming pet care schedule.
+
+{% for reminder in reminders %}
+--------------------------------------------------
+Pet       : {{ reminder.pet }}
+Reminder  : {{ reminder.title }}
+Due Date  : {{ reminder.date.strftime("%d %b %Y") }}
+{% endfor %}
+
+Please ensure your pets receive their vaccinations, deworming, and follow-up care on time.
+
+Thank you for using Pawfolio!
+
+--
+Pawfolio
+Your Pet Care Companion

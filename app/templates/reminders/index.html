@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reminder Dashboard | Pawfolio
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reminders.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- ==========================================
+                    PAGE HEADER
+    =========================================== -->
+
+    <div class="reminder-header d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1>
+                <i class="bi bi-bell-fill text-warning me-2"></i>
+
+                Reminder Dashboard
+            </h1>
+
+            <p>
+
+                Keep track of vaccinations, deworming schedules and vet follow-ups.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+                    SUMMARY
+    =========================================== -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <div class="card reminder-summary-card">
+
+                <div class="card-body text-center">
+
+                    <div class="reminder-summary-number text-primary">
+
+                        {{ total_reminders }}
+
+                    </div>
+
+                    <div class="reminder-summary-label">
+
+                        Total Reminders
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card reminder-summary-card">
+
+                <div class="card-body text-center">
+
+                    <div class="reminder-summary-number text-warning">
+
+                        {{ due_today|length }}
+
+                    </div>
+
+                    <div class="reminder-summary-label">
+
+                        Due Today
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card reminder-summary-card">
+
+                <div class="card-body text-center">
+
+                    <div class="reminder-summary-number text-danger">
+
+                        {{ overdue|length }}
+
+                    </div>
+
+                    <div class="reminder-summary-label">
+
+                        Overdue
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+                    DUE TODAY
+    =========================================== -->
+
+    <section class="reminder-section">
+
+        <h3>
+
+            <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
+
+            Due Today
+
+        </h3>
+
+        {% if due_today %}
+
+        {% for reminder in due_today %}
+
+        <div class="card reminder-card">
+
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="reminder-title">
+
+                        {{ reminder.pet }}
+
+                    </div>
+
+                    <div>
+
+                        {{ reminder.type }}
+
+                    </div>
+
+                    <div class="reminder-meta">
+
+                        {{ reminder.title }}
+
+                    </div>
+
+                </div>
+
+                <span class="badge badge-today">
+
+                    Today
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="reminder-empty">
+
+            <i class="bi bi-check-circle-fill text-success"></i>
+
+            <h4>
+
+                Nothing Due Today
+
+            </h4>
+
+            <p>
+
+                Great job! Your pets are all caught up.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <!-- ==========================================
+                    UPCOMING
+    =========================================== -->
+
+    <section class="reminder-section">
+
+        <h3>
+
+            <i class="bi bi-calendar-event me-2"></i>
+
+            Upcoming
+
+        </h3>
+
+        {% if upcoming %}
+
+        {% for reminder in upcoming %}
+
+        <div class="card reminder-card">
+
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="reminder-title">
+
+                        {{ reminder.pet }}
+
+                    </div>
+
+                    <div>
+
+                        {{ reminder.type }}
+
+                    </div>
+
+                    <div class="reminder-meta">
+
+                        {{ reminder.title }}
+
+                        •
+
+                        {{ reminder.date.strftime("%d %b %Y") }}
+
+                    </div>
+
+                </div>
+
+                <span class="badge badge-upcoming">
+
+                    {{ reminder.days_left }}
+
+                    day{% if reminder.days_left != 1 %}s{% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="reminder-empty">
+
+            <i class="bi bi-calendar-check-fill text-primary"></i>
+
+            <h4>
+
+                No Upcoming Reminders
+
+            </h4>
+
+            <p>
+
+                You're all caught up.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <!-- ==========================================
+                    OVERDUE
+    =========================================== -->
+
+    <section class="reminder-section">
+
+        <h3>
+
+            <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+
+            Overdue
+
+        </h3>
+
+        {% if overdue %}
+
+        {% for reminder in overdue %}
+
+        <div class="card reminder-card">
+
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="reminder-title">
+
+                        {{ reminder.pet }}
+
+                    </div>
+
+                    <div>
+
+                        {{ reminder.type }}
+
+                    </div>
+
+                    <div class="reminder-meta">
+
+                        {{ reminder.title }}
+
+                    </div>
+
+                </div>
+
+                <span class="badge badge-overdue">
+
+                    {{ reminder.days_left|abs }}
+
+                    day{% if reminder.days_left|abs != 1 %}s{% endif %}
+
+                    overdue
+
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="reminder-empty">
+
+            <i class="bi bi-emoji-smile-fill text-success"></i>
+
+            <h4>
+
+                No Overdue Reminders
+
+            </h4>
+
+            <p>
+
+                Excellent! Nothing is overdue.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}
