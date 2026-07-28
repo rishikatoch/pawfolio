@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
-{% block show_layout %}
-false
-{% endblock %}
-
 {% block title %}
-Login • Pawfolio
+Login | Pawfolio
 {% endblock %}
 
 {% block body_class %}
@@ -13,6 +9,8 @@ login-body
 {% endblock %}
 
 {% block extra_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 
@@ -22,79 +20,93 @@ login-body
 
 <div class="login-page">
 
-    <!-- Decorative Paw Prints -->
+    <div class="login-container">
 
-    <i class="bi bi-paw-fill paw paw-1"></i>
-    <i class="bi bi-paw-fill paw paw-2"></i>
-    <i class="bi bi-paw-fill paw paw-3"></i>
+        <!-- ===================================== -->
+        <!-- LEFT PANEL -->
+        <!-- ===================================== -->
 
-    <div class="container-xl">
+        <section class="left-panel">
 
-        <div class="row align-items-center justify-content-center g-5 min-vh-100">
+            <div class="hero-panel">
 
-            <!-- ======================================================
-                            HERO SECTION
-            ======================================================= -->
+                <div class="hero-badge">
 
-            <div class="col-lg-6 d-none d-lg-block">
+                    <i class="bi bi-heart-pulse-fill"></i>
 
-                <div class="hero-panel">
-
-                    <div class="hero-badge">
-
-                        <i class="bi bi-heart-pulse-fill"></i>
+                    <span>
 
                         Pawfolio
 
+                    </span>
+
+                </div>
+
+                <h1 class="hero-title">
+
+                    Every Paw.
+                    <br>
+
+                    Every Memory.
+                    <br>
+
+                    One Home.
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Keep vaccinations, deworming schedules,
+                    medical records, growth milestones and your
+                    favorite memories together in one secure place.
+
+                </p>
+
+                <div class="hero-image">
+
+                    <img src="{{ url_for('static',
+                        filename='images/login/login-hero.png') }}" alt="Pawfolio Login" class="hero-image-img">
+
+                </div>
+
+                <div class="hero-features">
+
+                    <div class="feature-card">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <span>
+
+                            Secure
+                            Cloud Storage
+
+                        </span>
+
                     </div>
 
-                    <h1 class="hero-title">
+                    <div class="feature-card">
 
-                        Every Happy Tail
-                        <br>
-                        Starts Here.
+                        <i class="bi bi-calendar-check"></i>
 
-                    </h1>
+                        <span>
 
-                    <p class="hero-description">
+                            Smart
+                            Reminders
 
-                        Track vaccinations, deworming schedules,
-                        vet visits, health records and precious memories —
-                        all in one beautiful place.
-
-                    </p>
-
-                    <div class="hero-illustration">
-
-                        {% include "components/mascot_scene.html" %}
+                        </span>
 
                     </div>
 
-                    <div class="hero-features">
+                    <div class="feature-card">
 
-                        <div class="feature-card">
+                        <i class="bi bi-heart-pulse"></i>
 
-                            <i class="bi bi-shield-check"></i>
+                        <span>
 
-                            <span>Vaccination Tracking</span>
+                            Health
+                            Records
 
-                        </div>
-
-                        <div class="feature-card">
-
-                            <i class="bi bi-calendar-heart"></i>
-
-                            <span>Smart Reminders</span>
-
-                        </div>
-
-                        <div class="feature-card">
-
-                            <i class="bi bi-heart-pulse"></i>
-
-                            <span>Health Records</span>
-
-                        </div>
+                        </span>
 
                     </div>
 
@@ -102,158 +114,214 @@ login-body
 
             </div>
 
-            <!-- ======================================================
-                            LOGIN CARD
-            ======================================================= -->
+        </section>
 
-            <div class="col-lg-5 col-xl-4">
+        <!-- ===================================== -->
+        <!-- RIGHT PANEL -->
+        <!-- ===================================== -->
 
-                <div class="glass-form">
+        <section class="right-panel">
 
-                    <div class="text-center mb-5">
+            <div class="login-card">
 
-                        <div class="upload-circle mx-auto mb-4">
+                <div class="card-header">
 
-                            <i class="bi bi-person-heart"></i>
+                    <div class="logo-circle">
 
-                        </div>
-
-                        <h2 class="fw-bold mb-2">
-
-                            Welcome Back
-
-                        </h2>
-
-                        <p class="text-muted">
-
-                            We're happy to see you again.
-                            Sign in to continue caring for your furry friends.
-
-                        </p>
+                        <i class="bi bi-person-check-fill"></i>
 
                     </div>
 
-                    <form method="POST" novalidate>
+                    <h2>
 
-                        {{ form.hidden_tag() }}
+                        Welcome Back
 
-                        <!-- EMAIL -->
+                    </h2>
 
-                        <div class="mb-4">
+                    <p>
 
-                            {{ form.email.label(class="form-label") }}
+                        Sign in to continue caring for your pets.
 
-                            <div class="input-group">
+                    </p>
 
-                                <span class="input-group-text">
+                </div>
 
-                                    <i class="bi bi-envelope-fill"></i>
+                <!-- ===================================== -->
+                <!-- GOOGLE LOGIN -->
+                <!-- ===================================== -->
 
-                                </span>
+                <div class="social-login">
 
-                                {{ form.email(
-                                class="form-control",
-                                placeholder="Enter your email",
-                                autocomplete="email"
-                                ) }}
+                    <a href="{{ url_for('google_login') }}" class="google-btn">
 
-                            </div>
+                        <img src="{{ url_for(
+                            'static',
+                            filename='images/google/google.svg'
+                            ) }}" alt="Google">
 
-                        </div>
+                        <span>
 
-                        <!-- PASSWORD -->
+                            Continue with Google
 
-                        <div class="mb-3">
+                        </span>
 
-                            {{ form.password.label(class="form-label") }}
+                    </a>
 
-                            <div class="input-group">
+                </div>
 
-                                <span class="input-group-text">
+                <div class="divider">
 
-                                    <i class="bi bi-lock-fill"></i>
+                    <span>
 
-                                </span>
+                        OR
 
-                                {{ form.password(
-                                class="form-control",
-                                id="password",
-                                placeholder="Enter your password",
-                                autocomplete="current-password"
-                                ) }}
+                    </span>
 
-                                <button type="button" id="togglePassword" class="btn btn-light"
-                                    aria-label="Show password">
+                </div>
 
-                                    <i class="bi bi-eye"></i>
+                <!-- ===================================== -->
+                <!-- LOGIN FORM -->
+                <!-- ===================================== -->
 
-                                </button>
+                <form method="POST" novalidate>
 
-                            </div>
+                    {{ form.hidden_tag() }}
 
-                        </div>
+                    <!-- EMAIL -->
 
-                        <!-- OPTIONS -->
+                    <div class="form-group">
 
-                        <div class="d-flex justify-content-between align-items-center mb-4">
+                        {{ form.email.label }}
 
-                            <div class="form-check">
+                        <div class="input-wrapper">
 
-                                <input class="form-check-input" type="checkbox" id="remember">
+                            <i class="bi bi-envelope-fill"></i>
 
-                                <label class="form-check-label" for="remember">
+                            {{ form.email(
 
-                                    Remember me
+                            class="form-control",
 
-                                </label>
+                            placeholder="Enter your email"
 
-                            </div>
-
-                            <a href="#" class="fw-semibold text-decoration-none">
-
-                                Forgot Password?
-
-                            </a>
-
-                        </div>
-
-                        <!-- LOGIN BUTTON -->
-
-                        <div class="d-grid">
-
-                            {{ form.submit(
-                            class="btn btn-primary btn-lg btn-block"
                             ) }}
 
                         </div>
 
-                    </form>
+                        {% for error in form.email.errors %}
 
-                    <hr class="my-5">
+                        <small class="error">
 
-                    <div class="text-center">
+                            {{ error }}
 
-                        <p class="mb-2 text-muted">
+                        </small>
 
-                            New to Pawfolio?
+                        {% endfor %}
 
-                        </p>
+                    </div>
+                    <!-- PASSWORD -->
 
-                        <a href="{{ url_for('register') }}" class="fw-bold text-decoration-none">
+                    <div class="form-group">
 
-                            Create your free account
+                        {{ form.password.label }}
 
-                            <i class="bi bi-arrow-right ms-1"></i>
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-lock-fill"></i>
+
+                            {{ form.password(
+
+                            class="form-control",
+
+                            id="password",
+
+                            placeholder="Enter your password"
+
+                            ) }}
+
+                            <button type="button" class="toggle-password" data-target="password"
+                                aria-label="Show password">
+
+                                <i class="bi bi-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                        {% for error in form.password.errors %}
+
+                        <small class="error">
+
+                            {{ error }}
+
+                        </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- OPTIONS -->
+
+                    <div class="form-options">
+
+                        <label class="remember-me">
+
+                            {{ form.remember_me() }}
+
+                            <span>
+
+                                Remember me
+
+                            </span>
+
+                        </label>
+
+                        <a href="{{ url_for('forgot_password') }}" class="forgot-password">
+
+                            Forgot Password?
 
                         </a>
 
                     </div>
 
+                    <!-- SUBMIT -->
+
+                    <div class="button-area">
+
+                        {{ form.submit(
+
+                        class="login-btn",
+
+                        value="Sign In"
+
+                        ) }}
+
+                    </div>
+
+                </form>
+
+                <!-- FOOTER -->
+
+                <div class="auth-footer">
+
+                    <p>
+
+                        New to Pawfolio?
+
+                    </p>
+
+                    <a href="{{ url_for('register') }}">
+
+                        Create your free account
+
+                        <i class="bi bi-arrow-right ms-1"></i>
+
+                    </a>
+
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
     </div>
 
@@ -262,32 +330,126 @@ login-body
 {% endblock %}
 
 {% block extra_js %}
-
 <script>
 
     document.addEventListener("DOMContentLoaded", () => {
 
-        const toggle = document.getElementById("togglePassword");
-        const password = document.getElementById("password");
+        /*=========================================
+                PASSWORD VISIBILITY TOGGLE
+        =========================================*/
 
-        if (!toggle || !password) return;
+        document.querySelectorAll(".toggle-password").forEach(button => {
 
-        toggle.addEventListener("click", () => {
+            button.addEventListener("click", () => {
 
-            const hidden = password.type === "password";
+                const input = document.getElementById(
 
-            password.type = hidden ? "text" : "password";
+                    button.dataset.target
 
-            toggle.setAttribute(
-                "aria-label",
-                hidden ? "Hide password" : "Show password"
-            );
+                );
 
-            toggle.innerHTML = hidden
-                ? '<i class="bi bi-eye-slash"></i>'
-                : '<i class="bi bi-eye"></i>';
+                if (!input) return;
+
+                const icon = button.querySelector("i");
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+
+                    icon.classList.remove("bi-eye");
+
+                    icon.classList.add("bi-eye-slash");
+
+                    button.setAttribute(
+
+                        "aria-label",
+
+                        "Hide password"
+
+                    );
+
+                } else {
+
+                    input.type = "password";
+
+                    icon.classList.remove("bi-eye-slash");
+
+                    icon.classList.add("bi-eye");
+
+                    button.setAttribute(
+
+                        "aria-label",
+
+                        "Show password"
+
+                    );
+
+                }
+
+            });
 
         });
+
+        /*=========================================
+                LOGIN BUTTON LOADING
+        =========================================*/
+
+        const form =
+            document.querySelector("form");
+
+        const loginButton =
+            document.querySelector(".login-btn");
+
+        if (form && loginButton) {
+
+            form.addEventListener("submit", () => {
+
+                loginButton.disabled = true;
+
+                loginButton.innerHTML = `
+
+                <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true">
+                </span>
+
+                Signing In...
+
+            `;
+
+            });
+
+        }
+
+        /*=========================================
+                GOOGLE BUTTON LOADING
+        =========================================*/
+
+        const googleButton =
+            document.querySelector(".google-btn");
+
+        if (googleButton) {
+
+            googleButton.addEventListener("click", () => {
+
+                googleButton.classList.add("loading");
+
+                googleButton.innerHTML = `
+
+                <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true">
+                </span>
+
+                Redirecting to Google...
+
+            `;
+
+            });
+
+        }
 
     });
 

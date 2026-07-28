@@ -1,545 +1,516 @@
 {% extends "base.html" %}
 
-{% block title %}Create Account | Pawfolio{% endblock %}
+{% block title %}
+Create Account | Pawfolio
+{% endblock %}
 
-{% set show_layout = false %}
+{% block show_layout %}
+false
+{% endblock %}
+
+{% block body_class %}
+register-body
+{% endblock %}
 
 {% block extra_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 {% endblock %}
 
 {% block content %}
 
-<div class="register-body">
+<div class="register-page">
 
-    <div class="register-page">
+    <div class="register-container">
 
-        <div class="register-container">
+        <!-- ===================================== -->
+        <!-- LEFT SIDE -->
+        <!-- ===================================== -->
 
-            <!-- =======================================================
-                        TOP BAR
-======================================================== -->
+        <section class="left-panel">
 
-            <header class="register-topbar">
+            <div class="hero-panel">
 
-                <a href="{{ url_for('home') }}" class="brand">
+                <div class="hero-badge">
 
-                    <div class="brand-icon">
-                        <i class="fa-solid fa-paw"></i>
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                    <span>
+
+                        Pawfolio
+
+                    </span>
+
+                </div>
+
+                <h1 class="hero-title">
+
+                    Every Paw.
+                    <br>
+
+                    Every Story.
+                    <br>
+
+                    Forever Safe.
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Create your free Pawfolio account and keep
+                    vaccinations, deworming schedules, medical
+                    history, growth milestones and precious
+                    memories for every pet in one secure place.
+
+                </p>
+
+                <div class="hero-image">
+
+                    <img src="{{ url_for('static',
+                        filename='images/register/hero.png') }}" alt="Pawfolio Hero" class="hero-image-img">
+
+                </div>
+
+                <div class="hero-features">
+
+                    <div class="feature-card">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <span>
+
+                            Secure Cloud
+                            Storage
+
+                        </span>
+
                     </div>
 
-                    <div class="brand-text">
-                        <h4>Pawfolio</h4>
-                        <span>Pet Health • Care • Memories</span>
+                    <div class="feature-card">
+
+                        <i class="bi bi-calendar-heart"></i>
+
+                        <span>
+
+                            Smart
+                            Reminders
+
+                        </span>
+
                     </div>
 
-                </a>
+                    <div class="feature-card">
 
-                <div class="top-login">
+                        <i class="bi bi-heart-pulse"></i>
 
-                    <span>Already have an account?</span>
+                        <span>
 
-                    <a href="{{ url_for('login') }}">
-                        Login
+                            Lifetime
+                            Health Records
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- RIGHT SIDE -->
+        <!-- ===================================== -->
+
+        <section class="right-panel">
+
+            <div class="register-card">
+
+                <div class="card-header">
+
+                    <div class="logo-circle">
+
+                        <i class="bi bi-person-plus-fill"></i>
+
+                    </div>
+
+                    <h2>
+
+                        Create Your Account
+
+                    </h2>
+
+                    <p>
+
+                        Join thousands of pet parents using
+                        Pawfolio to manage their pets with ease.
+
+                    </p>
+
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+                {% endfor %}
+
+                {% endif %}
+
+                {% endwith %}
+
+                <!-- ===================================== -->
+                <!-- GOOGLE SIGN IN -->
+                <!-- ===================================== -->
+
+                <div class="social-login">
+
+                    <a href="{{ url_for('google_login') }}" class="google-btn">
+
+                        <img src="{{ url_for('static',
+                            filename='images/google/google.svg') }}" alt="Google">
+
+                        <span>
+
+                            Continue with Google
+
+                        </span>
+
                     </a>
 
                 </div>
 
-            </header>
+                <div class="divider">
 
-            <!-- =======================================================
-                        MAIN GRID
-======================================================== -->
+                    <span>
 
-            <div class="register-layout">
+                        OR
 
-                <!-- =======================================================
-                        LEFT SIDE
-======================================================== -->
+                    </span>
 
-                <section class="hero-panel">
+                </div>
 
-                    <div class="hero-content">
+                <!-- ===================================== -->
+                <!-- FORM -->
+                <!-- ===================================== -->
 
-                        <h1>
+                <form method="POST" novalidate>
 
-                            Let's build your
+                    {{ form.hidden_tag() }}
 
-                            <span>Pawfolio</span>
+                    <!-- USERNAME -->
 
-                            today.
+                    <div class="form-group">
 
-                        </h1>
+                        {{ form.username.label }}
 
-                        <p>
+                        <div class="input-wrapper">
 
-                            Keep every vaccination, deworming schedule, medical record,
-                            feeding routine and unforgettable memory organized in one
-                            beautiful place.
+                            <i class="bi bi-person-fill"></i>
 
-                        </p>
+                            {{ form.username(
 
-                        <div class="feature-list">
+                            class="form-control",
 
-                            <div class="feature-item">
+                            placeholder="Choose a username"
 
-                                <div class="feature-icon orange">
-                                    <i class="fa-solid fa-shield-dog"></i>
-                                </div>
-
-                                <div>
-
-                                    <strong>Complete Health Tracking</strong>
-
-                                    <small>
-
-                                        Vaccinations, medications,
-                                        deworming schedules and
-                                        medical history in one dashboard.
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="feature-item">
-
-                                <div class="feature-icon green">
-                                    <i class="fa-solid fa-calendar-check"></i>
-                                </div>
-
-                                <div>
-
-                                    <strong>Smart Reminders</strong>
-
-                                    <small>
-
-                                        Never miss an important vaccine,
-                                        check-up or grooming appointment.
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="feature-item">
-
-                                <div class="feature-icon purple">
-                                    <i class="fa-solid fa-heart-circle-check"></i>
-                                </div>
-
-                                <div>
-
-                                    <strong>Pet Wellness</strong>
-
-                                    <small>
-
-                                        Track weight, diet,
-                                        growth and daily activities
-                                        over time.
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="feature-item">
-
-                                <div class="feature-icon pink">
-                                    <i class="fa-solid fa-camera"></i>
-                                </div>
-
-                                <div>
-
-                                    <strong>Beautiful Memories</strong>
-
-                                    <small>
-
-                                        Store milestones,
-                                        photos and precious moments
-                                        for every pet.
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="hero-image">
-
-                            <img src="{{ url_for('static', filename='images/register/hero.png') }}" alt="Happy pets">
-
-                            <div class="hero-card">
-
-                                <div class="avatars">
-
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-
-                                </div>
-
-                                <div>
-
-                                    <strong>Join thousands of pet parents</strong>
-
-                                    <small>
-                                        Trusted for smarter pet care,
-                                        reminders and lifelong memories.
-                                    </small>
-
-                                </div>
-
-                            </div>
+                            ) }}
 
                         </div>
 
-                </section>
+                        {% for error in form.username.errors %}
 
-                <!-- =======================================================
-                        RIGHT SIDE
-======================================================== -->
+                        <small class="error">
 
-                <section class="register-panel">
+                            {{ error }}
 
-                    <div class="register-card">
-
-                        <div class="card-header">
-
-                            <div class="card-icon">
-
-                                <i class="fa-solid fa-user-plus"></i>
-
-                            </div>
-
-                            <div>
-
-                                <h2>
-
-                                    Create
-
-                                    <span>Account</span>
-
-                                </h2>
-
-                            </div>
-
-                            <p>
-
-                                Start managing your pets in just
-                                a few seconds.
-
-                            </p>
-
-                        </div>
-
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-
-                        {% if messages %}
-
-                        {% for category, message in messages %}
-
-                        <div class="alert alert-{{ category }}">
-
-                            {{ message }}
-
-                        </div>
+                        </small>
 
                         {% endfor %}
 
-                        {% endif %}
+                    </div>
 
-                        {% endwith %}
+                    <!-- EMAIL -->
 
-                        <form method="POST" novalidate>
+                    <div class="form-group">
 
-                            {{ form.hidden_tag() }}
+                        {{ form.email.label }}
 
-                            <div class="form-group">
+                        <div class="input-wrapper">
 
-                                <label class="form-label">
+                            <i class="bi bi-envelope-fill"></i>
 
-                                    Username
+                            {{ form.email(
 
-                                </label>
+                            class="form-control",
 
-                                <div class="input-wrapper">
+                            placeholder="Enter your email"
 
-                                    <i class="fa-regular fa-user"></i>
-
-                                    {{ form.username(
-                                    class="form-control",
-                                    placeholder="Choose a username"
-                                    ) }}
-
-                                </div>
-
-                                {% for error in form.username.errors %}
-
-                                <div class="form-error">
-
-                                    {{ error }}
-
-                                </div>
-
-                                {% endfor %}
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label class="form-label">
-
-                                    Email Address
-
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-regular fa-envelope"></i>
-
-                                    {{ form.email(
-                                    class="form-control",
-                                    placeholder="Enter your email"
-                                    ) }}
-
-                                </div>
-
-                                {% for error in form.email.errors %}
-
-                                <div class="form-error">
-
-                                    {{ error }}
-
-                                </div>
-
-                                {% endfor %}
-
-                            </div>
-
-                            <div class="form-row two-columns">
-
-                                <div class="form-group">
-
-                                    <label class="form-label">
-
-                                        Password
-
-                                    </label>
-
-                                    <div class="input-wrapper">
-
-                                        <i class="fa-solid fa-lock"></i>
-
-                                        {{ form.password(
-                                        class="form-control",
-                                        id="password",
-                                        placeholder="Password"
-                                        ) }}
-
-                                        <button type="button" class="password-toggle" data-target="password">
-
-                                            <i class="fa-regular fa-eye"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                    {% for error in form.password.errors %}
-
-                                    <div class="form-error">
-
-                                        {{ error }}
-
-                                    </div>
-
-                                    {% endfor %}
-
-                                </div>
-                                <div class="form-group">
-
-                                    <label class="form-label">
-
-                                        Confirm Password
-
-                                    </label>
-
-                                    <div class="input-wrapper">
-
-                                        <i class="fa-solid fa-lock"></i>
-
-                                        {{ form.confirm_password(
-                                        class="form-control",
-                                        id="confirm_password",
-                                        placeholder="Confirm password"
-                                        ) }}
-
-                                        <button type="button" class="password-toggle" data-target="confirm_password">
-
-                                            <i class="fa-regular fa-eye"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                    {% for error in form.confirm_password.errors %}
-
-                                    <div class="form-error">
-
-                                        {{ error }}
-
-                                    </div>
-
-                                    {% endfor %}
-
-                                </div>
-
-                            </div>
-
-                            <div class="security-box">
-
-                                <div class="security-icon">
-
-                                    <i class="fa-solid fa-shield-heart"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <strong>Your data stays protected</strong>
-
-                                    <small>
-
-                                        All pet records, vaccination history,
-                                        photos and personal information are
-                                        securely stored and protected.
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <label class="terms">
-
-                                <input type="checkbox" required>
-
-                                <span>
-
-                                    I agree to the
-
-                                    <a href="#">Terms of Service</a>
-
-                                    and
-
-                                    <a href="#">Privacy Policy</a>
-
-                                </span>
-
-                            </label>
-
-                            {{ form.submit(
-                            class="register-btn",
-                            value="Create My Pawfolio"
                             ) }}
 
-                            <div class="divider">
+                        </div>
 
-                                <span>
+                        {% for error in form.email.errors %}
 
-                                    or continue with
+                        <small class="error">
 
-                                </span>
+                            {{ error }}
 
-                            </div>
+                        </small>
 
-                            <div class="social-buttons">
+                        {% endfor %}
 
-                                <button type="button" class="social-btn">
+                    </div>
+                    <!-- PASSWORD -->
 
-                                    <i class="fa-brands fa-google"></i>
+                    <div class="form-group">
 
-                                    Continue with Google
+                        {{ form.password.label }}
 
-                                </button>
+                        <div class="input-wrapper">
 
-                                <button type="button" class="social-btn">
+                            <i class="bi bi-lock-fill"></i>
 
-                                    <i class="fa-brands fa-apple"></i>
+                            {{ form.password(
 
-                                    Continue with Apple
+                            class="form-control",
 
-                                </button>
+                            id="password",
 
-                            </div>
+                            placeholder="Create a strong password"
 
-                            <div class="login-footer">
+                            ) }}
 
-                                <p>
+                            <button type="button" class="toggle-password" data-target="password"
+                                aria-label="Show password">
 
-                                    Already have an account?
+                                <i class="bi bi-eye"></i>
 
-                                    <a href="{{ url_for('login') }}">
+                            </button>
 
-                                        Sign in
+                        </div>
 
-                                    </a>
+                        {% for error in form.password.errors %}
 
-                                </p>
+                        <small class="error">
 
-                            </div>
+                            {{ error }}
 
-                        </form>
+                        </small>
+
+                        {% endfor %}
 
                     </div>
 
-                </section>
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        {{ form.confirm_password.label }}
+
+                        <div class="input-wrapper">
+
+                            <i class="bi bi-lock-fill"></i>
+
+                            {{ form.confirm_password(
+
+                            class="form-control",
+
+                            id="confirm_password",
+
+                            placeholder="Confirm your password"
+
+                            ) }}
+
+                            <button type="button" class="toggle-password" data-target="confirm_password"
+                                aria-label="Show password">
+
+                                <i class="bi bi-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                        {% for error in form.confirm_password.errors %}
+
+                        <small class="error">
+
+                            {{ error }}
+
+                        </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+
+                    <div class="button-area">
+
+                        {{ form.submit(
+
+                        class="register-btn",
+
+                        value="Create Account"
+
+                        ) }}
+
+                    </div>
+
+                </form>
+
+                <!-- FOOTER -->
+
+                <div class="auth-footer">
+
+                    <p>
+
+                        Already have an account?
+
+                    </p>
+
+                    <a href="{{ url_for('login') }}">
+
+                        Sign In
+
+                        <i class="bi bi-arrow-right ms-1"></i>
+
+                    </a>
+
+                </div>
+
             </div>
 
-        </div>
+        </section>
 
     </div>
 
 </div>
 
-</div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
 
-    document.querySelectorAll(".password-toggle").forEach(button => {
+    document.addEventListener("DOMContentLoaded", () => {
 
-        button.addEventListener("click", function () {
+        /*=========================================
+                PASSWORD VISIBILITY TOGGLE
+        =========================================*/
 
-            const input = document.getElementById(
-                this.dataset.target
-            );
+        document.querySelectorAll(".toggle-password").forEach(button => {
 
-            const icon = this.querySelector("i");
+            button.addEventListener("click", () => {
 
-            if (input.type === "password") {
+                const target =
+                    document.getElementById(button.dataset.target);
 
-                input.type = "text";
+                if (!target) return;
 
-                icon.classList.remove("fa-eye");
+                const icon =
+                    button.querySelector("i");
 
-                icon.classList.add("fa-eye-slash");
+                if (target.type === "password") {
 
-            } else {
+                    target.type = "text";
 
-                input.type = "password";
+                    icon.classList.remove("bi-eye");
 
-                icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("bi-eye-slash");
 
-                icon.classList.add("fa-eye");
+                    button.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
 
-            }
+                } else {
+
+                    target.type = "password";
+
+                    icon.classList.remove("bi-eye-slash");
+
+                    icon.classList.add("bi-eye");
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Show password"
+                    );
+
+                }
+
+            });
 
         });
+
+        /*=========================================
+                    SUBMIT LOADING STATE
+        =========================================*/
+
+        const form =
+            document.querySelector("form");
+
+        const submitButton =
+            document.querySelector(".register-btn");
+
+        if (form && submitButton) {
+
+            form.addEventListener("submit", () => {
+
+                submitButton.disabled = true;
+
+                submitButton.innerHTML = `
+
+                <span class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true">
+                </span>
+
+                Creating Account...
+
+            `;
+
+            });
+
+        }
+
+        /*=========================================
+                    GOOGLE BUTTON LOADING
+        =========================================*/
+
+        const googleButton =
+            document.querySelector(".google-btn");
+
+        if (googleButton) {
+
+            googleButton.addEventListener("click", () => {
+
+                googleButton.classList.add("loading");
+
+                googleButton.innerHTML = `
+
+                <span class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true">
+                </span>
+
+                Redirecting to Google...
+
+            `;
+
+            });
+
+        }
 
     });
 

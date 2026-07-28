@@ -1,1863 +1,100 @@
-/* ==========================================================
+/*==========================================================
                     PAWFOLIO REGISTER
-                    PREMIUM UI v2
-========================================================== */
+                PREMIUM AUTH UI
+==========================================================*/
+
+/*
+    Shared Authentication Components
+    --------------------------------
+    The following components have been moved to auth.css
+
+    ✔ Google Button
+    ✔ Social Login
+    ✔ Divider
+    ✔ Auth Footer
+    ✔ Shared Animations
+    ✔ Shared Accessibility
+    ✔ Loading States
+    ✔ Validation Helpers
+    ✔ Shared Dark Mode Components
+
+    register.css now contains ONLY
+    register page specific styling.
+*/
+
+/*==========================================================
+                    ROOT VARIABLES
+==========================================================*/
 
 :root {
 
-    --bg: #fff8f3;
+    /* Brand */
 
-    --surface: #ffffff;
+    --primary: #7C3AED;
+    --primary-hover: #6D28D9;
+    --secondary: #A78BFA;
 
-    --primary: #ff7a2f;
+    /* Background */
 
-    --primary-light: #ffb27d;
+    --bg-1: #0F172A;
+    --bg-2: #111827;
+    --bg-3: #1E1B4B;
 
-    --heading: #111111;
+    /* Text */
 
-    --text: #616878;
+    --white: #FFFFFF;
+    --text: #F8FAFC;
+    --muted: #CBD5E1;
 
-    --border: #eceef3;
+    /* Glass */
 
-    --shadow:
-        0 30px 80px rgba(18, 18, 18, .08);
+    --glass:
+        rgba(17, 24, 39, .72);
 
-}
-
-/* ==========================================================
-                    PAGE
-========================================================== */
-
-html,
-body {
-
-    min-height: 100%;
-
-}
-
-.register-body {
-
-    background: var(--bg);
-
-    overflow-x: hidden;
-
-}
-
-/* ==========================================================
-                    BACKGROUND
-========================================================== */
-
-.register-page {
-
-    position: relative;
-
-    min-height: 100vh;
-
-    padding: 48px;
-
-    overflow: hidden;
-
-    background:
-
-        radial-gradient(circle at 12% 18%,
-            rgba(255, 181, 122, .28),
-            transparent 32%),
-
-        radial-gradient(circle at 80% 12%,
-            rgba(255, 194, 158, .22),
-            transparent 28%),
-
-        radial-gradient(circle at 90% 82%,
-            rgba(255, 170, 115, .30),
-            transparent 35%),
-
-        radial-gradient(circle at 35% 70%,
-            rgba(255, 215, 186, .26),
-            transparent 40%),
-
-        linear-gradient(180deg,
-            #fffaf6,
-            #fff6ef);
-
-}
-
-/* bottom wave */
-
-.register-page::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: -15%;
-
-    bottom: -320px;
-
-    width: 140%;
-
-    height: 520px;
-
-    border-radius: 50%;
-
-    background:
-
-        linear-gradient(90deg,
-            #ffcb9f,
-            #ffb07f);
-
-    opacity: .65;
-
-    transform: rotate(-3deg);
-
-    z-index: 0;
-
-}
-
-/* huge soft circles */
-
-.register-page::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-
-        radial-gradient(circle at 25% 35%,
-            rgba(255, 255, 255, .45),
-            transparent 220px),
-
-        radial-gradient(circle at 72% 54%,
-            rgba(255, 255, 255, .30),
-            transparent 260px),
-
-        radial-gradient(circle at 42% 82%,
-            rgba(255, 255, 255, .28),
-            transparent 220px);
-
-    pointer-events: none;
-
-}
-
-/* ==========================================================
-                    CONTAINER
-========================================================== */
-
-.register-container {
-
-    position: relative;
-
-    z-index: 2;
-
-    max-width: 1650px;
-
-    margin: auto;
-
-}
-
-/* ==========================================================
-                    TOP BAR
-========================================================== */
-
-.register-topbar {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 60px;
-
-}
-
-.brand {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    text-decoration: none;
-
-}
-
-.brand:hover {
-
-    text-decoration: none;
-
-}
-
-.brand-icon {
-
-    width: 68px;
-
-    height: 68px;
-
-    border-radius: 22px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background:
-
-        linear-gradient(145deg,
-            #ff9d55,
-            #ff7123);
-
-    color: #fff;
-
-    font-size: 30px;
-
-    box-shadow:
-
-        0 20px 45px rgba(255, 123, 48, .35);
-
-}
-
-.brand-text h4 {
-
-    margin: 0;
-
-    font-size: 30px;
-
-    font-weight: 800;
-
-    color: #171717;
-
-}
-
-.brand-text span {
-
-    display: block;
-
-    margin-top: 5px;
-
-    font-size: 15px;
-
-    color: #7a7f89;
-
-}
-
-.top-login {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-}
-
-.top-login span {
-
-    color: #666;
-
-    font-weight: 600;
-
-}
-
-.top-login a {
-
-    height: 56px;
-
-    padding: 0 34px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 18px;
-
-    background: #fff;
-
-    color: #222;
-
-    font-weight: 700;
-
-    text-decoration: none;
-
-    box-shadow:
-
-        0 14px 35px rgba(0, 0, 0, .08);
-
-}
-
-/* ==========================================================
-                    GRID
-========================================================== */
-
-.register-layout {
-
-    display: grid;
-
-    grid-template-columns:
-
-        1.15fr .85fr;
-
-    gap: 90px;
-
-    align-items: center;
-
-}
-
-/* ==========================================================
-                    LEFT SIDE
-========================================================== */
-
-.hero-panel {
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-}
-
-.hero-content {
-
-    max-width: 720px;
-
-}
-
-/* ==========================================================
-                    MAIN HEADING
-========================================================== */
-
-.hero-content h1 {
-
-    font-size: 92px;
-
-    line-height: .92;
-
-    font-weight: 900;
-
-    letter-spacing: -3px;
-
-    color: #111;
-
-    margin-bottom: 28px;
-
-}
-
-.hero-content h1 span {
-
-    display: block;
-
-    color: var(--primary);
-
-    background: linear-gradient(180deg,
-            #ff964f,
-            #ff6420);
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-}
-
-.hero-content p {
-
-    max-width: 620px;
-
-    margin-bottom: 54px;
-
-    font-size: 24px;
-
-    line-height: 1.8;
-
-    color: #626b7a;
-
-    font-weight: 500;
-
-}
-
-/* ==========================================================
-                    FEATURE LIST
-========================================================== */
-
-.feature-list {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 26px;
-
-}
-
-.feature-item {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 20px;
-
-}
-
-.feature-icon {
-
-    width: 64px;
-
-    height: 64px;
-
-    border-radius: 20px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #fff;
-
-    font-size: 26px;
-
-    flex-shrink: 0;
-
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, .10);
-
-}
-
-.orange {
-
-    background: linear-gradient(135deg,
-            #ffb157,
-            #ff8735);
-
-}
-
-.green {
-
-    background: linear-gradient(135deg,
-            #63df86,
-            #24ba63);
-
-}
-
-.purple {
-
-    background: linear-gradient(135deg,
-            #8674ff,
-            #654cff);
-
-}
-
-.pink {
-
-    background: linear-gradient(135deg,
-            #ff7fc0,
-            #ff5d95);
-
-}
-
-.feature-item strong {
-
-    display: block;
-
-    font-size: 28px;
-
-    font-weight: 800;
-
-    color: #171717;
-
-    margin-bottom: 8px;
-
-}
-
-.feature-item small {
-
-    display: block;
-
-    font-size: 18px;
-
-    line-height: 1.7;
-
-    color: #7b8290;
-
-}
-
-/* ==========================================================
-                    HERO IMAGE
-========================================================== */
-
-.hero-image {
-
-    position: relative;
-
-    width: 100%;
-
-    max-width: 700px;
-
-    margin-top: 70px;
-
-}
-
-.hero-image img {
-
-    width: 100%;
-
-    display: block;
-
-    border-radius: 34px;
-
-    box-shadow:
-
-        0 35px 90px rgba(0, 0, 0, .12);
-
-}
-
-/* ==========================================================
-                    FLOATING CARD
-========================================================== */
-
-.hero-card {
-
-    position: absolute;
-
-    left: 32px;
-
-    bottom: 32px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    padding: 20px 26px;
-
-    background: #fff;
-
-    border-radius: 24px;
-
-    box-shadow:
-
-        0 24px 60px rgba(0, 0, 0, .12);
-
-}
-
-.hero-card strong {
-
-    display: block;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    color: #222;
-
-    margin-bottom: 6px;
-
-}
-
-.hero-card small {
-
-    font-size: 16px;
-
-    color: #7a808b;
-
-}
-
-/* ==========================================================
-                    AVATARS
-========================================================== */
-
-.avatars {
-
-    display: flex;
-
-}
-
-.avatars span {
-
-    width: 44px;
-
-    height: 44px;
-
-    border-radius: 50%;
-
-    background: #d9d9d9;
-
-    border: 4px solid #fff;
-
-    margin-left: -12px;
-
-}
-
-.avatars span:first-child {
-
-    margin-left: 0;
-
-}
-
-/* ==========================================================
-                    REGISTER CARD
-========================================================== */
-
-.register-panel {
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-}
-
-.register-card {
-
-    width: 100%;
-
-    max-width: 650px;
-
-    background: #ffffff;
-
-    border-radius: 38px;
-
-    padding: 54px;
-
-    box-shadow:
-
-        0 35px 90px rgba(0, 0, 0, .08);
-
-    position: relative;
-
-    overflow: hidden;
-
-}
-
-/* subtle top glow */
-
-.register-card::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: -180px;
-
-    right: -180px;
-
-    width: 420px;
-
-    height: 420px;
-
-    border-radius: 50%;
-
-    background:
-
-        radial-gradient(circle,
-            rgba(255, 167, 110, .18),
-            transparent 72%);
-
-    pointer-events: none;
-
-}
-
-/* ==========================================================
-                    HEADER
-========================================================== */
-
-.card-header {
-
-    display: grid;
-
-    grid-template-columns:
-
-        84px 1fr auto;
-
-    align-items: center;
-
-    gap: 24px;
-
-    margin-bottom: 42px;
-
-}
-
-.card-icon {
-
-    width: 82px;
-
-    height: 82px;
-
-    border-radius: 24px;
-
-    background:
-
-        linear-gradient(145deg,
-            #ff9b53,
-            #ff7427);
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: #fff;
-
-    font-size: 34px;
-
-    box-shadow:
-
-        0 20px 45px rgba(255, 120, 45, .30);
-
-}
-
-.card-header h2 {
-
-    margin: 0;
-
-    font-size: 56px;
-
-    line-height: .95;
-
-    font-weight: 900;
-
-    color: #111;
-
-}
-
-.card-header h2 span {
-
-    display: block;
-
-    color: var(--primary);
-
-}
-
-.card-header p {
-
-    margin: 0;
-
-    font-size: 18px;
-
-    line-height: 1.7;
-
-    color: #6f7683;
-
-    max-width: 150px;
-
-}
-
-.card-header p span {
-
-    color: var(--primary);
-
-    font-weight: 700;
-
-}
-
-/* ==========================================================
-                    FORM
-========================================================== */
-
-.form-group {
-
-    margin-bottom: 28px;
-
-}
-
-.form-row {
-
-    display: grid;
-
-    gap: 24px;
-
-}
-
-.two-columns {
-
-    grid-template-columns:
-
-        1fr 1fr;
-
-}
-
-.form-label {
-
-    display: block;
-
-    margin-bottom: 12px;
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    color: #1a1a1a;
-
-}
-
-/* ==========================================================
-                    INPUT
-========================================================== */
-
-.input-wrapper {
-
-    display: flex;
-
-    align-items: center;
-
-    height: 74px;
-
-    border: 2px solid #edf0f5;
-
-    border-radius: 20px;
-
-    background: #fff;
-
-    transition: .30s;
-
-}
-
-.input-wrapper:hover {
-
-    border-color: #dedfe5;
-
-}
-
-.input-wrapper:focus-within {
-
-    border-color: #ff8b43;
-
-    box-shadow:
-
-        0 0 0 5px rgba(255, 141, 67, .12);
-
-}
-
-.input-wrapper i {
-
-    width: 64px;
-
-    text-align: center;
-
-    color: #8f97a4;
-
-    font-size: 22px;
-
-}
-
-.form-control {
-
-    flex: 1;
-
-    border: none !important;
-
-    background: none !important;
-
-    box-shadow: none !important;
-
-    height: 74px;
-
-    font-size: 18px;
-
-    padding-right: 18px;
-
-    color: #222;
-
-}
-
-.form-control::placeholder {
-
-    color: #adb3bf;
-
-}
-
-.password-toggle {
-
-    width: 64px;
-
-    height: 74px;
-
-    border: none;
-
-    background: none;
-
-    cursor: pointer;
-
-    color: #949cab;
-
-    font-size: 22px;
-
-}
-
-.password-toggle:hover {
-
-    color: var(--primary);
-
-}
-
-/* ==========================================================
-                    ERROR
-========================================================== */
-
-.form-error {
-
-    margin-top: 10px;
-
-    color: #d33;
-
-    font-size: 15px;
-
-    font-weight: 600;
-
-}
-
-/* ==========================================================
-                    SECURITY BOX
-========================================================== */
-
-.security-box {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 18px;
-
-    padding: 22px;
-
-    margin: 34px 0;
-
-    border-radius: 22px;
-
-    background: #fff9f4;
-
-    border: 2px solid #ffe6d5;
-
-}
-
-.security-icon {
-
-    width: 60px;
-
-    height: 60px;
-
-    border-radius: 18px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background: linear-gradient(145deg,
-            #52d27c,
-            #27b85d);
-
-    color: #fff;
-
-    font-size: 24px;
-
-    flex-shrink: 0;
-
-}
-
-.security-box strong {
-
-    display: block;
-
-    font-size: 19px;
-
-    font-weight: 800;
-
-    color: #171717;
-
-    margin-bottom: 6px;
-
-}
-
-.security-box small {
-
-    display: block;
-
-    font-size: 16px;
-
-    line-height: 1.7;
-
-    color: #707784;
-
-}
-
-/* ==========================================================
-                    TERMS
-========================================================== */
-
-.terms {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 14px;
-
-    margin: 36px 0;
-
-    font-size: 16px;
-
-    line-height: 1.7;
-
-    color: #707784;
-
-}
-
-.terms input {
-
-    width: 20px;
-
-    height: 20px;
-
-    margin-top: 3px;
-
-    accent-color: var(--primary);
-
-    cursor: pointer;
-
-    flex-shrink: 0;
-
-}
-
-.terms a {
-
-    color: var(--primary);
-
-    text-decoration: none;
-
-    font-weight: 700;
-
-}
-
-.terms a:hover {
-
-    color: #ff5f0e;
-
-}
-
-/* ==========================================================
-                    PRIMARY BUTTON
-========================================================== */
-
-.register-btn {
-
-    width: 100%;
-
-    height: 72px;
-
-    border: none;
-
-    border-radius: 22px;
-
-    background: linear-gradient(135deg,
-            #ff9b52,
-            #ff6e22);
-
-    color: #fff;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    letter-spacing: .3px;
-
-    cursor: pointer;
-
-    transition:
-        transform .25s,
-        box-shadow .25s;
-
-    box-shadow:
-        0 22px 45px rgba(255, 122, 47, .30);
-
-}
-
-.register-btn:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 28px 55px rgba(255, 122, 47, .36);
-
-}
-
-/* ==========================================================
-                    DIVIDER
-========================================================== */
-
-.divider {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    margin: 38px 0;
-
-    color: #8e95a3;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
-
-}
-
-.divider::before,
-
-.divider::after {
-
-    content: "";
-
-    flex: 1;
-
-    height: 2px;
-
-    background: #edf0f5;
-
-}
-
-/* ==========================================================
-                    SOCIAL BUTTONS
-========================================================== */
-
-.social-buttons {
-
-    display: grid;
-
-    gap: 18px;
-
-}
-
-.social-btn {
-
-    width: 100%;
-
-    height: 68px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 14px;
-
-    border: 2px solid #edf0f5;
-
-    border-radius: 20px;
-
-    background: #fff;
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    color: #222;
-
-    cursor: pointer;
-
-    transition: .25s;
-
-}
-
-.social-btn i {
-
-    font-size: 22px;
-
-}
-
-.social-btn:hover {
-
-    border-color: #ff914d;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-
-        0 18px 35px rgba(0, 0, 0, .08);
-
-}
-
-/* ==========================================================
-                    FOOTER
-========================================================== */
-
-.login-footer {
-
-    margin-top: 34px;
-
-    text-align: center;
-
-}
-
-.login-footer p {
-
-    margin: 0;
-
-    font-size: 17px;
-
-    color: #737a86;
-
-}
-
-.login-footer a {
-
-    color: var(--primary);
-
-    font-weight: 800;
-
-    text-decoration: none;
-
-}
-
-.login-footer a:hover {
-
-    color: #ff6518;
+    --glass-light:
+        rgba(255, 255, 255, .05);
 
-}
-
-/* ==========================================================
-                    RESPONSIVE
-========================================================== */
-
-@media (max-width:1600px) {
-
-    .register-layout {
-
-        gap: 70px;
-
-    }
-
-    .hero-content h1 {
-
-        font-size: 82px;
-
-    }
-
-    .register-card {
-
-        max-width: 600px;
-
-    }
-
-}
-
-@media (max-width:1400px) {
-
-    .register-page {
-
-        padding: 40px;
-
-    }
-
-    .hero-content h1 {
-
-        font-size: 72px;
-
-    }
-
-    .hero-content p {
-
-        font-size: 21px;
-
-    }
-
-    .feature-item strong {
-
-        font-size: 24px;
-
-    }
-
-}
-
-@media (max-width:1200px) {
-
-    .register-layout {
-
-        grid-template-columns: 1fr;
-
-        gap: 70px;
-
-    }
-
-    .register-panel {
-
-        order: 1;
-
-    }
-
-    .hero-panel {
-
-        order: 2;
-
-        text-align: center;
-
-        align-items: center;
-
-    }
-
-    .hero-content {
-
-        max-width: 850px;
-
-    }
-
-    .hero-content p {
-
-        margin-left: auto;
-
-        margin-right: auto;
-
-    }
-
-    .feature-list {
-
-        width: 100%;
-
-        max-width: 760px;
-
-    }
-
-    .hero-image {
-
-        margin: 70px auto 0;
-
-    }
-
-}
-
-@media (max-width:992px) {
-
-    .register-page {
-
-        padding: 30px;
-
-    }
-
-    .register-topbar {
-
-        flex-direction: column;
-
-        gap: 28px;
-
-        text-align: center;
-
-    }
-
-    .hero-content h1 {
-
-        font-size: 60px;
-
-    }
-
-    .card-header {
-
-        grid-template-columns: 1fr;
-
-        text-align: center;
-
-    }
-
-    .card-icon {
-
-        margin: auto;
-
-    }
-
-    .card-header p {
-
-        max-width: none;
-
-    }
-
-}
-
-@media (max-width:768px) {
-
-    .register-page {
-
-        padding: 22px;
-
-    }
-
-    .hero-content h1 {
-
-        font-size: 48px;
-
-        line-height: 1;
-
-        letter-spacing: -2px;
-
-    }
-
-    .hero-content p {
-
-        font-size: 18px;
-
-    }
-
-    .feature-item {
-
-        text-align: left;
-
-    }
-
-    .feature-item strong {
-
-        font-size: 20px;
-
-    }
-
-    .feature-item small {
-
-        font-size: 15px;
-
-    }
-
-    .hero-card {
-
-        position: relative;
-
-        left: auto;
-
-        bottom: auto;
-
-        margin-top: 24px;
-
-        width: 100%;
-
-    }
-
-    .register-card {
-
-        padding: 38px;
-
-    }
-
-    .two-columns {
-
-        grid-template-columns: 1fr;
-
-    }
-
-}
-
-@media (max-width:576px) {
-
-    .register-page {
-
-        padding: 18px;
-
-    }
-
-    .brand {
-
-        justify-content: center;
-
-    }
-
-    .brand-icon {
-
-        width: 58px;
-
-        height: 58px;
+    --border:
+        rgba(255, 255, 255, .12);
 
-        font-size: 24px;
+    --border-hover:
+        rgba(167, 139, 250, .25);
 
-    }
+    /* Radius */
 
-    .brand-text h4 {
+    --radius-xl: 36px;
+    --radius-lg: 26px;
+    --radius-md: 20px;
+    --radius-sm: 16px;
 
-        font-size: 24px;
+    /* Shadows */
 
-    }
+    --shadow-xl:
+        0 45px 120px rgba(0, 0, 0, .45);
 
-    .hero-content h1 {
+    --shadow-lg:
+        0 25px 70px rgba(0, 0, 0, .30);
 
-        font-size: 40px;
-
-    }
-
-    .hero-content p {
-
-        font-size: 16px;
-
-    }
-
-    .feature-icon {
-
-        width: 54px;
-
-        height: 54px;
-
-        font-size: 22px;
-
-    }
-
-    .feature-item strong {
-
-        font-size: 18px;
-
-    }
-
-    .card-header h2 {
-
-        font-size: 40px;
-
-    }
-
-    .register-card {
-
-        padding: 28px;
-
-        border-radius: 28px;
-
-    }
-
-    .register-btn {
-
-        height: 64px;
-
-        font-size: 18px;
-
-    }
-
-    .social-btn {
-
-        height: 60px;
-
-        font-size: 16px;
-
-    }
-
-}
-
-/* ==========================================================
-                    MICRO ANIMATIONS
-========================================================== */
-
-.register-card {
-
-    animation: fadeUp .7s ease;
-
-}
-
-.hero-panel {
-
-    animation: fadeUp .9s ease;
-
-}
-
-@keyframes fadeUp {
-
-    from {
-
-        opacity: 0;
-
-        transform: translateY(35px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-    }
-
-}
-
-.hero-image img {
-
-    transition:
-        transform .45s ease,
-        box-shadow .45s ease;
-
-}
-
-.hero-image:hover img {
-
-    transform: translateY(-8px);
-
-    box-shadow:
-        0 45px 110px rgba(0, 0, 0, .16);
-
-}
-
-.hero-card {
-
-    transition: .35s;
-
-}
-
-.hero-image:hover .hero-card {
-
-    transform: translateY(-6px);
-
-}
-
-/* ==========================================================
-                    DARK MODE
-========================================================== */
-
-body.dark-mode .register-body {
-
-    background: #141414;
-
-}
-
-body.dark-mode .register-page {
-
-    background:
-        radial-gradient(circle at 12% 18%,
-            rgba(255, 128, 58, .12),
-            transparent 30%),
-
-        radial-gradient(circle at 88% 16%,
-            rgba(255, 170, 110, .08),
-            transparent 25%),
-
-        linear-gradient(180deg,
-            #191919,
-            #111111);
-
-}
-
-body.dark-mode .register-page::after {
-
-    opacity: .18;
-
-}
-
-body.dark-mode .register-card {
-
-    background: #1f1f1f;
-
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, .45);
-
-}
-
-body.dark-mode .brand-text h4,
-body.dark-mode .hero-content h1,
-body.dark-mode .feature-item strong,
-body.dark-mode .card-header h2,
-body.dark-mode .security-box strong {
-
-    color: #ffffff;
-
-}
-
-body.dark-mode .hero-content p,
-body.dark-mode .feature-item small,
-body.dark-mode .brand-text span,
-body.dark-mode .card-header p,
-body.dark-mode .security-box small,
-body.dark-mode .login-footer p {
-
-    color: #b6bcc7;
-
-}
-
-body.dark-mode .input-wrapper {
-
-    background: #262626;
-
-    border-color: #343434;
-
-}
-
-body.dark-mode .form-control {
-
-    color: #ffffff;
-
-}
-
-body.dark-mode .form-control::placeholder {
-
-    color: #8b8f99;
-
-}
-
-body.dark-mode .social-btn {
-
-    background: #262626;
-
-    border-color: #343434;
-
-    color: #ffffff;
-
-}
-
-body.dark-mode .social-btn:hover {
-
-    border-color: var(--primary);
-
-}
-
-body.dark-mode .hero-card {
-
-    background: #242424;
-
-}
-
-body.dark-mode .terms {
-
-    color: #b8bec8;
-
-}
-
-body.dark-mode .divider {
-
-    color: #8d949f;
-
-}
+    --shadow-purple:
+        0 0 70px rgba(124, 58, 237, .12);
 
-body.dark-mode .divider::before,
-body.dark-mode .divider::after {
+    /* Animation */
 
-    background: #343434;
+    --transition: .28s ease;
 
 }
 
-/* ==========================================================
-                    POLISH
-========================================================== */
+/*==========================================================
+                        RESET
+==========================================================*/
 
 * {
 
-    -webkit-font-smoothing: antialiased;
+    margin: 0;
 
-    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
 
-}
-
-img {
-
-    user-select: none;
-
-    -webkit-user-drag: none;
-
-}
-
-::selection {
-
-    background: #ff8f45;
-
-    color: #ffffff;
-
-}
-
-button {
-
-    font-family: inherit;
-
-}
-
-input {
-
-    font-family: inherit;
-
-}
-
-a {
-
-    transition: .25s;
-
-}
-
-.hero-content {
-
-    position: relative;
-
-    z-index: 2;
-
-}
-
-.register-card {
-
-    position: relative;
-
-    z-index: 5;
-
-}
-
-.hero-image {
-
-    z-index: 3;
-
-}
-
-.feature-item {
-
-    transition: transform .25s ease;
-
-}
-
-.feature-item:hover {
-
-    transform: translateX(8px);
-
-}
-
-.register-btn:active {
-
-    transform: scale(.985);
-
-}
-
-.social-btn:active {
-
-    transform: scale(.985);
-
-}
-
-.input-wrapper {
-
-    transition:
-        border-color .25s,
-        box-shadow .25s,
-        transform .25s;
-
-}
-
-.input-wrapper:focus-within {
-
-    transform: translateY(-1px);
-
-}
-
-.hero-image::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -18px;
-
-    border-radius: 42px;
-
-    background: radial-gradient(circle,
-            rgba(255, 150, 75, .10),
-            transparent 70%);
-
-    z-index: -1;
+    box-sizing: border-box;
 
 }
 
@@ -1867,6 +104,1410 @@ html {
 
 }
 
-/* ==========================================================
-                    END
-========================================================== */
+/*==========================================================
+                    REGISTER BODY
+==========================================================*/
+
+body.register-body {
+
+    font-family: "Poppins", sans-serif;
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    background:
+
+        radial-gradient(circle at top left,
+            rgba(124, 58, 237, .18),
+            transparent 34%),
+
+        radial-gradient(circle at bottom right,
+            rgba(167, 139, 250, .12),
+            transparent 34%),
+
+        linear-gradient(135deg,
+            var(--bg-1),
+            var(--bg-2),
+            var(--bg-3));
+
+}
+
+/*==========================================================
+                    BACKGROUND GLOWS
+==========================================================*/
+
+body.register-body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(circle at 15% 20%,
+            rgba(124, 58, 237, .14),
+            transparent 28%),
+
+        radial-gradient(circle at 82% 70%,
+            rgba(124, 58, 237, .10),
+            transparent 35%),
+
+        radial-gradient(circle at 50% 100%,
+            rgba(255, 255, 255, .03),
+            transparent 45%);
+
+    z-index: -2;
+
+}
+
+body.register-body::after {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    backdrop-filter: blur(2px);
+
+    pointer-events: none;
+
+    z-index: -1;
+
+}
+
+/*==========================================================
+                        PAGE
+==========================================================*/
+
+.register-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 50px;
+
+}
+
+/*==========================================================
+                        GRID
+==========================================================*/
+
+.register-container {
+
+    width: 100%;
+
+    max-width: 1800px;
+
+    display: grid;
+
+    grid-template-columns: 58% 42%;
+
+    gap: 24px;
+
+    align-items: stretch;
+
+}
+
+/*==========================================================
+                    LEFT PANEL
+==========================================================*/
+
+.left-panel {
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+}
+
+/*==========================================================
+                    HERO CONTAINER
+==========================================================*/
+
+.hero-image {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 14px;
+
+    border-radius: 36px;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .08),
+            rgba(255, 255, 255, .03)),
+
+        var(--glass);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(22px);
+
+    box-shadow:
+
+        var(--shadow-xl),
+
+        var(--shadow-purple);
+
+    transition:
+
+        transform var(--transition),
+
+        border-color var(--transition),
+
+        box-shadow var(--transition);
+
+}
+
+.hero-image:hover {
+
+    transform: translateY(-3px);
+
+    border-color: var(--border-hover);
+
+    box-shadow:
+
+        0 55px 130px rgba(0, 0, 0, .50),
+
+        0 0 90px rgba(124, 58, 237, .16);
+
+}
+
+/*==========================================================
+                    HERO IMAGE
+==========================================================*/
+
+.hero-image img {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height: 94vh;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    object-position: center;
+
+    display: block;
+
+    border-radius: 24px;
+
+}
+
+/*==========================================================
+                    RIGHT PANEL
+==========================================================*/
+
+.right-panel {
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+}
+
+/*==========================================================
+                    REGISTER CARD
+==========================================================*/
+
+.register-card {
+
+    width: 100%;
+
+    max-width: 620px;
+
+    padding: 58px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 36px;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .08),
+            rgba(255, 255, 255, .03)),
+
+        var(--glass);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(22px);
+
+    box-shadow:
+
+        var(--shadow-xl);
+
+    transition:
+
+        transform var(--transition),
+
+        border-color var(--transition),
+
+        box-shadow var(--transition);
+
+}
+
+.register-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color: var(--border-hover);
+
+    box-shadow:
+
+        0 55px 130px rgba(0, 0, 0, .50),
+
+        0 0 70px rgba(124, 58, 237, .12);
+
+}
+
+/*==========================================================
+                        HEADER
+==========================================================*/
+
+.card-header {
+
+    text-align: center;
+
+    margin-bottom: 42px;
+
+}
+
+.logo-circle {
+
+    width: 88px;
+
+    height: 88px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 24px;
+
+    background:
+
+        linear-gradient(135deg,
+            var(--primary),
+            var(--secondary));
+
+    color: #fff;
+
+    font-size: 2.1rem;
+
+    box-shadow:
+
+        0 20px 45px rgba(124, 58, 237, .40);
+
+}
+
+.card-header h1 {
+
+    font-size: 2.6rem;
+
+    font-weight: 700;
+
+    color: var(--white);
+
+    margin-bottom: 12px;
+
+    letter-spacing: -.5px;
+
+}
+
+.card-header p {
+
+    max-width: 370px;
+
+    margin: auto;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: var(--muted);
+
+}
+
+/*==========================================================
+                        ALERTS
+==========================================================*/
+
+.alert {
+
+    width: 100%;
+
+    padding: 16px 20px;
+
+    margin-bottom: 24px;
+
+    border-radius: 18px;
+
+    border: none;
+
+    font-size: .95rem;
+
+}
+
+.alert-success {
+
+    background: rgba(34, 197, 94, .16);
+
+    color: #DCFCE7;
+
+}
+
+.alert-danger {
+
+    background: rgba(239, 68, 68, .16);
+
+    color: #FECACA;
+
+}
+
+.alert-warning {
+
+    background: rgba(245, 158, 11, .16);
+
+    color: #FEF3C7;
+
+}
+
+.alert-info {
+
+    background: rgba(59, 130, 246, .16);
+
+    color: #DBEAFE;
+
+}
+
+/*==========================================================
+                        FORM
+==========================================================*/
+
+form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.form-group label {
+
+    margin-bottom: 10px;
+
+    color: var(--white);
+
+    font-size: .95rem;
+
+    font-weight: 600;
+
+    letter-spacing: .2px;
+
+}
+
+/*==========================================================
+                    INPUT WRAPPER
+==========================================================*/
+
+.input-wrapper {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    height: 64px;
+
+    border-radius: 20px;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .08),
+            rgba(255, 255, 255, .04));
+
+    border: 1px solid rgba(255, 255, 255, .10);
+
+    backdrop-filter: blur(12px);
+
+    transition: all var(--transition);
+
+}
+
+.input-wrapper:hover {
+
+    border-color:
+
+        rgba(167, 139, 250, .20);
+
+}
+
+.input-wrapper:focus-within {
+
+    border-color: var(--primary);
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .10),
+            rgba(255, 255, 255, .05));
+
+    box-shadow:
+
+        0 0 0 4px rgba(124, 58, 237, .15),
+
+        0 12px 35px rgba(124, 58, 237, .12);
+
+}
+
+/*==========================================================
+                        ICONS
+==========================================================*/
+
+.input-wrapper>i {
+
+    width: 60px;
+
+    text-align: center;
+
+    color: var(--secondary);
+
+    font-size: 1rem;
+
+    flex-shrink: 0;
+
+    pointer-events: none;
+
+}
+
+/*==========================================================
+                        INPUT
+==========================================================*/
+
+.form-control {
+
+    flex: 1;
+
+    width: 100%;
+
+    height: 100%;
+
+    border: none !important;
+
+    outline: none !important;
+
+    background: transparent !important;
+
+    color: var(--white) !important;
+
+    font-size: 1rem;
+
+    font-family: inherit;
+
+    box-shadow: none !important;
+
+    padding-right: 18px;
+
+}
+
+.form-control::placeholder {
+
+    color: #94A3B8;
+
+}
+
+.form-control:focus {
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+}
+
+.form-control:disabled {
+
+    opacity: .65;
+
+    cursor: not-allowed;
+
+}
+
+/*==========================================================
+                    PASSWORD TOGGLE
+==========================================================*/
+
+.toggle-password {
+
+    width: 58px;
+
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: none;
+
+    background: transparent;
+
+    color: #CBD5E1;
+
+    cursor: pointer;
+
+    transition: color var(--transition);
+
+}
+
+.toggle-password:hover {
+
+    color: var(--white);
+
+}
+
+/*==========================================================
+                        ERRORS
+==========================================================*/
+
+.error {
+
+    margin-top: 8px;
+
+    margin-left: 4px;
+
+    color: #FCA5A5;
+
+    font-size: .85rem;
+
+    font-weight: 500;
+
+}
+
+/*==========================================================
+                    BUTTON AREA
+==========================================================*/
+
+.button-area {
+
+    margin-top: 10px;
+
+}
+
+/*==========================================================
+                    REGISTER BUTTON
+==========================================================*/
+
+.register-btn {
+
+    width: 100%;
+
+    height: 64px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: none;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    color: #FFFFFF;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    background:
+
+        linear-gradient(135deg,
+            #8B5CF6 0%,
+            #7C3AED 45%,
+            #6D28D9 100%);
+
+    box-shadow:
+
+        0 20px 50px rgba(124, 58, 237, .38);
+
+    transition:
+
+        transform var(--transition),
+
+        box-shadow var(--transition),
+
+        filter var(--transition);
+
+}
+
+.register-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, .18),
+            transparent);
+
+    transform: translateX(-130%);
+
+    transition: transform .7s ease;
+
+}
+
+.register-btn:hover {
+
+    transform: translateY(-3px);
+
+    filter: brightness(1.04);
+
+    box-shadow:
+
+        0 30px 70px rgba(124, 58, 237, .48);
+
+}
+
+.register-btn:hover::before {
+
+    transform: translateX(130%);
+
+}
+
+.register-btn:active {
+
+    transform: translateY(0);
+
+}
+
+.register-btn:disabled {
+
+    opacity: .7;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+/*==========================================================
+        SHARED COMPONENTS REMOVED (NOW IN auth.css)
+==========================================================*/
+
+/*
+
+The following sections have intentionally been removed
+from register.css because they are shared with login.html
+and are now maintained in auth.css.
+
+    ✔ .social-login
+    ✔ .google-btn
+    ✔ .google-btn img
+    ✔ .google-btn:hover
+    ✔ .google-btn.loading
+    ✔ .divider
+    ✔ .divider::before
+    ✔ .divider span
+    ✔ .auth-footer
+    ✔ .auth-footer a
+    ✔ Shared loading spinner
+    ✔ Shared fade animations
+    ✔ Shared validation helpers
+    ✔ Shared accessibility helpers
+
+Keeping these here would duplicate CSS and make
+maintenance harder.
+
+*/
+
+/*==========================================================
+                    SIGN IN LINK
+==========================================================*/
+
+.signin-link {
+
+    margin-top: 32px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: .95rem;
+
+}
+
+.signin-link a {
+
+    color: #C4B5FD;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: color var(--transition);
+
+}
+
+.signin-link a:hover {
+
+    color: #FFFFFF;
+
+}
+
+/*==========================================================
+                    AUTOFILL
+==========================================================*/
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-control:-webkit-autofill:active {
+
+    -webkit-text-fill-color: #FFFFFF !important;
+
+    -webkit-box-shadow:
+
+        0 0 0 1000px rgba(31, 41, 55, 1) inset !important;
+
+    transition:
+
+        background-color 9999s ease-in-out 0s;
+
+    caret-color: #FFFFFF;
+
+}
+
+/*==========================================================
+                    TEXT SELECTION
+==========================================================*/
+
+::selection {
+
+    background: rgba(124, 58, 237, .35);
+
+    color: #FFFFFF;
+
+}
+
+::-moz-selection {
+
+    background: rgba(124, 58, 237, .35);
+
+    color: #FFFFFF;
+
+}
+
+/*==========================================================
+                        GLOBAL
+==========================================================*/
+
+button,
+input {
+
+    font-family: inherit;
+
+}
+
+a {
+
+    transition:
+
+        color var(--transition),
+
+        opacity var(--transition);
+
+}
+
+/*==========================================================
+                    LARGE DESKTOP
+==========================================================*/
+
+@media (min-width:1600px) {
+
+    .register-container {
+
+        max-width: 1880px;
+
+        gap: 28px;
+
+    }
+
+    .hero-image {
+
+        padding: 12px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 95vh;
+
+    }
+
+    .register-card {
+
+        max-width: 640px;
+
+        padding: 64px;
+
+    }
+
+    .card-header h1 {
+
+        font-size: 2.8rem;
+
+    }
+
+}
+
+/*==========================================================
+                        DESKTOP
+==========================================================*/
+
+@media (max-width:1400px) {
+
+    .register-container {
+
+        gap: 24px;
+
+    }
+
+    .register-card {
+
+        max-width: 600px;
+
+        padding: 52px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 88vh;
+
+    }
+
+}
+
+/*==========================================================
+                        TABLET
+==========================================================*/
+
+@media (max-width:1200px) {
+
+    .register-page {
+
+        padding: 36px;
+
+    }
+
+    .register-container {
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+
+    }
+
+    .left-panel {
+
+        order: 1;
+
+    }
+
+    .right-panel {
+
+        order: 2;
+
+    }
+
+    .hero-image {
+
+        max-width: 950px;
+
+        margin: auto;
+
+    }
+
+    .hero-image img {
+
+        max-height: 520px;
+
+    }
+
+    .register-card {
+
+        max-width: 640px;
+
+        margin: auto;
+
+    }
+
+}
+
+/*==========================================================
+                    SMALL TABLET
+==========================================================*/
+
+@media (max-width:992px) {
+
+    .register-page {
+
+        padding: 28px;
+
+    }
+
+    .register-container {
+
+        gap: 32px;
+
+    }
+
+    .hero-image {
+
+        padding: 12px;
+
+        border-radius: 30px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 420px;
+
+        border-radius: 20px;
+
+    }
+
+    .register-card {
+
+        padding: 42px;
+
+        border-radius: 30px;
+
+    }
+
+    .card-header {
+
+        margin-bottom: 34px;
+
+    }
+
+    .card-header h1 {
+
+        font-size: 2.1rem;
+
+    }
+
+    .card-header p {
+
+        font-size: .95rem;
+
+    }
+
+}
+
+/*==========================================================
+                        MOBILE
+==========================================================*/
+
+@media (max-width:768px) {
+
+    .register-page {
+
+        padding: 18px;
+
+        align-items: flex-start;
+
+    }
+
+    .register-container {
+
+        gap: 26px;
+
+    }
+
+    .hero-image {
+
+        padding: 10px;
+
+        border-radius: 24px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 300px;
+
+    }
+
+    .register-card {
+
+        max-width: 100%;
+
+        padding: 34px 24px;
+
+        border-radius: 24px;
+
+    }
+
+    .logo-circle {
+
+        width: 72px;
+
+        height: 72px;
+
+        border-radius: 20px;
+
+        font-size: 1.75rem;
+
+        margin-bottom: 18px;
+
+    }
+
+    .card-header h1 {
+
+        font-size: 1.9rem;
+
+    }
+
+    .card-header p {
+
+        font-size: .92rem;
+
+        line-height: 1.6;
+
+    }
+
+    .input-wrapper {
+
+        height: 58px;
+
+        border-radius: 18px;
+
+    }
+
+    .register-btn {
+
+        height: 58px;
+
+        border-radius: 18px;
+
+    }
+
+}
+
+/*==========================================================
+                    SMALL PHONES
+==========================================================*/
+
+@media (max-width:480px) {
+
+    .register-page {
+
+        padding: 14px;
+
+    }
+
+    .register-card {
+
+        padding: 24px 18px;
+
+        border-radius: 20px;
+
+    }
+
+    .hero-image {
+
+        border-radius: 20px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 220px;
+
+        border-radius: 16px;
+
+    }
+
+    .logo-circle {
+
+        width: 60px;
+
+        height: 60px;
+
+        font-size: 1.45rem;
+
+    }
+
+    .card-header h1 {
+
+        font-size: 1.6rem;
+
+    }
+
+    .card-header p {
+
+        font-size: .88rem;
+
+    }
+
+    .form-group label {
+
+        font-size: .9rem;
+
+    }
+
+    .input-wrapper {
+
+        height: 54px;
+
+    }
+
+    .input-wrapper>i {
+
+        width: 50px;
+
+    }
+
+    .toggle-password {
+
+        width: 50px;
+
+    }
+
+    .form-control {
+
+        font-size: .95rem;
+
+    }
+
+    .register-btn {
+
+        height: 54px;
+
+        font-size: .95rem;
+
+    }
+
+    .signin-link {
+
+        margin-top: 22px;
+
+        font-size: .88rem;
+
+    }
+
+}
+
+/*==========================================================
+                    LANDSCAPE
+==========================================================*/
+
+@media (max-height:700px) and (orientation:landscape) {
+
+    .register-page {
+
+        padding: 20px;
+
+    }
+
+    .hero-image img {
+
+        max-height: 420px;
+
+    }
+
+}
+
+/*==========================================================
+                REDUCED MOTION
+==========================================================*/
+
+@media (prefers-reduced-motion:reduce) {
+
+    * {
+
+        animation: none !important;
+
+        transition: none !important;
+
+        scroll-behavior: auto !important;
+
+    }
+
+}
+
+/*==========================================================
+                    SCROLLBAR
+==========================================================*/
+
+::-webkit-scrollbar {
+
+    width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background: #0F172A;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #374151;
+
+    border-radius: 999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--primary);
+
+}
+
+/*==========================================================
+                        IMAGE
+==========================================================*/
+
+img {
+
+    display: block;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+}
+
+/*==========================================================
+            REMOVE BOOTSTRAP SHADOW
+==========================================================*/
+
+.form-control,
+.form-control:focus {
+
+    box-shadow: none !important;
+
+}
+
+/*==========================================================
+            FINAL PREMIUM EFFECTS
+==========================================================*/
+
+.hero-image {
+
+    will-change: transform;
+
+}
+
+.register-card {
+
+    will-change: transform;
+
+}
+
+.register-btn {
+
+    will-change: transform;
+
+}
+
+.hero-image:hover {
+
+    border-color: rgba(167, 139, 250, .22);
+
+    box-shadow:
+
+        0 60px 140px rgba(0, 0, 0, .50),
+
+        0 0 90px rgba(124, 58, 237, .18);
+
+}
+
+.register-card:hover {
+
+    border-color: rgba(167, 139, 250, .22);
+
+    box-shadow:
+
+        0 60px 140px rgba(0, 0, 0, .50),
+
+        0 0 70px rgba(124, 58, 237, .14);
+
+}
+
+.register-btn:hover {
+
+    transform: translateY(-3px);
+
+}
+
+/*==========================================================
+                        END
+==========================================================*/
