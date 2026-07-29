@@ -58,6 +58,7 @@ class User(UserMixin, db.Model):
         default=datetime.utcnow,
         nullable=False,
     )
+
     email_notifications = db.Column(
         db.Boolean,
         nullable=False,
@@ -89,31 +90,16 @@ class User(UserMixin, db.Model):
         cascade="all, delete-orphan",
     )
 
-    # ==========================================
-    # Password
-    # ==========================================
-
     def set_password(self, password):
-        self.password_hash = generate_password_hash(
-            password,
-        )
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        """
-        Returns False for Google-only accounts.
-        """
-
         if not self.password_hash:
             return False
-
         return check_password_hash(
             self.password_hash,
             password,
         )
-
-    # ==========================================
-    # Password Reset Token
-    # ==========================================
 
     def get_reset_password_token(self):
         serializer = URLSafeTimedSerializer(
@@ -140,7 +126,6 @@ class User(UserMixin, db.Model):
                 salt="password-reset",
                 max_age=expires_sec,
             )
-
         except Exception:
             return None
 
@@ -154,9 +139,8 @@ class User(UserMixin, db.Model):
             f"email='{self.email}'>"
         )
 
-    # ==================================================
 
-
+# ==================================================
 # Pet
 # ==================================================
 
@@ -249,6 +233,7 @@ class Pet(db.Model):
         cascade="all, delete-orphan",
         order_by="desc(VetVisit.visit_date)",
     )
+
     medications = db.relationship(
         "Medication",
         backref="pet",
@@ -257,119 +242,19 @@ class Pet(db.Model):
         order_by="desc(Medication.start_date)",
     )
 
-    documents = db.relationship(
-        "Document",
+    weight_records = db.relationship(
+        "WeightRecord",
         backref="pet",
         lazy=True,
         cascade="all, delete-orphan",
-        order_by="desc(Document.uploaded_at)",
+        order_by="desc(WeightRecord.measurement_date)",
     )
-
-    # ==================================================
-
-
-# Document
-# ==================================================
-
-
-class Document(db.Model):
-    __tablename__ = "document"
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True,
-    )
-
-    pet_id = db.Column(
-        db.Integer,
-        db.ForeignKey("pet.id"),
-        nullable=False,
-        index=True,
-    )
-
-    title = db.Column(
-        db.String(150),
-        nullable=False,
-    )
-
-    document_type = db.Column(
-        db.String(50),
-        nullable=False,
-    )
-
-    filename = db.Column(
-        db.String(255),
-        nullable=False,
-    )
-
-    original_filename = db.Column(
-        db.String(255),
-        nullable=False,
-    )
-
-    file_size = db.Column(
-        db.Integer,
-        nullable=False,
-    )
-
-    uploaded_at = db.Column(
-        db.DateTime,
-        default=datetime.utcnow,
-        nullable=False,
-    )
-
-    notes = db.Column(
-        db.Text,
-        nullable=True,
-    )
-
-    @property
-    def file_size_display(self):
-
-        size = self.file_size
-
-        for unit in ["B", "KB", "MB", "GB"]:
-
-            if size < 1024:
-
-                return f"{size:.1f} {unit}"
-
-            size /= 1024
-
-        return f"{size:.1f} TB"
-
-    @property
-    def extension(self):
-
-        return self.original_filename.rsplit(".", 1)[-1].lower()
-
-    @property
-    def is_image(self):
-
-        return self.extension in [
-            "jpg",
-            "jpeg",
-            "png",
-            "gif",
-            "webp",
-        ]
-
-    @property
-    def is_pdf(self):
-
-        return self.extension == "pdf"
-
-    def __repr__(self):
-
-        return f"<Document " f"id={self.id} " f"title='{self.title}'>"
-
     # ==========================================
     # Age Helpers
     # ==========================================
 
     @property
     def age_display(self):
-
         if not self.birth_date:
             return self.age or "Unknown"
 
@@ -394,7 +279,6 @@ class Document(db.Model):
             return "1 month" if months == 1 else f"{months} months"
 
         years = months // 12
-
         remaining = months % 12
 
         if remaining == 0:
@@ -407,7 +291,6 @@ class Document(db.Model):
 
     @property
     def age_in_months(self):
-
         if not self.birth_date:
             return None
 
@@ -426,7 +309,6 @@ class Document(db.Model):
 
     @property
     def age_in_years(self):
-
         months = self.age_in_months
 
         if months is None:
@@ -440,7 +322,6 @@ class Document(db.Model):
 
     @property
     def life_stage(self):
-
         months = self.age_in_months
 
         if months is None:
@@ -455,12 +336,11 @@ class Document(db.Model):
         return "🐕 Senior"
 
     # ==========================================
-    # Birthday
+    # Birthday Helpers
     # ==========================================
 
     @property
     def next_birthday(self):
-
         if not self.birth_date:
             return None
 
@@ -479,7 +359,6 @@ class Document(db.Model):
 
     @property
     def days_until_birthday(self):
-
         birthday = self.next_birthday
 
         if birthday is None:
@@ -489,7 +368,6 @@ class Document(db.Model):
 
     @property
     def birthday_today(self):
-
         if not self.birth_date:
             return False
 
@@ -498,12 +376,66 @@ class Document(db.Model):
         return today.month == self.birth_date.month and today.day == self.birth_date.day
 
     # ==========================================
+    # Weight Helpers
+    # ==========================================
+
+    @property
+    def latest_weight_record(self):
+        if not self.weight_records:
+            return None
+
+        return self.weight_records[0]
+
+    @property
+    def latest_weight(self):
+        latest = self.latest_weight_record
+
+        if latest:
+            return latest.weight
+
+        return self.weight
+
+    @property
+    def weight_change(self):
+        if len(self.weight_records) < 2:
+            return None
+
+        return round(
+            self.weight_records[0].weight - self.weight_records[1].weight,
+            2,
+        )
+
+    @property
+    def highest_weight(self):
+        if not self.weight_records:
+            return self.weight
+
+        return max(record.weight for record in self.weight_records)
+
+    @property
+    def lowest_weight(self):
+        if not self.weight_records:
+            return self.weight
+
+        return min(record.weight for record in self.weight_records)
+
+    @property
+    def average_weight(self):
+        if not self.weight_records:
+            return self.weight
+
+        return round(
+            sum(record.weight for record in self.weight_records)
+            / len(self.weight_records),
+            2,
+        )
+
+    # ==========================================
     # Dashboard Helpers
     # ==========================================
 
     @property
     def overdue_vaccinations(self):
-
         today = date.today()
 
         return [
@@ -514,7 +446,6 @@ class Document(db.Model):
 
     @property
     def upcoming_vaccinations(self):
-
         today = date.today()
 
         return [
@@ -524,16 +455,12 @@ class Document(db.Model):
         ]
 
     def __repr__(self):
-
         return f"<Pet " f"id={self.id} " f"name='{self.name}'>"
 
-    # ==================================================
 
-
+# ==================================================
 # Vaccination
 # ==================================================
-
-
 class Vaccination(db.Model):
     __tablename__ = "vaccination"
 
@@ -587,28 +514,20 @@ class Vaccination(db.Model):
         nullable=False,
     )
 
-    # ==========================================
-    # Helpers
-    # ==========================================
-
     @property
     def is_overdue(self):
-
         return self.next_due < date.today()
 
     @property
     def is_due_today(self):
-
         return self.next_due == date.today()
 
     @property
     def days_until_due(self):
-
         return (self.next_due - date.today()).days
 
     @property
     def status(self):
-
         days = self.days_until_due
 
         if days < 0:
@@ -623,7 +542,6 @@ class Vaccination(db.Model):
         return "Up to Date"
 
     def __repr__(self):
-
         return f"<Vaccination " f"id={self.id} " f"vaccine='{self.vaccine_name}'>"
 
 
@@ -697,24 +615,19 @@ class Deworming(db.Model):
 
     @property
     def is_overdue(self):
-
         return self.next_due < date.today()
 
     @property
     def days_until_due(self):
-
         return (self.next_due - date.today()).days
 
     def __repr__(self):
-
         return f"<Deworming " f"id={self.id} " f"medicine='{self.medicine_name}'>"
 
 
 # ==================================================
 # Vet Visit
 # ==================================================
-
-
 class VetVisit(db.Model):
     __tablename__ = "vet_visit"
 
@@ -790,12 +703,10 @@ class VetVisit(db.Model):
 
     @property
     def has_follow_up(self):
-
         return self.follow_up_date is not None
 
     @property
     def follow_up_overdue(self):
-
         if not self.follow_up_date:
             return False
 
@@ -803,22 +714,99 @@ class VetVisit(db.Model):
 
     @property
     def days_until_follow_up(self):
-
         if not self.follow_up_date:
             return None
 
         return (self.follow_up_date - date.today()).days
 
     def __repr__(self):
-
         return f"<VetVisit " f"id={self.id} " f"pet_id={self.pet_id}>"
+
+
+# ==================================================
+# Weight Record
+# ==================================================
+
+
+class WeightRecord(db.Model):
+    __tablename__ = "weight_record"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+        index=True,
+    )
+
+    weight = db.Column(
+        db.Float,
+        nullable=False,
+    )
+
+    measurement_date = db.Column(
+        db.Date,
+        nullable=False,
+        default=date.today,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+        nullable=False,
+    )
+
+    @property
+    def previous_record(self):
+        return (
+            WeightRecord.query.filter(
+                WeightRecord.pet_id == self.pet_id,
+                WeightRecord.measurement_date < self.measurement_date,
+            )
+            .order_by(WeightRecord.measurement_date.desc())
+            .first()
+        )
+
+    @property
+    def weight_change(self):
+        previous = self.previous_record
+
+        if previous is None:
+            return None
+
+        return round(
+            self.weight - previous.weight,
+            2,
+        )
+
+    def __repr__(self):
+        return (
+            f"<WeightRecord "
+            f"id={self.id} "
+            f"pet_id={self.pet_id} "
+            f"weight={self.weight}>"
+        )
 
 
 # ==================================================
 # Medication
 # ==================================================
-
-
 class Medication(db.Model):
     __tablename__ = "medication"
 
@@ -896,24 +884,32 @@ class Medication(db.Model):
     def is_active(self):
         if self.end_date is None:
             return True
+
         return self.end_date >= date.today()
 
     @property
     def duration_days(self):
         if self.end_date is None:
             return None
+
         return (self.end_date - self.start_date).days + 1
 
     def __repr__(self):
         return f"<Medication " f"id={self.id} " f"medicine='{self.medicine_name}'>"
 
-    # ==================================================
+
+# ==================================================
+# Reminder Log
+# ==================================================
 
 
 class ReminderLog(db.Model):
     __tablename__ = "reminder_logs"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
 
     user_id = db.Column(
         db.Integer,
@@ -947,9 +943,19 @@ class ReminderLog(db.Model):
         backref="reminder_logs",
     )
 
+    def __repr__(self):
+        return (
+            f"<ReminderLog "
+            f"id={self.id} "
+            f"type='{self.reminder_type}' "
+            f"user_id={self.user_id}>"
+        )
 
+
+# ==================================================
 # Model Notes
 # ==================================================
+
 #
 # Authentication Providers
 #

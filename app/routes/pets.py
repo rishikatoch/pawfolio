@@ -14,10 +14,12 @@ from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from app import app, db
+from app.forms import WeightRecordForm
 from app.models import (
     Deworming,
     Pet,
     Vaccination,
+    WeightRecord,
 )
 
 # ==========================================================
@@ -42,6 +44,7 @@ def allowed_file(filename):
     """
     Check whether uploaded file extension is allowed.
     """
+
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -69,10 +72,19 @@ def save_pet_photo(photo):
 
     upload_folder = current_app.config["UPLOAD_FOLDER"]
 
-    os.makedirs(upload_folder, exist_ok=True)
+    os.makedirs(
+        upload_folder,
+        exist_ok=True,
+    )
 
     try:
-        photo.save(os.path.join(upload_folder, filename))
+        photo.save(
+            os.path.join(
+                upload_folder,
+                filename,
+            )
+        )
+
         return filename
 
     except Exception:
@@ -101,6 +113,30 @@ def delete_pet_photo(filename):
 
 
 # ==========================================================
+# Weight Helper
+# ==========================================================
+
+
+def create_initial_weight_record(pet):
+    """
+    Automatically creates the first weight record
+    when a pet is created.
+    """
+
+    if pet.weight is None:
+        return
+
+    record = WeightRecord(
+        pet_id=pet.id,
+        weight=pet.weight,
+        measurement_date=date.today(),
+        notes="Initial weight",
+    )
+
+    db.session.add(record)
+    # ==========================================================
+
+
 # Pet Profile
 # ==========================================================
 
@@ -117,20 +153,45 @@ def pet_profile(pet_id):
     vaccinations = pet.vaccinations
     dewormings = pet.dewormings
 
+    weight_history = (
+        WeightRecord.query.filter_by(
+            pet_id=pet.id,
+        )
+        .order_by(
+            WeightRecord.measurement_date.desc(),
+        )
+        .all()
+    )
+
+    latest_weight = weight_history[0] if weight_history else None
+
+    previous_weight = weight_history[1] if len(weight_history) > 1 else None
+
+    weight_change = None
+
+    if latest_weight and previous_weight:
+        weight_change = round(
+            latest_weight.weight - previous_weight.weight,
+            2,
+        )
+
     today = date.today()
 
     upcoming_items = []
+
     overdue_count = 0
 
     # -----------------------------
     # Vaccinations
     # -----------------------------
+
     for vaccination in vaccinations:
 
         if vaccination.next_due:
 
             if vaccination.next_due < today:
                 overdue_count += 1
+
             else:
                 upcoming_items.append(
                     {
@@ -143,12 +204,14 @@ def pet_profile(pet_id):
     # -----------------------------
     # Dewormings
     # -----------------------------
+
     for deworming in dewormings:
 
         if deworming.next_due:
 
             if deworming.next_due < today:
                 overdue_count += 1
+
             else:
                 upcoming_items.append(
                     {
@@ -161,6 +224,7 @@ def pet_profile(pet_id):
     next_due = None
 
     if upcoming_items:
+
         next_due = min(
             upcoming_items,
             key=lambda item: item["date"],
@@ -171,6 +235,10 @@ def pet_profile(pet_id):
         pet=pet,
         vaccinations=vaccinations,
         dewormings=dewormings,
+        weight_history=weight_history,
+        latest_weight=latest_weight,
+        previous_weight=previous_weight,
+        weight_change=weight_change,
         today=today,
         next_due=next_due,
         overdue_count=overdue_count,
@@ -274,7 +342,7 @@ def add_pet():
             if not allowed_file(photo.filename):
                 return render_template(
                     "add_pet.html",
-                    error="Only JPG, JPEG, PNG, GIF and WEBP images are allowed.",
+                    error=("Only JPG, JPEG, PNG, GIF and " "WEBP images are allowed."),
                     now=date.today(),
                 )
 
@@ -299,7 +367,16 @@ def add_pet():
         )
 
         try:
+
             db.session.add(pet)
+            db.session.commit()
+
+            # ------------------------------------------
+            # Create First Weight Record
+            # ------------------------------------------
+
+            create_initial_weight_record(pet)
+
             db.session.commit()
 
         except Exception:
@@ -383,12 +460,28 @@ def edit_pet(pet_id):
                 parsed_birth_date = date.fromisoformat(birth_date)
 
                 if parsed_birth_date > date.today():
-                    flash("Birth date cannot be in the future.", "danger")
-                    return redirect(url_for("edit_pet", pet_id=pet.id))
+                    flash(
+                        "Birth date cannot be in the future.",
+                        "danger",
+                    )
+                    return redirect(
+                        url_for(
+                            "edit_pet",
+                            pet_id=pet.id,
+                        )
+                    )
 
             except ValueError:
-                flash("Invalid birth date.", "danger")
-                return redirect(url_for("edit_pet", pet_id=pet.id))
+                flash(
+                    "Invalid birth date.",
+                    "danger",
+                )
+                return redirect(
+                    url_for(
+                        "edit_pet",
+                        pet_id=pet.id,
+                    )
+                )
 
         parsed_weight = None
 
@@ -398,12 +491,28 @@ def edit_pet(pet_id):
                 parsed_weight = float(weight)
 
                 if parsed_weight <= 0:
-                    flash("Weight must be greater than zero.", "danger")
-                    return redirect(url_for("edit_pet", pet_id=pet.id))
+                    flash(
+                        "Weight must be greater than zero.",
+                        "danger",
+                    )
+                    return redirect(
+                        url_for(
+                            "edit_pet",
+                            pet_id=pet.id,
+                        )
+                    )
 
             except ValueError:
-                flash("Invalid weight.", "danger")
-                return redirect(url_for("edit_pet", pet_id=pet.id))
+                flash(
+                    "Invalid weight.",
+                    "danger",
+                )
+                return redirect(
+                    url_for(
+                        "edit_pet",
+                        pet_id=pet.id,
+                    )
+                )
 
         # ------------------------------------------
         # Upload New Photo
@@ -415,23 +524,41 @@ def edit_pet(pet_id):
 
             if not allowed_file(photo.filename):
                 flash(
-                    "Only JPG, JPEG, PNG, GIF and WEBP images are allowed.",
+                    ("Only JPG, JPEG, PNG, GIF " "and WEBP images are allowed."),
                     "danger",
                 )
-                return redirect(url_for("edit_pet", pet_id=pet.id))
+
+                return redirect(
+                    url_for(
+                        "edit_pet",
+                        pet_id=pet.id,
+                    )
+                )
 
             new_filename = save_pet_photo(photo)
 
             if new_filename is None:
-                flash("Unable to save uploaded image.", "danger")
-                return redirect(url_for("edit_pet", pet_id=pet.id))
+                flash(
+                    "Unable to save uploaded image.",
+                    "danger",
+                )
+
+                return redirect(
+                    url_for(
+                        "edit_pet",
+                        pet_id=pet.id,
+                    )
+                )
 
             delete_pet_photo(pet.photo)
+
             pet.photo = new_filename
 
         # ------------------------------------------
-        # Update Database
+        # Save Changes
         # ------------------------------------------
+
+        old_weight = pet.weight
 
         pet.name = name
         pet.breed = breed
@@ -441,7 +568,38 @@ def edit_pet(pet_id):
         pet.vaccination_status = vaccination_status
 
         try:
+
             db.session.commit()
+
+            # --------------------------------------
+            # Add New Weight Record
+            # --------------------------------------
+
+            if parsed_weight is not None and old_weight != parsed_weight:
+
+                latest_record = (
+                    WeightRecord.query.filter_by(
+                        pet_id=pet.id,
+                    )
+                    .order_by(
+                        WeightRecord.measurement_date.desc(),
+                        WeightRecord.id.desc(),
+                    )
+                    .first()
+                )
+
+                if latest_record is None or latest_record.weight != parsed_weight:
+
+                    db.session.add(
+                        WeightRecord(
+                            pet_id=pet.id,
+                            weight=parsed_weight,
+                            measurement_date=date.today(),
+                            notes="Updated from Edit Pet",
+                        )
+                    )
+
+                    db.session.commit()
 
         except Exception:
 
@@ -452,7 +610,12 @@ def edit_pet(pet_id):
                 "danger",
             )
 
-            return redirect(url_for("edit_pet", pet_id=pet.id))
+            return redirect(
+                url_for(
+                    "edit_pet",
+                    pet_id=pet.id,
+                )
+            )
 
         flash(
             "Pet updated successfully!",
@@ -474,58 +637,242 @@ def edit_pet(pet_id):
 
 
 # ==========================================================
-# Delete Pet
+# Weight History
 # ==========================================================
 
 
-@app.route("/delete_pet/<int:pet_id>", methods=["POST"])
+@app.route("/pet/<int:pet_id>/weights")
 @login_required
-def delete_pet(pet_id):
+def weight_history(pet_id):
 
     pet = Pet.query.filter_by(
         id=pet_id,
         user_id=current_user.id,
     ).first_or_404()
 
-    # ------------------------------------------
-    # Delete image from disk
-    # ------------------------------------------
+    weights = (
+        WeightRecord.query.filter_by(
+            pet_id=pet.id,
+        )
+        .order_by(
+            WeightRecord.measurement_date.desc(),
+            WeightRecord.id.desc(),
+        )
+        .all()
+    )
 
-    if pet.photo:
-        delete_pet_photo(pet.photo)
+    return render_template(
+        "weight_history.html",
+        pet=pet,
+        weights=weights,
+    )
 
-    # ------------------------------------------
-    # Delete database record
-    # ------------------------------------------
+
+# ==========================================================
+# Add Weight
+# ==========================================================
+
+
+@app.route(
+    "/pet/<int:pet_id>/weight/add",
+    methods=["GET", "POST"],
+)
+@login_required
+def add_weight(pet_id):
+
+    pet = Pet.query.filter_by(
+        id=pet_id,
+        user_id=current_user.id,
+    ).first_or_404()
+
+    form = WeightRecordForm()
+
+    if form.validate_on_submit():
+
+        record = WeightRecord(
+            pet_id=pet.id,
+            weight=form.weight.data,
+            measurement_date=form.measurement_date.data,
+            notes=form.notes.data,
+        )
+
+        try:
+
+            db.session.add(record)
+
+            # Keep current weight updated
+            pet.weight = form.weight.data
+
+            db.session.commit()
+
+            flash(
+                "Weight record added successfully.",
+                "success",
+            )
+
+            return redirect(
+                url_for(
+                    "pet_profile",
+                    pet_id=pet.id,
+                )
+            )
+
+        except Exception:
+
+            db.session.rollback()
+
+            flash(
+                "Unable to save weight record.",
+                "danger",
+            )
+
+    return render_template(
+        "add_weight.html",
+        pet=pet,
+        form=form,
+    )
+
+
+# ==========================================================
+# Edit Weight
+# ==========================================================
+
+
+@app.route(
+    "/weight/<int:weight_id>/edit",
+    methods=["GET", "POST"],
+)
+@login_required
+def edit_weight(weight_id):
+
+    record = (
+        WeightRecord.query.join(Pet)
+        .filter(
+            WeightRecord.id == weight_id,
+            Pet.user_id == current_user.id,
+        )
+        .first_or_404()
+    )
+
+    form = WeightRecordForm(obj=record)
+
+    if form.validate_on_submit():
+
+        record.weight = form.weight.data
+        record.measurement_date = form.measurement_date.data
+        record.notes = form.notes.data
+
+        try:
+
+            db.session.commit()
+
+            latest = (
+                WeightRecord.query.filter_by(
+                    pet_id=record.pet_id,
+                )
+                .order_by(
+                    WeightRecord.measurement_date.desc(),
+                    WeightRecord.id.desc(),
+                )
+                .first()
+            )
+
+            if latest:
+                latest.pet.weight = latest.weight
+                db.session.commit()
+
+            flash(
+                "Weight record updated.",
+                "success",
+            )
+
+            return redirect(
+                url_for(
+                    "weight_history",
+                    pet_id=record.pet_id,
+                )
+            )
+
+        except Exception:
+
+            db.session.rollback()
+
+            flash(
+                "Unable to update weight.",
+                "danger",
+            )
+
+    return render_template(
+        "edit_weight.html",
+        form=form,
+        pet=record.pet,
+        record=record,
+    )
+
+
+# ==========================================================
+# Delete Weight
+# ==========================================================
+
+
+@app.route(
+    "/weight/<int:weight_id>/delete",
+    methods=["POST"],
+)
+@login_required
+def delete_weight(weight_id):
+
+    record = (
+        WeightRecord.query.join(Pet)
+        .filter(
+            WeightRecord.id == weight_id,
+            Pet.user_id == current_user.id,
+        )
+        .first_or_404()
+    )
+
+    pet = record.pet
 
     try:
-        db.session.delete(pet)
+
+        db.session.delete(record)
         db.session.commit()
+
+        latest = (
+            WeightRecord.query.filter_by(
+                pet_id=pet.id,
+            )
+            .order_by(
+                WeightRecord.measurement_date.desc(),
+                WeightRecord.id.desc(),
+            )
+            .first()
+        )
+
+        if latest:
+            pet.weight = latest.weight
+        else:
+            pet.weight = None
+
+        db.session.commit()
+
+        flash(
+            "Weight record deleted.",
+            "success",
+        )
 
     except Exception:
 
         db.session.rollback()
 
         flash(
-            "Unable to delete pet.",
+            "Unable to delete weight record.",
             "danger",
         )
 
-        return redirect(
-            url_for(
-                "pet_profile",
-                pet_id=pet.id,
-            )
+    return redirect(
+        url_for(
+            "weight_history",
+            pet_id=pet.id,
         )
-
-    flash(
-        "Pet deleted successfully!",
-        "success",
     )
-
-    return redirect(url_for("home"))
-
-
-# ==========================================================
-# END OF FILE
-# ==========================================================

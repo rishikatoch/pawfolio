@@ -4,6 +4,8 @@ from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import (
     BooleanField,
     DateField,
+    FloatField,
+    IntegerField,
     PasswordField,
     SelectField,
     StringField,
@@ -17,6 +19,7 @@ from wtforms.validators import (
     Email,
     EqualTo,
     Length,
+    NumberRange,
     Optional,
 )
 
@@ -143,8 +146,6 @@ class ResetPasswordForm(FlaskForm):
 # Notification Settings
 # ==================================================
 
-from wtforms import IntegerField
-
 
 class NotificationSettingsForm(FlaskForm):
 
@@ -212,17 +213,23 @@ class MedicationForm(FlaskForm):
             ("Monthly", "Monthly"),
             ("As Needed", "As Needed"),
         ],
-        validators=[DataRequired()],
+        validators=[
+            DataRequired(),
+        ],
     )
 
     start_date = DateField(
         "Start Date",
-        validators=[DataRequired()],
+        validators=[
+            DataRequired(),
+        ],
     )
 
     end_date = DateField(
         "End Date",
-        validators=[Optional()],
+        validators=[
+            Optional(),
+        ],
     )
 
     prescribed_by = StringField(
@@ -243,15 +250,55 @@ class MedicationForm(FlaskForm):
 
     instructions = TextAreaField(
         "Instructions",
-        validators=[Optional()],
+        validators=[
+            Optional(),
+        ],
     )
 
     notes = TextAreaField(
         "Notes",
-        validators=[Optional()],
+        validators=[
+            Optional(),
+        ],
     )
 
     submit = SubmitField("Save Medication")
+
+
+# ==================================================
+# Weight Tracking
+# ==================================================
+
+
+class WeightRecordForm(FlaskForm):
+
+    weight = FloatField(
+        "Weight (kg)",
+        validators=[
+            DataRequired(),
+            NumberRange(
+                min=0.1,
+                max=200,
+            ),
+        ],
+    )
+
+    measurement_date = DateField(
+        "Measurement Date",
+        validators=[
+            DataRequired(),
+        ],
+    )
+
+    notes = TextAreaField(
+        "Notes",
+        validators=[
+            Optional(),
+            Length(max=1000),
+        ],
+    )
+
+    submit = SubmitField("Save Weight Record")
 
 
 # ==================================================
