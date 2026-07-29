@@ -1,0 +1,127 @@
+/* ==========================================================
+   MEDICATION TRACKER
+========================================================== */
+
+.medication-header .card {
+    border-radius: 24px;
+}
+
+.medication-header h1 {
+    font-weight: 700;
+}
+
+.medication-header .lead {
+    max-width: 700px;
+}
+
+/* ==========================================================
+   STAT CARDS
+========================================================== */
+
+.medication-stat-card {
+    border-radius: 20px;
+    transition: all .25s ease;
+}
+
+.medication-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+}
+
+/* ==========================================================
+   MEDICATION CARD
+========================================================== */
+
+.medication-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.medication-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .10);
+}
+
+.medication-card h4 {
+    font-weight: 700;
+}
+
+.medication-card .badge {
+    font-size: .8rem;
+    padding: .45rem .8rem;
+    border-radius: 999px;
+}
+
+.medication-card table th {
+    color: var(--bs-secondary-color);
+    font-weight: 600;
+}
+
+.medication-card table td {
+    font-weight: 500;
+}
+
+.medication-card .alert {
+    border-radius: 14px;
+}
+
+.medication-card .card.bg-light {
+    border-radius: 14px;
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.medication-card .btn {
+    border-radius: 12px;
+}
+
+.medication-card .btn-primary {
+    font-weight: 600;
+}
+
+.medication-card .btn-outline-danger {
+    font-weight: 600;
+}
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.display-1 {
+    font-size: 5rem;
+}
+
+.card .display-1 {
+    line-height: 1;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .medication-header h1 {
+        font-size: 2rem;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .medication-header .card-body {
+        padding: 2rem;
+    }
+
+    .medication-card .btn {
+        width: 100%;
+    }
+
+    .medication-card .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+}

@@ -1,0 +1,188 @@
+/* ==========================================================
+   DOCUMENT LIBRARY
+========================================================== */
+
+.document-header .card,
+.document-header {
+    border-radius: 24px;
+}
+
+.document-header h1 {
+    font-weight: 700;
+}
+
+.document-header .lead {
+    max-width: 720px;
+}
+
+/* ==========================================================
+   STAT CARDS
+========================================================== */
+
+.document-stat-card {
+    border-radius: 20px;
+    transition: all .25s ease;
+}
+
+.document-stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
+}
+
+/* ==========================================================
+   DOCUMENT CARD
+========================================================== */
+
+.document-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.document-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .10);
+}
+
+.document-card h5 {
+    font-weight: 700;
+}
+
+.document-card table th {
+    color: var(--bs-secondary-color);
+    font-weight: 600;
+    width: 35%;
+}
+
+.document-card table td {
+    font-weight: 500;
+}
+
+.document-card .badge {
+    border-radius: 999px;
+    padding: .45rem .8rem;
+    font-size: .8rem;
+}
+
+.document-card .alert {
+    border-radius: 14px;
+}
+
+.document-card .btn {
+    border-radius: 12px;
+}
+
+/* ==========================================================
+   DOCUMENT ICON
+========================================================== */
+
+.document-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    flex-shrink: 0;
+}
+
+/* ==========================================================
+   UPLOAD PAGE
+========================================================== */
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: .8rem;
+}
+
+.form-text {
+    margin-top: .5rem;
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.btn-lg {
+    border-radius: 14px;
+}
+
+.btn-primary {
+    font-weight: 600;
+}
+
+.btn-outline-secondary {
+    font-weight: 600;
+}
+
+.btn-outline-danger {
+    font-weight: 600;
+}
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.display-1 {
+    font-size: 5rem;
+    line-height: 1;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .document-header h1 {
+        font-size: 2rem;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .document-header .card-body {
+        padding: 2rem;
+    }
+
+    .document-card .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .document-card .btn {
+        width: 100%;
+    }
+
+    .document-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+    .document-card table th,
+    .document-card table td {
+        display: block;
+        width: 100%;
+    }
+
+    .document-card table tr {
+        display: block;
+        margin-bottom: .75rem;
+    }
+
+}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ pet.name }} • Medication Tracker
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/medications.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-xl py-4">
+
+    {% include "medications/components/header.html" %}
+
+    {% include "medications/components/stats.html" %}
+
+    {% if medications %}
+
+        {% include "medications/components/grid.html" %}
+
+    {% else %}
+
+        {% include "medications/components/empty.html" %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+<!-- ==========================================================
+                    EMPTY STATE
+========================================================== -->
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body py-5">
+
+        <div class="text-center">
+
+            <div class="display-1 mb-4">
+
+                📂
+
+            </div>
+
+            <h2 class="fw-bold mb-3">
+
+                No Documents Yet
+
+            </h2>
+
+            <p class="text-muted mx-auto mb-4" style="max-width: 650px;">
+
+                Keep your pet's important records organized by uploading
+                prescriptions, vaccination certificates, lab reports,
+                invoices, X-rays, photos, and other documents. Everything
+                will be available whenever you need it.
+
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+                <a href="{{ url_for('add_document', pet_id=pet.id) }}" class="btn btn-primary btn-lg">
+
+                    <i class="bi bi-upload me-2"></i>
+
+                    Upload First Document
+
+                </a>
+
+                <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary btn-lg">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back to Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

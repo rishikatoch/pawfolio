@@ -249,6 +249,119 @@ class Pet(db.Model):
         cascade="all, delete-orphan",
         order_by="desc(VetVisit.visit_date)",
     )
+    medications = db.relationship(
+        "Medication",
+        backref="pet",
+        lazy=True,
+        cascade="all, delete-orphan",
+        order_by="desc(Medication.start_date)",
+    )
+
+    documents = db.relationship(
+        "Document",
+        backref="pet",
+        lazy=True,
+        cascade="all, delete-orphan",
+        order_by="desc(Document.uploaded_at)",
+    )
+
+    # ==================================================
+
+
+# Document
+# ==================================================
+
+
+class Document(db.Model):
+    __tablename__ = "document"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+        index=True,
+    )
+
+    title = db.Column(
+        db.String(150),
+        nullable=False,
+    )
+
+    document_type = db.Column(
+        db.String(50),
+        nullable=False,
+    )
+
+    filename = db.Column(
+        db.String(255),
+        nullable=False,
+    )
+
+    original_filename = db.Column(
+        db.String(255),
+        nullable=False,
+    )
+
+    file_size = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    uploaded_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    @property
+    def file_size_display(self):
+
+        size = self.file_size
+
+        for unit in ["B", "KB", "MB", "GB"]:
+
+            if size < 1024:
+
+                return f"{size:.1f} {unit}"
+
+            size /= 1024
+
+        return f"{size:.1f} TB"
+
+    @property
+    def extension(self):
+
+        return self.original_filename.rsplit(".", 1)[-1].lower()
+
+    @property
+    def is_image(self):
+
+        return self.extension in [
+            "jpg",
+            "jpeg",
+            "png",
+            "gif",
+            "webp",
+        ]
+
+    @property
+    def is_pdf(self):
+
+        return self.extension == "pdf"
+
+    def __repr__(self):
+
+        return f"<Document " f"id={self.id} " f"title='{self.title}'>"
 
     # ==========================================
     # Age Helpers
@@ -699,6 +812,100 @@ class VetVisit(db.Model):
     def __repr__(self):
 
         return f"<VetVisit " f"id={self.id} " f"pet_id={self.pet_id}>"
+
+
+# ==================================================
+# Medication
+# ==================================================
+
+
+class Medication(db.Model):
+    __tablename__ = "medication"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    pet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pet.id"),
+        nullable=False,
+        index=True,
+    )
+
+    medicine_name = db.Column(
+        db.String(150),
+        nullable=False,
+    )
+
+    dosage = db.Column(
+        db.String(100),
+        nullable=True,
+    )
+
+    frequency = db.Column(
+        db.String(100),
+        nullable=False,
+    )
+
+    start_date = db.Column(
+        db.Date,
+        nullable=False,
+    )
+
+    end_date = db.Column(
+        db.Date,
+        nullable=True,
+    )
+
+    prescribed_by = db.Column(
+        db.String(150),
+        nullable=True,
+    )
+
+    reason = db.Column(
+        db.String(255),
+        nullable=True,
+    )
+
+    instructions = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+        nullable=False,
+    )
+
+    @property
+    def is_active(self):
+        if self.end_date is None:
+            return True
+        return self.end_date >= date.today()
+
+    @property
+    def duration_days(self):
+        if self.end_date is None:
+            return None
+        return (self.end_date - self.start_date).days + 1
+
+    def __repr__(self):
+        return f"<Medication " f"id={self.id} " f"medicine='{self.medicine_name}'>"
 
     # ==================================================
 

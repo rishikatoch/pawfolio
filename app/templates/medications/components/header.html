@@ -1,0 +1,69 @@
+<!-- ==========================================================
+                    MEDICATION HEADER
+========================================================== -->
+
+<div class="medication-header mb-5">
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4 p-lg-5">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-8">
+
+                    <span class="dashboard-badge">
+
+                        <i class="bi bi-capsule-pill me-2"></i>
+
+                        Medication Tracker
+
+                    </span>
+
+                    <h1 class="display-5 fw-bold mt-3 mb-2">
+
+                        {{ pet.name }}'s Medications
+
+                    </h1>
+
+                    <p class="lead text-muted mb-0">
+
+                        Keep all prescriptions, dosage schedules,
+                        treatment plans and medication history
+                        organized in one place.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="d-flex flex-column flex-sm-row flex-lg-column gap-3">
+
+                        <a href="{{ url_for('add_medication', pet_id=pet.id) }}" class="btn btn-primary btn-lg">
+
+                            <i class="bi bi-plus-circle me-2"></i>
+
+                            Add Medication
+
+                        </a>
+
+                        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary">
+
+                            <i class="bi bi-arrow-left me-2"></i>
+
+                            Back to Profile
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

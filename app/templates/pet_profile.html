@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+{{ pet.name }} • Pawfolio
+{% endblock %}
+
 {% block content %}
 
 {% include "components/pet_hero.html" %}
@@ -11,6 +15,8 @@
 {% include "components/vaccination_timeline.html" %}
 
 {% include "components/deworming_timeline.html" %}
+
+{% include "components/medication_summary.html" %}
 
 {% include "components/pet_actions.html" %}
 

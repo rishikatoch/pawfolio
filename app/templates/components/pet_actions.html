@@ -41,14 +41,15 @@
 
             </div>
 
-
             <!-- ==========================================
                  PRIMARY ACTIONS
             =========================================== -->
 
             <div class="row g-4">
 
-                <div class="col-xl-4 col-md-6">
+                <!-- Add Vaccination -->
+
+                <div class="col-xl-3 col-lg-6">
 
                     <a href="{{ url_for('add_vaccination', pet_id=pet.id) }}" class="action-button success">
 
@@ -78,7 +79,9 @@
 
                 </div>
 
-                <div class="col-xl-4 col-md-6">
+                <!-- Add Deworming -->
+
+                <div class="col-xl-3 col-lg-6">
 
                     <a href="{{ url_for('add_deworming', pet_id=pet.id) }}" class="action-button info">
 
@@ -108,7 +111,41 @@
 
                 </div>
 
-                <div class="col-xl-4 col-md-12">
+                <!-- Add Medication -->
+
+                <div class="col-xl-3 col-lg-6">
+
+                    <a href="{{ url_for('add_medication', pet_id=pet.id) }}" class="action-button primary">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-capsule-pill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+
+                                Add Medication
+
+                            </h5>
+
+                            <p>
+
+                                Record medicines and treatment plans.
+
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <!-- Edit Profile -->
+
+                <div class="col-xl-3 col-lg-6">
 
                     <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="action-button warning">
 
@@ -140,6 +177,43 @@
 
             </div>
 
+            <!-- ==========================================
+                 SECONDARY ACTIONS
+            =========================================== -->
+
+            <div class="row g-4 mt-2">
+
+                <div class="col-xl-6 col-lg-6">
+
+                    <a href="{{ url_for('medication_list', pet_id=pet.id) }}" class="action-button secondary">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-journal-medical"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+
+                                Medication History
+
+                            </h5>
+
+                            <p>
+
+                                View all medications and treatment records.
+
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
 
             <!-- ==========================================
                  DANGER ZONE

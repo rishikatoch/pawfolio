@@ -1,0 +1,60 @@
+<!-- ==========================================================
+                    DOCUMENT HEADER
+========================================================== -->
+
+<div class="card border-0 shadow-sm mb-4 document-header">
+
+    <div class="card-body p-4 p-lg-5">
+
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4">
+
+            <div>
+
+                <span class="badge bg-primary-subtle text-primary mb-3">
+
+                    Document Library
+
+                </span>
+
+                <h1 class="display-6 fw-bold mb-2">
+
+                    {{ pet.name }}'s Documents
+
+                </h1>
+
+                <p class="lead text-muted mb-0">
+
+                    Store prescriptions, vaccination certificates,
+                    laboratory reports, invoices, medical records,
+                    pet photographs and other important documents
+                    in one secure place.
+
+                </p>
+
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a href="{{ url_for('add_document', pet_id=pet.id) }}" class="btn btn-primary btn-lg">
+
+                    <i class="bi bi-upload me-2"></i>
+
+                    Upload Document
+
+                </a>
+
+                <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary btn-lg">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back to Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

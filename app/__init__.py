@@ -197,3 +197,4 @@ from app.routes import settings  # noqa: E402,F401
 from app.routes import vaccinations  # noqa: E402,F401
 from app.routes import vet_visit  # noqa: E402,F401
 from app.routes import timeline  # noqa: E402,F401
+from app.routes import medication  # noqa: E402,F401

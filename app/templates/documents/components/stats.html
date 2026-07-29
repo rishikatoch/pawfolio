@@ -1,0 +1,157 @@
+<!-- ==========================================================
+                    DOCUMENT STATS
+========================================================== -->
+
+{% set total_size = namespace(bytes=0) %}
+
+{% for document in documents %}
+{% set total_size.bytes = total_size.bytes + document.file_size %}
+{% endfor %}
+
+<div class="row g-4 mb-4">
+
+    <!-- Total Documents -->
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100 document-stat-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted text-uppercase">
+
+                            Total Documents
+
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+
+                            {{ documents|length }}
+
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-folder2-open fs-1 text-primary"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PDFs -->
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100 document-stat-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted text-uppercase">
+
+                            PDF Files
+
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+
+                            {{ documents|selectattr("is_pdf")|list|length }}
+
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-file-earmark-pdf fs-1 text-danger"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Images -->
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100 document-stat-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted text-uppercase">
+
+                            Images
+
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+
+                            {{ documents|selectattr("is_image")|list|length }}
+
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-image fs-1 text-success"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Storage Used -->
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100 document-stat-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted text-uppercase">
+
+                            Storage Used
+
+                        </small>
+
+                        <h5 class="fw-bold mb-0">
+
+                            {{ "%.2f"|format(total_size.bytes / 1024 / 1024) }} MB
+
+                        </h5>
+
+                    </div>
+
+                    <i class="bi bi-hdd fs-1 text-warning"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

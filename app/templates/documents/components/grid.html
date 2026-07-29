@@ -1,0 +1,17 @@
+<!-- ==========================================================
+                    DOCUMENT GRID
+========================================================== -->
+
+<div class="row g-4">
+
+    {% for document in documents %}
+
+    <div class="col-md-6 col-xl-4">
+
+        {% include "documents/components/card.html" %}
+
+    </div>
+
+    {% endfor %}
+
+</div>

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ pet.name }} • Documents
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/documents.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-xl py-4">
+
+    {% include "documents/components/header.html" %}
+
+    {% include "documents/components/stats.html" %}
+
+    {% if documents %}
+
+    {% include "documents/components/grid.html" %}
+
+    {% else %}
+
+    {% include "documents/components/empty.html" %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
