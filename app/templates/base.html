@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#ff914d">
+    <meta name="theme-color" content="#0F0B1A">
 
     <title>
 
@@ -35,7 +35,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- ==================================================
@@ -53,10 +53,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mascots.css') }}">
 
     <!-- ==================================================
                         COMPONENTS
@@ -77,6 +73,8 @@
 
     {% block extra_css %}
     {% endblock %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-ui.css') }}">
 
 </head>
 
@@ -279,13 +277,41 @@
 
     </nav>
 
+    {% if current_user.is_authenticated %}
+
+    <aside class="pf-sidebar" aria-label="Primary navigation">
+        <a href="{{ url_for('home') }}" class="pf-sidebar-brand" aria-label="Pawfolio dashboard">
+            <span class="pf-sidebar-mark"><i class="bi bi-paw-fill"></i></span>
+            <span>Pawfolio</span>
+        </a>
+
+        <nav class="pf-sidebar-nav">
+            <a href="{{ url_for('home') }}" class="pf-sidebar-link {% if request.endpoint == 'home' %}is-active{% endif %}">
+                <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('reminders') }}" class="pf-sidebar-link {% if request.endpoint == 'reminders' %}is-active{% endif %}">
+                <i class="bi bi-bell"></i><span>Reminders</span>
+                {% if due_reminder_count > 0 %}<span class="pf-nav-count">{{ due_reminder_count }}</span>{% endif %}
+            </a>
+            <a href="{{ url_for('settings') }}" class="pf-sidebar-link {% if request.endpoint == 'settings' %}is-active{% endif %}">
+                <i class="bi bi-gear"></i><span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="pf-sidebar-footer">
+            <span class="pf-sidebar-caption">PET HEALTH, SIMPLIFIED</span>
+        </div>
+    </aside>
+
+    {% endif %}
+
     {% endif %}
 
     <!-- ==================================================
                         MAIN CONTENT
     =================================================== -->
 
-    <main class="pf-main">
+    <main class="pf-main {% if self.show_layout()|trim != 'false' and current_user.is_authenticated %}pf-main-authenticated{% endif %}">
         <!-- ======================================
                 FLASH MESSAGES
         ======================================= -->
@@ -294,7 +320,7 @@
 
         {% if messages %}
 
-        <div class="container-xl mt-4">
+        <div class="container-xl pf-flashes">
 
             {% for category, message in messages %}
 
@@ -327,56 +353,6 @@
     <!-- ==================================================
                         FOOTER
     =================================================== -->
-
-    {% if self.show_layout()|trim != "false" %}
-
-    <footer class="footer">
-
-        <div class="container-xl">
-
-            <div class="text-center">
-
-                <div class="footer-logo">
-
-                    <span class="pf-heart">
-
-                        <i class="bi bi-heart-fill"></i>
-
-                    </span>
-
-                    <span class="pf-paw">
-
-                        <i class="bi bi-paw-fill"></i>
-
-                    </span>
-
-                </div>
-
-                <h4>
-
-                    Pawfolio
-
-                </h4>
-
-                <p>
-
-                    Your Pet's Digital Companion
-
-                </p>
-
-                <div class="footer-love">
-
-                    ❤️ Made with Love for Pet Parents
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </footer>
-
-    {% endif %}
 
     <!-- ==================================================
                         JAVASCRIPT
