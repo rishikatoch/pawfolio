@@ -1,607 +1,177 @@
 {% extends "base.html" %}
 
 {% block title %}
-Dashboard | Pawfolio
+Your Pet Dashboard | Pawfolio
 {% endblock %}
 
 {% block content %}
-
-<div class="container">
-
-    <!-- ======================================
-                GREETING
-    ======================================= -->
-
-    <section class="dashboard-hero">
-
-        <div class="hero-content">
-
-            <div>
-
-                <span class="hero-badge">
-
-                    🐾 Pet Dashboard
-
-                </span>
-
-                <h1 class="hero-title">
-
-                    Good
-                    {% if now.hour < 12 %} Morning {% elif now.hour < 17 %} Afternoon {% else %} Evening {% endif %}, {{
-                        current_user.username }} 👋 </h1>
-
-                        <p class="hero-subtitle">
-
-                            Welcome back. Here's what's happening with your pets today.
-
-                        </p>
-
-            </div>
-
-            <a href="{{ url_for('add_pet') }}" class="btn btn-primary hero-add-btn">
-
-                <i class="bi bi-plus-lg"></i>
-
-                Add Pet
-
-            </a>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-                STATS
-    ======================================= -->
-
-    <section class="dashboard-stats">
-
-        <div class="row g-4">
-
-            <div class="col-lg-4">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon bg-primary">
-
-                        <i class="bi bi-heart-fill"></i>
-
-                    </div>
-
-                    <div>
-
-                        <div class="stat-value">
-
-                            {{ pets|length }}
-
-                        </div>
-
-                        <div class="stat-label">
-
-                            Total Pets
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon bg-success">
-
-                        <i class="bi bi-shield-check"></i>
-
-                    </div>
-
-                    <div>
-
-                        <div class="stat-value">
-
-                            --
-
-                        </div>
-
-                        <div class="stat-label">
-
-                            Vaccinated
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon bg-warning">
-
-                        <i class="bi bi-bell-fill"></i>
-
-                    </div>
-
-                    <div>
-
-                        <div class="stat-value">
-
-                            --
-
-                        </div>
-
-                        <div class="stat-label">
-
-                            Upcoming Reminders
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-                MY PETS
-    ======================================= -->
-
-    <section class="pets-section">
-
-        <div class="section-header">
-
-            <h2>
-
-                My Pets
-
-            </h2>
-
-            <span>
-
-                {{ pets|length }} Registered
-
-            </span>
-
-        </div>
-
-        <div class="row g-4">
+<div class="container dashboard-page">
+    <section class="pet-welcome" aria-labelledby="dashboard-title">
+        <div class="pet-welcome-copy">
+            <span class="pet-welcome-eyebrow"><i class="bi bi-heart-fill"></i> Your furry family</span>
+            <h1 id="dashboard-title">
+                Good {% if now.hour < 12 %}morning{% elif now.hour < 17 %}afternoon{% else %}evening{% endif %},
+                {{ current_user.username }}.
+            </h1>
             {% if pets %}
-
-            {% for pet in pets %}
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="pet-card">
-
-                    <div class="pet-card-header">
-
-                        <div class="pet-avatar">
-
-                            {% if pet.photo %}
-
-                            <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}">
-
-                            {% else %}
-
-                            <i class="bi bi-paw-fill"></i>
-
-                            {% endif %}
-
-                        </div>
-
-                        <div class="pet-status">
-
-                            <span class="status-dot"></span>
-
-                            Healthy
-
-                        </div>
-
-                    </div>
-
-                    <div class="pet-card-body">
-
-                        <h3>
-
-                            {{ pet.name }}
-
-                        </h3>
-
-                        <p>
-
-                            {{ pet.breed }}
-
-                        </p>
-
-                        <div class="pet-info">
-
-                            <div class="info-item">
-
-                                <span>
-
-                                    Gender
-
-                                </span>
-
-                                <strong>
-
-                                    {{ pet.gender }}
-
-                                </strong>
-
-                            </div>
-
-                            <div class="info-item">
-
-                                <span>
-
-                                    Weight
-
-                                </span>
-
-                                <strong>
-
-                                    {% if pet.latest_weight %}
-                                    {{ pet.latest_weight }} kg
-                                    {% else %}
-                                    —
-                                    {% endif %}
-
-                                </strong>
-
-                            </div>
-
-                            <div class="info-item">
-
-                                <span>
-
-                                    Age
-
-                                </span>
-
-                                <strong>
-
-                                    {{ pet.age }}
-
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="pet-card-footer">
-
-                        <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-primary w-100">
-
-                            View Profile
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {% endfor %}
-
+            <p>Everything your family needs to care for {{ pets|length }} beloved pet{% if pets|length != 1 %}s{% endif %}, in one calm place.</p>
             {% else %}
+            <p>Give your pet a home for every important health moment.</p>
+            {% endif %}
+            <div class="pet-welcome-actions">
+                <a href="{{ url_for('add_pet') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add a pet</a>
+                {% if pets %}<a href="{{ url_for('reminders') }}" class="btn btn-outline-primary"><i class="bi bi-bell"></i> View reminders</a>{% endif %}
+            </div>
+        </div>
 
-            <div class="col-12">
+        {% if pets %}
+        <a class="pet-welcome-feature" href="{{ url_for('pet_profile', pet_id=pets[0].id) }}" aria-label="Open {{ pets[0].name }}'s profile">
+            <div class="pet-welcome-feature-copy">
+                <span>Featured family member</span>
+                <strong>{{ pets[0].name }}</strong>
+                <small>{{ pets[0].breed or "A very good pet" }}</small>
+            </div>
+            <div class="pet-welcome-photo">
+                {% if pets[0].photo %}
+                <img src="{{ url_for('static', filename='uploads/pets/' ~ pets[0].photo) }}" alt="{{ pets[0].name }}">
+                {% else %}
+                <i class="bi bi-paw-fill" aria-hidden="true"></i>
+                {% endif %}
+            </div>
+        </a>
+        {% else %}
+        <div class="pet-welcome-feature pet-welcome-empty" aria-hidden="true"><i class="bi bi-paw-fill"></i></div>
+        {% endif %}
+    </section>
 
-                <div class="empty-state">
+    <section class="dashboard-status-grid" aria-label="Care overview">
+        <a href="#family" class="status-card status-card-mint">
+            <span class="status-card-icon"><i class="bi bi-heart"></i></span>
+            <span><strong>{{ total_pets }}</strong><small>Pet{% if total_pets != 1 %}s{% endif %} in your family</small></span>
+        </a>
+        <a href="{{ url_for('reminders') }}" class="status-card {% if overdue_count %}status-card-amber{% else %}status-card-mint{% endif %}">
+            <span class="status-card-icon"><i class="bi bi-bell"></i></span>
+            <span><strong>{{ overdue_count }}</strong><small>Overdue care item{% if overdue_count != 1 %}s{% endif %}</small></span>
+        </a>
+        <a href="{{ url_for('reminders') }}" class="status-card status-card-purple">
+            <span class="status-card-icon"><i class="bi bi-calendar2-check"></i></span>
+            <span><strong>{{ due_soon }}</strong><small>Due in the next week</small></span>
+        </a>
+        <div class="status-card status-card-sky">
+            <span class="status-card-icon"><i class="bi bi-shield-check"></i></span>
+            <span><strong>{{ total_vaccinations }}</strong><small>Vaccination records</small></span>
+        </div>
+    </section>
 
-                    <div class="empty-icon">
-
-                        <i class="bi bi-heart-pulse-fill"></i>
-
-                    </div>
-
-                    <h2>
-
-                        No Pets Added Yet
-
-                    </h2>
-
-                    <p>
-
-                        Add your first pet to begin tracking vaccinations,
-                        deworming, reminders and health records.
-
-                    </p>
-
-                    <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-lg">
-
-                        <i class="bi bi-plus-lg"></i>
-
-                        Add First Pet
-
-                    </a>
-
+    <div class="dashboard-content-grid">
+        <section class="dashboard-section dashboard-family" id="family" aria-labelledby="family-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <span class="section-kicker">YOUR FAMILY</span>
+                    <h2 id="family-title">The ones you care for</h2>
                 </div>
-
+                <a href="{{ url_for('add_pet') }}" class="section-link"><i class="bi bi-plus-lg"></i> Add pet</a>
             </div>
 
+            {% if pets %}
+            <div class="family-card-grid">
+                {% for pet in pets %}
+                <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="family-card">
+                    <div class="family-card-photo">
+                        {% if pet.photo %}
+                        <img src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}" alt="{{ pet.name }}">
+                        {% else %}
+                        <i class="bi bi-paw-fill" aria-hidden="true"></i>
+                        {% endif %}
+                    </div>
+                    <div class="family-card-copy">
+                        <h3>{{ pet.name }}</h3>
+                        <p>{{ pet.breed or "Beloved family member" }}</p>
+                        <span>{{ pet.age_display }}{% if pet.latest_weight %} · {{ pet.latest_weight }} kg{% endif %}</span>
+                    </div>
+                    <i class="bi bi-arrow-up-right family-card-arrow" aria-hidden="true"></i>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="delightful-empty-state">
+                <span class="delightful-empty-icon"><i class="bi bi-heart-pulse"></i></span>
+                <div>
+                    <h3>Every great pet story starts here.</h3>
+                    <p>Add your first companion and keep their important care moments close.</p>
+                </div>
+                <a href="{{ url_for('add_pet') }}" class="btn btn-primary">Welcome your pet</a>
+            </div>
+            {% endif %}
+        </section>
+
+        <aside class="dashboard-section dashboard-today" aria-labelledby="today-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <span class="section-kicker">TODAY'S CARE</span>
+                    <h2 id="today-title">A gentle heads-up</h2>
+                </div>
+                <a href="{{ url_for('reminders') }}" class="section-link">All reminders</a>
+            </div>
+            {% if overdue_reminders %}
+            <div class="care-callout care-callout-overdue">
+                <i class="bi bi-exclamation-circle"></i>
+                <div><strong>{{ overdue_reminders|length }} item{% if overdue_reminders|length != 1 %}s{% endif %} need attention</strong><span>A little care today goes a long way.</span></div>
+            </div>
+            {% elif upcoming_reminders %}
+            <div class="care-callout">
+                <i class="bi bi-calendar-heart"></i>
+                <div><strong>Your next care moment is coming up</strong><span>You're doing a wonderful job staying prepared.</span></div>
+            </div>
+            {% else %}
+            <div class="care-callout care-callout-clear">
+                <i class="bi bi-check2-circle"></i>
+                <div><strong>Nothing needs your attention right now</strong><span>Enjoy the extra time together.</span></div>
+            </div>
             {% endif %}
 
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            HEALTH OVERVIEW
-    ======================================= -->
-
-    <section class="health-overview mt-5">
-
-        <div class="section-header">
-
-            <h2>
-
-                Health Overview
-
-            </h2>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-6">
-
-                <div class="overview-card">
-
-                    <div class="overview-icon">
-
-                        <i class="bi bi-shield-check"></i>
-
-                    </div>
-
-                    <h4>
-
-                        Vaccinations
-
-                    </h4>
-
-                    <p>
-
-                        Manage upcoming vaccinations and booster schedules.
-
-                    </p>
-
-                </div>
-
+            <div class="care-list">
+                {% for reminder in upcoming_reminders[:3] %}
+                <a href="{{ url_for('reminders') }}" class="care-list-item">
+                    <span class="care-list-icon"><i class="bi bi-bell"></i></span>
+                    <span><strong>{{ reminder.title }}</strong><small>{{ reminder.pet_name }} · {{ reminder.type }}</small></span>
+                    <time datetime="{{ reminder.date }}">{{ reminder.date.strftime('%d %b') }}</time>
+                </a>
+                {% else %}
+                <p class="care-list-empty">Your upcoming care moments will appear here.</p>
+                {% endfor %}
             </div>
-
-            <div class="col-lg-6">
-
-                <div class="overview-card">
-
-                    <div class="overview-icon">
-
-                        <i class="bi bi-capsule"></i>
-
-                    </div>
-
-                    <h4>
-
-                        Deworming
-
-                    </h4>
-
-                    <p>
-
-                        Track deworming history and upcoming due dates.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ==========================================
-                UPCOMING REMINDERS
-=========================================== -->
-
-    <div class="row mt-4">
-
-        <div class="col-lg-6">
-
-            <div class="card shadow-sm border-0 h-100">
-
-                <div class="card-header bg-transparent border-0 pt-4">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <h4 class="mb-0">
-
-                            <i class="bi bi-bell-fill text-warning me-2"></i>
-
-                            Upcoming Reminders
-
-                        </h4>
-
-                        <a href="{{ url_for('reminders') }}" class="btn btn-sm btn-outline-primary">
-                            View All
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-
-                    {% if upcoming_reminders %}
-
-                    {% for reminder in upcoming_reminders[:5] %}
-
-                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
-
-                        <div>
-
-                            <strong>
-
-                                {{ reminder.pet }}
-
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                {{ reminder.type }}
-
-                            </small>
-
-                            <br>
-
-                            <small>
-
-                                {{ reminder.title }}
-
-                            </small>
-
-                        </div>
-
-                        <span class="badge bg-primary">
-
-                            {{ reminder.days_left }}
-
-                            day{% if reminder.days_left != 1 %}s{% endif %}
-
-                        </span>
-
-                    </div>
-
-                    {% endfor %}
-
-                    {% else %}
-
-                    <div class="text-center py-5">
-
-                        <i class="bi bi-check-circle-fill text-success display-5"></i>
-
-                        <h5 class="mt-3">
-
-                            No Upcoming Reminders
-
-                        </h5>
-
-                        <p class="text-muted mb-0">
-
-                            Everything is up to date.
-
-                        </p>
-
-                    </div>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-        </div>
-
+        </aside>
     </div>
 
-    <!-- ======================================
-            RECENT ACTIVITY
-    ======================================= -->
-
-    <section class="recent-activity mt-5">
-
-        <div class="section-header">
-
-            <h2>
-
-                Recent Activity
-
-            </h2>
-
-            <a href="#">
-
-                View All
-
-            </a>
-
+    {% if pets %}
+    <section class="dashboard-section quick-actions" aria-labelledby="actions-title">
+        <div class="dashboard-section-heading">
+            <div><span class="section-kicker">QUICK ACTIONS</span><h2 id="actions-title">Keep their care moving</h2></div>
         </div>
-
-        <div class="activity-card">
-
-            {% if pets %}
-
-            {% for pet in pets[:5] %}
-
-            <div class="activity-item">
-
-                <div class="activity-icon">
-
-                    <i class="bi bi-paw-fill"></i>
-
-                </div>
-
-                <div class="activity-content">
-
-                    <h5>
-
-                        {{ pet.name }}
-
-                    </h5>
-
-                    <p>
-
-                        Pet profile is active and being tracked.
-
-                    </p>
-
-                </div>
-
-                <span class="activity-time">
-
-                    Active
-
-                </span>
-
-            </div>
-
-            {% endfor %}
-
-            {% else %}
-
-            <div class="activity-empty">
-
-                <i class="bi bi-clock-history"></i>
-
-                <p>
-
-                    No recent activity available.
-
-                </p>
-
-            </div>
-
-            {% endif %}
-
+        <div class="quick-action-grid">
+            <a href="{{ url_for('add_vaccination', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-vaccine"><i class="bi bi-shield-plus"></i></span><span><strong>Add vaccination</strong><small>Record a dose or booster</small></span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_deworming', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-deworm"><i class="bi bi-capsule"></i></span><span><strong>Add deworming</strong><small>Keep their schedule current</small></span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_medication', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-medication"><i class="bi bi-capsule-pill"></i></span><span><strong>Add medication</strong><small>Track a treatment plan</small></span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_vet_visit', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-vet"><i class="bi bi-calendar-plus"></i></span><span><strong>Add vet visit</strong><small>Save a care appointment</small></span><i class="bi bi-arrow-right"></i></a>
         </div>
-
     </section>
+    {% endif %}
 
+    <section class="dashboard-section activity-section" aria-labelledby="activity-title">
+        <div class="dashboard-section-heading">
+            <div><span class="section-kicker">RECENTLY RECORDED</span><h2 id="activity-title">Little moments of care</h2></div>
+        </div>
+        <div class="activity-feed">
+            {% for activity in recent_activity %}
+            <div class="activity-feed-item">
+                <span class="activity-feed-icon">{{ activity.icon }}</span>
+                <div><strong>{{ activity.message }}</strong><time datetime="{{ activity.date }}">{{ activity.date.strftime('%d %b %Y') }}</time></div>
+            </div>
+            {% else %}
+            <div class="delightful-empty-state delightful-empty-state-compact"><span class="delightful-empty-icon"><i class="bi bi-journal-heart"></i></span><div><h3>The story starts with a first moment.</h3><p>Vaccinations and deworming records will build a caring timeline here.</p></div></div>
+            {% endfor %}
+        </div>
+    </section>
 </div>
-
 {% endblock %}

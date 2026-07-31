@@ -880,4 +880,4 @@ def delete_pet(pet_id):
             "danger",
         )
 
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("home"))

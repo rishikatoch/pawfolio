@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#0F0B1A">
+    <meta name="theme-color" content="#15152D">
 
     <title>
 
@@ -100,6 +100,26 @@
         <div class="container-xl">
 
             <div class="pf-navbar-inner">
+
+                {% if current_user.is_authenticated %}
+                <div class="pf-topbar-context" aria-label="Current section">
+                    <span class="pf-topbar-context-icon">
+                        {% if request.endpoint == 'reminders' %}<i class="bi bi-bell"></i>
+                        {% elif request.endpoint == 'settings' %}<i class="bi bi-gear"></i>
+                        {% elif request.endpoint in ['pet_profile', 'edit_pet'] %}<i class="bi bi-heart"></i>
+                        {% else %}<i class="bi bi-grid-1x2"></i>{% endif %}
+                    </span>
+                    <span>
+                        <small>PAWFOLIO</small>
+                        <strong>
+                            {% if request.endpoint == 'reminders' %}Care reminders
+                            {% elif request.endpoint == 'settings' %}Settings
+                            {% elif request.endpoint in ['pet_profile', 'edit_pet'] %}Pet profile
+                            {% else %}Your pet dashboard{% endif %}
+                        </strong>
+                    </span>
+                </div>
+                {% endif %}
 
                 <!-- =======================================
                             BRAND
