@@ -1,4 +1,5 @@
 from datetime import date, datetime, time
+import calendar
 
 from flask import current_app
 from flask_login import UserMixin
@@ -7,6 +8,8 @@ from werkzeug.security import (
     check_password_hash,
     generate_password_hash,
 )
+
+from sqlalchemy import and_, or_
 
 from app import db
 
@@ -96,6 +99,7 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         if not self.password_hash:
             return False
+
         return check_password_hash(
             self.password_hash,
             password,
@@ -178,11 +182,6 @@ class Pet(db.Model):
         nullable=True,
     )
 
-    weight = db.Column(
-        db.Float,
-        nullable=True,
-    )
-
     vaccination_status = db.Column(
         db.String(200),
         nullable=True,
@@ -247,11 +246,11 @@ class Pet(db.Model):
         backref="pet",
         lazy=True,
         cascade="all, delete-orphan",
-        order_by="desc(WeightRecord.measurement_date)",
+        order_by=("desc(WeightRecord.measurement_date), " "desc(WeightRecord.id)"),
     )
-    # ==========================================
+    # ==================================================
     # Age Helpers
-    # ==========================================
+    # ==================================================
 
     @property
     def age_display(self):
@@ -316,9 +315,9 @@ class Pet(db.Model):
 
         return round(months / 12, 1)
 
-    # ==========================================
+    # ==================================================
     # Life Stage
-    # ==========================================
+    # ==================================================
 
     @property
     def life_stage(self):
@@ -335,9 +334,9 @@ class Pet(db.Model):
 
         return "🐕 Senior"
 
-    # ==========================================
+    # ==================================================
     # Birthday Helpers
-    # ==========================================
+    # ==================================================
 
     @property
     def next_birthday(self):
@@ -346,14 +345,25 @@ class Pet(db.Model):
 
         today = date.today()
 
-        birthday = self.birth_date.replace(
-            year=today.year,
-        )
+        def build_birthday(year):
+            day = min(
+                self.birth_date.day,
+                calendar.monthrange(
+                    year,
+                    self.birth_date.month,
+                )[1],
+            )
+
+            return date(
+                year,
+                self.birth_date.month,
+                day,
+            )
+
+        birthday = build_birthday(today.year)
 
         if birthday < today:
-            birthday = birthday.replace(
-                year=today.year + 1,
-            )
+            birthday = build_birthday(today.year + 1)
 
         return birthday
 
@@ -375,9 +385,9 @@ class Pet(db.Model):
 
         return today.month == self.birth_date.month and today.day == self.birth_date.day
 
-    # ==========================================
+    # ==================================================
     # Weight Helpers
-    # ==========================================
+    # ==================================================
 
     @property
     def latest_weight_record(self):
@@ -390,10 +400,17 @@ class Pet(db.Model):
     def latest_weight(self):
         latest = self.latest_weight_record
 
-        if latest:
-            return latest.weight
+        return latest.weight if latest else None
 
-        return self.weight
+    @property
+    def latest_weight_date(self):
+        latest = self.latest_weight_record
+
+        return latest.measurement_date if latest else None
+
+    @property
+    def total_weight_records(self):
+        return len(self.weight_records)
 
     @property
     def weight_change(self):
@@ -408,21 +425,21 @@ class Pet(db.Model):
     @property
     def highest_weight(self):
         if not self.weight_records:
-            return self.weight
+            return None
 
         return max(record.weight for record in self.weight_records)
 
     @property
     def lowest_weight(self):
         if not self.weight_records:
-            return self.weight
+            return None
 
         return min(record.weight for record in self.weight_records)
 
     @property
     def average_weight(self):
         if not self.weight_records:
-            return self.weight
+            return None
 
         return round(
             sum(record.weight for record in self.weight_records)
@@ -430,9 +447,9 @@ class Pet(db.Model):
             2,
         )
 
-    # ==========================================
+    # ==================================================
     # Dashboard Helpers
-    # ==========================================
+    # ==================================================
 
     @property
     def overdue_vaccinations(self):
@@ -461,6 +478,8 @@ class Pet(db.Model):
 # ==================================================
 # Vaccination
 # ==================================================
+
+
 class Vaccination(db.Model):
     __tablename__ = "vaccination"
 
@@ -621,6 +640,21 @@ class Deworming(db.Model):
     def days_until_due(self):
         return (self.next_due - date.today()).days
 
+    @property
+    def status(self):
+        days = self.days_until_due
+
+        if days < 0:
+            return "Overdue"
+
+        if days == 0:
+            return "Due Today"
+
+        if days <= 30:
+            return "Due Soon"
+
+        return "Up to Date"
+
     def __repr__(self):
         return f"<Deworming " f"id={self.id} " f"medicine='{self.medicine_name}'>"
 
@@ -628,6 +662,8 @@ class Deworming(db.Model):
 # ==================================================
 # Vet Visit
 # ==================================================
+
+
 class VetVisit(db.Model):
     __tablename__ = "vet_visit"
 
@@ -777,9 +813,18 @@ class WeightRecord(db.Model):
         return (
             WeightRecord.query.filter(
                 WeightRecord.pet_id == self.pet_id,
-                WeightRecord.measurement_date < self.measurement_date,
+                or_(
+                    WeightRecord.measurement_date < self.measurement_date,
+                    and_(
+                        WeightRecord.measurement_date == self.measurement_date,
+                        WeightRecord.id < self.id,
+                    ),
+                ),
             )
-            .order_by(WeightRecord.measurement_date.desc())
+            .order_by(
+                WeightRecord.measurement_date.desc(),
+                WeightRecord.id.desc(),
+            )
             .first()
         )
 
@@ -807,6 +852,8 @@ class WeightRecord(db.Model):
 # ==================================================
 # Medication
 # ==================================================
+
+
 class Medication(db.Model):
     __tablename__ = "medication"
 
@@ -961,13 +1008,16 @@ class ReminderLog(db.Model):
 #
 # local      -> Email & Password
 # google     -> Google OAuth
-# github     -> GitHub OAuth (future)
-# microsoft  -> Microsoft OAuth (future)
+# github     -> Future
+# microsoft  -> Future
 #
-# The User model has been designed so that adding
-# additional OAuth providers later requires only
-# adding new login routes without changing the
-# database schema.
+# Weight Tracking
+#
+# WeightRecord is the single source of truth for pet
+# weight history. The Pet model intentionally does not
+# store a current weight column. Current weight,
+# statistics, and trends are derived from
+# WeightRecord entries.
 #
 # ==================================================
 # End of File

@@ -129,16 +129,11 @@
 
                     <span>
 
-                        {% if pet.weight %}
-
-                        {{ pet.weight }} kg
-
+                        {% if pet.latest_weight %}
+                        {{ pet.latest_weight }} kg
                         {% else %}
-
                         —
-
                         {% endif %}
-
                     </span>
 
                 </div>

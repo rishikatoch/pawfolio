@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Weight History{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                {{ pet.name }} Weight History
+            </h2>
+
+            <p class="text-muted mb-0">
+                Track your pet's weight over time.
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('pet_profile', pet_id=pet.id) }}" class="btn btn-outline-secondary me-2">
+                Back
+            </a>
+
+            <a href="{{ url_for('add_weight', pet_id=pet.id) }}" class="btn btn-primary">
+                + Add Weight
+            </a>
+
+        </div>
+
+    </div>
+
+    {% if pet.photo %}
+
+    <div class="text-center mb-4">
+
+        <img src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}" class="rounded-circle border shadow-sm"
+            style="width:140px;height:140px;object-fit:cover;" alt="{{ pet.name }}">
+
+    </div>
+
+    {% endif %}
+
+    {% if weight_history %}
+
+    <div class="card shadow-sm border-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Weight</th>
+                        <th>Change</th>
+                        <th>Notes</th>
+                        <th class="text-end">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for record in weight_history %}
+
+                    <tr>
+
+                        <td>
+                            {{ record.measurement_date.strftime("%d %b %Y") }}
+                        </td>
+
+                        <td>
+                            <strong>{{ record.weight }} kg</strong>
+                        </td>
+
+                        <td>
+
+                            {% if record.weight_change is none %}
+
+                            —
+
+                            {% elif record.weight_change > 0 %}
+
+                            <span class="text-success">
+                                +{{ "%.2f"|format(record.weight_change) }} kg
+                            </span>
+
+                            {% elif record.weight_change < 0 %} <span class="text-danger">
+                                {{ "%.2f"|format(record.weight_change) }} kg
+                                </span>
+
+                                {% else %}
+
+                                <span class="text-muted">
+                                    No Change
+                                </span>
+
+                                {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ record.notes or "-" }}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="{{ url_for('edit_weight', weight_id=record.id) }}"
+                                class="btn btn-sm btn-outline-warning">
+                                Edit
+                            </a>
+
+                            <form action="{{ url_for('delete_weight', weight_id=record.id) }}" method="POST"
+                                class="d-inline">
+
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Delete this weight record?')">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center py-5">
+
+            <h4>No Weight Records Yet</h4>
+
+            <p class="text-muted">
+
+                Start tracking your pet's growth by adding the first weight.
+
+            </p>
+
+            <a href="{{ url_for('add_weight', pet_id=pet.id) }}" class="btn btn-primary">
+                Add First Weight
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

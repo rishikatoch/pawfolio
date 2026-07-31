@@ -172,7 +172,10 @@ class NotificationSettingsForm(FlaskForm):
     timezone = SelectField(
         "Timezone",
         choices=[
-            ("Asia/Kolkata", "Asia/Kolkata (IST)"),
+            (
+                "Asia/Kolkata",
+                "Asia/Kolkata (IST)",
+            ),
         ],
     )
 
@@ -279,6 +282,7 @@ class WeightRecordForm(FlaskForm):
             NumberRange(
                 min=0.1,
                 max=200,
+                message="Weight must be between 0.1 kg and 200 kg.",
             ),
         ],
     )
@@ -296,6 +300,10 @@ class WeightRecordForm(FlaskForm):
             Optional(),
             Length(max=1000),
         ],
+        render_kw={
+            "rows": 4,
+            "placeholder": "Optional notes about this measurement...",
+        },
     )
 
     submit = SubmitField("Save Weight Record")
@@ -320,7 +328,10 @@ class DocumentUploadForm(FlaskForm):
         "Document Type",
         choices=[
             ("Prescription", "Prescription"),
-            ("Vaccination Certificate", "Vaccination Certificate"),
+            (
+                "Vaccination Certificate",
+                "Vaccination Certificate",
+            ),
             ("Lab Report", "Lab Report"),
             ("Medical Bill", "Medical Bill"),
             ("X-Ray", "X-Ray"),
@@ -343,7 +354,7 @@ class DocumentUploadForm(FlaskForm):
                     "jpeg",
                     "png",
                 ],
-                "Only PDF, JPG, JPEG and PNG files are allowed.",
+                ("Only PDF, JPG, JPEG and PNG " "files are allowed."),
             ),
         ],
     )
@@ -352,7 +363,17 @@ class DocumentUploadForm(FlaskForm):
         "Notes",
         validators=[
             Optional(),
+            Length(max=1000),
         ],
+        render_kw={
+            "rows": 4,
+            "placeholder": "Optional notes...",
+        },
     )
 
     submit = SubmitField("Upload Document")
+
+
+# ==================================================
+# End of File
+# ==================================================

@@ -6,7 +6,8 @@
 
     {% if pet.photo %}
 
-    <div class="pet-hero-bg" style="background-image:url('{{ url_for('static', filename='uploads/' ~ pet.photo) }}');">
+    <div class="pet-hero-bg"
+        style="background-image:url('{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}');">
     </div>
 
     {% else %}
@@ -31,7 +32,7 @@
 
                 {% if pet.photo %}
 
-                <img src="{{ url_for('static', filename='uploads/' ~ pet.photo) }}" alt="{{ pet.name }}"
+                <img src="{{ url_for('static', filename='uploads/pets/' ~ pet.photo) }}" alt="{{ pet.name }}"
                     class="profile-photo">
 
                 {% else %}
@@ -44,91 +45,59 @@
                 <div class="pet-main-info">
 
                     <span class="dashboard-badge">
-
                         <i class="bi bi-heart-fill"></i>
-
                         Pet Profile
-
                     </span>
 
-                    <h1>
-
-                        {{ pet.name }}
-
-                    </h1>
+                    <h1>{{ pet.name }}</h1>
 
                     <p class="pet-subtitle">
-
                         {{ pet.breed }}
-
                         {% if pet.gender %}
-
                         • {{ pet.gender }}
-
                         {% endif %}
-
                     </p>
-
 
                     <!-- Vaccination Status -->
 
                     {% if pet.vaccination_status == "Vaccinated" %}
 
                     <span class="status success">
-
                         <i class="bi bi-check-circle-fill"></i>
-
                         Healthy
-
                     </span>
 
                     {% elif pet.vaccination_status == "Due Soon" %}
 
                     <span class="status warning">
-
                         <i class="bi bi-clock-fill"></i>
-
                         Vaccination Due Soon
-
                     </span>
 
                     {% else %}
 
                     <span class="status danger">
-
                         <i class="bi bi-exclamation-circle-fill"></i>
-
                         Vaccination Overdue
-
                     </span>
 
                     {% endif %}
-
 
                     <!-- Extra Badges -->
 
                     <div class="hero-badges">
 
                         {% if pet.life_stage != "Unknown" %}
-
                         <span class="hero-badge">
-
                             <i class="bi bi-stars"></i>
-
                             {{ pet.life_stage }}
-
                         </span>
-
                         {% endif %}
 
                         {% if pet.birthday_today %}
-
                         <span class="hero-badge birthday">
-
                             🎉 Birthday Today
-
                         </span>
-
                         {% endif %}
 
                     </div>
@@ -137,7 +106,6 @@
 
             </div>
 
-
             <!-- ==========================================
                  STATS
             =========================================== -->
@@ -145,91 +113,51 @@
             <div class="hero-stats">
 
                 <div class="hero-stat-card">
-
                     <span class="hero-stat-label">
-
                         Age
-
                     </span>
-
                     <strong>
-
                         {{ pet.age_display }}
-
                     </strong>
-
                 </div>
 
                 <div class="hero-stat-card">
-
                     <span class="hero-stat-label">
-
                         Weight
-
                     </span>
-
                     <strong>
-
-                        {% if pet.weight %}
-
-                        {{ pet.weight }} kg
-
+                        {% if pet.latest_weight is not none %}
+                        {{ pet.latest_weight }} kg
                         {% else %}
-
                         —
-
                         {% endif %}
-
                     </strong>
-
                 </div>
 
                 <div class="hero-stat-card">
-
                     <span class="hero-stat-label">
-
                         Birth Date
-
                     </span>
-
                     <strong>
-
                         {% if pet.birth_date %}
-
                         {{ pet.birth_date.strftime("%d %b %Y") }}
-
                         {% else %}
-
                         —
-
                         {% endif %}
-
                     </strong>
-
                 </div>
 
                 <div class="hero-stat-card">
-
                     <span class="hero-stat-label">
-
                         Next Birthday
-
                     </span>
-
                     <strong>
-
                         {% if pet.next_birthday %}
-
                         {{ pet.next_birthday.strftime("%d %b %Y") }}
-
                         {% else %}
-
                         —
-
                         {% endif %}
-
                     </strong>
-
                 </div>
 
             </div>

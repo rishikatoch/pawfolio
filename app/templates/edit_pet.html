@@ -255,8 +255,8 @@ Edit Pet Profile • Pawfolio
 
                                     </label>
 
-                                    <input type="number" name="weight" class="form-control" min="0" step="0.1"
-                                        value="{{ pet.weight if pet.weight else '' }}" placeholder="Example: 18.5">
+                                    <input type="number" name="weight" class="form-control" min="0" step="0.1" {{
+                                        pet.latest_weight if pet.latest_weight else '' }}" placeholder="Example: 18.5">
 
                                     <div class="form-text">
 

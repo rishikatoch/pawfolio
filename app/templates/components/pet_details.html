@@ -157,14 +157,10 @@
 
                     <strong>
 
-                        {% if pet.weight %}
-
-                        {{ pet.weight }} kg
-
+                        {% if pet.latest_weight %}
+                        {{ pet.latest_weight }} kg
                         {% else %}
-
                         Not Available
-
                         {% endif %}
 
                     </strong>
