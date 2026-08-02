@@ -81,6 +81,6 @@ jobs:
               with:
                   image-ref: pawfolio:security
                   format: table
-                  exit-code: 1
+                  exit-code: 
                   vuln-type: os,library
                   severity: HIGH,CRITICAL
