@@ -1,0 +1,60 @@
+name: Terraform Validation
+
+on:
+    push:
+        branches:
+            - "**"
+
+    pull_request:
+        branches:
+            - main
+            - ui-redesign
+
+permissions:
+    contents: read
+
+jobs:
+    terraform:
+        name: Validate Terraform
+
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: terraform
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+
+            ##################################################
+            # Terraform Formatting
+            ##################################################
+
+            - name: Terraform Format Check
+              run: terraform fmt -check -recursive
+
+            ##################################################
+            # Terraform Init
+            ##################################################
+
+            - name: Terraform Init
+              run: terraform init -backend=false
+
+            ##################################################
+            # Terraform Validation
+            ##################################################
+
+            - name: Terraform Validate
+              run: terraform validate
+
+            ##################################################
+            # Terraform Plan (Syntax Validation)
+            ##################################################
+
+            - name: Terraform Plan
+              run: terraform plan -lock=false
+              continue-on-error: true

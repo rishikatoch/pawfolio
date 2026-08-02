@@ -1,0 +1,218 @@
+name: Pawfolio CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - ui-redesign
+      - feature/**
+  pull_request:
+    branches:
+      - main
+      - ui-redesign
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test, Security & Validation
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pawfolio_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d pawfolio_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pawfolio_test
+      SECRET_KEY: test-secret-key
+      FLASK_ENV: testing
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      ##################################################
+      # Code Quality
+      ##################################################
+
+      - name: Run Flake8
+        run: flake8 .
+
+      - name: Run Pytest
+        run: pytest
+
+      ##################################################
+      # Docker Validation
+      ##################################################
+
+      - name: Validate Docker Compose
+        run: docker compose config
+
+      - name: Build Docker Image
+        run: docker build -t pawfolio:test .
+
+      ##################################################
+      # Security
+      ##################################################
+
+      - name: Run Bandit
+        run: bandit -r . -c .bandit -lll
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          config_file: .checkov.yaml
+
+      - name: Run Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 0
+
+      - name: Scan Docker Image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: pawfolio:test
+          format: table
+          exit-code: 1
+          vuln-type: os,library
+          severity: HIGH,CRITICAL
+
+      ##################################################
+      # Terraform
+      ##################################################
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format
+        working-directory: terraform
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform validate
+
+  deploy:
+    name: Deploy to Production
+
+    needs: test
+
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker Image
+        run: docker build -t pawfolio .
+
+      - name: Tag Docker Images
+        run: |
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:latest
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Push Docker Images
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+      ##################################################
+      # TEMPORARY SSH DEBUG
+      ##################################################
+
+      - name: Check SSH Secret
+        run: |
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then
+            echo "SSH key missing"
+            exit 1
+          fi
+
+      - name: Validate SSH Key
+        run: |
+          printf "%s\n" "${{ secrets.EC2_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+          ssh-keygen -l -f key.pem
+
+      ##################################################
+      # Deployment
+      ##################################################
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            cd /opt/pawfolio
+
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+
+            ECR_REGISTRY=$(echo "${{ secrets.ECR_REPOSITORY }}" | cut -d'/' -f1)
+
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+              | docker login \
+                --username AWS \
+                --password-stdin "$ECR_REGISTRY"
+
+            docker compose -f docker-compose.prod.yml config
+
+            docker compose -f docker-compose.prod.yml pull
+
+            docker compose -f docker-compose.prod.yml up -d
+
+            sleep 15
+
+            curl --fail http://localhost/health
+
+            docker image prune -f
+
+            echo "Deployment Successful"
