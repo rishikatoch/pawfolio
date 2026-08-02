@@ -11,7 +11,7 @@ services:
       - .:/app
 
     env_file:
-      - .env
+       - .env.docker
 
     depends_on:
       postgres:

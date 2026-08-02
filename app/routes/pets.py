@@ -21,9 +21,7 @@ from werkzeug.utils import secure_filename
 from app import app, db
 from app.forms import WeightRecordForm
 from app.models import (
-    Deworming,
     Pet,
-    Vaccination,
     WeightRecord,
 )
 
