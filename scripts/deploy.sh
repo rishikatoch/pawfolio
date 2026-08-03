@@ -59,8 +59,11 @@ EOF
 echo "🛑 Stopping existing containers..."
 docker compose -f docker-compose.prod.yml down
 
-echo "🏗️ Building and starting containers..."
-docker compose -f docker-compose.prod.yml up --build -d
+echo "📥 Pulling latest Docker image from Amazon ECR..."
+docker compose -f docker-compose.prod.yml pull
+
+echo "🚀 Starting containers..."
+docker compose -f docker-compose.prod.yml up -d
 
 echo "⏳ Waiting for PostgreSQL to become ready..."
 
