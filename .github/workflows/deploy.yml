@@ -1,160 +1,164 @@
 name: Deploy to Production
 
 on:
-    push:
-        branches:
-            - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment Environment"
+        required: true
+        default: "production"
+        type: choice
+        options:
+          - production
 
 permissions:
-    contents: read
+  contents: read
 
 concurrency:
-    group: production-deployment
-    cancel-in-progress: true
+  group: production-deployment
+  cancel-in-progress: true
 
 jobs:
-    deploy:
-        name: Build & Deploy
-        runs-on: ubuntu-latest
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
-        environment:
-            name: production
+    steps:
+      ##################################################
+      # Checkout
+      ##################################################
 
-        steps:
-            ##################################################
-            # Checkout
-            ##################################################
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-            - name: Checkout Repository
-              uses: actions/checkout@v4
+      ##################################################
+      # Configure AWS
+      ##################################################
 
-            ##################################################
-            # Configure AWS
-            ##################################################
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: ${{ secrets.AWS_REGION }}
+      ##################################################
+      # Login to ECR
+      ##################################################
 
-            ##################################################
-            # Login to ECR
-            ##################################################
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-            - name: Login to Amazon ECR
-              id: login-ecr
-              uses: aws-actions/amazon-ecr-login@v2
+      ##################################################
+      # Build Docker Image
+      ##################################################
 
-            ##################################################
-            # Build Docker Image
-            ##################################################
+      - name: Build Docker Image
+        run: |
+          docker build -t pawfolio:latest .
 
-            - name: Build Docker Image
-              run: |
-                  docker build -t pawfolio:latest .
+      ##################################################
+      # Tag Image
+      ##################################################
 
-            ##################################################
-            # Tag Image
-            ##################################################
+      - name: Tag Docker Image
+        run: |
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:latest
+          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-            - name: Tag Docker Image
-              run: |
-                  docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:latest
-                  docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      ##################################################
+      # Push Image
+      ##################################################
 
-            ##################################################
-            # Push Image
-            ##################################################
+      - name: Push Docker Images
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-            - name: Push Docker Images
-              run: |
-                  docker push ${{ secrets.ECR_REPOSITORY }}:latest
-                  docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      ##################################################
+      # Deploy
+      ##################################################
 
-            ##################################################
-            # Deploy
-            ##################################################
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
 
-            - name: Deploy to EC2
-              uses: appleboy/ssh-action@v1.2.0
-              with:
-                  host: ${{ secrets.EC2_HOST }}
-                  username: ${{ secrets.EC2_USERNAME }}
-                  key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
 
-                  script: |
+            set -Eeuo pipefail
 
-                      set -Eeuo pipefail
+            echo "========================================"
+            echo "Starting Pawfolio Deployment"
+            echo "========================================"
 
-                      echo "========================================"
-                      echo "Starting Pawfolio Deployment"
-                      echo "========================================"
+            cd /opt/pawfolio
 
-                      cd /opt/pawfolio
+            echo "Updating Repository..."
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
 
-                      echo "Updating Repository..."
-                      git fetch origin main
-                      git checkout main
-                      git reset --hard origin/main
+            echo "Logging into Amazon ECR..."
 
-                      echo "Logging into Amazon ECR..."
+            ECR_REGISTRY=$(echo "${{ secrets.ECR_REPOSITORY }}" | cut -d'/' -f1)
 
-                      ECR_REGISTRY=$(echo "${{ secrets.ECR_REPOSITORY }}" | cut -d'/' -f1)
+            aws ecr get-login-password \
+              --region ${{ secrets.AWS_REGION }} \
+              | docker login \
+                --username AWS \
+                --password-stdin "$ECR_REGISTRY"
 
-                      aws ecr get-login-password \
-                        --region ${{ secrets.AWS_REGION }} \
-                        | docker login \
-                          --username AWS \
-                          --password-stdin "$ECR_REGISTRY"
+            echo "Validating Docker Compose..."
 
-                      echo "Validating Docker Compose..."
+            docker compose \
+              -f docker-compose.prod.yml \
+              config
 
-                      docker compose \
-                        -f docker-compose.prod.yml \
-                        config
+            echo "Pulling Latest Images..."
 
-                      echo "Pulling Latest Images..."
+            docker compose \
+              -f docker-compose.prod.yml \
+              pull
 
-                      docker compose \
-                        -f docker-compose.prod.yml \
-                        pull
+            echo "Starting Containers..."
 
-                      echo "Starting Containers..."
+            docker compose \
+              -f docker-compose.prod.yml \
+              up -d
 
-                      docker compose \
-                        -f docker-compose.prod.yml \
-                        up -d
+            echo "Waiting for Database..."
 
-                      echo "Waiting for Database..."
+            sleep 15
 
-                      sleep 15
+            echo "Running Database Migrations..."
 
-                      echo "Running Database Migrations..."
+            docker compose \
+              -f docker-compose.prod.yml \
+              exec -T pawfolio \
+              flask db upgrade
 
-                      docker compose \
-                        -f docker-compose.prod.yml \
-                        exec -T pawfolio \
-                        flask db upgrade
+            echo "Waiting for Application..."
 
-                      echo "Waiting for Application..."
+            sleep 10
 
-                      sleep 10
+            echo "Checking Running Containers..."
 
-                      echo "Checking Running Containers..."
+            docker ps
 
-                      docker ps
+            echo "Health Check..."
 
-                      echo "Health Check..."
+            curl --fail http://localhost/health
 
-                      curl --fail http://localhost/health
+            echo "Cleaning Docker..."
 
-                      echo "Cleaning Docker..."
+            docker image prune -f
+            docker container prune -f
 
-                      docker image prune -f
-                      docker container prune -f
-
-                      echo "========================================"
-                      echo "Deployment Successful"
-                      echo "========================================"
+            echo "========================================"
+            echo "Deployment Successful"
+            echo "========================================"
