@@ -124,7 +124,7 @@ tqdm==4.69.0
 typing-inspection==0.4.2
 typing_extensions==4.16.0
 tzlocal==5.4.4
-unidiff==0.7.5
+unidiff==1.0.0
 uritools==6.1.2
 urllib3==2.7.0
 URLObject==3.0.0
