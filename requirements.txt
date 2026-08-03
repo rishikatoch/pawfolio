@@ -55,7 +55,7 @@ GitPython==3.1.53
 greenlet==3.5.3
 gunicorn==23.0.0
 idna==3.18
-importlib_metadata==7.2.1
+importlib_metadata==9.0.0
 iniconfig==2.3.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
