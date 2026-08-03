@@ -45,7 +45,11 @@ POSTGRES_DB=$(aws ssm get-parameter \
     --query "Parameter.Value" \
     --output text)
 
-echo "📝 Creating .env file..."
+echo "📝 Updating .env file..."
+
+# Preserve existing Google OAuth credentials (if present)
+EXISTING_GOOGLE_CLIENT_ID=$(grep "^GOOGLE_CLIENT_ID=" .env 2>/dev/null | cut -d '=' -f2-)
+EXISTING_GOOGLE_CLIENT_SECRET=$(grep "^GOOGLE_CLIENT_SECRET=" .env 2>/dev/null | cut -d '=' -f2-)
 
 cat > .env <<EOF
 SECRET_KEY=$SECRET_KEY
@@ -54,6 +58,9 @@ DATABASE_URL=$DATABASE_URL
 POSTGRES_USER=$POSTGRES_USER
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 POSTGRES_DB=$POSTGRES_DB
+
+GOOGLE_CLIENT_ID=$EXISTING_GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET=$EXISTING_GOOGLE_CLIENT_SECRET
 EOF
 
 echo "🛑 Stopping existing containers..."
