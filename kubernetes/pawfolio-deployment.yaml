@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: pawfolio
+  namespace: pawfolio
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pawfolio
+  template:
+    metadata:
+      labels:
+        app: pawfolio
+    spec:
+      containers:
+        - name: pawfolio
+          image: nginx:latest
+          ports:
+            - containerPort: 80
