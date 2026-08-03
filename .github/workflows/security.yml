@@ -41,7 +41,7 @@ jobs:
 
             - name: Run Bandit
               run: |
-                  bandit -r . -c .bandit.yaml
+                  bandit -r . -c bandit.yaml
 
             ##################################################
             # Checkov
