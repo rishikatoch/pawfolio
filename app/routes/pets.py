@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 from datetime import date
 
 from flask import (
@@ -24,6 +25,9 @@ from app.models import (
     Pet,
     WeightRecord,
 )
+
+logger = logging.getLogger(__name__)
+
 
 # ==========================================================
 # Configuration
@@ -90,6 +94,7 @@ def save_pet_photo(photo):
         return filename
 
     except Exception:
+        logger.exception("Failed to save pet photo")
         return None
 
 
@@ -107,11 +112,11 @@ def delete_pet_photo(filename):
     )
 
     try:
-        if os.path.exists(path):
-            os.remove(path)
-
+        os.remove(path)
+    except FileNotFoundError:
+        logger.debug("Pet photo '%s' was already removed.", filename)
     except Exception:
-        pass
+        logger.exception("Failed to delete pet photo")
 
 
 # ==========================================================

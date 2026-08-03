@@ -1,4 +1,5 @@
 exclude_dirs:
   - .venv
-  - tests
   - migrations
+  - tests
+  - __pycache__
