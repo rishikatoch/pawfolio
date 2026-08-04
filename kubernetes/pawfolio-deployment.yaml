@@ -7,16 +7,27 @@ metadata:
 
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: pawfolio
+
   template:
     metadata:
       labels:
         app: pawfolio
+
     spec:
       containers:
         - name: pawfolio
-          image: nginx:latest
+          image: pawfolio:latest
+          imagePullPolicy: IfNotPresent
+
+          envFrom:
+            - configMapRef:
+                name: pawfolio-config
+            - secretRef:
+                name: pawfolio-secret
+
           ports:
-            - containerPort: 80
+            - containerPort: 5000

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: pawfolio-config
+  namespace: pawfolio
+
+data:
+  FLASK_DEBUG: "False"
+  APP_NAME: "Pawfolio"
