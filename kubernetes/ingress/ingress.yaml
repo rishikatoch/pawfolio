@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: pawfolio-ingress
+  namespace: pawfolio
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - host: pawfolio.local
+
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+
+            backend:
+              service:
+                name: pawfolio-service
+                port:
+                  number: 80
