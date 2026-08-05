@@ -33,19 +33,40 @@ jobs:
         working-directory: terraform
 
     steps:
+      ##################################################
+      # Checkout Repository
+      ##################################################
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      ##################################################
+      # Setup Terraform
+      ##################################################
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.13.1"
+          terraform_version: "1.15.8"
+
+      ##################################################
+      # Create Plugin Cache Directory
+      ##################################################
+
+      - name: Create Terraform Plugin Cache Directory
+        run: mkdir -p ~/.terraform.d/plugin-cache
+
+      ##################################################
+      # Cache Terraform Providers
+      ##################################################
 
       - name: Cache Terraform Providers
         uses: actions/cache@v4
         with:
           path: ~/.terraform.d/plugin-cache
           key: terraform-${{ runner.os }}-${{ hashFiles('terraform/.terraform.lock.hcl') }}
+          restore-keys: |
+            terraform-${{ runner.os }}-
 
       ##################################################
       # Terraform Formatting
@@ -84,7 +105,7 @@ jobs:
           terraform plan -lock=false
 
       ##################################################
-      # Checkov
+      # Checkov Scan
       ##################################################
 
       - name: Run Checkov
