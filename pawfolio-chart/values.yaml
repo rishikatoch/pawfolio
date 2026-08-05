@@ -1,0 +1,48 @@
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+
+image:
+  repository: pawfolio
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: pawfolio.local
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+config:
+  APP_NAME: Pawfolio
+  FLASK_DEBUG: "False"
+
+secret:
+  DATABASE_URL: postgresql://pawfolio:password@postgres:5432/pawfolio
+  SECRET_KEY: change-me-later
+
+postgres:
+  image: postgres:16
+  database: pawfolio
+  username: pawfolio
+  password: password
+  storage: 5Gi
+
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  cpuUtilization: 50
