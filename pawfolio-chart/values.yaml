@@ -32,16 +32,16 @@ image:
 
 service:
   # Kubernetes Service type.
-  type: {{ .Values.service.type }}
+  type: "ClusterIP"
 
   # Service port.
-  port: {{ .Values.service.port }}
+  port: 80
 
   # Container port.
-  targetPort: {{ .Values.service.targetPort }}
+  targetPort: 5000
 
   # Network protocol.
-  protocol: {{ .Values.service.protocol }}
+  protocol: "TCP"
 
 # -----------------------------------------------------------------------------
 # Ingress Configuration
@@ -59,6 +59,9 @@ ingress:
     - host: "pawfolio.local"
       paths:
         - "/"
+
+  # TLS Configuration
+  tls: []
 
 # -----------------------------------------------------------------------------
 # Resource Requests & Limits
@@ -143,4 +146,3 @@ hpa:
 
   # Target average CPU utilization percentage.
   targetCPUUtilizationPercentage: 50
-  
