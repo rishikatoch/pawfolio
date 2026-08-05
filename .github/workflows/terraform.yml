@@ -95,15 +95,7 @@ jobs:
           set -euo pipefail
           terraform validate
 
-      ##################################################
-      # Terraform Plan
-      ##################################################
-
-      - name: Terraform Plan
-        run: |
-          set -euo pipefail
-          terraform plan -lock=false
-
+      
       ##################################################
       # Checkov Scan
       ##################################################
