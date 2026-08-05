@@ -1,60 +1,93 @@
 name: Terraform Validation
 
 on:
-    push:
-        branches:
-            - "**"
+  push:
+    branches:
+      - "**"
 
-    pull_request:
-        branches:
-            - main
-            - ui-redesign
+  pull_request:
+    branches:
+      - main
+      - ui-redesign
 
 permissions:
-    contents: read
+  contents: read
+
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    terraform:
-        name: Validate Terraform
+  terraform:
+    name: Validate Terraform
 
-        runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-        defaults:
-            run:
-                working-directory: terraform
+    timeout-minutes: 15
 
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v4
+    env:
+      TF_PLUGIN_CACHE_DIR: ~/.terraform.d/plugin-cache
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
+    defaults:
+      run:
+        working-directory: terraform
 
-            ##################################################
-            # Terraform Formatting
-            ##################################################
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-            - name: Terraform Format Check
-              run: terraform fmt -check -recursive
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.1"
 
-            ##################################################
-            # Terraform Init
-            ##################################################
+      - name: Cache Terraform Providers
+        uses: actions/cache@v4
+        with:
+          path: ~/.terraform.d/plugin-cache
+          key: terraform-${{ runner.os }}-${{ hashFiles('terraform/.terraform.lock.hcl') }}
 
-            - name: Terraform Init
-              run: terraform init -backend=false
+      ##################################################
+      # Terraform Formatting
+      ##################################################
 
-            ##################################################
-            # Terraform Validation
-            ##################################################
+      - name: Terraform Format Check
+        run: |
+          set -euo pipefail
+          terraform fmt -check -recursive
 
-            - name: Terraform Validate
-              run: terraform validate
+      ##################################################
+      # Terraform Init
+      ##################################################
 
-            ##################################################
-            # Terraform Plan (Syntax Validation)
-            ##################################################
+      - name: Terraform Init
+        run: |
+          set -euo pipefail
+          terraform init -backend=false
 
-            - name: Terraform Plan
-              run: terraform plan -lock=false
-              continue-on-error: true
+      ##################################################
+      # Terraform Validation
+      ##################################################
+
+      - name: Terraform Validate
+        run: |
+          set -euo pipefail
+          terraform validate
+
+      ##################################################
+      # Terraform Plan
+      ##################################################
+
+      - name: Terraform Plan
+        run: |
+          set -euo pipefail
+          terraform plan -lock=false
+
+      ##################################################
+      # Checkov
+      ##################################################
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform

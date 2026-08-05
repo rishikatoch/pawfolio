@@ -13,11 +13,17 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Flask Tests
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 15
 
     services:
       postgres:
@@ -47,15 +53,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Python
-
         uses: actions/setup-python@v5
-
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
       - name: Install Dependencies
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
@@ -63,11 +71,13 @@ jobs:
       - name: Run Flake8
         run: flake8 .
 
-      - name: Run Tests
+      - name: Run Pytest
         run: pytest
 
-      - name: Create .env.docker
+      - name: Create Docker Environment File
         run: |
+          set -euo pipefail
+
           cat <<EOF > .env.docker
           DATABASE_URL=postgresql://postgres:postgres@postgres:5432/pawfolio_test
           POSTGRES_USER=postgres
@@ -81,4 +91,14 @@ jobs:
         run: docker compose config
 
       - name: Build Docker Image
-        run: docker build -t pawfolio:test .
+        run: |
+          DOCKER_BUILDKIT=1 docker build -t pawfolio:test .
+
+      - name: Lint Helm Chart
+        run: helm lint ./pawfolio-chart
+
+      - name: Render Helm Templates
+        run: helm template pawfolio ./pawfolio-chart
+
+      - name: Validate Kubernetes Manifests
+        run: kubectl kustomize kubernetes/
