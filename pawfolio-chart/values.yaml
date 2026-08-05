@@ -1,48 +1,146 @@
+# -----------------------------------------------------------------------------
+# Helm Release Naming
+# -----------------------------------------------------------------------------
+
+# Override the chart name.
 nameOverride: ""
+
+# Override the fully qualified release name.
 fullnameOverride: ""
 
+# -----------------------------------------------------------------------------
+# Pawfolio Application
+# -----------------------------------------------------------------------------
+
+# Number of Pawfolio application replicas.
 replicaCount: 1
 
+# Docker image configuration.
 image:
-  repository: pawfolio
-  tag: latest
-  pullPolicy: IfNotPresent
+  # Docker image repository.
+  repository: "pawfolio"
+
+  # Docker image tag.
+  tag: "latest"
+
+  # Kubernetes image pull policy.
+  pullPolicy: "IfNotPresent"
+
+# -----------------------------------------------------------------------------
+# Service Configuration
+# -----------------------------------------------------------------------------
 
 service:
-  type: ClusterIP
-  port: 80
-  targetPort: 5000
+  # Kubernetes Service type.
+  type: {{ .Values.service.type }}
+
+  # Service port.
+  port: {{ .Values.service.port }}
+
+  # Container port.
+  targetPort: {{ .Values.service.targetPort }}
+
+  # Network protocol.
+  protocol: {{ .Values.service.protocol }}
+
+# -----------------------------------------------------------------------------
+# Ingress Configuration
+# -----------------------------------------------------------------------------
 
 ingress:
+  # Enable or disable Ingress.
   enabled: true
-  className: nginx
-  host: pawfolio.local
+
+  # Ingress Controller class.
+  className: "nginx"
+
+  # Application hosts.
+  hosts:
+    - host: "pawfolio.local"
+      paths:
+        - "/"
+
+# -----------------------------------------------------------------------------
+# Resource Requests & Limits
+# -----------------------------------------------------------------------------
 
 resources:
   requests:
-    cpu: 250m
-    memory: 256Mi
+    cpu: "250m"
+    memory: "256Mi"
+
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: "500m"
+    memory: "512Mi"
+
+# -----------------------------------------------------------------------------
+# Application Configuration (ConfigMap)
+# -----------------------------------------------------------------------------
 
 config:
-  APP_NAME: Pawfolio
+  APP_NAME: "Pawfolio"
   FLASK_DEBUG: "False"
 
+# -----------------------------------------------------------------------------
+# Application Secrets (Secret)
+# -----------------------------------------------------------------------------
+
 secret:
-  DATABASE_URL: postgresql://pawfolio:password@postgres:5432/pawfolio
-  SECRET_KEY: change-me-later
+  # Whether Helm should create the Secret.
+  create: true
+
+  # Database connection string.
+  databaseUrl: "postgresql://pawfolio:password@postgres:5432/pawfolio"
+
+  # Flask secret key.
+  secretKey: "change-me-later"
+
+# -----------------------------------------------------------------------------
+# PostgreSQL Configuration
+# -----------------------------------------------------------------------------
 
 postgres:
-  image: postgres:16
-  database: pawfolio
-  username: pawfolio
-  password: password
-  storage: 5Gi
+  image:
+    # PostgreSQL Docker image.
+    repository: "postgres"
+
+    # PostgreSQL version.
+    tag: "16"
+
+    # Image pull policy.
+    pullPolicy: "IfNotPresent"
+
+  auth:
+    # Database name.
+    database: "pawfolio"
+
+    # Database username.
+    username: "pawfolio"
+
+    # Database password.
+    password: "password"
+
+  persistence:
+    # Enable persistent storage.
+    enabled: true
+
+    # Persistent Volume size.
+    size: "5Gi"
+
+# -----------------------------------------------------------------------------
+# Horizontal Pod Autoscaler (HPA)
+# -----------------------------------------------------------------------------
 
 hpa:
+  # Enable Horizontal Pod Autoscaler.
   enabled: true
+
+  # Minimum number of replicas.
   minReplicas: 1
+
+  # Maximum number of replicas.
   maxReplicas: 5
-  cpuUtilization: 50
+
+  # Target average CPU utilization percentage.
+  targetCPUUtilizationPercentage: 50
+  

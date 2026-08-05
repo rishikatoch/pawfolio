@@ -21,20 +21,21 @@ spec:
       containers:
         - name: postgres
 
-          image: {{ .Values.postgres.image }}
+          image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+          imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
 
           ports:
             - containerPort: 5432
 
           env:
             - name: POSTGRES_DB
-              value: {{ .Values.postgres.database | quote }}
+              value: {{ .Values.postgres.auth.database | quote }}
 
             - name: POSTGRES_USER
-              value: {{ .Values.postgres.username | quote }}
+              value: {{ .Values.postgres.auth.username | quote }}
 
             - name: POSTGRES_PASSWORD
-              value: {{ .Values.postgres.password | quote }}
+              value: {{ .Values.postgres.auth.password | quote }}
 
           volumeMounts:
             - name: postgres-storage
@@ -42,7 +43,6 @@ spec:
 
       volumes:
         - name: postgres-storage
-
           persistentVolumeClaim:
             claimName: postgres-pvc
             
