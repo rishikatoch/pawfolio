@@ -5,13 +5,18 @@ metadata:
   name: postgres
   namespace: {{ .Release.Namespace }}
 
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
 spec:
-  type: ClusterIP
+  type: {{ .Values.postgres.service.type }}
 
   selector:
     app: postgres
 
   ports:
-    - port: 5432
-      targetPort: 5432
+    - name: postgres
+      protocol: TCP
+      port: {{ .Values.postgres.service.port }}
+      targetPort: {{ .Values.postgres.service.targetPort }}
       

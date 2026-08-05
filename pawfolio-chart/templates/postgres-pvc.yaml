@@ -1,3 +1,5 @@
+{{- if .Values.postgres.persistence.enabled }}
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 
@@ -5,12 +7,17 @@ metadata:
   name: postgres-pvc
   namespace: {{ .Release.Namespace }}
 
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ .Values.postgres.persistence.accessMode }}
+
+  storageClassName: {{ .Values.postgres.persistence.storageClass }}
 
   resources:
     requests:
       storage: {{ .Values.postgres.persistence.size }}
-      
-      
+
+{{- end }}

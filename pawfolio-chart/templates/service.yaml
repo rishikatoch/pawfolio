@@ -5,6 +5,9 @@ metadata:
   name: pawfolio-service
   namespace: {{ .Release.Namespace }}
 
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
 spec:
   type: {{ .Values.service.type }}
 
@@ -12,6 +15,8 @@ spec:
 {{ include "pawfolio.selectorLabels" . | indent 4 }}
 
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      protocol: {{ .Values.service.protocol }}
+      port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
       

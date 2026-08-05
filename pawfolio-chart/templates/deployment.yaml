@@ -11,6 +11,11 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
 
+  revisionHistoryLimit: 5
+
+  strategy:
+    type: RollingUpdate
+
   selector:
     matchLabels:
 {{ include "pawfolio.selectorLabels" . | indent 6 }}
@@ -21,18 +26,33 @@ spec:
 {{ include "pawfolio.selectorLabels" . | indent 8 }}
 
     spec:
+
+      serviceAccountName: {{ default (include "pawfolio.fullname" .) .Values.serviceAccount.name }}
+
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+
+      terminationGracePeriodSeconds: 30
+
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+
       containers:
         - name: pawfolio
 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}
+
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
 
           envFrom:
             - configMapRef:
                 name: pawfolio-config
+
             - secretRef:
                 name: pawfolio-secret
 
@@ -43,15 +63,18 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.service.targetPort }}
+
             initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 3
+            successThreshold: 1
             failureThreshold: 3
 
           livenessProbe:
             httpGet:
               path: /health
               port: {{ .Values.service.targetPort }}
+
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5

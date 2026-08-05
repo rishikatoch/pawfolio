@@ -7,6 +7,9 @@ metadata:
   name: pawfolio-ingress
   namespace: {{ .Release.Namespace }}
 
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
 spec:
   ingressClassName: {{ .Values.ingress.className }}
 
@@ -22,7 +25,7 @@ spec:
               service:
                 name: pawfolio-service
                 port:
-                  number: 80
+                  number: {{ $.Values.service.port }}
           {{- end }}
     {{- end }}
 

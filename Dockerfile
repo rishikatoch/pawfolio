@@ -17,6 +17,7 @@ COPY . .
 
 RUN addgroup --system appgroup && \
     adduser --system --ingroup appgroup appuser && \
+    mkdir -p /app/app/static/uploads/pets && \
     chown -R appuser:appgroup /app
 
 USER appuser

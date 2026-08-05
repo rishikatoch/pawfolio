@@ -4,8 +4,11 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 
 metadata:
-  name: pawfolio-hpa
+  name: {{ include "pawfolio.fullname" . }}-hpa
   namespace: {{ .Release.Namespace }}
+
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
 
 spec:
   scaleTargetRef:
