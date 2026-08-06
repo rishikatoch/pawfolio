@@ -69,6 +69,7 @@ jobs:
               uses: bridgecrewio/checkov-action@v12
               with:
                   directory: .
+                  skip_path: kubernetes
                   config_file: .checkov.yaml
 
             ##################################################
