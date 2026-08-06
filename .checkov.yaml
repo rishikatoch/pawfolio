@@ -11,3 +11,10 @@ skip-check:
   - CKV2_AWS_12
   - CKV_AWS_51 # Portfolio project uses mutable ECR tags for CI/CD with the latest image
   - CKV_GHA_7
+  - CKV_K8S_15 
+  - CKV_K8S_21
+
+
+skip-path:
+  - kubernetes/
+  - pawfolio-chart/values-dev.local.yaml

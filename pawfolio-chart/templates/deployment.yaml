@@ -5,6 +5,11 @@ metadata:
   name: {{ include "pawfolio.fullname" . }}
   namespace: {{ .Release.Namespace }}
 
+  annotations:
+    checkov.io/skip1: CKV_K8S_35=Flask application intentionally uses environment variables for secrets
+    checkov.io/skip2: CKV_K8S_22=Application requires write access for uploaded pet images
+    checkov.io/skip3: CKV_K8S_43=Portfolio project uses immutable version tags instead of image digests
+
   labels:
 {{ include "pawfolio.labels" . | indent 4 }}
 

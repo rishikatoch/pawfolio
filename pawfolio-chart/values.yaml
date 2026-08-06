@@ -34,9 +34,9 @@ serviceAccount:
 
 podSecurityContext:
   runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
 
 # -----------------------------------------------------------------------------
 # Container Security Context
@@ -109,8 +109,8 @@ config:
 secret:
   create: true
 
-  databaseUrl: "postgresql://pawfolio:password@postgres:5432/pawfolio"
-  secretKey: "change-me-later"
+  databaseUrl: ""
+  secretKey: ""
 
 # -----------------------------------------------------------------------------
 # PostgreSQL
