@@ -12,11 +12,8 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: "pawfolio"
-
-  # Avoid using "latest" in production.
+  repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
   tag: "1.0.0"
-
   pullPolicy: IfNotPresent
 
 # -----------------------------------------------------------------------------
@@ -58,7 +55,7 @@ securityContext:
 # -----------------------------------------------------------------------------
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
   targetPort: 5000
   protocol: TCP
@@ -68,7 +65,7 @@ service:
 # -----------------------------------------------------------------------------
 
 ingress:
-  enabled: true
+  enabled: false
 
   className: nginx
 
@@ -120,7 +117,7 @@ postgres:
   image:
     repository: "postgres"
     tag: "16"
-    pullPolicy: "IfNotPresent"
+    pullPolicy: IfNotPresent
 
   service:
     type: ClusterIP
@@ -135,7 +132,7 @@ postgres:
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
-    storageClass: standard
+    storageClass: gp2
     size: 5Gi
 
 # -----------------------------------------------------------------------------
@@ -149,3 +146,4 @@ hpa:
   maxReplicas: 5
 
   targetCPUUtilizationPercentage: 50
+  

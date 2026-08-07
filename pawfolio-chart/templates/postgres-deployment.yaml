@@ -39,17 +39,11 @@ spec:
 
       terminationGracePeriodSeconds: 30
 
-      securityContext:
-{{ toYaml .Values.podSecurityContext | indent 8 }}
-
       containers:
         - name: postgres
 
           image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
           imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
-
-          securityContext:
-{{ toYaml .Values.securityContext | indent 12 }}
 
           ports:
             - containerPort: 5432
@@ -64,6 +58,9 @@ spec:
 
             - name: POSTGRES_PASSWORD
               value: {{ .Values.postgres.auth.password | quote }}
+
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
 
           volumeMounts:
             - name: postgres-storage
@@ -104,7 +101,6 @@ spec:
 
       volumes:
         - name: postgres-storage
-
           persistentVolumeClaim:
             claimName: postgres-pvc
             
