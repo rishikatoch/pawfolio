@@ -11,10 +11,9 @@ skip-check:
   - CKV2_AWS_12
   - CKV_AWS_51 # Portfolio project uses mutable ECR tags for CI/CD with the latest image
   - CKV_GHA_7
-  - CKV_K8S_15 
+  - CKV_K8S_15
   - CKV_K8S_21
-
+  - CKV_TF_1 # Terraform Registry modules are pinned to versioned releases; CKV_TF_2 enforces version tags
 
 skip-path:
   - kubernetes/
-  - pawfolio-chart/values-dev.local.yaml
