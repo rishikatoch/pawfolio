@@ -17,3 +17,4 @@ skip-check:
 
 skip-path:
   - kubernetes/
+  - pawfolio-chart/values-dev.local.yaml
