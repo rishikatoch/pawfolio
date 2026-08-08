@@ -49,8 +49,16 @@ jobs:
       FLASK_ENV: testing
 
     steps:
+      # --------------------------------------------------
+      # Checkout
+      # --------------------------------------------------
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # --------------------------------------------------
+      # Python
+      # --------------------------------------------------
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -64,15 +72,28 @@ jobs:
       - name: Install Dependencies
         run: |
           set -euo pipefail
+
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
+      # --------------------------------------------------
+      # Code Quality
+      # --------------------------------------------------
+
       - name: Run Flake8
         run: flake8 .
 
+      # --------------------------------------------------
+      # Tests
+      # --------------------------------------------------
+
       - name: Run Pytest
         run: pytest
+
+      # --------------------------------------------------
+      # Docker Compose
+      # --------------------------------------------------
 
       - name: Create Docker Environment File
         run: |
@@ -90,15 +111,117 @@ jobs:
       - name: Validate Docker Compose
         run: docker compose config
 
+      # --------------------------------------------------
+      # Docker Image
+      # --------------------------------------------------
+
       - name: Build Docker Image
         run: |
+          set -euo pipefail
+
           DOCKER_BUILDKIT=1 docker build -t pawfolio:test .
+
+      # --------------------------------------------------
+      # Pawfolio Helm Chart
+      # --------------------------------------------------
 
       - name: Lint Helm Chart
         run: helm lint ./pawfolio-chart
 
       - name: Render Helm Templates
-        run: helm template pawfolio ./pawfolio-chart
+        run: |
+          set -euo pipefail
+
+          helm template pawfolio ./pawfolio-chart
+
+      # --------------------------------------------------
+      # Kubernetes Manifests
+      # --------------------------------------------------
 
       - name: Validate Kubernetes Manifests
-        run: kubectl kustomize kubernetes/
+        run: |
+          set -euo pipefail
+
+          kubectl kustomize kubernetes/
+
+      # --------------------------------------------------
+      # Helm Repositories
+      # --------------------------------------------------
+
+      - name: Setup Helm Repositories
+        run: |
+          set -euo pipefail
+
+          helm repo add grafana \
+            https://grafana.github.io/helm-charts
+
+          helm repo add grafana-community \
+            https://grafana-community.github.io/helm-charts
+
+          helm repo add prometheus-community \
+            https://prometheus-community.github.io/helm-charts
+
+          helm repo update
+
+      # --------------------------------------------------
+      # Loki - Local
+      # --------------------------------------------------
+
+      - name: Validate Loki Local Configuration
+        run: |
+          set -euo pipefail
+
+          helm template loki grafana-community/loki \
+            --version 18.7.5 \
+            --namespace monitoring \
+            --values observability/loki-values-local.yaml
+
+      # --------------------------------------------------
+      # Loki - AWS EKS
+      # --------------------------------------------------
+
+      - name: Validate Loki EKS Configuration
+        run: |
+          set -euo pipefail
+
+          helm template loki grafana-community/loki \
+            --version 18.7.5 \
+            --namespace monitoring \
+            --values observability/loki-values-eks.yaml
+
+      # --------------------------------------------------
+      # Grafana Alloy
+      # --------------------------------------------------
+
+      - name: Validate Grafana Alloy Configuration
+        run: |
+          set -euo pipefail
+
+          helm template alloy grafana/alloy \
+            --version 1.11.1 \
+            --namespace monitoring \
+            --values observability/alloy-values.yaml
+
+      # --------------------------------------------------
+      # Grafana
+      # --------------------------------------------------
+
+      - name: Validate Grafana Configuration
+        run: |
+          set -euo pipefail
+
+          helm template grafana grafana/grafana \
+            --namespace monitoring \
+            --values observability/grafana-values.yaml
+
+      # --------------------------------------------------
+      # Prometheus
+      # --------------------------------------------------
+
+      - name: Validate Prometheus Configuration
+        run: |
+          set -euo pipefail
+
+          helm template prometheus prometheus-community/prometheus \
+            --namespace monitoring \
+            --values observability/prometheus-values.yaml
