@@ -1,17 +1,13 @@
 {{- if .Values.config.create }}
-
 apiVersion: v1
 kind: ConfigMap
-
 metadata:
   name: pawfolio-config
   namespace: {{ .Release.Namespace }}
-
   labels:
-{{ include "pawfolio.labels" . | indent 4 }}
-
+    {{- include "pawfolio.labels" . | nindent 4 }}
 data:
   APP_NAME: {{ .Values.config.APP_NAME | quote }}
   FLASK_DEBUG: {{ .Values.config.FLASK_DEBUG | quote }}
-
+  GOOGLE_CLIENT_ID: {{ .Values.google.clientId | quote }}
 {{- end }}

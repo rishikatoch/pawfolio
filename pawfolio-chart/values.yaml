@@ -13,7 +13,7 @@ replicaCount: 1
 
 image:
   repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
-  tag: "1.0.0"
+  tag: "1.0.1"
   pullPolicy: IfNotPresent
 
 # -----------------------------------------------------------------------------
@@ -100,6 +100,17 @@ config:
   FLASK_DEBUG: "False"
 
 # -----------------------------------------------------------------------------
+# Google OAuth
+# -----------------------------------------------------------------------------
+
+# Google Client ID is not considered a secret.
+# The actual value should normally be supplied through
+# values-dev.local.yaml for the development environment.
+
+google:
+  clientId: ""
+
+# -----------------------------------------------------------------------------
 # Secret
 # -----------------------------------------------------------------------------
 
@@ -108,6 +119,10 @@ secret:
 
   databaseUrl: ""
   secretKey: ""
+
+  # Keep the actual Google client secret out of values.yaml.
+  # Supply it through values-dev.local.yaml.
+  googleClientSecret: ""
 
 # -----------------------------------------------------------------------------
 # PostgreSQL

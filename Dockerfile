@@ -15,12 +15,14 @@ RUN apt-get update && \
 
 COPY . .
 
-RUN addgroup --system appgroup && \
-    adduser --system --ingroup appgroup appuser && \
+# Create a non-root application user matching
+# the Kubernetes securityContext UID/GID.
+RUN groupadd --gid 10001 appgroup && \
+    useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin appuser && \
     mkdir -p /app/app/static/uploads/pets && \
-    chown -R appuser:appgroup /app
+    chown -R 10001:10001 /app
 
-USER appuser
+USER 10001:10001
 
 EXPOSE 5000
 

@@ -35,7 +35,7 @@ module "eks" {
   eks_managed_node_groups = {
     pawfolio = {
 
-      instance_types = ["t3.small"]
+      instance_types = ["c7i-flex.large"]
 
       ami_type = "AL2023_x86_64_STANDARD"
 
