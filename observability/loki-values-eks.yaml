@@ -1,0 +1,3 @@
+singleBinary:
+  persistence:
+    storageClass: gp2

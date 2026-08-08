@@ -27,7 +27,7 @@ singleBinary:
     accessModes:
       - ReadWriteOnce
     size: 5Gi
-    storageClass: gp2
+    storageClass: ""
 
   resources:
     requests:
