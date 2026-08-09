@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: pawfolio-service
+  namespace: {{ .Release.Namespace }}
+
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
+spec:
+  type: {{ .Values.service.type }}
+
+  selector:
+{{ include "pawfolio.selectorLabels" . | indent 4 }}
+
+  ports:
+    - name: http
+      protocol: {{ .Values.service.protocol }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      

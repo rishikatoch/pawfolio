@@ -1,0 +1,164 @@
+# -----------------------------------------------------------------------------
+# Helm Release Naming
+# -----------------------------------------------------------------------------
+
+nameOverride: ""
+fullnameOverride: ""
+
+# -----------------------------------------------------------------------------
+# Pawfolio Application
+# -----------------------------------------------------------------------------
+
+replicaCount: 1
+
+image:
+  repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
+  tag: "1.0.1"
+  pullPolicy: IfNotPresent
+
+# -----------------------------------------------------------------------------
+# Service Account
+# -----------------------------------------------------------------------------
+
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+
+# -----------------------------------------------------------------------------
+# Pod Security Context
+# -----------------------------------------------------------------------------
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+
+# -----------------------------------------------------------------------------
+# Container Security Context
+# -----------------------------------------------------------------------------
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+
+  capabilities:
+    drop:
+      - ALL
+
+  seccompProfile:
+    type: RuntimeDefault
+
+# -----------------------------------------------------------------------------
+# Service Configuration
+# -----------------------------------------------------------------------------
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+  protocol: TCP
+
+# -----------------------------------------------------------------------------
+# Ingress Configuration
+# -----------------------------------------------------------------------------
+
+ingress:
+  enabled: false
+
+  className: nginx
+
+  hosts:
+    - host: pawfolio.local
+      paths:
+        - /
+
+  tls: []
+
+# -----------------------------------------------------------------------------
+# Resource Requests & Limits
+# -----------------------------------------------------------------------------
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# -----------------------------------------------------------------------------
+# ConfigMap
+# -----------------------------------------------------------------------------
+
+config:
+  create: true
+
+  APP_NAME: "Pawfolio"
+  FLASK_DEBUG: "False"
+
+# -----------------------------------------------------------------------------
+# Google OAuth
+# -----------------------------------------------------------------------------
+
+# Google Client ID is not considered a secret.
+# The actual value should normally be supplied through
+# values-dev.local.yaml for the development environment.
+
+google:
+  clientId: ""
+
+# -----------------------------------------------------------------------------
+# Secret
+# -----------------------------------------------------------------------------
+
+secret:
+  create: true
+
+  databaseUrl: ""
+  secretKey: ""
+
+  # Keep the actual Google client secret out of values.yaml.
+  # Supply it through values-dev.local.yaml.
+  googleClientSecret: ""
+
+# -----------------------------------------------------------------------------
+# PostgreSQL
+# -----------------------------------------------------------------------------
+
+postgres:
+  image:
+    repository: "postgres"
+    tag: "16"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+
+  auth:
+    database: "pawfolio"
+    username: "pawfolio"
+    password: "password"
+
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: gp2
+    size: 5Gi
+
+# -----------------------------------------------------------------------------
+# Horizontal Pod Autoscaler
+# -----------------------------------------------------------------------------
+
+hpa:
+  enabled: false
+
+  minReplicas: 1
+  maxReplicas: 5
+
+  targetCPUUtilizationPercentage: 50
+  

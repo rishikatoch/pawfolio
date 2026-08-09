@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "pawfolio.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+
+  annotations:
+    checkov.io/skip1: CKV_K8S_35=Flask application intentionally uses environment variables for secrets
+    checkov.io/skip2: CKV_K8S_22=Application requires write access for uploaded pet images
+    checkov.io/skip3: CKV_K8S_43=Portfolio project uses immutable version tags instead of image digests
+
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  revisionHistoryLimit: 5
+
+  strategy:
+    type: RollingUpdate
+
+  selector:
+    matchLabels:
+{{ include "pawfolio.selectorLabels" . | indent 6 }}
+
+  template:
+    metadata:
+      labels:
+{{ include "pawfolio.selectorLabels" . | indent 8 }}
+
+    spec:
+
+      serviceAccountName: {{ default (include "pawfolio.fullname" .) .Values.serviceAccount.name }}
+
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+
+      terminationGracePeriodSeconds: 30
+
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+
+      containers:
+        - name: pawfolio
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}
+
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+
+          envFrom:
+            - configMapRef:
+                name: pawfolio-config
+
+            - secretRef:
+                name: pawfolio-secret
+
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.targetPort }}
+
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.targetPort }}
+
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            

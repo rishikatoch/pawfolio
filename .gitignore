@@ -102,3 +102,11 @@ terraform.rc
 pawfolio.zip
 *.tfplan
 tfplan
+
+pawfolio-chart/values-dev.local.yaml
+
+# ==========================================
+# Helm local development values
+# ==========================================
+
+pawfolio-chart/values-*.local.yaml

@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: pawfolio
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/rishikatoch/pawfolio.git
+    targetRevision: main
+    path: pawfolio-chart
+
+    helm:
+      parameters:
+        - name: secret.create
+          value: "false"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pawfolio
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,29 @@
+apiVersion: v2
+name: pawfolio
+description: A Helm chart for deploying the Pawfolio pet management application on Kubernetes.
+type: application
+
+version: 0.1.0
+appVersion: "1.0.0"
+
+home: https://github.com/rishikatoch/pawfolio
+
+sources:
+  - https://github.com/rishikatoch/pawfolio
+
+keywords:
+  - flask
+  - kubernetes
+  - helm
+  - pets
+  - postgres
+  - devops
+
+maintainers:
+  - name: Rishi Katoch
+    email: rishi.katoch999@gmail.com
+
+annotations:
+  category: Application
+
+icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png
