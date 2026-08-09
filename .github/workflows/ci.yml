@@ -54,14 +54,14 @@ jobs:
       # --------------------------------------------------
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # --------------------------------------------------
       # Python
       # --------------------------------------------------
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -82,14 +82,18 @@ jobs:
       # --------------------------------------------------
 
       - name: Run Flake8
-        run: flake8 .
+        run: |
+          set -euo pipefail
+          flake8 .
 
       # --------------------------------------------------
       # Tests
       # --------------------------------------------------
 
       - name: Run Pytest
-        run: pytest
+        run: |
+          set -euo pipefail
+          pytest
 
       # --------------------------------------------------
       # Docker Compose
@@ -109,7 +113,9 @@ jobs:
           EOF
 
       - name: Validate Docker Compose
-        run: docker compose config
+        run: |
+          set -euo pipefail
+          docker compose config
 
       # --------------------------------------------------
       # Docker Image
@@ -125,14 +131,17 @@ jobs:
       # Pawfolio Helm Chart
       # --------------------------------------------------
 
-      - name: Lint Helm Chart
-        run: helm lint ./pawfolio-chart
+      - name: Lint Pawfolio Helm Chart
+        run: |
+          set -euo pipefail
+          helm lint ./pawfolio-chart
 
-      - name: Render Helm Templates
+      - name: Render Pawfolio Helm Templates
         run: |
           set -euo pipefail
 
-          helm template pawfolio ./pawfolio-chart
+          helm template pawfolio ./pawfolio-chart \
+            --namespace pawfolio
 
       # --------------------------------------------------
       # Kubernetes Manifests
@@ -223,5 +232,6 @@ jobs:
           set -euo pipefail
 
           helm template prometheus prometheus-community/prometheus \
+            --version 29.21.0 \
             --namespace monitoring \
             --values observability/prometheus-values.yaml
