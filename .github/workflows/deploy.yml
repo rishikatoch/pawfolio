@@ -6,163 +6,181 @@ on:
       - main
 
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Deployment Environment"
-        required: true
-        default: "production"
-        type: choice
-        options:
-          - production
 
 permissions:
-  contents: read
+  id-token: write
+  contents: write
 
 concurrency:
   group: production-deployment
   cancel-in-progress: true
 
+env:
+  AWS_REGION: us-west-2
+  AWS_ROLE_ARN: arn:aws:iam::977574653467:role/pawfolio-github-actions
+  ECR_REPOSITORY: 977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio
+
 jobs:
   deploy:
-    name: Build & Deploy
+    name: Build, Push & Update GitOps
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+
+    timeout-minutes: 20
 
     steps:
-      ##################################################
+      # --------------------------------------------------
       # Checkout
-      ##################################################
+      # --------------------------------------------------
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      ##################################################
-      # Configure AWS
-      ##################################################
+      # --------------------------------------------------
+      # Configure AWS using GitHub OIDC
+      # --------------------------------------------------
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6.2.3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GitHubActions-Pawfolio
 
-      ##################################################
+      # --------------------------------------------------
+      # Verify AWS Identity
+      # --------------------------------------------------
+
+      - name: Verify AWS Identity
+        run: |
+          set -euo pipefail
+
+          echo "AWS identity:"
+          aws sts get-caller-identity
+
+      # --------------------------------------------------
       # Login to ECR
-      ##################################################
+      # --------------------------------------------------
 
       - name: Login to Amazon ECR
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      ##################################################
+      # --------------------------------------------------
       # Build Docker Image
-      ##################################################
+      # --------------------------------------------------
 
       - name: Build Docker Image
         run: |
-          docker build -t pawfolio:latest .
+          set -euo pipefail
 
-      ##################################################
-      # Tag Image
-      ##################################################
+          docker build \
+            --pull \
+            -t "$ECR_REPOSITORY:${GITHUB_SHA}" \
+            .
 
-      - name: Tag Docker Image
+      # --------------------------------------------------
+      # Push Docker Image
+      # --------------------------------------------------
+
+      - name: Push Docker Image
         run: |
-          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:latest
-          docker tag pawfolio:latest ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+          set -euo pipefail
 
-      ##################################################
-      # Push Image
-      ##################################################
+          docker push "$ECR_REPOSITORY:${GITHUB_SHA}"
 
-      - name: Push Docker Images
+      # --------------------------------------------------
+      # Update Helm Image Tag
+      # --------------------------------------------------
+
+      - name: Update Helm Image Tag
+        env:
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push ${{ secrets.ECR_REPOSITORY }}:latest
-          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+          set -euo pipefail
 
-      ##################################################
-      # Deploy
-      ##################################################
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import re
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          path = Path("pawfolio-chart/values.yaml")
+          image_tag = os.environ["IMAGE_TAG"]
 
-          script: |
+          content = path.read_text()
 
-            set -Eeuo pipefail
+          pattern = (
+              r'(?ms)(^image:\s*\n.*?^\s+tag:\s*)'
+              r'["\']?[^"\']+["\']?'
+          )
 
-            echo "========================================"
-            echo "Starting Pawfolio Deployment"
-            echo "========================================"
+          updated, count = re.subn(
+              pattern,
+              rf'\g<1>"{image_tag}"',
+              content,
+              count=1,
+          )
 
-            cd /opt/pawfolio
+          if count != 1:
+              raise SystemExit(
+                  "ERROR: Could not find exactly one image.tag entry "
+                  "under the image configuration."
+              )
 
-            echo "Updating Repository..."
-            git fetch origin main
-            git checkout main
-            git reset --hard origin/main
+          path.write_text(updated)
 
-            echo "Logging into Amazon ECR..."
+          print(f"Updated image.tag to {image_tag}")
+          PY
 
-            ECR_REGISTRY=$(echo "${{ secrets.ECR_REPOSITORY }}" | cut -d'/' -f1)
+          echo "Updated Helm values:"
+          grep -A2 '^image:' pawfolio-chart/values.yaml
 
-            aws ecr get-login-password \
-              --region ${{ secrets.AWS_REGION }} \
-              | docker login \
-                --username AWS \
-                --password-stdin "$ECR_REGISTRY"
+      # --------------------------------------------------
+      # Validate Helm Chart
+      # --------------------------------------------------
 
-            echo "Validating Docker Compose..."
+      - name: Validate Helm Chart
+        run: |
+          set -euo pipefail
 
-            docker compose \
-              -f docker-compose.prod.yml \
-              config
+          helm lint ./pawfolio-chart
 
-            echo "Pulling Latest Images..."
+          helm template pawfolio ./pawfolio-chart \
+            --namespace pawfolio
 
-            docker compose \
-              -f docker-compose.prod.yml \
-              pull
+      # --------------------------------------------------
+      # Commit GitOps Change
+      # --------------------------------------------------
 
-            echo "Starting Containers..."
+      - name: Commit GitOps Change
+        run: |
+          set -euo pipefail
 
-            docker compose \
-              -f docker-compose.prod.yml \
-              up -d
+          git config user.name "github-actions[bot]"
+            git config user.email \
+              "41898282+github-actions[bot]@users.noreply.github.com"
 
-            echo "Waiting for Database..."
+          git add pawfolio-chart/values.yaml
 
-            sleep 15
+          if git diff --cached --quiet; then
+            echo "No GitOps changes to commit."
+            exit 0
+          fi
 
-            echo "Running Database Migrations..."
+          git commit \
+            -m "chore: deploy Pawfolio ${GITHUB_SHA::7}"
 
-            docker compose \
-              -f docker-compose.prod.yml \
-              exec -T pawfolio \
-              flask db upgrade
+          git push origin HEAD:main
 
-            echo "Waiting for Application..."
+      # --------------------------------------------------
+      # Deployment Summary
+      # --------------------------------------------------
 
-            sleep 10
-
-            echo "Checking Running Containers..."
-
-            docker ps
-
-            echo "Health Check..."
-
-            curl --fail http://localhost/health
-
-            echo "Cleaning Docker..."
-
-            docker image prune -f
-            docker container prune -f
-
-            echo "========================================"
-            echo "Deployment Successful"
-            echo "========================================"
+      - name: Deployment Summary
+        run: |
+          echo "========================================"
+          echo "Pawfolio Deployment"
+          echo "========================================"
+          echo "Commit:      $GITHUB_SHA"
+          echo "Image:       $ECR_REPOSITORY:$GITHUB_SHA"
+          echo "GitOps:      values.yaml updated"
+          echo "Argo CD:     will reconcile EKS"
+          echo "========================================"
