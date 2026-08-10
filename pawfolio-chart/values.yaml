@@ -144,10 +144,10 @@ postgres:
     port: 5432
     targetPort: 5432
 
+  postgres:
   auth:
     database: "pawfolio"
     username: "pawfolio"
-    password: "password"
 
   persistence:
     enabled: true
