@@ -55,7 +55,7 @@ securityContext:
 # -----------------------------------------------------------------------------
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetPort: 5000
   protocol: TCP
@@ -161,4 +161,4 @@ hpa:
   maxReplicas: 5
 
   targetCPUUtilizationPercentage: 50
-  
+
