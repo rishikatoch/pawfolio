@@ -65,12 +65,17 @@ service:
 # -----------------------------------------------------------------------------
 
 ingress:
-  enabled: false
+  enabled: true
 
-  className: nginx
+  className: alb
+
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /
 
   hosts:
-    - host: pawfolio.local
+    - host: ""
       paths:
         - /
 
@@ -161,4 +166,3 @@ hpa:
   maxReplicas: 5
 
   targetCPUUtilizationPercentage: 50
-
