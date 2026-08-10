@@ -1,50 +1,42 @@
 {{- if .Values.ingress.enabled }}
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
-
 metadata:
   name: pawfolio-ingress
   namespace: {{ .Release.Namespace }}
-
   labels:
-{{ include "pawfolio.labels" . | indent 4 }}
-
+    {{- include "pawfolio.labels" . | nindent 4 }}
   annotations:
-{{- with .Values.ingress.annotations }}
-{{ toYaml . | indent 4 }}
-{{- end }}
-
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-
-rules:
-  {{- range .Values.ingress.hosts }}
-  - {{- if .host }}
-    host: {{ .host | quote }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - {{- if .host }}
+      host: {{ .host | quote }}
+      {{- end }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ . | quote }}
+            pathType: Prefix
+            backend:
+              service:
+                name: pawfolio-service
+                port:
+                  number: {{ $.Values.service.port }}
+          {{- end }}
     {{- end }}
-    http:
-      paths:
-        {{- range .paths }}
-        - path: {{ . | quote }}
-          pathType: Prefix
-          backend:
-            service:
-              name: pawfolio-service
-              port:
-                number: {{ $.Values.service.port }}
-        {{- end }}
-  {{- end }}
-
-{{- if .Values.ingress.tls }}
+  {{- if .Values.ingress.tls }}
   tls:
-{{- range .Values.ingress.tls }}
+    {{- range .Values.ingress.tls }}
     - hosts:
-{{- range .hosts }}
+        {{- range .hosts }}
         - {{ . | quote }}
-{{- end }}
+        {{- end }}
       secretName: {{ .secretName | quote }}
-{{- end }}
-{{- end }}
-
+    {{- end }}
+  {{- end }}
 {{- end }}
