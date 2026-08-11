@@ -13,7 +13,7 @@ replicaCount: 1
 
 image:
   repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
-  tag: "7e599b3e6e9970e59f4672a356bf765b6716dfc7"
+  tag: "9bec7a07ff9064131792c7398d67e0d08ab34732"
   pullPolicy: IfNotPresent
 
 # -----------------------------------------------------------------------------
