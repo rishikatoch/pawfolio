@@ -73,6 +73,9 @@ ingress:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-west-2:977574653467:certificate/cef83a7c-e49b-447c-a86e-55be35949d5b"
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
 
   hosts:
     - host: pawfolio.in
