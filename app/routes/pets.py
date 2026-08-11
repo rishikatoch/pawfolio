@@ -18,6 +18,7 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
+from wtforms import form
 
 from app import app, db
 from app.forms import WeightRecordForm
@@ -686,62 +687,6 @@ def edit_pet(pet_id):
 
 
 @app.route(
-    "/pet/<int:pet_id>/weight/add",
-    methods=["GET", "POST"],
-)
-@login_required
-def add_weight(pet_id):
-
-    pet = Pet.query.filter_by(
-        id=pet_id,
-        user_id=current_user.id,
-    ).first_or_404()
-
-    form = WeightRecordForm()
-
-    if form.validate_on_submit():
-
-        record = WeightRecord(
-            pet_id=pet.id,
-            weight=form.weight.data,
-            measurement_date=form.measurement_date.data,
-            notes=form.notes.data,
-        )
-
-        try:
-
-            db.session.add(record)
-            db.session.commit()
-
-            flash(
-                "Weight record added successfully.",
-                "success",
-            )
-
-            return redirect(
-                url_for(
-                    "pet_profile",
-                    pet_id=pet.id,
-                )
-            )
-
-        except Exception:
-
-            db.session.rollback()
-
-            flash(
-                "Unable to save weight record.",
-                "danger",
-            )
-
-    return render_template(
-        "add_weight.html",
-        pet=pet,
-        form=form,
-    )
-
-
-@app.route(
     "/weight/<int:weight_id>/edit",
     methods=["GET", "POST"],
 )
@@ -761,12 +706,18 @@ def edit_weight(weight_id):
 
     if form.validate_on_submit():
 
+        print("=== WEIGHT EDIT DEBUG ===")
+        print("Record ID:", record.id)
+        print("Submitted weight:", form.weight.data)
+        print("Submitted date:", form.measurement_date.data)
+        print("Submitted notes:", form.notes.data)
+        print("Form errors:", form.errors)
+
         record.weight = form.weight.data
         record.measurement_date = form.measurement_date.data
         record.notes = form.notes.data
 
         try:
-
             db.session.commit()
 
             flash(
@@ -782,13 +733,18 @@ def edit_weight(weight_id):
             )
 
         except Exception:
-
             db.session.rollback()
 
             flash(
                 "Unable to update weight.",
                 "danger",
             )
+
+    else:
+        print("=== WEIGHT FORM VALIDATION FAILED ===")
+        print("Weight data:", form.weight.data)
+        print("Weight raw:", form.weight.raw_data)
+        print("Form errors:", form.errors)
 
     return render_template(
         "edit_weight.html",

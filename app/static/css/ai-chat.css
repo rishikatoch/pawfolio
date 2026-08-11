@@ -1,0 +1,414 @@
+/* =========================================================
+   PAWFOLIO AI
+   Theme-aware AI assistant
+   ========================================================= */
+
+.pawfolio-ai-section {
+    margin-top: 2rem;
+}
+
+/* =========================================================
+   AI CARD
+   ========================================================= */
+
+.pawfolio-ai-card {
+    position: relative;
+    overflow: hidden;
+    padding: 1.5rem;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.pawfolio-ai-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.pawfolio-ai-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 3rem;
+    width: 3rem;
+    height: 3rem;
+
+    border-radius: 12px;
+
+    background: rgba(125, 224, 189, 0.12);
+    color: var(--primary);
+
+    font-size: 1.25rem;
+}
+
+.pawfolio-ai-intro h3 {
+    margin: 0 0 0.35rem;
+
+    color: var(--text);
+
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.pawfolio-ai-intro p {
+    margin: 0;
+
+    color: var(--text-muted);
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   AI BADGE
+   ========================================================= */
+
+.pawfolio-ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    padding: 0.4rem 0.7rem;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: var(--surface-elevated);
+    color: var(--primary);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* =========================================================
+   SUGGESTIONS
+   ========================================================= */
+
+.pawfolio-ai-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+
+    margin-bottom: 1rem;
+}
+
+.pawfolio-ai-suggestion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+
+    min-height: 2.35rem;
+    padding: 0.55rem 0.8rem;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: var(--surface-elevated);
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.85rem;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.pawfolio-ai-suggestion i {
+    color: var(--primary);
+}
+
+.pawfolio-ai-suggestion:hover:not(:disabled) {
+    border-color: var(--primary);
+
+    background: rgba(125, 224, 189, 0.08);
+    color: var(--text);
+
+    transform: translateY(-1px);
+}
+
+.pawfolio-ai-suggestion:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* =========================================================
+   CHAT WINDOW
+   ========================================================= */
+
+.pawfolio-ai-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    min-height: 7rem;
+    max-height: 28rem;
+
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+
+    overflow-y: auto;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface-elevated);
+
+    scroll-behavior: smooth;
+}
+
+/* =========================================================
+   CHAT MESSAGES
+   ========================================================= */
+
+.pawfolio-ai-message {
+    display: flex;
+    width: 100%;
+
+    animation: pawfolioAiMessageIn 0.2s ease-out;
+}
+
+.pawfolio-ai-message-content {
+    max-width: min(80%, 42rem);
+
+    padding: 0.7rem 0.9rem;
+
+    border-radius: 10px;
+
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------
+   USER
+   --------------------------------------------------------- */
+
+.pawfolio-ai-message-user {
+    justify-content: flex-end;
+}
+
+.pawfolio-ai-message-user .pawfolio-ai-message-content {
+    border-bottom-right-radius: 3px;
+
+    background: var(--primary);
+    color: #071411;
+
+    border: 1px solid var(--primary);
+}
+
+/* ---------------------------------------------------------
+   ASSISTANT
+   --------------------------------------------------------- */
+
+.pawfolio-ai-message-assistant {
+    justify-content: flex-start;
+}
+
+.pawfolio-ai-message-assistant .pawfolio-ai-message-content {
+    border-bottom-left-radius: 3px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+
+    color: var(--text);
+}
+
+/* ---------------------------------------------------------
+   ERROR
+   --------------------------------------------------------- */
+
+.pawfolio-ai-message-error {
+    justify-content: flex-start;
+}
+
+.pawfolio-ai-message-error .pawfolio-ai-message-content {
+    border-bottom-left-radius: 3px;
+
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.22);
+
+    color: #ef6b6b;
+}
+
+/* =========================================================
+   INPUT
+   ========================================================= */
+
+.pawfolio-ai-form {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.pawfolio-ai-input {
+    flex: 1;
+    min-width: 0;
+
+    min-height: 2.9rem;
+    padding: 0.7rem 0.9rem;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface-elevated);
+    color: var(--text);
+
+    font: inherit;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.pawfolio-ai-input::placeholder {
+    color: var(--text-muted);
+}
+
+.pawfolio-ai-input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(125, 224, 189, 0.10);
+}
+
+.pawfolio-ai-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* =========================================================
+   SEND BUTTON
+   ========================================================= */
+
+.pawfolio-ai-submit {
+    flex: 0 0 auto;
+
+    width: 2.9rem;
+    height: 2.9rem;
+
+    padding: 0;
+
+    border-radius: 9px;
+}
+
+.pawfolio-ai-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* =========================================================
+   DISCLAIMER
+   ========================================================= */
+
+.pawfolio-ai-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+
+    margin: 0.8rem 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.pawfolio-ai-disclaimer i {
+    margin-top: 0.15rem;
+
+    color: var(--primary);
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.pawfolio-ai-chat::-webkit-scrollbar {
+    width: 7px;
+}
+
+.pawfolio-ai-chat::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pawfolio-ai-chat::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+}
+
+.pawfolio-ai-chat::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes pawfolioAiMessageIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+    .pawfolio-ai-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .pawfolio-ai-intro {
+        gap: 0.75rem;
+    }
+
+    .pawfolio-ai-icon {
+        flex-basis: 2.6rem;
+        width: 2.6rem;
+        height: 2.6rem;
+    }
+
+    .pawfolio-ai-suggestions {
+        flex-direction: column;
+    }
+
+    .pawfolio-ai-suggestion {
+        width: 100%;
+        justify-content: flex-start;
+        border-radius: 8px;
+    }
+
+    .pawfolio-ai-message-content {
+        max-width: 90%;
+    }
+}

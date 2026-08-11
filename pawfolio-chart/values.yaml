@@ -75,7 +75,7 @@ ingress:
     alb.ingress.kubernetes.io/healthcheck-path: /
 
   hosts:
-    - host: ""
+    - host: pawfolio.in
       paths:
         - /
 

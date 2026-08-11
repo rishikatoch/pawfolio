@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai-chat.css') }}">
+{% endblock %}
 
 {% block title %}
 Your Pet Dashboard | Pawfolio
@@ -10,22 +13,25 @@ Your Pet Dashboard | Pawfolio
         <div class="pet-welcome-copy">
             <span class="pet-welcome-eyebrow"><i class="bi bi-heart-fill"></i> Your furry family</span>
             <h1 id="dashboard-title">
-                Good {% if now.hour < 12 %}morning{% elif now.hour < 17 %}afternoon{% else %}evening{% endif %},
-                {{ current_user.username }}.
-            </h1>
-            {% if pets %}
-            <p>Everything your family needs to care for {{ pets|length }} beloved pet{% if pets|length != 1 %}s{% endif %}, in one calm place.</p>
-            {% else %}
-            <p>Give your pet a home for every important health moment.</p>
-            {% endif %}
-            <div class="pet-welcome-actions">
-                <a href="{{ url_for('add_pet') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add a pet</a>
-                {% if pets %}<a href="{{ url_for('reminders') }}" class="btn btn-outline-primary"><i class="bi bi-bell"></i> View reminders</a>{% endif %}
-            </div>
+                Good {% if now.hour < 12 %}morning{% elif now.hour < 17 %}afternoon{% else %}evening{% endif %}, {{
+                    current_user.username }}. </h1>
+                    {% if pets %}
+                    <p>Everything your family needs to care for {{ pets|length }} beloved pet{% if pets|length != 1
+                        %}s{% endif %}, in one calm place.</p>
+                    {% else %}
+                    <p>Give your pet a home for every important health moment.</p>
+                    {% endif %}
+                    <div class="pet-welcome-actions">
+                        <a href="{{ url_for('add_pet') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add a
+                            pet</a>
+                        {% if pets %}<a href="{{ url_for('reminders') }}" class="btn btn-outline-primary"><i
+                                class="bi bi-bell"></i> View reminders</a>{% endif %}
+                    </div>
         </div>
 
         {% if pets %}
-        <a class="pet-welcome-feature" href="{{ url_for('pet_profile', pet_id=pets[0].id) }}" aria-label="Open {{ pets[0].name }}'s profile">
+        <a class="pet-welcome-feature" href="{{ url_for('pet_profile', pet_id=pets[0].id) }}"
+            aria-label="Open {{ pets[0].name }}'s profile">
             <div class="pet-welcome-feature-copy">
                 <span>Featured family member</span>
                 <strong>{{ pets[0].name }}</strong>
@@ -47,11 +53,14 @@ Your Pet Dashboard | Pawfolio
     <section class="dashboard-status-grid" aria-label="Care overview">
         <a href="#family" class="status-card status-card-mint">
             <span class="status-card-icon"><i class="bi bi-heart"></i></span>
-            <span><strong>{{ total_pets }}</strong><small>Pet{% if total_pets != 1 %}s{% endif %} in your family</small></span>
+            <span><strong>{{ total_pets }}</strong><small>Pet{% if total_pets != 1 %}s{% endif %} in your
+                    family</small></span>
         </a>
-        <a href="{{ url_for('reminders') }}" class="status-card {% if overdue_count %}status-card-amber{% else %}status-card-mint{% endif %}">
+        <a href="{{ url_for('reminders') }}"
+            class="status-card {% if overdue_count %}status-card-amber{% else %}status-card-mint{% endif %}">
             <span class="status-card-icon"><i class="bi bi-bell"></i></span>
-            <span><strong>{{ overdue_count }}</strong><small>Overdue care item{% if overdue_count != 1 %}s{% endif %}</small></span>
+            <span><strong>{{ overdue_count }}</strong><small>Overdue care item{% if overdue_count != 1 %}s{% endif
+                    %}</small></span>
         </a>
         <a href="{{ url_for('reminders') }}" class="status-card status-card-purple">
             <span class="status-card-icon"><i class="bi bi-calendar2-check"></i></span>
@@ -87,7 +96,8 @@ Your Pet Dashboard | Pawfolio
                     <div class="family-card-copy">
                         <h3>{{ pet.name }}</h3>
                         <p>{{ pet.breed or "Beloved family member" }}</p>
-                        <span>{{ pet.age_display }}{% if pet.latest_weight %} · {{ pet.latest_weight }} kg{% endif %}</span>
+                        <span>{{ pet.age_display }}{% if pet.latest_weight %} · {{ pet.latest_weight }} kg{% endif
+                            %}</span>
                     </div>
                     <i class="bi bi-arrow-up-right family-card-arrow" aria-hidden="true"></i>
                 </a>
@@ -116,17 +126,20 @@ Your Pet Dashboard | Pawfolio
             {% if overdue_reminders %}
             <div class="care-callout care-callout-overdue">
                 <i class="bi bi-exclamation-circle"></i>
-                <div><strong>{{ overdue_reminders|length }} item{% if overdue_reminders|length != 1 %}s{% endif %} need attention</strong><span>A little care today goes a long way.</span></div>
+                <div><strong>{{ overdue_reminders|length }} item{% if overdue_reminders|length != 1 %}s{% endif %} need
+                        attention</strong><span>A little care today goes a long way.</span></div>
             </div>
             {% elif upcoming_reminders %}
             <div class="care-callout">
                 <i class="bi bi-calendar-heart"></i>
-                <div><strong>Your next care moment is coming up</strong><span>You're doing a wonderful job staying prepared.</span></div>
+                <div><strong>Your next care moment is coming up</strong><span>You're doing a wonderful job staying
+                        prepared.</span></div>
             </div>
             {% else %}
             <div class="care-callout care-callout-clear">
                 <i class="bi bi-check2-circle"></i>
-                <div><strong>Nothing needs your attention right now</strong><span>Enjoy the extra time together.</span></div>
+                <div><strong>Nothing needs your attention right now</strong><span>Enjoy the extra time together.</span>
+                </div>
             </div>
             {% endif %}
 
@@ -134,7 +147,8 @@ Your Pet Dashboard | Pawfolio
                 {% for reminder in upcoming_reminders[:3] %}
                 <a href="{{ url_for('reminders') }}" class="care-list-item">
                     <span class="care-list-icon"><i class="bi bi-bell"></i></span>
-                    <span><strong>{{ reminder.title }}</strong><small>{{ reminder.pet_name }} · {{ reminder.type }}</small></span>
+                    <span><strong>{{ reminder.title }}</strong><small>{{ reminder.pet_name }} · {{ reminder.type
+                            }}</small></span>
                     <time datetime="{{ reminder.date }}">{{ reminder.date.strftime('%d %b') }}</time>
                 </a>
                 {% else %}
@@ -147,31 +161,125 @@ Your Pet Dashboard | Pawfolio
     {% if pets %}
     <section class="dashboard-section quick-actions" aria-labelledby="actions-title">
         <div class="dashboard-section-heading">
-            <div><span class="section-kicker">QUICK ACTIONS</span><h2 id="actions-title">Keep their care moving</h2></div>
+            <div><span class="section-kicker">QUICK ACTIONS</span>
+                <h2 id="actions-title">Keep their care moving</h2>
+            </div>
         </div>
         <div class="quick-action-grid">
-            <a href="{{ url_for('add_vaccination', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-vaccine"><i class="bi bi-shield-plus"></i></span><span><strong>Add vaccination</strong><small>Record a dose or booster</small></span><i class="bi bi-arrow-right"></i></a>
-            <a href="{{ url_for('add_deworming', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-deworm"><i class="bi bi-capsule"></i></span><span><strong>Add deworming</strong><small>Keep their schedule current</small></span><i class="bi bi-arrow-right"></i></a>
-            <a href="{{ url_for('add_medication', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-medication"><i class="bi bi-capsule-pill"></i></span><span><strong>Add medication</strong><small>Track a treatment plan</small></span><i class="bi bi-arrow-right"></i></a>
-            <a href="{{ url_for('add_vet_visit', pet_id=pets[0].id) }}" class="quick-action"><span class="quick-action-icon action-vet"><i class="bi bi-calendar-plus"></i></span><span><strong>Add vet visit</strong><small>Save a care appointment</small></span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_vaccination', pet_id=pets[0].id) }}" class="quick-action"><span
+                    class="quick-action-icon action-vaccine"><i class="bi bi-shield-plus"></i></span><span><strong>Add
+                        vaccination</strong><small>Record a dose or booster</small></span><i
+                    class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_deworming', pet_id=pets[0].id) }}" class="quick-action"><span
+                    class="quick-action-icon action-deworm"><i class="bi bi-capsule"></i></span><span><strong>Add
+                        deworming</strong><small>Keep their schedule current</small></span><i
+                    class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_medication', pet_id=pets[0].id) }}" class="quick-action"><span
+                    class="quick-action-icon action-medication"><i
+                        class="bi bi-capsule-pill"></i></span><span><strong>Add medication</strong><small>Track a
+                        treatment plan</small></span><i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('add_vet_visit', pet_id=pets[0].id) }}" class="quick-action"><span
+                    class="quick-action-icon action-vet"><i class="bi bi-calendar-plus"></i></span><span><strong>Add vet
+                        visit</strong><small>Save a care appointment</small></span><i class="bi bi-arrow-right"></i></a>
         </div>
     </section>
     {% endif %}
 
+    <section class="dashboard-section pawfolio-ai-section" aria-labelledby="pawfolio-ai-title">
+        <div class="dashboard-section-heading">
+            <div>
+                <span class="section-kicker">PAWFOLIO AI</span>
+                <h2 id="pawfolio-ai-title">Ask about your pet's care</h2>
+            </div>
+            <span class="pawfolio-ai-badge">
+                <i class="bi bi-stars"></i> AI Assistant
+            </span>
+        </div>
+
+        <div class="pawfolio-ai-card">
+            <div class="pawfolio-ai-intro">
+                <div class="pawfolio-ai-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <div>
+                    <h3>Your pet records, made easier to understand.</h3>
+                    <p>
+                        Ask Pawfolio AI about vaccinations, medications,
+                        vet visits, deworming, weight history, and upcoming care.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pawfolio-ai-suggestions">
+                <button type="button" class="pawfolio-ai-suggestion" data-ai-question="What vaccinations are due soon?">
+                    <i class="bi bi-shield-check"></i>
+                    <span>What vaccinations are due soon?</span>
+                </button>
+
+                <button type="button" class="pawfolio-ai-suggestion"
+                    data-ai-question="What medications are my pets currently taking?">
+                    <i class="bi bi-capsule-pill"></i>
+                    <span>What medications are active?</span>
+                </button>
+
+                <button type="button" class="pawfolio-ai-suggestion"
+                    data-ai-question="When was my pet's last vet visit?">
+                    <i class="bi bi-heart-pulse"></i>
+                    <span>When was the last vet visit?</span>
+                </button>
+            </div>
+
+            <div class="pawfolio-ai-chat" id="pawfolio-ai-chat" aria-live="polite"></div>
+
+            <form id="pawfolio-ai-form" class="pawfolio-ai-form">
+                <label for="pawfolio-ai-input" class="visually-hidden">
+                    Ask Pawfolio AI
+                </label>
+
+                <input type="text" id="pawfolio-ai-input" name="message" class="pawfolio-ai-input"
+                    placeholder="Ask Pawfolio AI something..." autocomplete="off" maxlength="2000" required>
+
+                <button type="submit" class="btn btn-primary pawfolio-ai-submit" aria-label="Ask Pawfolio AI">
+                    <i class="bi bi-arrow-up"></i>
+                </button>
+            </form>
+
+            <p class="pawfolio-ai-disclaimer">
+                <i class="bi bi-info-circle"></i>
+                Pawfolio AI uses your recorded pet information. It does not replace
+                professional veterinary advice.
+            </p>
+        </div>
+    </section>
+
     <section class="dashboard-section activity-section" aria-labelledby="activity-title">
         <div class="dashboard-section-heading">
-            <div><span class="section-kicker">RECENTLY RECORDED</span><h2 id="activity-title">Little moments of care</h2></div>
+            <div><span class="section-kicker">RECENTLY RECORDED</span>
+                <h2 id="activity-title">Little moments of care</h2>
+            </div>
         </div>
         <div class="activity-feed">
             {% for activity in recent_activity %}
             <div class="activity-feed-item">
                 <span class="activity-feed-icon">{{ activity.icon }}</span>
-                <div><strong>{{ activity.message }}</strong><time datetime="{{ activity.date }}">{{ activity.date.strftime('%d %b %Y') }}</time></div>
+                <div><strong>{{ activity.message }}</strong><time datetime="{{ activity.date }}">{{
+                        activity.date.strftime('%d %b %Y') }}</time></div>
             </div>
             {% else %}
-            <div class="delightful-empty-state delightful-empty-state-compact"><span class="delightful-empty-icon"><i class="bi bi-journal-heart"></i></span><div><h3>The story starts with a first moment.</h3><p>Vaccinations and deworming records will build a caring timeline here.</p></div></div>
+            <div class="delightful-empty-state delightful-empty-state-compact"><span class="delightful-empty-icon"><i
+                        class="bi bi-journal-heart"></i></span>
+                <div>
+                    <h3>The story starts with a first moment.</h3>
+                    <p>Vaccinations and deworming records will build a caring timeline here.</p>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </section>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/ai-chat.js') }}"></script>
 {% endblock %}
