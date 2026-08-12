@@ -102,7 +102,7 @@ jobs:
               with:
                   image-ref: pawfolio:security
                   format: table
-                  exit-code: "0"
+                  exit-code: "1"
                   vuln-type: os,library
                   severity: HIGH,CRITICAL
 
