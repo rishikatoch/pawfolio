@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
+  annotations:
+    checkov.io/skip1: CKV_K8S_35=Flask application intentionally uses environment variables for secrets
   name: pawfolio
   namespace: pawfolio
 
@@ -20,6 +22,18 @@ spec:
     spec:
       containers:
         - name: pawfolio
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            seccompProfile:
+              type: RuntimeDefault
+
           image: pawfolio:latest
           imagePullPolicy: IfNotPresent
 
