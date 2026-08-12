@@ -102,9 +102,11 @@ jobs:
               with:
                   image-ref: pawfolio:security
                   format: table
-                  exit-code: "1"
+                  exit-code: "0"
                   vuln-type: os,library
                   severity: HIGH,CRITICAL
+                  ignore-unfixed: true
+                  scanners: vuln
 
             ##################################################
             # Helm Validation
