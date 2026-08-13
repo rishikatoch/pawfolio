@@ -18,7 +18,6 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
-from wtforms import form
 
 from app import app, db
 from app.forms import WeightRecordForm
