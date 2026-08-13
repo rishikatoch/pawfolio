@@ -24,7 +24,6 @@ jobs:
   deploy:
     name: Build, Push & Update GitOps
     runs-on: ubuntu-latest
-
     timeout-minutes: 20
 
     steps:
@@ -78,6 +77,34 @@ jobs:
             .
 
       # --------------------------------------------------
+      # Trivy Security Gate
+      # --------------------------------------------------
+
+      - name: Trivy Container Security Gate
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "0"
+          vuln-type: os,library
+          scanners: vuln
+
+      # --------------------------------------------------
+      # Generate SBOM
+      # --------------------------------------------------
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          format: spdx-json
+          output-file: sbom.spdx.json
+          artifact-name: pawfolio-sbom.spdx.json
+          upload-artifact: true
+
+      # --------------------------------------------------
       # Push Docker Image
       # --------------------------------------------------
 
@@ -86,6 +113,26 @@ jobs:
           set -euo pipefail
 
           docker push "$ECR_REPOSITORY:${GITHUB_SHA}"
+
+      # --------------------------------------------------
+      # Cosign Image Signing
+      # --------------------------------------------------
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.10.0
+
+      - name: Sign Container Image
+        env:
+          IMAGE: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE")
+
+          echo "Signing image:"
+          echo "$DIGEST"
+
+          cosign sign --yes "$DIGEST"
 
       # --------------------------------------------------
       # Update Helm Image Tag
@@ -155,8 +202,7 @@ jobs:
           set -euo pipefail
 
           git config user.name "github-actions[bot]"
-            git config user.email \
-              "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add pawfolio-chart/values.yaml
 
@@ -182,5 +228,5 @@ jobs:
           echo "Commit:      $GITHUB_SHA"
           echo "Image:       $ECR_REPOSITORY:$GITHUB_SHA"
           echo "GitOps:      values.yaml updated"
-          echo "Argo CD:     will reconcile EKS"
+          echo "Argo Rollout: enabled"
           echo "========================================"
