@@ -99,6 +99,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           image: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          syft-version: "1.50.0"
           format: spdx-json
           output-file: sbom.spdx.json
           artifact-name: pawfolio-sbom.spdx.json
