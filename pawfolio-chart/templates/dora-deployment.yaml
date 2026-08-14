@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "pawfolio.fullname" . }}-dora
+  namespace: {{ .Release.Namespace }}
+
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pawfolio-dora
+      app.kubernetes.io/instance: {{ .Release.Name }}
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pawfolio-dora
+        app.kubernetes.io/instance: {{ .Release.Name }}
+
+    spec:
+      serviceAccountName: {{ include "pawfolio.fullname" . }}-dora
+      automountServiceAccountToken: false
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: dora
+          image: "{{ .Values.dora.image.repository }}:{{ .Values.dora.image.tag }}"
+          imagePullPolicy: {{ .Values.dora.image.pullPolicy }}
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+
+          ports:
+            - name: metrics
+              containerPort: 8000
+              protocol: TCP
+
+          env:
+            - name: GITHUB_REPO
+              value: {{ .Values.dora.githubRepo | quote }}
+
+            - name: GITHUB_WORKFLOW
+              value: {{ .Values.dora.githubWorkflow | quote }}
+
+            - name: DORA_LOOKBACK_RUNS
+              value: {{ .Values.dora.lookbackRuns | quote }}
+
+            - name: DORA_CACHE_SECONDS
+              value: {{ .Values.dora.cacheSeconds | quote }}
+
+          resources:
+{{ toYaml .Values.dora.resources | indent 12 }}
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: metrics
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: metrics
+            initialDelaySeconds: 10
+            periodSeconds: 20

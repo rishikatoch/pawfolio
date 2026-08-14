@@ -169,3 +169,28 @@ hpa:
   maxReplicas: 5
 
   targetCPUUtilizationPercentage: 50
+
+# -----------------------------------------------------------------------------
+# DORA Metrics Exporter
+# -----------------------------------------------------------------------------
+
+dora:
+  image:
+    repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
+    tag: "dora"
+    pullPolicy: IfNotPresent
+
+  githubRepo: "rishikatoch/pawfolio"
+  githubWorkflow: "Deploy to Production"
+
+  lookbackRuns: 50
+  cacheSeconds: 300
+
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
