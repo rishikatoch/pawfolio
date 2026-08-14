@@ -13,5 +13,5 @@ spec:
           url: "http://pawfolio-service.{{ .Release.Namespace }}.svc.cluster.local/health"
           timeoutSeconds: 10
           jsonPath: "{$}"
-      successCondition: result.status == 'THIS_WILL_FAIL'
+      successCondition: result.status == 'healthy'
       failureLimit: 1
