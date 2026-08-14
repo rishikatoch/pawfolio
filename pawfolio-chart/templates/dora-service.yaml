@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ include "pawfolio.fullname" . }}-dora
+  namespace: {{ .Release.Namespace }}
+
+  labels:
+{{ include "pawfolio.labels" . | indent 4 }}
+    app.kubernetes.io/name: pawfolio-dora
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app.kubernetes.io/name: pawfolio-dora
+    app.kubernetes.io/instance: {{ .Release.Name }}
+
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 8000
+      targetPort: metrics
