@@ -1,0 +1,271 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: pawfolio-dora-dashboard
+  namespace: {{ .Release.Namespace }}
+
+  labels:
+    grafana_dashboard: "1"
+    release: prometheus
+    {{- include "pawfolio.labels" . | nindent 4 }}
+
+data:
+  pawfolio-dora.json: |-
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "graphTooltip": 1,
+      "panels": [
+        {
+          "type": "stat",
+          "title": "Deployment Frequency / Day",
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_deployment_frequency_per_day",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "decimals": 2
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Lead Time (Hours)",
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 6,
+            "y": 0
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_lead_time_hours",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "h",
+              "decimals": 2
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Change Failure Rate",
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 12,
+            "y": 0
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_change_failure_rate_percent",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "decimals": 2
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "MTTR (Hours)",
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 18,
+            "y": 0
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_mttr_hours",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "h",
+              "decimals": 2
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Successful Deployments",
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 0,
+            "y": 5
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_successful_deployments_total",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "decimals": 0
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Failed Deployments",
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 8,
+            "y": 5
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_failed_deployments_total",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "decimals": 0
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Deployment Attempts",
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 16,
+            "y": 5
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_deployment_attempts_total",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "decimals": 0
+            },
+            "overrides": []
+          }
+        },
+        {
+          "type": "timeseries",
+          "title": "DORA Metrics",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 10
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "targets": [
+            {
+              "expr": "pawfolio_deployment_frequency_per_day",
+              "legendFormat": "Deployment Frequency",
+              "refId": "A"
+            },
+            {
+              "expr": "pawfolio_lead_time_hours",
+              "legendFormat": "Lead Time",
+              "refId": "B"
+            },
+            {
+              "expr": "pawfolio_change_failure_rate_percent",
+              "legendFormat": "Change Failure Rate",
+              "refId": "C"
+            },
+            {
+              "expr": "pawfolio_mttr_hours",
+              "legendFormat": "MTTR",
+              "refId": "D"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": []
+          }
+        }
+      ],
+      "schemaVersion": 39,
+      "style": "dark",
+      "tags": [
+        "pawfolio",
+        "dora",
+        "devops"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "title": "Pawfolio DORA Metrics",
+      "uid": "pawfolio-dora",
+      "version": 1
+    }
