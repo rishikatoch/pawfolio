@@ -22,6 +22,7 @@ env:
 
 jobs:
   deploy:
+    if: github.actor != 'github-actions[bot]'
     name: Build, Push & Update GitOps
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -64,7 +65,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       # --------------------------------------------------
-      # Build Docker Image
+      # Build Pawfolio Docker Image
       # --------------------------------------------------
 
       - name: Build Docker Image
@@ -77,13 +78,41 @@ jobs:
             .
 
       # --------------------------------------------------
-      # Trivy Security Gate
+      # Build DORA Metrics Exporter Image
+      # --------------------------------------------------
+
+      - name: Build DORA Metrics Image
+        run: |
+          set -euo pipefail
+
+          docker build \
+            --pull \
+            -t "$ECR_REPOSITORY:dora" \
+            ./dora
+
+      # --------------------------------------------------
+      # Trivy Pawfolio Security Gate
       # --------------------------------------------------
 
       - name: Trivy Container Security Gate
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "0"
+          vuln-type: os,library
+          scanners: vuln
+
+      # --------------------------------------------------
+      # Trivy DORA Security Gate
+      # --------------------------------------------------
+
+      - name: Trivy DORA Container Security Gate
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.ECR_REPOSITORY }}:dora
           format: table
           severity: HIGH,CRITICAL
           ignore-unfixed: true
@@ -106,7 +135,7 @@ jobs:
           upload-artifact: true
 
       # --------------------------------------------------
-      # Push Docker Image
+      # Push Pawfolio Docker Image
       # --------------------------------------------------
 
       - name: Push Docker Image
@@ -114,6 +143,16 @@ jobs:
           set -euo pipefail
 
           docker push "$ECR_REPOSITORY:${GITHUB_SHA}"
+
+      # --------------------------------------------------
+      # Push DORA Image
+      # --------------------------------------------------
+
+      - name: Push DORA Image
+        run: |
+          set -euo pipefail
+
+          docker push "$ECR_REPOSITORY:dora"
 
       # --------------------------------------------------
       # Cosign Image Signing
@@ -226,8 +265,10 @@ jobs:
           echo "========================================"
           echo "Pawfolio Deployment"
           echo "========================================"
-          echo "Commit:      $GITHUB_SHA"
-          echo "Image:       $ECR_REPOSITORY:$GITHUB_SHA"
-          echo "GitOps:      values.yaml updated"
-          echo "Argo Rollout: enabled"
+          echo "Commit:        $GITHUB_SHA"
+          echo "App Image:     $ECR_REPOSITORY:$GITHUB_SHA"
+          echo "DORA Image:    $ECR_REPOSITORY:dora"
+          echo "GitOps:        values.yaml updated"
+          echo "Argo Rollout:  enabled"
+          echo "DORA Metrics:  Prometheus -> Grafana"
           echo "========================================"
