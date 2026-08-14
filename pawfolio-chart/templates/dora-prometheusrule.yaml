@@ -1,0 +1,51 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: pawfolio-dora-alerts
+  namespace: {{ .Release.Namespace }}
+
+  labels:
+    release: prometheus
+    {{- include "pawfolio.labels" . | nindent 4 }}
+
+spec:
+  groups:
+    - name: pawfolio-dora
+      rules:
+
+        - alert: PawfolioHighChangeFailureRate
+          expr: pawfolio_change_failure_rate_percent > 20
+          for: 10m
+
+          labels:
+            severity: warning
+            app: pawfolio
+
+          annotations:
+            summary: "Pawfolio change failure rate is high"
+            description: "Pawfolio change failure rate is above 20 percent."
+
+        - alert: PawfolioHighMTTR
+          expr: pawfolio_mttr_hours > 24
+          for: 10m
+
+          labels:
+            severity: warning
+            app: pawfolio
+
+          annotations:
+            summary: "Pawfolio MTTR is high"
+            description: "Pawfolio median recovery time is above 24 hours."
+
+        - alert: PawfolioRolloutDegraded
+          expr: kube_rollout_status{namespace="pawfolio"} != 1
+          for: 10m
+
+          labels:
+            severity: critical
+            app: pawfolio
+
+          annotations:
+            summary: "Pawfolio rollout is not healthy"
+            description: "The Pawfolio rollout is not reporting a healthy status."
