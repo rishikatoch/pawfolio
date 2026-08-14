@@ -1,8 +1,8 @@
-data "aws_caller_identity" "current" {}
-
 data "aws_secretsmanager_secret" "pawfolio_app" {
   name = "pawfolio/app"
 }
+
+data "aws_caller_identity" "current" {}
 
 data "archive_file" "secrets_rotation" {
   type        = "zip"
@@ -77,6 +77,12 @@ resource "aws_iam_role_policy" "secrets_rotation" {
 }
 
 resource "aws_lambda_function" "secrets_rotation" {
+  # Account Lambda concurrency quota is currently 10.
+  # Reserving concurrency would reduce unreserved concurrency below AWS's
+  # required minimum, so this low-volume rotation function uses unreserved
+  # account concurrency.
+  # checkov:skip=CKV_AWS_115:Reserved concurrency is unavailable under the account's current Lambda concurrency quota; this low-volume rotation function does not require dedicated concurrency.
+
   # checkov:skip=CKV_AWS_116:DLQ is not applicable to this Secrets Manager rotation Lambda.
   # checkov:skip=CKV_AWS_117:Lambda only accesses AWS Secrets Manager APIs and does not require VPC resources.
   # checkov:skip=CKV_AWS_272:Lambda code signing is outside the scope of this project.
@@ -93,8 +99,6 @@ resource "aws_lambda_function" "secrets_rotation" {
 
   timeout     = 30
   memory_size = 128
-
-  reserved_concurrent_executions = 5
 
   description = "Rotates the Pawfolio application SECRET_KEY in AWS Secrets Manager"
 
@@ -122,6 +126,8 @@ resource "aws_secretsmanager_secret_rotation" "pawfolio_app" {
   rotation_rules {
     automatically_after_days = 30
   }
+
+  rotate_immediately = true
 
   depends_on = [
     aws_lambda_permission.secrets_manager_rotation,
