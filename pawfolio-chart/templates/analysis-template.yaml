@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+
+metadata:
+  name: pawfolio-post-promotion-health
+  namespace: {{ .Release.Namespace }}
+
+spec:
+  metrics:
+    - name: application-health
+      provider:
+        web:
+          url: "http://pawfolio-service.{{ .Release.Namespace }}.svc.cluster.local/health"
+          timeoutSeconds: 10
+          jsonPath: "{$}"
+      successCondition: result.status == 'healthy'
+      failureLimit: 1

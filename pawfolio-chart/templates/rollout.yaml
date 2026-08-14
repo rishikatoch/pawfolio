@@ -19,11 +19,16 @@ spec:
   revisionHistoryLimit: 5
 
   strategy:
-    blueGreen:
-      activeService: pawfolio-service
-      previewService: pawfolio-preview-service
-      autoPromotionEnabled: true
-      scaleDownDelaySeconds: 30
+  blueGreen:
+    activeService: pawfolio-service
+    previewService: pawfolio-preview-service
+    autoPromotionEnabled: true
+
+    postPromotionAnalysis:
+      templates:
+        - templateName: pawfolio-post-promotion-health
+
+    scaleDownDelaySeconds: 60
 
   selector:
     matchLabels:
