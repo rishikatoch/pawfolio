@@ -19,16 +19,16 @@ spec:
   revisionHistoryLimit: 5
 
   strategy:
-  blueGreen:
-    activeService: pawfolio-service
-    previewService: pawfolio-preview-service
-    autoPromotionEnabled: true
+    blueGreen:
+      activeService: pawfolio-service
+      previewService: pawfolio-preview-service
+      autoPromotionEnabled: true
 
-    postPromotionAnalysis:
-      templates:
-        - templateName: pawfolio-post-promotion-health
+      postPromotionAnalysis:
+        templates:
+          - templateName: pawfolio-post-promotion-health
 
-    scaleDownDelaySeconds: 60
+      scaleDownDelaySeconds: 60
 
   selector:
     matchLabels:
@@ -40,7 +40,6 @@ spec:
 {{ include "pawfolio.selectorLabels" . | indent 8 }}
 
     spec:
-
       serviceAccountName: {{ default (include "pawfolio.fullname" .) .Values.serviceAccount.name }}
 
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
