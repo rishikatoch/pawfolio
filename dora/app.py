@@ -71,11 +71,7 @@ def get_commit_timestamps():
 
     for commit in commits:
         sha = commit.get("sha")
-        timestamp = (
-            commit.get("commit", {})
-            .get("author", {})
-            .get("date")
-        )
+        timestamp = commit.get("commit", {}).get("author", {}).get("date")
 
         if sha and timestamp:
             timestamps[sha] = parse_time(timestamp)
@@ -93,13 +89,9 @@ def calculate_metrics(runs):
         and run.get("updated_at")
     ]
 
-    successful = [
-        run for run in completed if run.get("conclusion") == "success"
-    ]
+    successful = [run for run in completed if run.get("conclusion") == "success"]
 
-    failed = [
-        run for run in completed if run.get("conclusion") == "failure"
-    ]
+    failed = [run for run in completed if run.get("conclusion") == "failure"]
 
     # Deployment frequency: successful production deployments per day.
     deployment_frequency = len(successful) / 30.0
@@ -114,26 +106,16 @@ def calculate_metrics(runs):
             continue
 
         deploy_time = parse_time(run["updated_at"])
-        lead_time = (
-            deploy_time - commit_time
-        ).total_seconds() / 3600
+        lead_time = (deploy_time - commit_time).total_seconds() / 3600
 
         if lead_time >= 0:
             lead_times_hours.append(lead_time)
 
-    lead_time_hours = (
-        statistics.median(lead_times_hours)
-        if lead_times_hours
-        else 0
-    )
+    lead_time_hours = statistics.median(lead_times_hours) if lead_times_hours else 0
 
     total_attempts = len(completed)
 
-    change_failure_rate = (
-        (len(failed) / total_attempts) * 100
-        if total_attempts
-        else 0
-    )
+    change_failure_rate = (len(failed) / total_attempts) * 100 if total_attempts else 0
 
     recovery_hours = []
 
@@ -156,11 +138,7 @@ def calculate_metrics(runs):
                 )
                 break
 
-    mttr_hours = (
-        statistics.median(recovery_hours)
-        if recovery_hours
-        else 0
-    )
+    mttr_hours = statistics.median(recovery_hours) if recovery_hours else 0
 
     return {
         "deployment_frequency_per_day": deployment_frequency,
@@ -218,20 +196,13 @@ def metrics():
     }
 
     mapping = {
-        "pawfolio_deployment_frequency_per_day":
-            "deployment_frequency_per_day",
-        "pawfolio_lead_time_hours":
-            "lead_time_hours",
-        "pawfolio_change_failure_rate_percent":
-            "change_failure_rate_percent",
-        "pawfolio_mttr_hours":
-            "mttr_hours",
-        "pawfolio_successful_deployments_total":
-            "successful_deployments",
-        "pawfolio_failed_deployments_total":
-            "failed_deployments",
-        "pawfolio_deployment_attempts_total":
-            "total_deployments",
+        "pawfolio_deployment_frequency_per_day": "deployment_frequency_per_day",
+        "pawfolio_lead_time_hours": "lead_time_hours",
+        "pawfolio_change_failure_rate_percent": "change_failure_rate_percent",
+        "pawfolio_mttr_hours": "mttr_hours",
+        "pawfolio_successful_deployments_total": "successful_deployments",
+        "pawfolio_failed_deployments_total": "failed_deployments",
+        "pawfolio_deployment_attempts_total": "total_deployments",
     }
 
     for metric_name, description in definitions.items():
@@ -254,4 +225,5 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    # Bandit B104: required for Kubernetes Service access.
+    app.run(host="0.0.0.0", port=8000)  # nosec B104
