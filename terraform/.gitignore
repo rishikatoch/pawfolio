@@ -10,3 +10,5 @@ crash.log
 
 # Lock file
 #.terraform.lock.hcl
+# Generated AWS Lambda deployment package
+eks/secrets-rotation/lambda_function.zip
