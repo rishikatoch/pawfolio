@@ -4,6 +4,12 @@ data "aws_secretsmanager_secret" "pawfolio_app" {
   name = "pawfolio/app"
 }
 
+data "archive_file" "secrets_rotation" {
+  type        = "zip"
+  source_file = "${path.module}/secrets-rotation/lambda_function.py"
+  output_path = "${path.module}/secrets-rotation/lambda_function.zip"
+}
+
 data "aws_iam_policy_document" "secrets_rotation_assume_role" {
   statement {
     effect = "Allow"
@@ -14,13 +20,14 @@ data "aws_iam_policy_document" "secrets_rotation_assume_role" {
     }
 
     actions = [
-      "sts:AssumeRole"
+      "sts:AssumeRole",
     ]
   }
 }
 
 resource "aws_iam_role" "secrets_rotation" {
-  name               = "${var.cluster_name}-secrets-rotation"
+  name = "${var.cluster_name}-secrets-rotation"
+
   assume_role_policy = data.aws_iam_policy_document.secrets_rotation_assume_role.json
 
   tags = {
@@ -39,11 +46,25 @@ data "aws_iam_policy_document" "secrets_rotation" {
       "secretsmanager:DescribeSecret",
       "secretsmanager:GetSecretValue",
       "secretsmanager:PutSecretValue",
-      "secretsmanager:UpdateSecretVersionStage"
+      "secretsmanager:UpdateSecretVersionStage",
     ]
 
     resources = [
-      data.aws_secretsmanager_secret.pawfolio_app.arn
+      data.aws_secretsmanager_secret.pawfolio_app.arn,
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = [
+      "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:*",
     ]
   }
 }
@@ -55,18 +76,12 @@ resource "aws_iam_role_policy" "secrets_rotation" {
   policy = data.aws_iam_policy_document.secrets_rotation.json
 }
 
-resource "aws_iam_role_policy_attachment" "secrets_rotation_logs" {
-  role       = aws_iam_role.secrets_rotation.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-data "archive_file" "secrets_rotation" {
-  type        = "zip"
-  source_file = "${path.module}/secrets-rotation/lambda_function.py"
-  output_path = "${path.module}/secrets-rotation/lambda_function.zip"
-}
-
 resource "aws_lambda_function" "secrets_rotation" {
+  # checkov:skip=CKV_AWS_116:DLQ is not applicable to this Secrets Manager rotation Lambda.
+  # checkov:skip=CKV_AWS_117:Lambda only accesses AWS Secrets Manager APIs and does not require VPC resources.
+  # checkov:skip=CKV_AWS_272:Lambda code signing is outside the scope of this project.
+  # checkov:skip=CKV_AWS_50:X-Ray tracing is not required for this lightweight rotation function.
+
   function_name = "${var.cluster_name}-secrets-rotation"
   role          = aws_iam_role.secrets_rotation.arn
 
@@ -79,6 +94,8 @@ resource "aws_lambda_function" "secrets_rotation" {
   timeout     = 30
   memory_size = 128
 
+  reserved_concurrent_executions = 5
+
   description = "Rotates the Pawfolio application SECRET_KEY in AWS Secrets Manager"
 
   tags = {
@@ -90,13 +107,12 @@ resource "aws_lambda_function" "secrets_rotation" {
 }
 
 resource "aws_lambda_permission" "secrets_manager_rotation" {
-  statement_id  = "AllowSecretsManagerRotation"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.secrets_rotation.function_name
-  principal     = "secretsmanager.amazonaws.com"
-
-  source_account = data.aws_caller_identity.current.account_id
+  statement_id   = "AllowSecretsManagerRotation"
+  action         = "lambda:InvokeFunction"
+  function_name  = aws_lambda_function.secrets_rotation.function_name
+  principal      = "secretsmanager.amazonaws.com"
   source_arn     = data.aws_secretsmanager_secret.pawfolio_app.arn
+  source_account = data.aws_caller_identity.current.account_id
 }
 
 resource "aws_secretsmanager_secret_rotation" "pawfolio_app" {
@@ -108,6 +124,6 @@ resource "aws_secretsmanager_secret_rotation" "pawfolio_app" {
   }
 
   depends_on = [
-    aws_lambda_permission.secrets_manager_rotation
+    aws_lambda_permission.secrets_manager_rotation,
   ]
 }
