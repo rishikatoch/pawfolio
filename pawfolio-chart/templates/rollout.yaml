@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 
 metadata:
   name: {{ include "pawfolio.fullname" . }}
@@ -19,7 +19,11 @@ spec:
   revisionHistoryLimit: 5
 
   strategy:
-    type: RollingUpdate
+    blueGreen:
+      activeService: pawfolio-service
+      previewService: pawfolio-preview-service
+      autoPromotionEnabled: true
+      scaleDownDelaySeconds: 30
 
   selector:
     matchLabels:
@@ -84,4 +88,3 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-            
