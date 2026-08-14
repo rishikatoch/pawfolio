@@ -28,7 +28,6 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      # --------------------------------------------------
       # Checkout
       # --------------------------------------------------
 
@@ -155,6 +154,30 @@ jobs:
           docker push "$ECR_REPOSITORY:dora"
 
       # --------------------------------------------------
+      # Get DORA Image Digest
+      # --------------------------------------------------
+
+      - name: Get DORA Image Digest
+        id: dora-digest
+        run: |
+          set -euo pipefail
+
+          DORA_DIGEST=$(aws ecr describe-images \
+            --repository-name pawfolio \
+            --image-ids imageTag=dora \
+            --region "$AWS_REGION" \
+            --query 'imageDetails[0].imageDigest' \
+            --output text)
+
+          if [[ -z "$DORA_DIGEST" || "$DORA_DIGEST" == "None" ]]; then
+            echo "ERROR: Could not determine DORA image digest."
+            exit 1
+          fi
+
+          echo "DORA digest: $DORA_DIGEST"
+          echo "digest=$DORA_DIGEST" >> "$GITHUB_OUTPUT"
+
+      # --------------------------------------------------
       # Cosign Image Signing
       # --------------------------------------------------
 
@@ -175,12 +198,13 @@ jobs:
           cosign sign --yes "$DIGEST"
 
       # --------------------------------------------------
-      # Update Helm Image Tag
+      # Update Helm Image Tag and DORA Digest
       # --------------------------------------------------
 
-      - name: Update Helm Image Tag
+      - name: Update Helm Image Tag and DORA Digest
         env:
           IMAGE_TAG: ${{ github.sha }}
+          DORA_DIGEST: ${{ steps.dora-digest.outputs.digest }}
         run: |
           set -euo pipefail
 
@@ -190,16 +214,19 @@ jobs:
           import re
 
           path = Path("pawfolio-chart/values.yaml")
+
           image_tag = os.environ["IMAGE_TAG"]
+          dora_digest = os.environ["DORA_DIGEST"]
 
           content = path.read_text()
 
+          # Update Pawfolio application image tag.
           pattern = (
               r'(?ms)(^image:\s*\n.*?^\s+tag:\s*)'
               r'["\']?[^"\']+["\']?'
           )
 
-          updated, count = re.subn(
+          content, count = re.subn(
               pattern,
               rf'\g<1>"{image_tag}"',
               content,
@@ -209,66 +236,34 @@ jobs:
           if count != 1:
               raise SystemExit(
                   "ERROR: Could not find exactly one image.tag entry "
-                  "under the image configuration."
+                  "under the main image configuration."
               )
 
-          path.write_text(updated)
+          # Update DORA image digest.
+          pattern = (
+              r'(?ms)(^dora:\s*\n\s+image:\s*\n'
+              r'.*?^\s+digest:\s*)'
+              r'["\']?[^"\']*["\']?'
+          )
+
+          content, count = re.subn(
+              pattern,
+              rf'\g<1>"{dora_digest}"',
+              content,
+              count=1,
+          )
+
+          if count != 1:
+              raise SystemExit(
+                  "ERROR: Could not find exactly one dora.image.digest entry."
+              )
+
+          path.write_text(content)
 
           print(f"Updated image.tag to {image_tag}")
+          print(f"Updated dora.image.digest to {dora_digest}")
           PY
 
           echo "Updated Helm values:"
-          grep -A2 '^image:' pawfolio-chart/values.yaml
-
-      # --------------------------------------------------
-      # Validate Helm Chart
-      # --------------------------------------------------
-
-      - name: Validate Helm Chart
-        run: |
-          set -euo pipefail
-
-          helm lint ./pawfolio-chart
-
-          helm template pawfolio ./pawfolio-chart \
-            --namespace pawfolio
-
-      # --------------------------------------------------
-      # Commit GitOps Change
-      # --------------------------------------------------
-
-      - name: Commit GitOps Change
-        run: |
-          set -euo pipefail
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add pawfolio-chart/values.yaml
-
-          if git diff --cached --quiet; then
-            echo "No GitOps changes to commit."
-            exit 0
-          fi
-
-          git commit \
-            -m "chore: deploy Pawfolio ${GITHUB_SHA::7}"
-
-          git push origin HEAD:main
-
-      # --------------------------------------------------
-      # Deployment Summary
-      # --------------------------------------------------
-
-      - name: Deployment Summary
-        run: |
-          echo "========================================"
-          echo "Pawfolio Deployment"
-          echo "========================================"
-          echo "Commit:        $GITHUB_SHA"
-          echo "App Image:     $ECR_REPOSITORY:$GITHUB_SHA"
-          echo "DORA Image:    $ECR_REPOSITORY:dora"
-          echo "GitOps:        values.yaml updated"
-          echo "Argo Rollout:  enabled"
-          echo "DORA Metrics:  Prometheus -> Grafana"
-          echo "========================================"
+          grep -A4 '^image:' pawfolio-chart/values.yaml
+          grep -A6 '^dora:' pawfolio-chart/values.yaml

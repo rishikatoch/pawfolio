@@ -179,6 +179,7 @@ dora:
     repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
     tag: "dora"
     pullPolicy: IfNotPresent
+    digest: "sha256:f438ff998488f93f1a0e43ed017aef88e79a44796899aeaeada894744b4f0317"
 
   githubRepo: "rishikatoch/pawfolio"
   githubWorkflow: "Deploy to Production"

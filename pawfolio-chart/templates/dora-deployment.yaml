@@ -36,7 +36,7 @@ spec:
 
       containers:
         - name: dora
-          image: "{{ .Values.dora.image.repository }}:{{ .Values.dora.image.tag }}"
+          image: "{{ .Values.dora.image.repository }}:{{ .Values.dora.image.tag }}{{- if .Values.dora.image.digest }}@{{ .Values.dora.image.digest }}{{- end }}"
           imagePullPolicy: {{ .Values.dora.image.pullPolicy }}
 
           securityContext:
