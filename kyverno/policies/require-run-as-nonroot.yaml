@@ -1,0 +1,30 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-run-as-nonroot
+  annotations:
+    policies.kyverno.io/title: Require Non-Root Containers
+    policies.kyverno.io/category: Pod Security
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/description: >-
+      Pawfolio application containers must run as a non-root user.
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: validate-run-as-nonroot
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+              names:
+                - pawfolio
+      validate:
+        message: "Pawfolio containers must run as non-root."
+        pattern:
+          spec:
+            template:
+              spec:
+                securityContext:
+                  runAsNonRoot: true
