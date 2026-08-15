@@ -95,11 +95,11 @@
 }
 
 .floating {
-    animation: floating 4s ease-in-out infinite;
+    animation: none;
 }
 
 .pulse {
-    animation: pulse 2.5s infinite;
+    animation: none;
 }
 
 /* ---------- Cards ---------- */

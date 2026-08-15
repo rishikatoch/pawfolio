@@ -474,7 +474,7 @@
 
 .hero-stat {
 
-    animation: floatCard 5s ease-in-out infinite;
+    animation: none;
 }
 
 .hero-stat:nth-child(2) {
