@@ -565,6 +565,50 @@ pawfolio/
   <img src="screenshots/ai-assistant-production.png" alt="Pawfolio AI Assistant" width="850">
 </p>
 
+# 🛠 DevOps & Production Evidence
+
+## CI Pipeline
+
+<p align="center">
+  <img src="screenshots/01-ci-pipeline.png" alt="Pawfolio CI Pipeline" width="850">
+</p>
+
+## CD Deployment
+
+<p align="center">
+  <img src="screenshots/02-cd-deployment.png" alt="Pawfolio CD Deployment" width="850">
+</p>
+
+## Argo CD
+
+<p align="center">
+  <img src="screenshots/03-argo-cd.png" alt="Argo CD Pawfolio Application" width="850">
+</p>
+
+## Argo Rollouts — Blue-Green Deployment
+
+<p align="center">
+  <img src="screenshots/04-argo-rollouts-bluegreen.png" alt="Argo Rollouts Blue-Green Deployment" width="850">
+</p>
+
+## Kyverno Kubernetes Policies
+
+<p align="center">
+  <img src="screenshots/05-kyverno-policies.png" alt="Kyverno Kubernetes Policies" width="850">
+</p>
+
+## AWS EKS Production Cluster
+
+<p align="center">
+  <img src="screenshots/06-aws-eks-cluster.png" alt="AWS EKS Pawfolio Production Cluster" width="850">
+</p>
+
+## Grafana DORA Dashboard
+
+<p align="center">
+  <img src="screenshots/07-grafana-dora-dashboard.png" alt="Pawfolio Grafana DORA Dashboard" width="850">
+</p>
+
 # 🐳 Local Development
 
 ## Prerequisites
