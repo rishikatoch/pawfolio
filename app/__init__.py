@@ -4,6 +4,7 @@ from datetime import date
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_login import LoginManager, current_user
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -15,6 +16,14 @@ app = Flask(
     __name__,
     template_folder="templates",
     static_folder="static",
+)
+
+# Trust reverse-proxy headers from the AWS ALB
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,
+    x_proto=1,
+    x_host=1,
 )
 
 # ==================================================
