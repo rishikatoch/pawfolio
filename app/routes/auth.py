@@ -174,10 +174,7 @@ def google_login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
 
-    redirect_uri = url_for(
-        "google_callback",
-        _external=True,
-    )
+    redirect_uri = "https://pawfolio.in/auth/google/callback"
 
     return google.authorize_redirect(
         redirect_uri,
