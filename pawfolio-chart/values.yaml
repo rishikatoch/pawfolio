@@ -117,7 +117,7 @@ config:
 # values-dev.local.yaml for the development environment.
 
 google:
-  clientId: ""
+  clientId: "1007260082802-7lq2b6l6v7kekp1j2a5cmv5at6maicpg.apps.googleusercontent.com"
 
 # -----------------------------------------------------------------------------
 # Secret
