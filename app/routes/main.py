@@ -38,6 +38,7 @@ def home():
         Vaccination.query.join(Pet)
         .filter(
             Pet.user_id == current_user.id,
+            Vaccination.completed.is_(False),
             Vaccination.next_due >= today,
             Vaccination.next_due <= next_week,
         )
@@ -60,6 +61,7 @@ def home():
         Vaccination.query.join(Pet)
         .filter(
             Pet.user_id == current_user.id,
+            Vaccination.completed.is_(False),
             Vaccination.next_due < today,
         )
         .count()
@@ -86,6 +88,7 @@ def home():
         Vaccination.query.join(Pet)
         .filter(
             Pet.user_id == current_user.id,
+            Vaccination.completed.is_(False),
             Vaccination.next_due >= today,
             Vaccination.next_due <= next_week,
         )
@@ -134,6 +137,7 @@ def home():
         Vaccination.query.join(Pet)
         .filter(
             Pet.user_id == current_user.id,
+            Vaccination.completed.is_(False),
             Vaccination.next_due < today,
         )
         .all()

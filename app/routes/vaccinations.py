@@ -57,6 +57,8 @@ def add_vaccination(pet_id):
             "",
         ).strip()
 
+        completed = request.form.get("completed") == "on"
+
         # ------------------------------------------
         # Validation
         # ------------------------------------------
@@ -95,6 +97,7 @@ def add_vaccination(pet_id):
             next_due=next_due,
             veterinarian=veterinarian,
             notes=notes,
+            completed=completed,
         )
 
         try:
@@ -184,6 +187,8 @@ def edit_vaccination(vaccination_id):
             "",
         ).strip()
 
+        completed = request.form.get("completed") == "on"
+
         # ------------------------------------------
         # Validation
         # ------------------------------------------
@@ -227,6 +232,7 @@ def edit_vaccination(vaccination_id):
         vaccination.next_due = next_due
         vaccination.veterinarian = veterinarian
         vaccination.notes = notes
+        vaccination.completed = completed
 
         try:
 

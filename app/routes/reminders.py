@@ -37,7 +37,8 @@ def reminders():
         .filter(
             Vaccination.pet.has(
                 user_id=current_user.id,
-            )
+            ),
+            Vaccination.completed.is_(False),
         )
         .all()
     )

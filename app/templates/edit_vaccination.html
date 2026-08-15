@@ -168,6 +168,35 @@ Edit Vaccination • Pawfolio
                                     </div>
 
                                 </div>
+
+                                <!-- Vaccination Completion -->
+
+                                <div class="col-12 mt-3">
+
+                                    <div class="form-check form-switch p-3 border rounded-4">
+
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="completed"
+                                            name="completed"
+                                            {% if vaccination.completed %}checked{% endif %}
+                                        >
+
+                                        <label class="form-check-label fw-semibold" for="completed">
+                                            Vaccination course completed
+                                        </label>
+
+                                        <div class="form-text">
+                                            Enable this for a completed vaccination or booster
+                                            that should no longer be treated as overdue.
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                                 <!-- ==========================================================
                                      ADDITIONAL NOTES
                                 =========================================================== -->

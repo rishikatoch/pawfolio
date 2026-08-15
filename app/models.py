@@ -458,7 +458,8 @@ class Pet(db.Model):
         return [
             vaccination
             for vaccination in self.vaccinations
-            if vaccination.next_due < today
+            if not vaccination.completed
+            and vaccination.next_due < today
         ]
 
     @property
@@ -468,7 +469,8 @@ class Pet(db.Model):
         return [
             vaccination
             for vaccination in self.vaccinations
-            if 0 <= (vaccination.next_due - today).days <= 30
+            if not vaccination.completed
+            and 0 <= (vaccination.next_due - today).days <= 30
         ]
 
     def __repr__(self):
@@ -520,6 +522,12 @@ class Vaccination(db.Model):
         nullable=True,
     )
 
+    completed = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
+
     created_at = db.Column(
         db.DateTime,
         default=datetime.utcnow,
@@ -535,11 +543,11 @@ class Vaccination(db.Model):
 
     @property
     def is_overdue(self):
-        return self.next_due < date.today()
+        return not self.completed and self.next_due < date.today()
 
     @property
     def is_due_today(self):
-        return self.next_due == date.today()
+        return not self.completed and self.next_due == date.today()
 
     @property
     def days_until_due(self):
@@ -547,6 +555,9 @@ class Vaccination(db.Model):
 
     @property
     def status(self):
+        if self.completed:
+            return "Completed"
+
         days = self.days_until_due
 
         if days < 0:

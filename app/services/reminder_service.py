@@ -22,6 +22,7 @@ def _collect_vaccination_reminders(user, target_date):
         .filter(
             Vaccination.next_due == target_date,
             Vaccination.pet.has(user_id=user.id),
+            Vaccination.completed.is_(False),
         )
         .all()
     )

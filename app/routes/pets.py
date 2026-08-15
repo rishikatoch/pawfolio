@@ -194,6 +194,9 @@ def pet_profile(pet_id):
 
     for vaccination in vaccinations:
 
+        if vaccination.completed:
+            continue
+
         if not vaccination.next_due:
             continue
 
