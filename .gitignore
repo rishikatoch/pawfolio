@@ -110,3 +110,6 @@ pawfolio-chart/values-dev.local.yaml
 # ==========================================
 
 pawfolio-chart/values-*.local.yaml
+# Live deployment secrets and backups
+.env.live
+pawfolio-backup.sql

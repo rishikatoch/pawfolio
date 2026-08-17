@@ -45,3 +45,20 @@ app/static/uploads/
 # OS
 .DS_Store
 Thumbs.db
+# ==========================================
+# Infrastructure / DevOps
+# ==========================================
+terraform/
+kubernetes/
+pawfolio-chart/
+argocd/
+kyverno/
+observability/
+scripts/
+dora/
+
+# Terraform generated files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
