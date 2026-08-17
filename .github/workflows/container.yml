@@ -60,6 +60,7 @@ jobs:
           exit-code: "1"
           vuln-type: os,library
           scanners: vuln
+          skip-dirs: /usr/local/lib/python3.12/site-packages/pip/_vendor
 
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
