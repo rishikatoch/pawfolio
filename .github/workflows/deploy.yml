@@ -32,7 +32,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # --------------------------------------------------
       # Configure AWS using GitHub OIDC
@@ -182,7 +182,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.10.0
+        uses: sigstore/cosign-installer@v4.1.2
 
       - name: Sign Container Image
         env:
