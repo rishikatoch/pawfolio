@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy Live
 
 on:
   push:
@@ -8,17 +8,19 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: write
+  packages: write
+  id-token: write
 
 concurrency:
   group: production-deployment
   cancel-in-progress: true
 
 env:
-  AWS_REGION: us-west-2
-  AWS_ROLE_ARN: arn:aws:iam::977574653467:role/pawfolio-github-actions
-  ECR_REPOSITORY: 977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio
+  GHCR_REGISTRY: ghcr.io
+  GHCR_OWNER: rishikatoch
+  PAWFOLIO_IMAGE: ghcr.io/rishikatoch/pawfolio
+  DORA_IMAGE: ghcr.io/rishikatoch/pawfolio-dora
 
 jobs:
   deploy:
@@ -28,6 +30,8 @@ jobs:
     timeout-minutes: 20
 
     steps:
+
+      # --------------------------------------------------
       # Checkout
       # --------------------------------------------------
 
@@ -35,33 +39,15 @@ jobs:
         uses: actions/checkout@v5
 
       # --------------------------------------------------
-      # Configure AWS using GitHub OIDC
+      # Login to GitHub Container Registry
       # --------------------------------------------------
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6.2.3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-          role-session-name: GitHubActions-Pawfolio
-
-      # --------------------------------------------------
-      # Verify AWS Identity
-      # --------------------------------------------------
-
-      - name: Verify AWS Identity
-        run: |
-          set -euo pipefail
-
-          echo "AWS identity:"
-          aws sts get-caller-identity
-
-      # --------------------------------------------------
-      # Login to ECR
-      # --------------------------------------------------
-
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+          registry: ${{ env.GHCR_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # --------------------------------------------------
       # Build Pawfolio Docker Image
@@ -73,7 +59,7 @@ jobs:
 
           docker build \
             --pull \
-            -t "$ECR_REPOSITORY:${GITHUB_SHA}" \
+            -t "$PAWFOLIO_IMAGE:${GITHUB_SHA}" \
             .
 
       # --------------------------------------------------
@@ -86,7 +72,7 @@ jobs:
 
           docker build \
             --pull \
-            -t "$ECR_REPOSITORY:dora" \
+            -t "$DORA_IMAGE:dora" \
             ./dora
 
       # --------------------------------------------------
@@ -96,7 +82,7 @@ jobs:
       - name: Trivy Container Security Gate
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          image-ref: ${{ env.PAWFOLIO_IMAGE }}:${{ github.sha }}
           format: table
           severity: HIGH,CRITICAL
           ignore-unfixed: true
@@ -111,7 +97,7 @@ jobs:
       - name: Trivy DORA Container Security Gate
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.ECR_REPOSITORY }}:dora
+          image-ref: ${{ env.DORA_IMAGE }}:dora
           format: table
           severity: HIGH,CRITICAL
           ignore-unfixed: true
@@ -126,7 +112,7 @@ jobs:
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
-          image: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          image: ${{ env.PAWFOLIO_IMAGE }}:${{ github.sha }}
           syft-version: "v1.50.0"
           format: spdx-json
           output-file: sbom.spdx.json
@@ -137,11 +123,11 @@ jobs:
       # Push Pawfolio Docker Image
       # --------------------------------------------------
 
-      - name: Push Docker Image
+      - name: Push Pawfolio Image
         run: |
           set -euo pipefail
 
-          docker push "$ECR_REPOSITORY:${GITHUB_SHA}"
+          docker push "$PAWFOLIO_IMAGE:${GITHUB_SHA}"
 
       # --------------------------------------------------
       # Push DORA Image
@@ -151,7 +137,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          docker push "$ECR_REPOSITORY:dora"
+          docker push "$DORA_IMAGE:dora"
 
       # --------------------------------------------------
       # Get DORA Image Digest
@@ -162,15 +148,20 @@ jobs:
         run: |
           set -euo pipefail
 
-          DORA_DIGEST=$(aws ecr describe-images \
-            --repository-name pawfolio \
-            --image-ids imageTag=dora \
-            --region "$AWS_REGION" \
-            --query 'imageDetails[0].imageDigest' \
-            --output text)
+          DORA_DIGEST=$(docker inspect \
+            --format='{{index .RepoDigests 0}}' \
+            "$DORA_IMAGE:dora")
 
-          if [[ -z "$DORA_DIGEST" || "$DORA_DIGEST" == "None" ]]; then
+          if [[ -z "$DORA_DIGEST" ]]; then
             echo "ERROR: Could not determine DORA image digest."
+            exit 1
+          fi
+
+          # Extract only sha256:...
+          DORA_DIGEST="${DORA_DIGEST##*@}"
+
+          if [[ ! "$DORA_DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]; then
+            echo "ERROR: Invalid DORA digest: $DORA_DIGEST"
             exit 1
           fi
 
@@ -186,11 +177,13 @@ jobs:
 
       - name: Sign Container Image
         env:
-          IMAGE: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          IMAGE: ${{ env.PAWFOLIO_IMAGE }}:${{ github.sha }}
         run: |
           set -euo pipefail
 
-          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE")
+          DIGEST=$(docker inspect \
+            --format='{{index .RepoDigests 0}}' \
+            "$IMAGE")
 
           echo "Signing image:"
           echo "$DIGEST"
@@ -267,3 +260,24 @@ jobs:
           echo "Updated Helm values:"
           grep -A4 '^image:' pawfolio-chart/values.yaml
           grep -A6 '^dora:' pawfolio-chart/values.yaml
+
+      # --------------------------------------------------
+      # Commit GitOps Update
+      # --------------------------------------------------
+
+      - name: Commit GitOps Update
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add pawfolio-chart/values.yaml
+
+          if git diff --cached --quiet; then
+            echo "No GitOps changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: deploy ${GITHUB_SHA::7}"
+          git push

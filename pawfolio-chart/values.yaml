@@ -12,7 +12,7 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
+  repository: "ghcr.io/rishikatoch/pawfolio"
   tag: "0db423d7fedc7f2c355ff5f56e546dcb5f2e564a"
   pullPolicy: IfNotPresent
 
@@ -177,13 +177,13 @@ hpa:
 
 dora:
   image:
-    repository: "977574653467.dkr.ecr.us-west-2.amazonaws.com/pawfolio"
+    repository: "ghcr.io/rishikatoch/pawfolio"
     tag: "dora"
     pullPolicy: IfNotPresent
     digest: "sha256:f438ff998488f93f1a0e43ed017aef88e79a44796899aeaeada894744b4f0317"
 
   githubRepo: "rishikatoch/pawfolio"
-  githubWorkflow: "Deploy to Production"
+  githubWorkflow: "Deploy Live"
 
   lookbackRuns: 50
   cacheSeconds: 300
